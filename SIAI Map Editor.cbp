@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="SIAI Map Editor" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/map-editor" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="C:/Program Files/wxWidgets/lib/gcc_dll/mswud" />
+				</Compiler>
+				<Linker>
+					<Add option="-lwxbase30ud -lwxmsw30ud_core -lwxmsw30ud_adv_gcc_custom -lsiaimap_d" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/map-editor" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="C:/Program Files/wxWidgets/lib/gcc_dll/mswu" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-lwxbase30u -lwxmsw30u_core -lwxmsw30u_adv_gcc_custom -lsiaimap" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-std=c++14" />
+			<Add option="-m64" />
+			<Add option="-Wno-deprecated-declarations" />
+			<Add directory="include/siai" />
+			<Add directory="forms" />
+			<Add directory="C:/Program Files/wxWidgets/include" />
+		</Compiler>
+		<Linker>
+			<Add option="-m64" />
+			<Add directory="C:/Program Files/wxWidgets/lib/gcc_dll" />
+			<Add directory="lib" />
+		</Linker>
+		<Unit filename="forms/mapeditor.cpp" />
+		<Unit filename="forms/mapeditor.h" />
+		<Unit filename="include/siai/forms/mapeditorframe.hpp" />
+		<Unit filename="include/siai/forms/newmapdialog.hpp" />
+		<Unit filename="include/siai/globals.hpp" />
+		<Unit filename="include/siai/mapeditorapp.hpp" />
+		<Unit filename="src/siai/forms/mapeditorframe.cpp" />
+		<Unit filename="src/siai/forms/newmapdialog.cpp" />
+		<Unit filename="src/siai/mapeditorapp.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
