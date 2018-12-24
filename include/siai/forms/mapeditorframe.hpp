@@ -4,6 +4,7 @@
 
 class SIAIMap;
 class PanelPoint;
+class PanelData;
 
 class wxDC;
 
@@ -43,6 +44,7 @@ private:
 
     void repaintMapNow();
     void prepareDCAndPaintMap(wxDC& dc);
+    PanelData calculatePainterData() const;
 
     void updateScrollbarsSize();
 

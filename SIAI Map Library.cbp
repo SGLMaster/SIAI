@@ -59,6 +59,7 @@
 		<Unit filename="include/siai/map/cell.hpp" />
 		<Unit filename="include/siai/map/cellimp.hpp" />
 		<Unit filename="include/siai/map/mapentity.hpp" />
+		<Unit filename="include/siai/map/painter.hpp" />
 		<Unit filename="include/siai/map/siaimapimp.hpp" />
 		<Unit filename="include/siai/siaimap.hpp" />
 		<Unit filename="src/siai/map/cell.cpp" />

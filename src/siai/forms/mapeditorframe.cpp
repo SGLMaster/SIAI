@@ -30,8 +30,10 @@ void MapEditorFrame::OnLeftClickMapPanel(wxMouseEvent& event)
 
     if(m_currentTool == Tool::TOOL_SELECT)
         actionToolSelect(mousePosition);
+    else if(m_currentTool == Tool::TOOL_REGULAR_CELL)
+        m_mapControl->replaceCell("Regular", mousePosition);
     else if(m_currentTool == Tool::TOOL_BLOCKED_CELL)
-        m_mapControl->placeBlockedCell(mousePosition);
+        m_mapControl->replaceCell("Blocked", mousePosition);
 
     repaintMapNow();
 }
@@ -69,7 +71,7 @@ void MapEditorFrame::actionToolSelect(PanelPoint& mousePosition)
     if(!wxGetKeyState(WXK_CONTROL))
         m_mapControl->diselectAllEntities();
 
-    m_mapControl->selectEntityUnderMouse(mousePosition);
+    m_mapControl->selectEntityWithPoint(mousePosition);
 }
 
 void MapEditorFrame::repaintMapNow()
@@ -80,17 +82,21 @@ void MapEditorFrame::repaintMapNow()
 
 void MapEditorFrame::prepareDCAndPaintMap(wxDC &dc)
 {
-    dc.Clear();
-
     m_scrolledMapPanel->DoPrepareDC(dc);
 
+    auto painter = Painter::createWxPainter(dc, calculatePainterData());
+    m_mapControl->repaint(*painter);
+}
+
+PanelData MapEditorFrame::calculatePainterData() const
+{
     wxPoint panelOrigin = m_scrolledMapPanel->CalcUnscrolledPosition( wxPoint(0, 0) );
     wxSize panelSize = m_scrolledMapPanel->GetSize();
 
-    PainterContainer clientContainer{dc, m_mapPanelZoom, PanelPoint{ panelOrigin.x, panelOrigin.y },
-                                        PanelSize{ panelSize.GetWidth(), panelSize.GetHeight() } };
+    PanelPoint painterOrigin{panelOrigin.x, panelOrigin.y};
+    PanelSize painterSize{panelSize.GetWidth(), panelSize.GetHeight()};
 
-    m_mapControl->repaint(clientContainer);
+    return PanelData{painterOrigin, painterSize, m_mapPanelZoom};
 }
 
 void MapEditorFrame::updateScrollbarsSize()

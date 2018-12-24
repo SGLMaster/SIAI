@@ -1,6 +1,5 @@
 #include "map/siaimapimp.hpp"
 #include "map/mapentity.hpp"
-#include "map/cell.hpp"
 
 SIAIMapImp::SIAIMapImp() = default;
 SIAIMapImp::~SIAIMapImp() = default;
@@ -20,60 +19,60 @@ void SIAIMapImp::reset(int numberOfColumns, int numberOfRows)
     m_numberOfColumns = numberOfColumns;
     m_numberOfRows = numberOfRows;
 
-    m_entities.resize(0);
+    m_cells.resize(0);
 
     fillEntitiesVectorWithCells();
 }
 
-void SIAIMapImp::repaint(PainterContainer& painter)
+void SIAIMapImp::repaint(Painter& painter)
 {
-    for(const auto& entity : m_entities)
+    for(const auto& cell : m_cells)
     {
-        entity->draw(painter);
+        cell->draw(painter);
     }
 }
 
-void SIAIMapImp::selectEntityUnderMouse(const PanelPoint& mousePosition)
+void SIAIMapImp::selectEntityWithPoint(const PanelPoint& point)
 {
-    for(const auto& entity : m_entities)
+    for(const auto& cell : m_cells)
     {
-        if(entity->isUnderMouse(mousePosition))
-            entity->setSelected(mousePosition);
+        if(cell->hasPointInside(point))
+            cell->setSelected();
     }
 }
 
 void SIAIMapImp::diselectAllEntities()
 {
-    for(const auto& entity : m_entities)
+    for(const auto& entity : m_cells)
     {
         entity->diselect();
     }
 }
 
-void SIAIMapImp::placeBlockedCell(const PanelPoint& position)
+void SIAIMapImp::replaceCell(const std::string& type, const PanelPoint& position)
 {
-    for(std::vector<EntityPointer>::const_iterator iter = m_entities.begin(); iter != m_entities.end(); ++iter)
+    for(std::vector<CellPointer>::const_iterator iter = m_cells.begin(); iter != m_cells.end(); ++iter)
     {
-        if((*iter)->isUnderMouse(position))
+        if((*iter)->hasPointInside(position))
         {
             int newCellColumn = (*iter)->getColumn();
             int newCellRow = (*iter)->getRow();
 
-            m_entities.erase(iter);
+            m_cells.erase(iter);
 
-            m_entities.push_back(Cell::createBlockedCell(newCellColumn, newCellRow));
+            m_cells.push_back(ICell::create(type, newCellColumn, newCellRow));
             break;
         }
     }
 }
 
-void SIAIMapImp::eraseEntityUnderMouse(const PanelPoint& position)
+void SIAIMapImp::eraseEntityWithPoint(const PanelPoint& point)
 {
-    for(std::vector<EntityPointer>::const_iterator iter = m_entities.begin(); iter != m_entities.end(); ++iter)
+    for(std::vector<CellPointer>::const_iterator iter = m_cells.begin(); iter != m_cells.end(); ++iter)
     {
-        if((*iter)->isUnderMouse(position))
+        if((*iter)->hasPointInside(point))
         {
-            m_entities.erase(iter);
+            m_cells.erase(iter);
             break;
         }
     }
@@ -85,7 +84,7 @@ void SIAIMapImp::fillEntitiesVectorWithCells()
     {
         for(int row = 0; row < m_numberOfRows; ++row)
         {
-            m_entities.push_back(Cell::createRegularCell(column, row));
+            m_cells.push_back(ICell::create("Regular", column, row));
         }
     }
 }

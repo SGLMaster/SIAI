@@ -1,27 +1,31 @@
 #pragma once
 
+#include <memory>
+#include <string>
+
 class PainterContainer;
+class Painter;
 class PanelPoint;
 class PanelSize;
 
-class DrawableEntity
+class IDrawable
 {
 protected:
     bool m_selected{false};
 
-    DrawableEntity();
-    virtual ~DrawableEntity();
+    IDrawable();
+    virtual ~IDrawable();
 
 public:
-    virtual void draw(PainterContainer& painter) = 0;
-    virtual void setSelected(const PanelPoint& mousePosition) = 0;
+    virtual void draw(Painter& painter) = 0;
+    virtual void setSelected() = 0;
     virtual void diselect() noexcept = 0;
 
     virtual bool isVisibleOnScreen(const PanelPoint& panelOrigin, const PanelSize& panelSize) const noexcept = 0;
-    virtual bool isUnderMouse(const PanelPoint& mousePosition) const noexcept = 0;
+    virtual bool hasPointInside(const PanelPoint& point) const noexcept = 0;
 };
 
-class MapEntity : public DrawableEntity
+class IMapEntity : public IDrawable
 {
 protected:
     int m_column;
@@ -29,9 +33,9 @@ protected:
     int m_direction;
 
 public:
-    MapEntity();
-    MapEntity(int column, int row);
-    virtual ~MapEntity();
+    IMapEntity();
+    IMapEntity(int column, int row);
+    virtual ~IMapEntity();
 
     virtual void setPosition(int column, int row) = 0;
 
@@ -47,4 +51,14 @@ public:
     {
         return m_direction;
     }
+};
+
+class ICell : public IMapEntity
+{
+public:
+    ICell();
+    ICell(int column, int row);
+    virtual ~ICell();
+
+    static std::unique_ptr<ICell> create(std::string type, int column, int row);
 };

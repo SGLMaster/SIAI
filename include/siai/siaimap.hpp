@@ -9,7 +9,9 @@
     #define DLL_EXPORT __declspec(dllimport)
 #endif
 
-class PainterContainer;
+#include <string>
+
+class Painter;
 class PanelPoint;
 
 class DLL_EXPORT SIAIMap
@@ -21,12 +23,12 @@ public:
     virtual int getNumberOfRows() const noexcept = 0;
 
     virtual void reset(int numberOfColumns, int numberOfRows) = 0;
-    virtual void repaint(PainterContainer& painter) = 0;
+    virtual void repaint(Painter& painter) = 0;
 
-    virtual void selectEntityUnderMouse(const PanelPoint& mousePosition) = 0;
+    virtual void selectEntityWithPoint(const PanelPoint& point) = 0;
     virtual void diselectAllEntities() = 0;
 
-    virtual void placeBlockedCell(const PanelPoint& mousePosition) = 0;
+    virtual void replaceCell(const std::string& type, const PanelPoint& position) = 0;
 
 protected:
     SIAIMap();

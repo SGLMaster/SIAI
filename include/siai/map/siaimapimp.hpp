@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 
-class MapEntity;
+class ICell;
 
 class SIAIMapImp : public SIAIMap
 {
@@ -13,9 +13,8 @@ private:
     int m_numberOfColumns{0};
     int m_numberOfRows{0};
 
-    using EntityPointer = std::unique_ptr<MapEntity>;
-
-    std::vector<EntityPointer> m_entities;
+    using CellPointer = std::unique_ptr<ICell>;
+    std::vector<CellPointer> m_cells;
 
 public:
     SIAIMapImp();
@@ -25,15 +24,15 @@ public:
     virtual int getNumberOfRows() const noexcept override;
 
     virtual void reset(int numberOfColumns, int numberOfRows) override;
-    virtual void repaint(PainterContainer& painter) override;
+    virtual void repaint(Painter& painter) override;
 
-    virtual void selectEntityUnderMouse(const PanelPoint& mousePosition) override;
+    virtual void selectEntityWithPoint(const PanelPoint& point) override;
     virtual void diselectAllEntities() override;
 
-    virtual void placeBlockedCell(const PanelPoint& position) override;
+    virtual void replaceCell(const std::string& type, const PanelPoint& position) override;
 
 private:
-    virtual void eraseEntityUnderMouse(const PanelPoint& position);
+    virtual void eraseEntityWithPoint(const PanelPoint& point);
 
     void fillEntitiesVectorWithCells();
 };
