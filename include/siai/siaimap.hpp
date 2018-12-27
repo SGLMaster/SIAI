@@ -14,6 +14,8 @@
 class Painter;
 class PanelPoint;
 
+class MapPosition;
+
 class DLL_EXPORT SIAIMap
 {
 public:
@@ -27,6 +29,9 @@ public:
 
     virtual void selectEntityWithPoint(const PanelPoint& point) = 0;
     virtual void diselectAllEntities() = 0;
+
+    virtual int getLastSelectedId() const noexcept = 0;
+    virtual MapPosition getLastSelectedPosition() const noexcept = 0;
 
     virtual void replaceCell(const std::string& type, const PanelPoint& position) = 0;
 

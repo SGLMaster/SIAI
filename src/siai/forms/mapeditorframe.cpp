@@ -1,6 +1,7 @@
 #include "forms/mapeditorframe.hpp"
 #include "forms/newmapdialog.hpp"
 
+#include "map/mapentity.hpp"
 #include "map/painter.hpp"
 
 #include "siaimap.hpp"
@@ -14,6 +15,8 @@ MapEditorFrame::MapEditorFrame(wxWindow* parent) : Forms::MapEditorFrame(parent)
     m_mapControl = SIAIMap::createMap();
 
     m_scrolledMapPanel->SetDoubleBuffered(true);
+
+    wxImage::AddHandler(new wxPNGHandler);
 }
 
 void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows)
@@ -26,15 +29,9 @@ void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows)
 
 void MapEditorFrame::OnLeftClickMapPanel(wxMouseEvent& event)
 {
-    PanelPoint mousePosition = getMousePositionRelativeToMapPanelOrigin();
+    callCurrentToolAction();
 
-    if(m_currentTool == Tool::TOOL_SELECT)
-        actionToolSelect(mousePosition);
-    else if(m_currentTool == Tool::TOOL_REGULAR_CELL)
-        m_mapControl->replaceCell("Regular", mousePosition);
-    else if(m_currentTool == Tool::TOOL_BLOCKED_CELL)
-        m_mapControl->replaceCell("Blocked", mousePosition);
-
+    updateStatusBar();
     repaintMapNow();
 }
 
@@ -47,23 +44,50 @@ void MapEditorFrame::OnSelectionNewMap(wxCommandEvent& event)
 
 void MapEditorFrame::OnToolSelect(wxCommandEvent& event)
 {
-    m_currentTool = Tool::TOOL_SELECT;
+    m_currentTool = Tool::SELECT;
 }
 
 void MapEditorFrame::OnToolRegularCell(wxCommandEvent& event)
 {
-    m_currentTool = Tool::TOOL_REGULAR_CELL;
+    m_currentTool = Tool::REGULAR_CELL;
 }
 
 void MapEditorFrame::OnToolBlockedCell(wxCommandEvent& event)
 {
-    m_currentTool = Tool::TOOL_BLOCKED_CELL;
+    m_currentTool = Tool::BLOCKED_CELL;
+}
+
+void MapEditorFrame::OnSliderZoom(wxCommandEvent& event)
+{
+    m_mapPanelZoom = m_sliderZoom->GetValue();
+
+    repaintMapNow();
 }
 
 void MapEditorFrame::OnPaintMapPanel( wxPaintEvent& event )
 {
     wxPaintDC paintDC(m_scrolledMapPanel);
     prepareDCAndPaintMap(paintDC);
+}
+
+void MapEditorFrame::callCurrentToolAction()
+{
+    PanelPoint mousePosition = getMousePositionRelativeToMapPanelOrigin();
+
+    switch(m_currentTool)
+    {
+    case Tool::SELECT:
+        actionToolSelect(mousePosition);
+        break;
+    case Tool::REGULAR_CELL:
+        m_mapControl->replaceCell("Regular", mousePosition);
+        break;
+    case Tool::BLOCKED_CELL:
+        m_mapControl->replaceCell("Blocked", mousePosition);
+        break;
+    default:
+        break;
+    }
 }
 
 void MapEditorFrame::actionToolSelect(PanelPoint& mousePosition)
@@ -97,6 +121,33 @@ PanelData MapEditorFrame::calculatePainterData() const
     PanelSize painterSize{panelSize.GetWidth(), panelSize.GetHeight()};
 
     return PanelData{painterOrigin, painterSize, m_mapPanelZoom};
+}
+
+void MapEditorFrame::updateStatusBar()
+{
+    updateSelectedIdOnStatusBar();
+    updateSelectedPositionOnStatusBar();
+}
+
+void MapEditorFrame::updateSelectedIdOnStatusBar()
+{
+    int lastSelectedId{m_mapControl->getLastSelectedId()};
+
+    wxString lastSelectedIdString;
+    lastSelectedIdString.Printf("%.10d", lastSelectedId);
+
+    m_statusBar->SetStatusText(lastSelectedIdString, static_cast<int>(StatusBarFields::SELECTED_ID));
+}
+
+void MapEditorFrame::updateSelectedPositionOnStatusBar()
+{
+    MapPosition lastSelectedPosition{m_mapControl->getLastSelectedPosition()};
+
+    wxString lastSelectedPositionString;
+    lastSelectedPositionString << _("Columna: ") << lastSelectedPosition.column
+                                << _(", Fila: ") << lastSelectedPosition.row;
+
+    m_statusBar->SetStatusText(lastSelectedPositionString, static_cast<int>(StatusBarFields::SELECTED_POSITION));
 }
 
 void MapEditorFrame::updateScrollbarsSize()

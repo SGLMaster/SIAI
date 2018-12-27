@@ -10,9 +10,16 @@ class wxDC;
 
 enum class Tool
 {
-    TOOL_SELECT,
-    TOOL_REGULAR_CELL,
-    TOOL_BLOCKED_CELL
+    SELECT,
+    REGULAR_CELL,
+    BLOCKED_CELL
+};
+
+enum class StatusBarFields
+{
+    TOOL,
+    SELECTED_ID,
+    SELECTED_POSITION
 };
 
 class MapEditorFrame : public Forms::MapEditorFrame
@@ -35,11 +42,14 @@ private:
     virtual void OnSelectionNewMap(wxCommandEvent& event) override;
 
     virtual void OnToolSelect(wxCommandEvent& event) override;
-    virtual void OnToolRegularCell( wxCommandEvent& event ) override;
-	virtual void OnToolBlockedCell( wxCommandEvent& event ) override;
+    virtual void OnToolRegularCell(wxCommandEvent& event) override;
+	virtual void OnToolBlockedCell(wxCommandEvent& event) override;
 
-    virtual void OnPaintMapPanel( wxPaintEvent& event ) override;
+	virtual void OnSliderZoom(wxCommandEvent& event) override;
 
+    virtual void OnPaintMapPanel(wxPaintEvent& event) override;
+
+    void callCurrentToolAction();
     void actionToolSelect(PanelPoint& mousePosition);
 
     void repaintMapNow();
@@ -47,6 +57,9 @@ private:
     PanelData calculatePainterData() const;
 
     void updateScrollbarsSize();
+    void updateStatusBar();
+    void updateSelectedIdOnStatusBar();
+    void updateSelectedPositionOnStatusBar();
 
     PanelPoint getMousePositionRelativeToMapPanelOrigin();
 };

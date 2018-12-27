@@ -2,10 +2,8 @@
 
 #include "globals.hpp"
 
-#include <wx/dcclient.h>
-
 CellDefault::CellDefault() = default;
-CellDefault::CellDefault(int column, int row) : ICell(column, row) {}
+CellDefault::CellDefault(int id, const MapPosition& position) : ICell(id, position) {}
 CellDefault::~CellDefault() = default;
 
 void CellDefault::draw(Painter& painter)
@@ -21,26 +19,6 @@ void CellDefault::draw(Painter& painter)
 
         painter.drawRectangle(m_origin, PanelSize{m_sideLength, m_sideLength});
     }
-}
-
-void CellDefault::setPosition(int column, int row)
-{
-    m_column = column;
-    m_row = row;
-
-    int defaultZoom{1};
-    calculateZoomedSideLength(defaultZoom);
-    calculateOrigin();
-}
-
-void CellDefault::setSelected()
-{
-    m_selected = true;
-}
-
-void CellDefault::diselect() noexcept
-{
-    m_selected = false;
 }
 
 bool CellDefault::isVisibleOnScreen(const PanelPoint& panelOrigin, const PanelSize& panelSize) const noexcept
@@ -68,7 +46,7 @@ void CellDefault::calculateZoomedSideLength(int zoom)
 
 void CellDefault::calculateOrigin()
 {
-    m_origin = PanelPoint{m_column*m_sideLength, m_row*m_sideLength};
+    m_origin = PanelPoint{m_position.column*m_sideLength, m_position.row*m_sideLength};
 }
 
 void CellDefault::setDifferentPenIfSelected(Painter& painter)
@@ -79,12 +57,12 @@ void CellDefault::setDifferentPenIfSelected(Painter& painter)
     }
     else
     {
-        painter.setPen(PanelColor::RED);
+        painter.setPen(PanelColor::SELECTED);
     }
 }
 
 RegularCell::RegularCell() = default;
-RegularCell::RegularCell(int column, int row) : CellDefault(column, row) {}
+RegularCell::RegularCell(int id, const MapPosition& position) : CellDefault(id, position) {}
 RegularCell::~RegularCell() = default;
 
 void RegularCell::draw(Painter& painter)
@@ -95,7 +73,7 @@ void RegularCell::draw(Painter& painter)
 }
 
 BlockedCell::BlockedCell() = default;
-BlockedCell::BlockedCell(int column, int row) : CellDefault(column, row) {}
+BlockedCell::BlockedCell(int id, const MapPosition& position) : CellDefault(id, position) {}
 BlockedCell::~BlockedCell() = default;
 
 void BlockedCell::draw(Painter& painter)

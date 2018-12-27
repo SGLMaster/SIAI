@@ -26,27 +26,35 @@ MapEditorFrame::MapEditorFrame( wxWindow* parent, wxWindowID id, const wxString&
 
 	m_toolBlockedCell = m_toolBar1->AddTool( wxID_ANY, _("Celda Bloqueada"), wxBitmap( wxT("resources/tools/black-cell.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, _("Celda Bloqueada"), _("Celda Bloqueada"), NULL );
 
+	m_toolBar1->AddSeparator();
+
+	m_staticTextZoom = new wxStaticText( m_toolBar1, wxID_ANY, _("Zoom:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticTextZoom->Wrap( -1 );
+	m_toolBar1->AddControl( m_staticTextZoom );
+	m_sliderZoom = new wxSlider( m_toolBar1, wxID_ANY, 1, 1, 10, wxDefaultPosition, wxDefaultSize, wxSL_AUTOTICKS|wxSL_HORIZONTAL );
+	m_toolBar1->AddControl( m_sliderZoom );
 	m_toolBar1->Realize();
 
-	bSizer1->Add( m_toolBar1, 0, wxEXPAND, 5 );
+	bSizer1->Add( m_toolBar1, 1, wxEXPAND, 5 );
 
 	m_scrolledMapPanel = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
 	m_scrolledMapPanel->SetScrollRate( 5, 5 );
-	bSizer1->Add( m_scrolledMapPanel, 1, wxEXPAND | wxALL, 5 );
+	bSizer1->Add( m_scrolledMapPanel, 20, wxEXPAND | wxALL, 5 );
 
 
 	this->SetSizer( bSizer1 );
 	this->Layout();
-	m_menubar1 = new wxMenuBar( 0 );
+	m_menubar = new wxMenuBar( 0 );
 	m_menuMap = new wxMenu();
 	wxMenuItem* m_menuItemNewMap;
 	m_menuItemNewMap = new wxMenuItem( m_menuMap, wxID_ANY, wxString( _("Nuevo Mapa...") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menuMap->Append( m_menuItemNewMap );
 
-	m_menubar1->Append( m_menuMap, _("Mapa") );
+	m_menubar->Append( m_menuMap, _("Mapa") );
 
-	this->SetMenuBar( m_menubar1 );
+	this->SetMenuBar( m_menubar );
 
+	m_statusBar = this->CreateStatusBar( 3, wxSTB_ELLIPSIZE_END|wxSTB_SIZEGRIP, wxID_ANY );
 
 	this->Centre( wxBOTH );
 
@@ -54,6 +62,7 @@ MapEditorFrame::MapEditorFrame( wxWindow* parent, wxWindowID id, const wxString&
 	this->Connect( m_toolSelect->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolSelect ) );
 	this->Connect( m_toolRegularCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolRegularCell ) );
 	this->Connect( m_toolBlockedCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolBlockedCell ) );
+	m_sliderZoom->Connect( wxEVT_SLIDER, wxCommandEventHandler( MapEditorFrame::OnSliderZoom ), NULL, this );
 	m_scrolledMapPanel->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( MapEditorFrame::OnLeftClickMapPanel ), NULL, this );
 	m_scrolledMapPanel->Connect( wxEVT_PAINT, wxPaintEventHandler( MapEditorFrame::OnPaintMapPanel ), NULL, this );
 	m_menuMap->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MapEditorFrame::OnSelectionNewMap ), this, m_menuItemNewMap->GetId());
@@ -65,6 +74,7 @@ MapEditorFrame::~MapEditorFrame()
 	this->Disconnect( m_toolSelect->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolSelect ) );
 	this->Disconnect( m_toolRegularCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolRegularCell ) );
 	this->Disconnect( m_toolBlockedCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolBlockedCell ) );
+	m_sliderZoom->Disconnect( wxEVT_SLIDER, wxCommandEventHandler( MapEditorFrame::OnSliderZoom ), NULL, this );
 	m_scrolledMapPanel->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( MapEditorFrame::OnLeftClickMapPanel ), NULL, this );
 	m_scrolledMapPanel->Disconnect( wxEVT_PAINT, wxPaintEventHandler( MapEditorFrame::OnPaintMapPanel ), NULL, this );
 

@@ -56,15 +56,14 @@
 			<Add directory="C:/Program Files/wxWidgets/lib/gcc_dll" />
 		</Linker>
 		<Unit filename="include/siai/globals.hpp" />
-		<Unit filename="include/siai/map/cell.hpp" />
 		<Unit filename="include/siai/map/cellimp.hpp" />
 		<Unit filename="include/siai/map/mapentity.hpp" />
 		<Unit filename="include/siai/map/painter.hpp" />
 		<Unit filename="include/siai/map/siaimapimp.hpp" />
 		<Unit filename="include/siai/siaimap.hpp" />
-		<Unit filename="src/siai/map/cell.cpp" />
 		<Unit filename="src/siai/map/cellimp.cpp" />
 		<Unit filename="src/siai/map/mapentity.cpp" />
+		<Unit filename="src/siai/map/painter.cpp" />
 		<Unit filename="src/siai/map/siaimapimp.cpp" />
 		<Unit filename="src/siai/siaimap.cpp" />
 		<Extensions>

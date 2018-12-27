@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <string>
 
 struct PanelPoint
 {
@@ -25,10 +26,20 @@ enum class PanelColor
 {
     WHITE,
     BLACK,
-    RED
+    RED,
+    SELECTED
 };
 
 class wxDC;
+
+class PanelImage
+{
+public:
+    PanelImage();
+    virtual ~PanelImage();
+
+    static std::unique_ptr<PanelImage> create(const std::string& path);
+};
 
 class Painter
 {
@@ -44,6 +55,7 @@ public:
     virtual void setPen(PanelColor color) = 0;
 
     virtual void drawRectangle(const PanelPoint& origin, const PanelSize& size) = 0;
+    virtual void drawImage(PanelImage& panelImage, const PanelPoint& origin, const PanelSize& size) = 0;
 
     static std::unique_ptr<Painter> createWxPainter(wxDC& dc, const PanelData& data);
 };
@@ -78,7 +90,23 @@ public:
     virtual void setPen(PanelColor color) override;
 
     virtual void drawRectangle(const PanelPoint& origin, const PanelSize& size) override;
+    virtual void drawImage(PanelImage& panelImage, const PanelPoint& origin, const PanelSize& size) override;
 
 private:
     WxPainter() = delete;
+};
+
+class wxImage;
+
+class WxPanelImage : public PanelImage
+{
+private:
+    std::unique_ptr<wxImage> m_image;
+
+public:
+    WxPanelImage();
+    WxPanelImage(const std::string& path);
+    virtual ~WxPanelImage();
+
+    friend class WxPainter;
 };

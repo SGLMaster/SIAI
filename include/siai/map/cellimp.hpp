@@ -11,20 +11,15 @@ protected:
 
 public:
     CellDefault();
-    CellDefault(int column, int row);
+    CellDefault(int id, const MapPosition& position);
     virtual ~CellDefault();
 
-    virtual void setPosition(int column, int row);
-
     virtual void draw(Painter& painter) override;
-
-    virtual void setSelected() override;
-    virtual void diselect() noexcept override;
 
     virtual bool isVisibleOnScreen(const PanelPoint& panelOrigin, const PanelSize& panelSize) const noexcept override;
     virtual bool hasPointInside(const PanelPoint& point) const noexcept override;
 
-protected:
+private:
     void calculateZoomedSideLength(int zoom);
     void calculateOrigin();
 
@@ -35,7 +30,7 @@ class RegularCell : public CellDefault
 {
 public:
     RegularCell();
-    RegularCell(int column, int row);
+    RegularCell(int id, const MapPosition& position);
     virtual ~RegularCell();
 
     virtual void draw(Painter& painter) override;
@@ -46,7 +41,7 @@ class BlockedCell : public CellDefault
 {
 public:
     BlockedCell();
-    BlockedCell(int column, int row);
+    BlockedCell(int id, const MapPosition& position);
     virtual ~BlockedCell();
 
     virtual void draw(Painter& painter) override;

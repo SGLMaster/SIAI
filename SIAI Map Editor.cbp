@@ -57,6 +57,7 @@
 		<Unit filename="include/siai/mapeditorapp.hpp" />
 		<Unit filename="src/siai/forms/mapeditorframe.cpp" />
 		<Unit filename="src/siai/forms/newmapdialog.cpp" />
+		<Unit filename="src/siai/map/painter.cpp" />
 		<Unit filename="src/siai/mapeditorapp.cpp" />
 		<Extensions>
 			<code_completion />
