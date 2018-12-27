@@ -18,6 +18,8 @@ protected:
 public:
     virtual void draw(Painter& painter) = 0;
 
+    virtual int getDrawOrder() const noexcept = 0;
+
     virtual bool isVisibleOnScreen(const PanelPoint& panelOrigin, const PanelSize& panelSize) const noexcept = 0;
     virtual bool hasPointInside(const PanelPoint& point) const noexcept = 0;
 
@@ -92,6 +94,11 @@ class ICell : public IMapEntity
 public:
     static std::unique_ptr<ICell> create(std::string type, int id, const MapPosition& position);
 
+    virtual int getDrawOrder() const noexcept
+    {
+        return 0;
+    }
+
     ICell();
     ICell(int id, const MapPosition& position);
     virtual ~ICell();
@@ -101,6 +108,11 @@ class IAgv : public IMapEntity
 {
 public:
     static std::unique_ptr<IAgv> create(std::string type, int id, const MapPosition& position);
+
+    virtual int getDrawOrder() const noexcept
+    {
+        return 1;
+    }
 
     IAgv();
     IAgv(int id, const MapPosition& position);

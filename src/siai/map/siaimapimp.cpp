@@ -24,10 +24,8 @@ void SIAIMapImp::reset(int numberOfColumns, int numberOfRows)
     m_numberOfRows = numberOfRows;
 
     m_entities.resize(0);
-    m_cells.resize(0);
-    m_agvs.resize(0);
 
-    fillCellsVector();
+    generateCells();
 }
 
 void SIAIMapImp::repaint(Painter& painter)
@@ -38,7 +36,7 @@ void SIAIMapImp::repaint(Painter& painter)
     }
 }
 
-void SIAIMapImp::selectEntityWithPoint(const PanelPoint& point)
+void SIAIMapImp::selectEntity(const PanelPoint& point)
 {
     for(const auto& entity : reverse(m_entities))
     {
@@ -82,37 +80,29 @@ int SIAIMapImp::getLastSelectedId() const noexcept
     return lastSelectedId;
 }
 
-void SIAIMapImp::replaceCell(const std::string& type, const PanelPoint& position)
+EntityIterator SIAIMapImp::findCellIteratorWithPoint(const PanelPoint& point)
 {
-    auto cellPointerInCellsVector = std::find_if(m_cells.begin(), m_cells.end(),
-                                                 [&position](const CellPointer& cell)
-                                                 { return cell->hasPointInside(position); });
+    auto findCellWithPointInside = [&point](const EntityPointer& entity)
+                                    {
+                                        return (entity->hasPointInside(point)
+                                                && dynamic_cast<ICell*>(entity.get()) != nullptr );
+                                    };
 
-    if(cellPointerInCellsVector == m_cells.end())
+    return std::find_if(m_entities.begin(), m_entities.end(), findCellWithPointInside);
+}
+
+void SIAIMapImp::replaceCell(const std::string& type, const PanelPoint& point)
+{
+    EntityIterator cellIteratorFromEntitiesVector = findCellIteratorWithPoint(point);
+
+    if(cellIteratorFromEntitiesVector == m_entities.end())
+    {
         return;
+    }
 
-    int matchCellId = (*cellPointerInCellsVector)->getId();
+    createCopyWithDifferentTypeAndEraseOriginal(cellIteratorFromEntitiesVector, type);
 
-    auto cellPointerInEntitiesVector = std::find_if(m_entities.begin(), m_entities.end(),
-                                                    [&matchCellId](const EntityPointer& entity)
-                                                    {
-                                                        return (entity->getId() == matchCellId
-                                                                && dynamic_cast<ICell*>(entity.get()) );
-                                                    });
-
-    if(cellPointerInEntitiesVector == m_entities.end())
-        return;
-
-    auto cellToCopyData = cellPointerInCellsVector;
-
-    int newId = (*cellToCopyData)->getId();
-    MapPosition newPosition = (*cellToCopyData)->getPosition();
-
-    m_cells.erase(cellPointerInCellsVector);
-    m_entities.erase(cellPointerInEntitiesVector);
-
-    m_cells.push_back(ICell::create( type, newId, newPosition ));
-    m_entities.push_back( m_cells.back() );
+    sortEntitiesByDrawOrder();
 }
 
 bool SIAIMapImp::selectOrDiselectIfHasPointInside(IMapEntity* entity, const PanelPoint& point) noexcept
@@ -129,7 +119,16 @@ bool SIAIMapImp::selectOrDiselectIfHasPointInside(IMapEntity* entity, const Pane
     return false;
 }
 
-void SIAIMapImp::eraseEntityWithPoint(const PanelPoint& point)
+void SIAIMapImp::createCopyWithDifferentTypeAndEraseOriginal(EntityIterator& entityIterator, const std::string& type)
+{
+    int newId = (*entityIterator)->getId();
+    MapPosition newPosition = (*entityIterator)->getPosition();
+
+    m_entities.erase(entityIterator);
+    m_entities.push_back(ICell::create( type, newId, newPosition ));
+}
+
+void SIAIMapImp::eraseEntity(const PanelPoint& point)
 {
     /*
     for(std::vector<CellPointer>::const_iterator iter = m_cells.begin(); iter != m_cells.end(); ++iter)
@@ -143,7 +142,17 @@ void SIAIMapImp::eraseEntityWithPoint(const PanelPoint& point)
     */
 }
 
-void SIAIMapImp::fillCellsVector()
+void SIAIMapImp::sortEntitiesByDrawOrder()
+{
+    auto drawOrderSorting = [](const EntityPointer& entityLhs, const EntityPointer& entityRhs)
+                            {
+                                    return (entityLhs->getDrawOrder() < entityRhs->getDrawOrder());
+                            };
+
+    std::stable_sort(m_entities.begin(), m_entities.end(), drawOrderSorting);
+}
+
+void SIAIMapImp::generateCells()
 {
     int idGenerator{0};
 
@@ -151,14 +160,14 @@ void SIAIMapImp::fillCellsVector()
     {
         for(int row = 0; row < m_numberOfRows; ++row)
         {
-            CellPointer tmpCell = ICell::create( "Regular", ++idGenerator, MapPosition{column, row, MapDirection::RIGHT} );
-            AgvPointer tmpAgv = IAgv::create( "Regular", ++idGenerator, MapPosition{column, row, MapDirection::RIGHT} );
+            int id = ++idGenerator;
+            MapPosition position{column, row, MapDirection::RIGHT};
 
-            m_cells.push_back(std::move(tmpCell));
-            m_agvs.push_back(std::move(tmpAgv));
+            EntityPointer tmpCell = ICell::create("Regular", id, position);
+            EntityPointer tmpAgv = IAgv::create("Regular", id, position);
 
-            m_entities.push_back(m_cells.back());
-            m_entities.push_back(m_agvs.back());
+            m_entities.push_back(std::move(tmpCell));
+            m_entities.push_back(std::move(tmpAgv));
         }
     }
 }

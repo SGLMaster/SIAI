@@ -27,7 +27,7 @@ public:
     virtual void reset(int numberOfColumns, int numberOfRows) = 0;
     virtual void repaint(Painter& painter) = 0;
 
-    virtual void selectEntityWithPoint(const PanelPoint& point) = 0;
+    virtual void selectEntity(const PanelPoint& point) = 0;
     virtual void diselectAllEntities() = 0;
 
     virtual int getLastSelectedId() const noexcept = 0;

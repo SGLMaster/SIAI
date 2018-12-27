@@ -95,7 +95,7 @@ void MapEditorFrame::actionToolSelect(PanelPoint& mousePosition)
     if(!wxGetKeyState(WXK_CONTROL))
         m_mapControl->diselectAllEntities();
 
-    m_mapControl->selectEntityWithPoint(mousePosition);
+    m_mapControl->selectEntity(mousePosition);
 }
 
 void MapEditorFrame::repaintMapNow()

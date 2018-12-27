@@ -9,20 +9,16 @@ class IMapEntity;
 class ICell;
 class IAgv;
 
+using EntityPointer = std::unique_ptr<IMapEntity>;
+using EntityIterator = std::vector<EntityPointer>::iterator;
+
 class SIAIMapImp : public SIAIMap
 {
 private:
     int m_numberOfColumns{0};
     int m_numberOfRows{0};
 
-    using EntityPointer = std::shared_ptr<IMapEntity>;
     std::vector<EntityPointer> m_entities;
-
-    using CellPointer = std::shared_ptr<ICell>;
-    std::vector<CellPointer> m_cells;
-
-    using AgvPointer = std::shared_ptr<IAgv>;
-    std::vector<AgvPointer> m_agvs;
 
 public:
     SIAIMapImp();
@@ -34,7 +30,7 @@ public:
     virtual void reset(int numberOfColumns, int numberOfRows) override;
     virtual void repaint(Painter& painter) override;
 
-    virtual void selectEntityWithPoint(const PanelPoint& point) override;
+    virtual void selectEntity(const PanelPoint& point) override;
     virtual void diselectAllEntities() override;
 
     virtual int getLastSelectedId() const noexcept;
@@ -45,7 +41,12 @@ public:
 private:
     bool selectOrDiselectIfHasPointInside(IMapEntity* entity, const PanelPoint& point) noexcept;
 
-    void eraseEntityWithPoint(const PanelPoint& point);
+    void eraseEntity(const PanelPoint& point);
 
-    void fillCellsVector();
+    EntityIterator findCellIteratorWithPoint(const PanelPoint& point);
+    void createCopyWithDifferentTypeAndEraseOriginal(EntityIterator& entityIterator, const std::string& type);
+
+    void sortEntitiesByDrawOrder();
+
+    void generateCells();
 };
