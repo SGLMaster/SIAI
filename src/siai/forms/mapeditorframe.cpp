@@ -62,6 +62,7 @@ void MapEditorFrame::OnSliderZoom(wxCommandEvent& event)
     m_mapPanelZoom = m_sliderZoom->GetValue();
 
     repaintMapNow();
+    updateScrollbarsSize();
 }
 
 void MapEditorFrame::OnPaintMapPanel( wxPaintEvent& event )

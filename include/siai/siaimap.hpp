@@ -21,17 +21,17 @@ class DLL_EXPORT SIAIMap
 public:
     static SIAIMap* createMap();
 
-    virtual int getNumberOfColumns() const noexcept = 0;
-    virtual int getNumberOfRows() const noexcept = 0;
-
     virtual void reset(int numberOfColumns, int numberOfRows) = 0;
     virtual void repaint(Painter& painter) = 0;
 
-    virtual void selectEntity(const PanelPoint& point) = 0;
-    virtual void diselectAllEntities() = 0;
+    virtual int getNumberOfColumns() const noexcept = 0;
+    virtual int getNumberOfRows() const noexcept = 0;
 
     virtual int getLastSelectedId() const noexcept = 0;
     virtual MapPosition getLastSelectedPosition() const noexcept = 0;
+
+    virtual void selectEntity(const PanelPoint& point) = 0;
+    virtual void diselectAllEntities() = 0;
 
     virtual void replaceCell(const std::string& type, const PanelPoint& position) = 0;
 

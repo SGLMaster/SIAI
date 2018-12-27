@@ -55,6 +55,12 @@ struct MapPosition
     MapDirection direction;
 };
 
+enum class MapEntityType
+{
+    CELL,
+    AGV
+};
+
 class IMapEntity : public IDrawable
 {
 protected:
