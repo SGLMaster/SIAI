@@ -1,5 +1,6 @@
 #include "map/siaimapimp.hpp"
 #include "map/mapentity.hpp"
+#include "map/commandimp.hpp"
 
 #include "util/reversion.hpp"
 
@@ -7,6 +8,12 @@
 
 SIAIMapImp::SIAIMapImp() = default;
 SIAIMapImp::~SIAIMapImp() = default;
+
+void SIAIMapImp::testDrawAll(Painter& painter)
+{
+    auto command = MapCommand::create("draw-all", m_entities, painter);
+    command->execute();
+}
 
 int SIAIMapImp::getNumberOfColumns() const noexcept
 {

@@ -110,7 +110,8 @@ void MapEditorFrame::prepareDCAndPaintMap(wxDC &dc)
     m_scrolledMapPanel->DoPrepareDC(dc);
 
     auto painter = Painter::createWxPainter(dc, calculatePainterData());
-    m_mapControl->repaint(*painter);
+    m_mapControl->testDrawAll(*painter);
+    //m_mapControl->repaint(*painter);
 }
 
 PanelData MapEditorFrame::calculatePainterData() const

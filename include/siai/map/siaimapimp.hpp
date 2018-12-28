@@ -24,6 +24,8 @@ public:
     SIAIMapImp();
     virtual ~SIAIMapImp();
 
+    virtual void testDrawAll(Painter& painter) override;
+
     virtual void reset(int numberOfColumns, int numberOfRows) override;
     virtual void repaint(Painter& painter) override;
 

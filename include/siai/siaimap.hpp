@@ -21,6 +21,10 @@ class DLL_EXPORT SIAIMap
 public:
     static SIAIMap* createMap();
 
+    //void executeCommand(const std::string& command, auto&&... params)
+
+    virtual void testDrawAll(Painter& painter) = 0;
+
     virtual void reset(int numberOfColumns, int numberOfRows) = 0;
     virtual void repaint(Painter& painter) = 0;
 
