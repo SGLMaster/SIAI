@@ -24,7 +24,8 @@ public:
     static SIAIMap* createMap();
 
     virtual void executeCommand(const std::string& command) = 0;
-    virtual void undoLastCommand() = 0;
+    virtual void undo() = 0;
+    virtual void redo() = 0;
 
     virtual void reset(int numberOfColumns, int numberOfRows) = 0;
     virtual void repaint(Painter& painter) = 0;

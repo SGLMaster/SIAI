@@ -31,7 +31,8 @@ public:
     virtual ~SIAIMapImp();
 
     virtual void executeCommand(const std::string& command) override;
-    virtual void undoLastCommand() override;
+    virtual void undo() override;
+    virtual void redo() override;
 
     virtual void reset(int numberOfColumns, int numberOfRows) override;
     virtual void repaint(Painter& painter) override;

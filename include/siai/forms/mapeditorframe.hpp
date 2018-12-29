@@ -47,6 +47,7 @@ private:
     virtual void OnToolRegularCell(wxCommandEvent& event) override;
 	virtual void OnToolBlockedCell(wxCommandEvent& event) override;
 	virtual void OnToolUndo(wxCommandEvent& event) override;
+	virtual void OnToolRedo(wxCommandEvent& event) override;
 
 	virtual void OnSliderZoom(wxCommandEvent& event) override;
 

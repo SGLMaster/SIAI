@@ -61,7 +61,14 @@ void MapEditorFrame::OnToolBlockedCell(wxCommandEvent& event)
 
 void MapEditorFrame::OnToolUndo(wxCommandEvent& event)
 {
-    m_mapControl->undoLastCommand();
+    m_mapControl->undo();
+
+    repaintMapNow();
+}
+
+void MapEditorFrame::OnToolRedo(wxCommandEvent& event)
+{
+    m_mapControl->redo();
 
     repaintMapNow();
 }

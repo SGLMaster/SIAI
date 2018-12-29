@@ -35,7 +35,7 @@ void SIAIMapImp::executeCommand(const std::string& command)
     m_commandIterator = m_commandStream.end();
 }
 
-void SIAIMapImp::undoLastCommand()
+void SIAIMapImp::undo()
 {
     if(m_commandIterator != m_commandStream.begin() && m_commandStream.size() > 0)
     {
@@ -46,6 +46,17 @@ void SIAIMapImp::undoLastCommand()
     {
         auto& lastCommand = *m_commandIterator;
         lastCommand->undo(m_entities);
+    }
+}
+
+void SIAIMapImp::redo()
+{
+    if(m_commandIterator != m_commandStream.end() && m_commandStream.size() > 0)
+    {
+        auto& command = *m_commandIterator;
+        command->execute(m_entities);
+
+        ++m_commandIterator;
     }
 }
 
