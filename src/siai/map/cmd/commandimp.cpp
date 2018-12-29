@@ -23,19 +23,34 @@ void ReplaceCellCommand::execute(Entities::Container& entities)
 
 void ReplaceCellCommand::undo(Entities::Container& entities)
 {
-    doReplaceCell(entities, m_oldCellType, true);
+    doReplaceCell(entities, m_originalCellType, true);
 }
 
-void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, const std::string& cellType, bool undoingCommand)
+void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, const std::string& cellType, bool undoing)
 {
-    Entities::Iterator cellIterator;
+    Entities::Iterator originalCellIterator = findCellIterator(entities);
 
+    assertCellOccupied(entities);
+
+    if(!undoing)
+    {
+        m_originalCellType = (*originalCellIterator)->getEntityName();
+    }
+
+    Entities::createCellCopyWithDifferentType(entities, originalCellIterator, cellType);
+    entities.erase(originalCellIterator);
+
+    Entities::sortEntitiesByDrawOrder(entities);
+}
+
+Entities::Iterator ReplaceCellCommand::findCellIterator(Entities::Container& entities)
+{
     bool cellPositionIsUninitialized = (m_cellPosition.column == uninitializedPosition.column
                                         && m_cellPosition.row == uninitializedPosition.row);
 
     if(cellPositionIsUninitialized)
     {
-        cellIterator = Entities::findCellIteratorWithPoint(entities, m_pointInsideCellToReplace);
+        Entities::Iterator cellIterator = Entities::findCellIteratorWithPoint(entities, m_pointInsideCellToReplace);
 
         if(cellIterator == entities.end())
         {
@@ -43,26 +58,21 @@ void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, const std:
         }
 
         m_cellPosition = (*cellIterator)->getPosition();
+
+        return cellIterator;
     }
     else
     {
-        cellIterator = Entities::findCellIteratorWithPosition(entities, m_cellPosition);
+        return Entities::findCellIteratorWithPosition(entities, m_cellPosition);
     }
+}
 
+void ReplaceCellCommand::assertCellOccupied(const Entities::Container& entities) const
+{
     bool cellFoundIsOccupied = Entities::isCellOccupied(entities, m_cellPosition);
 
     if(cellFoundIsOccupied)
     {
-        return;
+        throw CellOccupiedException();
     }
-
-    if(!undoingCommand)
-    {
-        m_oldCellType = (*cellIterator)->getEntityName();
-    }
-
-    Entities::createCellCopyWithDifferentType(entities, cellIterator, cellType);
-    entities.erase(cellIterator);
-
-    Entities::sortEntitiesByDrawOrder(entities);
 }

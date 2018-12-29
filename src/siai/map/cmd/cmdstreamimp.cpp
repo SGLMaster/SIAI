@@ -33,7 +33,7 @@ void CommandStreamImp::executeAndLog(Entities::Container& entities, const std::s
 
         m_iterator = m_commands.end();
     }
-    catch(CellNotFoundException& e)
+    catch(CommandException& e)
     {
         ;
     }

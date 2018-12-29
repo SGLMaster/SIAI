@@ -4,11 +4,20 @@
 
 class CommandException : public std::exception{};
 
-struct CellNotFoundException : public CommandException
+class CellNotFoundException : public CommandException
 {
 public:
     const char* what() noexcept
     {
-        return "Cell Not Found";
+        return "Cell Not Found.";
+    }
+};
+
+class CellOccupiedException : public CommandException
+{
+public:
+    const char* what() noexcept
+    {
+        return "Cell Occupied by an entity.";
     }
 };

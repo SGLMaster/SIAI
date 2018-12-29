@@ -18,7 +18,7 @@ private:
     static constexpr MapPosition uninitializedPosition{-1, -1, MapDirection::DOWN};
 
     std::string m_newCellType;
-    std::string m_oldCellType;
+    std::string m_originalCellType;
 
     PanelPoint m_pointInsideCellToReplace;
 
@@ -34,4 +34,9 @@ public:
 
 private:
     void doReplaceCell(Entities::Container& entities, const std::string& cellType, bool undoingCommand);
+
+    Entities::Iterator findCellIterator(Entities::Container& entities);
+
+    void assertCellOccupied(const Entities::Container& entities) const;
+
 };
