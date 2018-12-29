@@ -1,6 +1,6 @@
 #pragma once
 
-#include "map/entities.hpp"
+#include "map/entities/entities.hpp"
 
 #include "siaimap.hpp"
 

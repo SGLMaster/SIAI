@@ -9,8 +9,6 @@
     #define DLL_EXPORT __declspec(dllimport)
 #endif
 
-#include "map/command.hpp"
-
 #include <string>
 
 class Painter;

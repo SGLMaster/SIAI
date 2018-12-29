@@ -1,4 +1,4 @@
-#include "map/cellimp.hpp"
+#include "map/entities/cellimp.hpp"
 
 #include "globals.hpp"
 

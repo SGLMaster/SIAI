@@ -1,7 +1,6 @@
 #include "map/siaimapimp.hpp"
-#include "map/mapentity.hpp"
-#include "map/painter.hpp"
-#include "map/command.hpp"
+#include "map/entities/mapentity.hpp"
+#include "map/cmd/command.hpp"
 
 #include "util/reversion.hpp"
 #include "util/string.hpp"

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "map/command.hpp"
-#include "map/painter.hpp"
-#include "map/entities.hpp"
+#include "map/cmd/command.hpp"
+#include "map/entities/entities.hpp"
+#include "map/painter/painter.hpp"
 
 class GenerateMapCommand : public MapCommand
 {

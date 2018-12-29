@@ -1,4 +1,4 @@
-#include "map/commandimp.hpp"
+#include "map/cmd/commandimp.hpp"
 
 MapCommand::MapCommand() = default;
 MapCommand::~MapCommand() = default;

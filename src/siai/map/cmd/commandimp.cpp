@@ -1,6 +1,6 @@
-#include "map/commandimp.hpp"
-#include "map/mapentity.hpp"
-#include "map/entities.hpp"
+#include "map/cmd/commandimp.hpp"
+#include "map/entities/mapentity.hpp"
+#include "map/entities/entities.hpp"
 
 #include "util/reversion.hpp"
 

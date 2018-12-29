@@ -1,5 +1,5 @@
-#include "map/entities.hpp"
-#include "map/mapentity.hpp"
+#include "map/entities/entities.hpp"
+#include "map/entities/mapentity.hpp"
 
 #include <algorithm>
 

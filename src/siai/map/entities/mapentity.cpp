@@ -1,6 +1,6 @@
-#include "map/mapentity.hpp"
-#include "map/cellimp.hpp"
-#include "map/agvimp.hpp"
+#include "map/entities/mapentity.hpp"
+#include "map/entities/cellimp.hpp"
+#include "map/entities/agvimp.hpp"
 
 IDrawable::IDrawable() = default;
 IDrawable::~IDrawable() = default;

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "map/mapentity.hpp"
-#include "map/painter.hpp"
+#include "map/entities/mapentity.hpp"
+#include "map/painter/painter.hpp"
 
 class PanelImage;
 

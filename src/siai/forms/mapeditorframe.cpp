@@ -1,8 +1,8 @@
 #include "forms/mapeditorframe.hpp"
 #include "forms/newmapdialog.hpp"
 
-#include "map/mapentity.hpp"
-#include "map/painter.hpp"
+#include "map/entities/mapentity.hpp"
+#include "map/painter/painter.hpp"
 
 #include "util/string.hpp"
 

@@ -1,4 +1,4 @@
-#include "map/painterimp.hpp"
+#include "map/painter/painterimp.hpp"
 
 PanelImage::PanelImage() = default;
 PanelImage::~PanelImage() = default;

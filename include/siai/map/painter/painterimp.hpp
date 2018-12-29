@@ -1,6 +1,6 @@
 #pragma once
 
-#include "map/painter.hpp"
+#include "map/painter/painter.hpp"
 
 class wxImage;
 
