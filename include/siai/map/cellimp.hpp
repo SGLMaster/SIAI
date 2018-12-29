@@ -33,6 +33,11 @@ public:
     RegularCell(int id, const MapPosition& position);
     virtual ~RegularCell();
 
+    virtual std::string getEntityName() const noexcept override
+    {
+        return "RegularCell";
+    }
+
     virtual void draw(Painter& painter) override;
 
 };
@@ -43,6 +48,11 @@ public:
     BlockedCell();
     BlockedCell(int id, const MapPosition& position);
     virtual ~BlockedCell();
+
+    virtual std::string getEntityName() const noexcept override
+    {
+        return "BlockedCell";
+    }
 
     virtual void draw(Painter& painter) override;
 };

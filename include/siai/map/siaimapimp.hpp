@@ -1,16 +1,15 @@
 #pragma once
 
+#include "map/entities.hpp"
+
 #include "siaimap.hpp"
 
 #include <memory>
-#include <vector>
 
-class IMapEntity;
 class ICell;
 class IAgv;
 
-using EntityPointer = std::unique_ptr<IMapEntity>;
-using EntityIterator = std::vector<EntityPointer>::iterator;
+class MapCommand;
 
 class SIAIMapImp : public SIAIMap
 {
@@ -18,13 +17,17 @@ private:
     int m_numberOfColumns{0};
     int m_numberOfRows{0};
 
-    std::vector<EntityPointer> m_entities;
+    Entities::Container m_entities;
+
+    using CommandStream = std::vector<std::unique_ptr<MapCommand>>;
+    CommandStream m_commandStream;
 
 public:
     SIAIMapImp();
     virtual ~SIAIMapImp();
 
-    virtual void testDrawAll(Painter& painter) override;
+    virtual void executeCommand(const std::string& command) override;
+    virtual void undoLastCommand() override;
 
     virtual void reset(int numberOfColumns, int numberOfRows) override;
     virtual void repaint(Painter& painter) override;
@@ -36,19 +39,9 @@ public:
     virtual MapPosition getLastSelectedPosition() const noexcept override;
 
     virtual void selectEntity(const PanelPoint& point) override;
-    virtual void diselectAllEntities() override;
-
-    virtual void replaceCell(const std::string& type, const PanelPoint& position) override;
 
 private:
     bool selectOrDiselectIfHasPointInside(IMapEntity* entity, const PanelPoint& point) noexcept;
-
-    void createCopyWithDifferentTypeAndEraseOriginal(EntityIterator& entityIterator, const std::string& type);
-    EntityIterator findCellIteratorWithPoint(const PanelPoint& point);
-
-    bool isCellOccupied(const MapPosition& position) const;
-
-    void sortEntitiesByDrawOrder();
 
     void generateCells();
 };

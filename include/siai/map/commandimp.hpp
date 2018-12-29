@@ -1,27 +1,35 @@
 #pragma once
 
 #include "map/command.hpp"
+#include "map/painter.hpp"
+#include "map/entities.hpp"
 
-#include <vector>
+class DiselectAllCommand : public MapCommand
+{
+public:
+    DiselectAllCommand();
+    virtual ~DiselectAllCommand();
 
-class Painter;
+    virtual void execute(Entities::Container& entities) override;
+    virtual void undo(Entities::Container& entities) override;
+};
 
-class IMapEntity;
-
-using EntityPointer = std::unique_ptr<IMapEntity>;
-using EntitiesContainer = std::vector<EntityPointer>;
-
-class CommandDrawAll : public MapCommand
+class ReplaceCellCommand : public MapCommand
 {
 private:
-    EntitiesContainer& m_entities;
-    Painter& m_painter;
+    std::string m_newCellType;
+    std::string m_oldCellType;
+
+    PanelPoint m_pointInsideCellToReplace;
 
 public:
-    CommandDrawAll() = delete;
-    CommandDrawAll(EntitiesContainer& entities, Painter& painter);
-    virtual ~CommandDrawAll();
+    ReplaceCellCommand() = delete;
+    ReplaceCellCommand(const std::deque<std::string>& arguments);
+    virtual ~ReplaceCellCommand();
 
-    virtual void execute() override;
-    virtual void undo() override;
+    virtual void execute(Entities::Container& entities) override;
+    virtual void undo(Entities::Container& entities) override;
+
+private:
+    void doReplaceCell(Entities::Container& entities, const std::string& cellType, bool undoingCommand);
 };

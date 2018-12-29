@@ -9,6 +9,8 @@
     #define DLL_EXPORT __declspec(dllimport)
 #endif
 
+#include "map/command.hpp"
+
 #include <string>
 
 class Painter;
@@ -21,9 +23,8 @@ class DLL_EXPORT SIAIMap
 public:
     static SIAIMap* createMap();
 
-    //void executeCommand(const std::string& command, auto&&... params)
-
-    virtual void testDrawAll(Painter& painter) = 0;
+    virtual void executeCommand(const std::string& command) = 0;
+    virtual void undoLastCommand() = 0;
 
     virtual void reset(int numberOfColumns, int numberOfRows) = 0;
     virtual void repaint(Painter& painter) = 0;
@@ -35,9 +36,6 @@ public:
     virtual MapPosition getLastSelectedPosition() const noexcept = 0;
 
     virtual void selectEntity(const PanelPoint& point) = 0;
-    virtual void diselectAllEntities() = 0;
-
-    virtual void replaceCell(const std::string& type, const PanelPoint& position) = 0;
 
 protected:
     SIAIMap();

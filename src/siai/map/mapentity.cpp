@@ -15,9 +15,9 @@ ICell::~ICell() = default;
 
 std::unique_ptr<ICell> ICell::create(std::string type, int id, const MapPosition& position)
 {
-    if(type == "Regular")
+    if(type == "RegularCell")
         return std::make_unique<RegularCell>(id, position);
-    else if(type == "Blocked")
+    else if(type == "BlockedCell")
         return std::make_unique<BlockedCell>(id, position);
 
     return nullptr;
@@ -29,7 +29,7 @@ IAgv::~IAgv() = default;
 
 std::unique_ptr<IAgv> IAgv::create(std::string type, int id, const MapPosition& position)
 {
-    if(type == "Regular")
+    if(type == "RegularAgv")
         return std::make_unique<RegularAgv>(id, position);
 
     return nullptr;

@@ -58,17 +58,27 @@
 		<Unit filename="include/siai/globals.hpp" />
 		<Unit filename="include/siai/map/agvimp.hpp" />
 		<Unit filename="include/siai/map/cellimp.hpp" />
+		<Unit filename="include/siai/map/command.hpp" />
+		<Unit filename="include/siai/map/commandimp.hpp" />
+		<Unit filename="include/siai/map/entities.hpp" />
 		<Unit filename="include/siai/map/mapentity.hpp" />
 		<Unit filename="include/siai/map/painter.hpp" />
+		<Unit filename="include/siai/map/painterimp.hpp" />
 		<Unit filename="include/siai/map/siaimapimp.hpp" />
 		<Unit filename="include/siai/siaimap.hpp" />
 		<Unit filename="include/siai/util/reversion.hpp" />
+		<Unit filename="include/siai/util/string.hpp" />
 		<Unit filename="src/siai/map/agvimp.cpp" />
 		<Unit filename="src/siai/map/cellimp.cpp" />
+		<Unit filename="src/siai/map/command.cpp" />
+		<Unit filename="src/siai/map/commandimp.cpp" />
+		<Unit filename="src/siai/map/entities.cpp" />
 		<Unit filename="src/siai/map/mapentity.cpp" />
 		<Unit filename="src/siai/map/painter.cpp" />
+		<Unit filename="src/siai/map/painterimp.cpp" />
 		<Unit filename="src/siai/map/siaimapimp.cpp" />
 		<Unit filename="src/siai/siaimap.cpp" />
+		<Unit filename="src/siai/util/string.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

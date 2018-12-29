@@ -73,6 +73,8 @@ public:
     IMapEntity(int id, const MapPosition& position);
     virtual ~IMapEntity();
 
+    virtual std::string getEntityName() const noexcept = 0;
+
     inline int getId() const noexcept
     {
         return m_id;

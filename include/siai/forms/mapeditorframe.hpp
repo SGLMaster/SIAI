@@ -2,6 +2,8 @@
 
 #include <mapeditor.h>
 
+#include <string>
+
 class SIAIMap;
 class PanelPoint;
 class PanelData;
@@ -51,6 +53,7 @@ private:
 
     void callCurrentToolAction();
     void actionToolSelect(PanelPoint& mousePosition);
+    void actionToolReplaceCell(const std::string& cellType, const PanelPoint& mousePosition);
 
     void repaintMapNow();
     void prepareDCAndPaintMap(wxDC& dc);

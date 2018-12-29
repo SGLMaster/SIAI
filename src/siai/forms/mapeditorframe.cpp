@@ -81,10 +81,10 @@ void MapEditorFrame::callCurrentToolAction()
         actionToolSelect(mousePosition);
         break;
     case Tool::REGULAR_CELL:
-        m_mapControl->replaceCell("Regular", mousePosition);
+        actionToolReplaceCell("RegularCell", mousePosition);
         break;
     case Tool::BLOCKED_CELL:
-        m_mapControl->replaceCell("Blocked", mousePosition);
+        actionToolReplaceCell("BlockedCell", mousePosition);
         break;
     default:
         break;
@@ -94,9 +94,19 @@ void MapEditorFrame::callCurrentToolAction()
 void MapEditorFrame::actionToolSelect(PanelPoint& mousePosition)
 {
     if(!wxGetKeyState(WXK_CONTROL))
-        m_mapControl->diselectAllEntities();
+    {
+        m_mapControl->executeCommand("diselect-all");
+    }
 
     m_mapControl->selectEntity(mousePosition);
+}
+
+void MapEditorFrame::actionToolReplaceCell(const std::string& cellType, const PanelPoint& mousePosition)
+{
+    std::string commandReplaceCell{ std::string("replace-cell ") + cellType + " " + std::to_string(mousePosition.x)
+                                    + " " + std::to_string(mousePosition.y) };
+
+    m_mapControl->executeCommand(commandReplaceCell);
 }
 
 void MapEditorFrame::repaintMapNow()
@@ -110,8 +120,7 @@ void MapEditorFrame::prepareDCAndPaintMap(wxDC &dc)
     m_scrolledMapPanel->DoPrepareDC(dc);
 
     auto painter = Painter::createWxPainter(dc, calculatePainterData());
-    m_mapControl->testDrawAll(*painter);
-    //m_mapControl->repaint(*painter);
+    m_mapControl->repaint(*painter);
 }
 
 PanelData MapEditorFrame::calculatePainterData() const

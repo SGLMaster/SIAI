@@ -1,26 +1,19 @@
 #pragma once
 
+#include "map/entities.hpp"
+
 #include <memory>
 #include <string>
-
-class CommandDrawAll;
+#include <deque>
 
 class MapCommand
 {
 public:
-    static std::unique_ptr<MapCommand> create(const std::string& command, auto&&... params)
-    {
-        if(command == "draw-all")
-        {
-            return std::make_unique<CommandDrawAll>(std::forward<decltype(params)>(params)...);
-        }
-
-        return nullptr;
-    }
+    static std::unique_ptr<MapCommand> create(const std::string& command, const std::deque<std::string>& arguments);
 
     MapCommand();
     virtual ~MapCommand();
 
-    virtual void execute() = 0;
-    virtual void undo() = 0;
+    virtual void execute(Entities::Container& entities) = 0;
+    virtual void undo(Entities::Container& entities) = 0;
 };

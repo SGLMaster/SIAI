@@ -35,6 +35,11 @@ public:
     RegularAgv(int id, const MapPosition& position);
     virtual ~RegularAgv();
 
+    virtual std::string getEntityName() const noexcept override
+    {
+        return "RegularAgv";
+    }
+
     virtual void draw(Painter& painter) override;
 
 };
