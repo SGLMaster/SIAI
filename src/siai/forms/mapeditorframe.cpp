@@ -4,6 +4,8 @@
 #include "map/mapentity.hpp"
 #include "map/painter.hpp"
 
+#include "util/string.hpp"
+
 #include "siaimap.hpp"
 #include "globals.hpp"
 
@@ -98,16 +100,15 @@ void MapEditorFrame::actionToolSelect(PanelPoint& mousePosition)
         m_mapControl->executeCommand("diselect-all");
     }
 
-    std::string commandSelect = std::string("select ")
-                                + std::to_string(mousePosition.x) + " " + std::to_string(mousePosition.y);
+    std::string commandSelect = Util::String::generateCommand("select", mousePosition.x, mousePosition.y);
 
     m_mapControl->executeCommand(commandSelect);
 }
 
 void MapEditorFrame::actionToolReplaceCell(const std::string& cellType, const PanelPoint& mousePosition)
 {
-    std::string commandReplaceCell{ std::string("replace-cell ") + cellType + " " + std::to_string(mousePosition.x)
-                                    + " " + std::to_string(mousePosition.y) };
+    std::string commandReplaceCell = Util::String::generateCommand("replace-cell", cellType,
+                                                                   mousePosition.x, mousePosition.y);
 
     m_mapControl->executeCommand(commandReplaceCell);
 }

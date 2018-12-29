@@ -8,6 +8,21 @@ namespace Util
 {
     namespace String
     {
+        std::string generateCommand()
+        {
+            return "";
+        }
+
+        std::string generateCommand(int argument, auto&&... args)
+        {
+            return std::to_string(argument) + " " + generateCommand(args...);
+        }
+
+        std::string generateCommand(const std::string& argument, auto&&... args)
+        {
+            return std::string(argument) + " " + generateCommand(args...);
+        }
+
         template<typename STLContainer>
         void splitIntoContainer(const std::string& str, STLContainer&& container, char delimiter)
         {
