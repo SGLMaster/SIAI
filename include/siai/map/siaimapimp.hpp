@@ -5,10 +5,6 @@
 #include "siaimap.hpp"
 
 #include <memory>
-#include <deque>
-
-class ICell;
-class IAgv;
 
 class CommandStream;
 
@@ -19,12 +15,6 @@ private:
     int m_numberOfRows{0};
 
     Entities::Container m_entities;
-
-    //using CommandStream = std::deque<std::unique_ptr<MapCommand>>;
-    //CommandStream m_commandStream;
-
-    //using CommandIterator = CommandStream::iterator;
-    //CommandIterator m_commandIterator;
 
     std::unique_ptr<CommandStream> m_commandStream;
 
@@ -41,6 +31,9 @@ public:
 
     virtual int getNumberOfColumns() const noexcept override;
     virtual int getNumberOfRows() const noexcept override;
+
+    virtual void selectEntity(const PanelPoint& point) override;
+    virtual void diselectAll() override;
 
     virtual int getLastSelectedId() const noexcept;
     virtual MapPosition getLastSelectedPosition() const noexcept override;

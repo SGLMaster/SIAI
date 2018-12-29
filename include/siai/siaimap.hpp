@@ -31,6 +31,9 @@ public:
     virtual int getNumberOfColumns() const noexcept = 0;
     virtual int getNumberOfRows() const noexcept = 0;
 
+    virtual void selectEntity(const PanelPoint& point) = 0;
+    virtual void diselectAll() = 0;
+
     virtual int getLastSelectedId() const noexcept = 0;
     virtual MapPosition getLastSelectedPosition() const noexcept = 0;
 

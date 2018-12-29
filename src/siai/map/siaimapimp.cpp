@@ -3,7 +3,6 @@
 #include "map/cmd/cmdstream.hpp"
 
 #include "util/reversion.hpp"
-#include "util/string.hpp"
 
 #include <algorithm>
 
@@ -13,60 +12,16 @@ SIAIMapImp::~SIAIMapImp() = default;
 void SIAIMapImp::executeCommand(const std::string& command)
 {
     m_commandStream->executeAndLog(m_entities, command);
-
-    /*
-    std::deque<std::string> arguments;
-    Util::String::splitIntoContainer(command, arguments, ' ');
-
-    std::string commandName = arguments.front();
-    arguments.pop_front();
-
-    auto mapCommand = MapCommand::create(commandName, arguments);
-    mapCommand->execute(m_entities);
-
-    if(m_commandStream.size() > 0 && m_commandIterator != m_commandStream.end())
-    {
-        int lastCommandIndex = std::distance(m_commandStream.begin(), m_commandIterator);
-        int newCommandStreamSize = lastCommandIndex;
-
-        m_commandStream.resize(newCommandStreamSize);
-    }
-
-    m_commandStream.push_back(std::move(mapCommand));
-
-    m_commandIterator = m_commandStream.end();
-    */
 }
 
 void SIAIMapImp::undo()
 {
     m_commandStream->undo(m_entities);
-    /*
-    if(m_commandIterator != m_commandStream.begin() && m_commandStream.size() > 0)
-    {
-        --m_commandIterator;
-    }
-
-    if(m_commandStream.size() > 0)
-    {
-        auto& lastCommand = *m_commandIterator;
-        lastCommand->undo(m_entities);
-    }
-    */
 }
 
 void SIAIMapImp::redo()
 {
     m_commandStream->redo(m_entities);
-    /*
-    if(m_commandIterator != m_commandStream.end() && m_commandStream.size() > 0)
-    {
-        auto& command = *m_commandIterator;
-        command->execute(m_entities);
-
-        ++m_commandIterator;
-    }
-    */
 }
 
 int SIAIMapImp::getNumberOfColumns() const noexcept
@@ -94,6 +49,24 @@ void SIAIMapImp::repaint(Painter& painter)
     for(const auto& entity : m_entities)
     {
         entity->draw(painter);
+    }
+}
+
+void SIAIMapImp::selectEntity(const PanelPoint& point)
+{
+    for(const auto& entity : Util::reverse(m_entities))
+    {
+        bool someEntityChanged = Entities::selectOrDiselectIfHasPointInside(*entity, point);
+
+        if(someEntityChanged) return;
+    }
+}
+
+void SIAIMapImp::diselectAll()
+{
+    for(const auto& entity : m_entities)
+    {
+        entity->diselect();
     }
 }
 

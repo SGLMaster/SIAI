@@ -63,6 +63,23 @@ bool Entities::isCellOccupied(const Container& entities, const MapPosition& posi
     return true;
 }
 
+bool Entities::selectOrDiselectIfHasPointInside(IMapEntity& entity, const PanelPoint& point) noexcept
+{
+    constexpr bool someEntityChanged{true};
+    constexpr bool noEntityChanged{false};
+
+    if(entity.hasPointInside(point))
+    {
+        if(!entity.isSelected())
+            entity.select();
+        else
+            entity.diselect();
+        return someEntityChanged;
+    }
+
+    return noEntityChanged;
+}
+
 void Entities::createCellCopyWithDifferentType(Container& entities, Iterator& it, const std::string& type)
 {
     int newId = (*it)->getId();

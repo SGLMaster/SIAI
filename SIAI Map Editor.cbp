@@ -53,13 +53,13 @@
 		<Unit filename="include/siai/forms/mapeditorframe.hpp" />
 		<Unit filename="include/siai/forms/newmapdialog.hpp" />
 		<Unit filename="include/siai/globals.hpp" />
-		<Unit filename="include/siai/map/painter.hpp" />
-		<Unit filename="include/siai/map/painterimp.hpp" />
+		<Unit filename="include/siai/map/painter/painter.hpp" />
+		<Unit filename="include/siai/map/painter/painterimp.hpp" />
 		<Unit filename="include/siai/mapeditorapp.hpp" />
 		<Unit filename="src/siai/forms/mapeditorframe.cpp" />
 		<Unit filename="src/siai/forms/newmapdialog.cpp" />
-		<Unit filename="src/siai/map/painter.cpp" />
-		<Unit filename="src/siai/map/painterimp.cpp" />
+		<Unit filename="src/siai/map/painter/painter.cpp" />
+		<Unit filename="src/siai/map/painter/painterimp.cpp" />
 		<Unit filename="src/siai/mapeditorapp.cpp" />
 		<Extensions>
 			<code_completion />
