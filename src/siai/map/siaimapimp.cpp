@@ -49,7 +49,7 @@ void SIAIMapImp::reset(int numberOfColumns, int numberOfRows)
 
     m_entities.resize(0);
 
-    generateCells();
+    Entities::generateMapCells(m_entities, m_numberOfColumns, m_numberOfRows);
 }
 
 void SIAIMapImp::repaint(Painter& painter)
@@ -57,16 +57,6 @@ void SIAIMapImp::repaint(Painter& painter)
     for(const auto& entity : m_entities)
     {
         entity->draw(painter);
-    }
-}
-
-void SIAIMapImp::selectEntity(const PanelPoint& point)
-{
-    for(const auto& entity : Util::reverse(m_entities))
-    {
-        bool someEntityChanged = selectOrDiselectIfHasPointInside(entity.get(), point);
-
-        if(someEntityChanged) return;
     }
 }
 
@@ -94,44 +84,4 @@ int SIAIMapImp::getLastSelectedId() const noexcept
     }
 
     return lastSelectedId;
-}
-
-bool SIAIMapImp::selectOrDiselectIfHasPointInside(IMapEntity* entity, const PanelPoint& point) noexcept
-{
-    if(entity->hasPointInside(point))
-    {
-        if(!entity->isSelected())
-            entity->select();
-        else
-            entity->diselect();
-        return true;
-    }
-
-    return false;
-}
-
-void SIAIMapImp::generateCells()
-{
-    int idGenerator{0};
-
-    for(int column = 0; column < m_numberOfColumns; ++column)
-    {
-        for(int row = 0; row < m_numberOfRows; ++row)
-        {
-            int id = ++idGenerator;
-            MapPosition position{column, row, MapDirection::RIGHT};
-
-            Entities::Pointer tmpCell = ICell::create("RegularCell", id, position);
-
-            m_entities.push_back(std::move(tmpCell));
-
-            ///////////////////////////TEST//////////////////////////
-            if(position.column < 20)
-            {
-                Entities::Pointer tmpAgv = IAgv::create("RegularAgv", id, position);
-                m_entities.push_back(std::move(tmpAgv));
-            }
-
-        }
-    }
 }

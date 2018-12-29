@@ -4,6 +4,50 @@
 #include "map/painter.hpp"
 #include "map/entities.hpp"
 
+class GenerateMapCommand : public MapCommand
+{
+private:
+    enum Args
+    {
+        NUMBER_OF_COLUMNS,
+        NUMBER_OF_ROWS
+    };
+
+    int m_numberOfColumns;
+    int m_numberOfRows;
+
+public:
+    GenerateMapCommand() = delete;
+    GenerateMapCommand(const MapCommand::Container& arguments);
+    virtual ~GenerateMapCommand();
+
+    virtual void execute(Entities::Container& entities) override;
+    virtual void undo(Entities::Container& entities) override;
+};
+
+class SelectCommand : public MapCommand
+{
+private:
+    enum Args
+    {
+        POINT_X,
+        POINT_Y
+    };
+
+    PanelPoint m_point;
+
+public:
+    SelectCommand() = delete;
+    SelectCommand(const MapCommand::Container& arguments);
+    virtual ~SelectCommand();
+
+    virtual void execute(Entities::Container& entities) override;
+    virtual void undo(Entities::Container& entities) override;
+
+private:
+    bool selectOrDiselectIfHasPointInside(IMapEntity& entity, const PanelPoint& point) noexcept;
+};
+
 class DiselectAllCommand : public MapCommand
 {
 public:
@@ -17,6 +61,13 @@ public:
 class ReplaceCellCommand : public MapCommand
 {
 private:
+    enum Args
+    {
+        NEW_CELL_TYPE,
+        POINT_X,
+        POINT_Y
+    };
+
     std::string m_newCellType;
     std::string m_oldCellType;
 
@@ -24,7 +75,7 @@ private:
 
 public:
     ReplaceCellCommand() = delete;
-    ReplaceCellCommand(const std::deque<std::string>& arguments);
+    ReplaceCellCommand(const MapCommand::Container& arguments);
     virtual ~ReplaceCellCommand();
 
     virtual void execute(Entities::Container& entities) override;

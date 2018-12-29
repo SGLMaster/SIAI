@@ -38,10 +38,6 @@ public:
     virtual int getLastSelectedId() const noexcept;
     virtual MapPosition getLastSelectedPosition() const noexcept override;
 
-    virtual void selectEntity(const PanelPoint& point) override;
-
 private:
-    bool selectOrDiselectIfHasPointInside(IMapEntity* entity, const PanelPoint& point) noexcept;
-
     void generateCells();
 };

@@ -14,6 +14,8 @@ namespace Entities
     using Container = std::vector<Pointer>;
     using Iterator = std::vector<Pointer>::iterator;
 
+    void generateMapCells(Container& entities, int numberOfColumns, int numberOfRows);
+
     Iterator findCellIteratorWithPoint(Container& entities, const PanelPoint& point);
 
     bool isCellOccupied(const Container& entities, const MapPosition& position);

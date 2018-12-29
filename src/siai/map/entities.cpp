@@ -3,6 +3,32 @@
 
 #include <algorithm>
 
+void Entities::generateMapCells(Container& entities, int numberOfColumns, int numberOfRows)
+{
+    int idGenerator{0};
+
+    for(int column = 0; column < numberOfColumns; ++column)
+    {
+        for(int row = 0; row < numberOfRows; ++row)
+        {
+            int id = ++idGenerator;
+            MapPosition position{column, row, MapDirection::RIGHT};
+
+            Entities::Pointer tmpCell = ICell::create("RegularCell", id, position);
+
+            entities.push_back(std::move(tmpCell));
+
+            ///////////////////////////TEST//////////////////////////
+            if(position.column < 20)
+            {
+                Entities::Pointer tmpAgv = IAgv::create("RegularAgv", id, position);
+                entities.push_back(std::move(tmpAgv));
+            }
+
+        }
+    }
+}
+
 Entities::Iterator Entities::findCellIteratorWithPoint(Container& entities, const PanelPoint& point)
 {
     auto findCellWithPointInside = [&point](const Entities::Pointer& entity)

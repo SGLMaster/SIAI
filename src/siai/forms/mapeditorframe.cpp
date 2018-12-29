@@ -98,7 +98,10 @@ void MapEditorFrame::actionToolSelect(PanelPoint& mousePosition)
         m_mapControl->executeCommand("diselect-all");
     }
 
-    m_mapControl->selectEntity(mousePosition);
+    std::string commandSelect = std::string("select ")
+                                + std::to_string(mousePosition.x) + " " + std::to_string(mousePosition.y);
+
+    m_mapControl->executeCommand(commandSelect);
 }
 
 void MapEditorFrame::actionToolReplaceCell(const std::string& cellType, const PanelPoint& mousePosition)

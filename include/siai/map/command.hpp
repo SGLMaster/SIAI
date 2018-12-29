@@ -9,7 +9,9 @@
 class MapCommand
 {
 public:
-    static std::unique_ptr<MapCommand> create(const std::string& command, const std::deque<std::string>& arguments);
+    using Container = std::deque<std::string>;
+
+    static std::unique_ptr<MapCommand> create(const std::string& command, const MapCommand::Container& arguments);
 
     MapCommand();
     virtual ~MapCommand();
