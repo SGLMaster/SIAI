@@ -42,6 +42,20 @@ Entities::Iterator Entities::findCellIteratorWithPoint(Container& entities, cons
     return std::find_if(entities.begin(), entities.end(), findCellWithPointInside);
 }
 
+Entities::Iterator Entities::findCellIteratorWithPosition(Container& entities, const MapPosition& position)
+{
+    auto findCellInPosition = [&position](const Entities::Pointer& entity)
+                                    {
+                                        bool entityIsACell = dynamic_cast<ICell*>(entity.get()) != nullptr;
+
+                                        return (entity->getPosition().column == position.column
+                                                && entity->getPosition().row == position.row
+                                                && entityIsACell);
+                                    };
+
+    return std::find_if(entities.begin(), entities.end(), findCellInPosition);
+}
+
 bool Entities::isCellOccupied(const Container& entities, const MapPosition& position)
 {
     auto findADifferentEntityWithPosition = [&position](const Entities::Pointer& entity)
@@ -85,7 +99,7 @@ void Entities::createCellCopyWithDifferentType(Container& entities, Iterator& it
     int newId = (*it)->getId();
     MapPosition newPosition = (*it)->getPosition();
 
-    entities.push_back(ICell::create( type, newId, newPosition ));
+    entities.push_back(ICell::create(type, newId, newPosition));
 }
 
 void Entities::sortEntitiesByDrawOrder(Container& entities)

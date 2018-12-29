@@ -17,6 +17,7 @@ namespace Entities
     void generateMapCells(Container& entities, int numberOfColumns, int numberOfRows);
 
     Iterator findCellIteratorWithPoint(Container& entities, const PanelPoint& point);
+    Iterator findCellIteratorWithPosition(Container& entities, const MapPosition& position);
 
     bool isCellOccupied(const Container& entities, const MapPosition& position);
 

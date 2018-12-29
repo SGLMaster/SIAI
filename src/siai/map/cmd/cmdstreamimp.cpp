@@ -1,6 +1,8 @@
 #include "map/cmd/cmdstreamimp.hpp"
 #include "map/cmd/command.hpp"
 
+#include "map/exception.hpp"
+
 #include "util/string.hpp"
 
 CommandStreamImp::CommandStreamImp() = default;
@@ -14,20 +16,27 @@ void CommandStreamImp::executeAndLog(Entities::Container& entities, const std::s
     std::string commandName = arguments.front();
     arguments.pop_front();
 
-    auto mapCommand = MapCommand::create(commandName, arguments);
-    mapCommand->execute(entities);
-
-    if(m_commands.size() > 0 && m_iterator != m_commands.end())
+    try
     {
-        int lastCommandIndex = std::distance(m_commands.begin(), m_iterator);
-        int newCommandStreamSize = lastCommandIndex;
+        auto mapCommand = MapCommand::create(commandName, arguments);
+        mapCommand->execute(entities);
 
-        m_commands.resize(newCommandStreamSize);
+        if(m_commands.size() > 0 && m_iterator != m_commands.end())
+        {
+            int lastCommandIndex = std::distance(m_commands.begin(), m_iterator);
+            int newCommandStreamSize = lastCommandIndex;
+
+            m_commands.resize(newCommandStreamSize);
+        }
+
+        m_commands.push_back(std::move(mapCommand));
+
+        m_iterator = m_commands.end();
     }
-
-    m_commands.push_back(std::move(mapCommand));
-
-    m_iterator = m_commands.end();
+    catch(CellNotFoundException& e)
+    {
+        ;
+    }
 }
 
 void CommandStreamImp::undo(Entities::Container& entities)

@@ -2,6 +2,7 @@
 
 #include "map/cmd/command.hpp"
 #include "map/entities/entities.hpp"
+#include "map/entities/mapentity.hpp"
 #include "map/painter/painter.hpp"
 
 class ReplaceCellCommand : public MapCommand
@@ -14,10 +15,14 @@ private:
         POINT_Y
     };
 
+    static constexpr MapPosition uninitializedPosition{-1, -1, MapDirection::DOWN};
+
     std::string m_newCellType;
     std::string m_oldCellType;
 
     PanelPoint m_pointInsideCellToReplace;
+
+    MapPosition m_cellPosition;
 
 public:
     ReplaceCellCommand() = delete;

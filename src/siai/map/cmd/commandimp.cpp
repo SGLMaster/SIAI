@@ -2,7 +2,9 @@
 #include "map/entities/mapentity.hpp"
 #include "map/entities/entities.hpp"
 
-ReplaceCellCommand::ReplaceCellCommand(const MapCommand::Container& arguments)
+#include "map/exception.hpp"
+
+ReplaceCellCommand::ReplaceCellCommand(const MapCommand::Container& arguments) : m_cellPosition{uninitializedPosition}
 {
     m_newCellType = arguments[NEW_CELL_TYPE];
 
@@ -26,15 +28,28 @@ void ReplaceCellCommand::undo(Entities::Container& entities)
 
 void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, const std::string& cellType, bool undoingCommand)
 {
-    Entities::Iterator cellIterator = Entities::findCellIteratorWithPoint(entities, m_pointInsideCellToReplace);
+    Entities::Iterator cellIterator;
 
-    if(cellIterator == entities.end())
+    bool cellPositionIsUninitialized = (m_cellPosition.column == uninitializedPosition.column
+                                        && m_cellPosition.row == uninitializedPosition.row);
+
+    if(cellPositionIsUninitialized)
     {
-        return;
+        cellIterator = Entities::findCellIteratorWithPoint(entities, m_pointInsideCellToReplace);
+
+        if(cellIterator == entities.end())
+        {
+            throw CellNotFoundException();
+        }
+
+        m_cellPosition = (*cellIterator)->getPosition();
+    }
+    else
+    {
+        cellIterator = Entities::findCellIteratorWithPosition(entities, m_cellPosition);
     }
 
-    const MapPosition& cellFoundPosition = (*cellIterator)->getPosition();
-    bool cellFoundIsOccupied = Entities::isCellOccupied(entities, cellFoundPosition);
+    bool cellFoundIsOccupied = Entities::isCellOccupied(entities, m_cellPosition);
 
     if(cellFoundIsOccupied)
     {
