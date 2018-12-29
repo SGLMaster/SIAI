@@ -7,7 +7,6 @@
 #include "util/string.hpp"
 
 #include <algorithm>
-#include <deque>
 
 SIAIMapImp::SIAIMapImp() = default;
 SIAIMapImp::~SIAIMapImp() = default;
@@ -23,13 +22,31 @@ void SIAIMapImp::executeCommand(const std::string& command)
     auto mapCommand = MapCommand::create(commandName, arguments);
     mapCommand->execute(m_entities);
 
+    if(m_commandStream.size() > 0 && m_commandIterator != m_commandStream.end())
+    {
+        int lastCommandIndex = std::distance(m_commandStream.begin(), m_commandIterator);
+        int newCommandStreamSize = lastCommandIndex;
+
+        m_commandStream.resize(newCommandStreamSize);
+    }
+
     m_commandStream.push_back(std::move(mapCommand));
+
+    m_commandIterator = m_commandStream.end();
 }
 
 void SIAIMapImp::undoLastCommand()
 {
-    auto& lastCommand = m_commandStream.back();
-    lastCommand->undo(m_entities);
+    if(m_commandIterator != m_commandStream.begin() && m_commandStream.size() > 0)
+    {
+        --m_commandIterator;
+    }
+
+    if(m_commandStream.size() > 0)
+    {
+        auto& lastCommand = *m_commandIterator;
+        lastCommand->undo(m_entities);
+    }
 }
 
 int SIAIMapImp::getNumberOfColumns() const noexcept

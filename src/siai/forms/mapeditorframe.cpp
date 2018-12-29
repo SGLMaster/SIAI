@@ -59,6 +59,13 @@ void MapEditorFrame::OnToolBlockedCell(wxCommandEvent& event)
     m_currentTool = Tool::BLOCKED_CELL;
 }
 
+void MapEditorFrame::OnToolUndo(wxCommandEvent& event)
+{
+    m_mapControl->undoLastCommand();
+
+    repaintMapNow();
+}
+
 void MapEditorFrame::OnSliderZoom(wxCommandEvent& event)
 {
     m_mapPanelZoom = m_sliderZoom->GetValue();

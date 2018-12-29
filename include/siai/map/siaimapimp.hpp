@@ -5,6 +5,7 @@
 #include "siaimap.hpp"
 
 #include <memory>
+#include <deque>
 
 class ICell;
 class IAgv;
@@ -19,8 +20,11 @@ private:
 
     Entities::Container m_entities;
 
-    using CommandStream = std::vector<std::unique_ptr<MapCommand>>;
+    using CommandStream = std::deque<std::unique_ptr<MapCommand>>;
     CommandStream m_commandStream;
+
+    using CommandIterator = CommandStream::iterator;
+    CommandIterator m_commandIterator;
 
 public:
     SIAIMapImp();

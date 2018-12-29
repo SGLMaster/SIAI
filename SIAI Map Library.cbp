@@ -60,6 +60,7 @@
 		<Unit filename="include/siai/map/cellimp.hpp" />
 		<Unit filename="include/siai/map/command.hpp" />
 		<Unit filename="include/siai/map/commandimp.hpp" />
+		<Unit filename="include/siai/map/commandstream.hpp" />
 		<Unit filename="include/siai/map/entities.hpp" />
 		<Unit filename="include/siai/map/mapentity.hpp" />
 		<Unit filename="include/siai/map/painter.hpp" />
@@ -78,7 +79,6 @@
 		<Unit filename="src/siai/map/painterimp.cpp" />
 		<Unit filename="src/siai/map/siaimapimp.cpp" />
 		<Unit filename="src/siai/siaimap.cpp" />
-		<Unit filename="src/siai/util/string.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
