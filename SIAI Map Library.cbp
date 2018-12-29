@@ -64,6 +64,7 @@
 		<Unit filename="include/siai/map/entities/cellimp.hpp" />
 		<Unit filename="include/siai/map/entities/entities.hpp" />
 		<Unit filename="include/siai/map/entities/mapentity.hpp" />
+		<Unit filename="include/siai/map/exception.hpp" />
 		<Unit filename="include/siai/map/painter/painter.hpp" />
 		<Unit filename="include/siai/map/painter/painterimp.hpp" />
 		<Unit filename="include/siai/map/siaimapimp.hpp" />
