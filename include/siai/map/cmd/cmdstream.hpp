@@ -1,6 +1,9 @@
 #pragma once
 
+#include <memory>
 #include <string>
+
+#include "map/entities/entities.hpp"
 
 class CommandStream
 {
@@ -8,7 +11,9 @@ public:
     CommandStream();
     virtual ~CommandStream();
 
-    virtual void executeAndLog(const std::string& command) = 0;
-    virtual void undo() = 0;
-    virtual void redo() = 0;
+    static std::unique_ptr<CommandStream> create();
+
+    virtual void executeAndLog(Entities::Container& entities, const std::string& command) = 0;
+    virtual void undo(Entities::Container& entities) = 0;
+    virtual void redo(Entities::Container& entities) = 0;
 };

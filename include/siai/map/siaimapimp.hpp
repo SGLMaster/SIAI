@@ -10,7 +10,7 @@
 class ICell;
 class IAgv;
 
-class MapCommand;
+class CommandStream;
 
 class SIAIMapImp : public SIAIMap
 {
@@ -20,11 +20,13 @@ private:
 
     Entities::Container m_entities;
 
-    using CommandStream = std::deque<std::unique_ptr<MapCommand>>;
-    CommandStream m_commandStream;
+    //using CommandStream = std::deque<std::unique_ptr<MapCommand>>;
+    //CommandStream m_commandStream;
 
-    using CommandIterator = CommandStream::iterator;
-    CommandIterator m_commandIterator;
+    //using CommandIterator = CommandStream::iterator;
+    //CommandIterator m_commandIterator;
+
+    std::unique_ptr<CommandStream> m_commandStream;
 
 public:
     SIAIMapImp();

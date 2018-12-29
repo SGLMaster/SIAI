@@ -8,17 +8,20 @@ namespace Util
 {
     namespace String
     {
+        template<typename ...Args>
         std::string generateCommand()
         {
             return "";
         }
 
-        std::string generateCommand(int argument, auto&&... args)
+        template<typename ...Args>
+        std::string generateCommand(int argument, Args&&... args)
         {
             return std::to_string(argument) + " " + generateCommand(args...);
         }
 
-        std::string generateCommand(const std::string& argument, auto&&... args)
+        template<typename ...Args>
+        std::string generateCommand(const std::string& argument, Args&&... args)
         {
             return std::string(argument) + " " + generateCommand(args...);
         }

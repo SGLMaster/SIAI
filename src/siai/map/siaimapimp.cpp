@@ -1,17 +1,20 @@
 #include "map/siaimapimp.hpp"
 #include "map/entities/mapentity.hpp"
-#include "map/cmd/command.hpp"
+#include "map/cmd/cmdstream.hpp"
 
 #include "util/reversion.hpp"
 #include "util/string.hpp"
 
 #include <algorithm>
 
-SIAIMapImp::SIAIMapImp() = default;
+SIAIMapImp::SIAIMapImp() : m_commandStream{CommandStream::create()} {}
 SIAIMapImp::~SIAIMapImp() = default;
 
 void SIAIMapImp::executeCommand(const std::string& command)
 {
+    m_commandStream->executeAndLog(m_entities, command);
+
+    /*
     std::deque<std::string> arguments;
     Util::String::splitIntoContainer(command, arguments, ' ');
 
@@ -32,10 +35,13 @@ void SIAIMapImp::executeCommand(const std::string& command)
     m_commandStream.push_back(std::move(mapCommand));
 
     m_commandIterator = m_commandStream.end();
+    */
 }
 
 void SIAIMapImp::undo()
 {
+    m_commandStream->undo(m_entities);
+    /*
     if(m_commandIterator != m_commandStream.begin() && m_commandStream.size() > 0)
     {
         --m_commandIterator;
@@ -46,10 +52,13 @@ void SIAIMapImp::undo()
         auto& lastCommand = *m_commandIterator;
         lastCommand->undo(m_entities);
     }
+    */
 }
 
 void SIAIMapImp::redo()
 {
+    m_commandStream->redo(m_entities);
+    /*
     if(m_commandIterator != m_commandStream.end() && m_commandStream.size() > 0)
     {
         auto& command = *m_commandIterator;
@@ -57,6 +66,7 @@ void SIAIMapImp::redo()
 
         ++m_commandIterator;
     }
+    */
 }
 
 int SIAIMapImp::getNumberOfColumns() const noexcept
