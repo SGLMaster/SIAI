@@ -3,6 +3,8 @@
 #include "map/entities/mapentity.hpp"
 #include "map/painter/painter.hpp"
 
+#include "util/id.hpp"
+
 class CellDefault : public ICell
 {
 protected:

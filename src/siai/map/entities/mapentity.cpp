@@ -9,9 +9,14 @@ IMapEntity::IMapEntity() = default;
 IMapEntity::IMapEntity(int id, const MapPosition& position) : m_id{id}, m_position {position} {}
 IMapEntity::~IMapEntity() = default;
 
+Util::IdManager ICell::cellsIdManager = Util::IdManager{MIN_CELL_ID, MAX_CELL_ID};
+
 ICell::ICell() = default;
 ICell::ICell(int id, const MapPosition& position) : IMapEntity(id, position) {}
-ICell::~ICell() = default;
+ICell::~ICell()
+{
+    cellsIdManager.returnId(m_id);
+}
 
 std::unique_ptr<ICell> ICell::create(std::string type, int id, const MapPosition& position)
 {

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "util/id.hpp"
+
 #include <memory>
 #include <string>
 
@@ -99,7 +101,13 @@ public:
 
 class ICell : public IMapEntity
 {
+private:
+    static constexpr int MIN_CELL_ID{1};
+    static constexpr int MAX_CELL_ID{999999};
+
 public:
+    static Util::IdManager cellsIdManager;
+
     static std::unique_ptr<ICell> create(std::string type, int id, const MapPosition& position);
 
     virtual int getDrawOrder() const noexcept

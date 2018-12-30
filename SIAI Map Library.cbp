@@ -69,6 +69,7 @@
 		<Unit filename="include/siai/map/painter/painterimp.hpp" />
 		<Unit filename="include/siai/map/siaimapimp.hpp" />
 		<Unit filename="include/siai/siaimap.hpp" />
+		<Unit filename="include/siai/util/id.hpp" />
 		<Unit filename="include/siai/util/reversion.hpp" />
 		<Unit filename="include/siai/util/string.hpp" />
 		<Unit filename="src/siai/map/cmd/cmdstream.cpp" />
@@ -83,6 +84,7 @@
 		<Unit filename="src/siai/map/painter/painterimp.cpp" />
 		<Unit filename="src/siai/map/siaimapimp.cpp" />
 		<Unit filename="src/siai/siaimap.cpp" />
+		<Unit filename="src/siai/util/id.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

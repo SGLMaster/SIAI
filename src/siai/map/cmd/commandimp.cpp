@@ -6,6 +6,11 @@
 
 ReplaceCellCommand::ReplaceCellCommand(const MapCommand::Container& arguments) : m_cellPosition{uninitializedPosition}
 {
+    if(arguments.size() != NUMBER_OF_ARGUMENTS)
+    {
+        throw InvalidNumberOfArguments();
+    }
+
     m_newCellType = arguments[NEW_CELL_TYPE];
 
     int pointX = std::stoi(arguments[POINT_X]);

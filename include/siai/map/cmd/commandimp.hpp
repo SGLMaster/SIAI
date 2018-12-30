@@ -12,7 +12,8 @@ private:
     {
         NEW_CELL_TYPE,
         POINT_X,
-        POINT_Y
+        POINT_Y,
+        NUMBER_OF_ARGUMENTS
     };
 
     static constexpr MapPosition uninitializedPosition{-1, -1, MapDirection::DOWN};

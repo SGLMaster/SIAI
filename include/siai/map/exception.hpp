@@ -4,20 +4,29 @@
 
 class CommandException : public std::exception{};
 
+class InvalidNumberOfArguments : public CommandException
+{
+public:
+    virtual const char* what() const noexcept override
+    {
+        return "Invalid number of arguments.";
+    }
+};
+
 class CellNotFoundException : public CommandException
 {
 public:
-    const char* what() noexcept
+    virtual const char* what() const noexcept override
     {
-        return "Cell Not Found.";
+        return "Cell not found.";
     }
 };
 
 class CellOccupiedException : public CommandException
 {
 public:
-    const char* what() noexcept
+    virtual const char* what() const noexcept override
     {
-        return "Cell Occupied by an entity.";
+        return "Cell occupied by an entity.";
     }
 };
