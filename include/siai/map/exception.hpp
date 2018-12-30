@@ -50,3 +50,12 @@ public:
         return "Tipo de entidad inválido.";
     }
 };
+
+class EntityNotFound : public EntityException
+{
+public:
+    virtual const char* what() const noexcept override
+    {
+        return "Ninguna entidad seleccionada.";
+    }
+};

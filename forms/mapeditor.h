@@ -46,6 +46,7 @@ namespace Forms
 			wxToolBarToolBase* m_toolSelect;
 			wxToolBarToolBase* m_toolRegularCell;
 			wxToolBarToolBase* m_toolBlockedCell;
+			wxToolBarToolBase* m_toolAddAgv;
 			wxToolBarToolBase* m_toolUndo;
 			wxToolBarToolBase* m_toolRedo;
 			wxStaticText* m_staticTextZoom;
@@ -59,6 +60,7 @@ namespace Forms
 			virtual void OnToolSelect( wxCommandEvent& event ) = 0;
 			virtual void OnToolRegularCell( wxCommandEvent& event ) = 0;
 			virtual void OnToolBlockedCell( wxCommandEvent& event ) = 0;
+			virtual void OnToolAddAgv( wxCommandEvent& event ) = 0;
 			virtual void OnToolUndo( wxCommandEvent& event ) = 0;
 			virtual void OnToolRedo( wxCommandEvent& event ) = 0;
 			virtual void OnSliderZoom( wxCommandEvent& event ) = 0;

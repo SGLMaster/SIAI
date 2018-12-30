@@ -2,8 +2,7 @@
 
 #include "globals.hpp"
 
-AgvDefault::AgvDefault() = default;
-AgvDefault::AgvDefault(int id, const MapPosition& position) : IAgv(id, position) {}
+AgvDefault::AgvDefault(const MapPosition& position) : IAgv(position) {}
 AgvDefault::~AgvDefault() = default;
 
 void AgvDefault::draw(Painter& painter)
@@ -63,8 +62,7 @@ void AgvDefault::calculateOrigin(int zoom)
     m_origin = PanelPoint{originX, originY};
 }
 
-RegularAgv::RegularAgv() = default;
-RegularAgv::RegularAgv(int id, const MapPosition& position) : AgvDefault(id, position){}
+RegularAgv::RegularAgv(const MapPosition& position) : AgvDefault(position){}
 RegularAgv::~RegularAgv() = default;
 
 void RegularAgv::draw(Painter& painter)

@@ -59,6 +59,11 @@ void MapEditorFrame::OnToolBlockedCell(wxCommandEvent& event)
     m_currentTool = Tool::BLOCKED_CELL;
 }
 
+void MapEditorFrame::OnToolAddAgv(wxCommandEvent& event)
+{
+    m_currentTool = Tool::ADD_AGV;
+}
+
 void MapEditorFrame::OnToolUndo(wxCommandEvent& event)
 {
     m_mapControl->undo();
@@ -102,6 +107,9 @@ void MapEditorFrame::callCurrentToolAction()
     case Tool::BLOCKED_CELL:
         actionToolReplaceCell("BlockedCell", mousePosition);
         break;
+    case Tool::ADD_AGV:
+        actionToolAddAgv("RegularAgv", mousePosition);
+        break;
     default:
         break;
     }
@@ -123,6 +131,13 @@ void MapEditorFrame::actionToolReplaceCell(const std::string& cellType, const Pa
                                                                    mousePosition.x, mousePosition.y);
 
     m_mapControl->executeCommand(commandReplaceCell);
+}
+
+void MapEditorFrame::actionToolAddAgv(const std::string& agvType, const PanelPoint& mousePosition)
+{
+    std::string commandAddAgv = Util::String::generateCommand("add-agv", agvType, mousePosition.x, mousePosition.y);
+
+    m_mapControl->executeCommand(commandAddAgv);
 }
 
 void MapEditorFrame::repaintMapNow()

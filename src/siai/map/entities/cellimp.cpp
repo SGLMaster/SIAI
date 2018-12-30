@@ -2,7 +2,6 @@
 
 #include "globals.hpp"
 
-CellDefault::CellDefault() = default;
 CellDefault::CellDefault(int id, const MapPosition& position) : ICell(id, position) {}
 CellDefault::~CellDefault() = default;
 
@@ -61,7 +60,6 @@ void CellDefault::setDifferentPenIfSelected(Painter& painter)
     }
 }
 
-RegularCell::RegularCell() = default;
 RegularCell::RegularCell(int id, const MapPosition& position) : CellDefault(id, position) {}
 RegularCell::~RegularCell() = default;
 
@@ -72,7 +70,6 @@ void RegularCell::draw(Painter& painter)
     CellDefault::draw(painter);
 }
 
-BlockedCell::BlockedCell() = default;
 BlockedCell::BlockedCell(int id, const MapPosition& position) : CellDefault(id, position) {}
 BlockedCell::~BlockedCell() = default;
 

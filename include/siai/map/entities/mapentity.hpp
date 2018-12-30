@@ -71,7 +71,7 @@ protected:
     MapPosition m_position;
 
 public:
-    IMapEntity();
+    IMapEntity() = delete;
     IMapEntity(int id, const MapPosition& position);
     virtual ~IMapEntity();
 
@@ -101,12 +101,15 @@ public:
 
 class ICell : public IMapEntity
 {
-private:
+public:
     static constexpr int MIN_CELL_ID{1};
     static constexpr int MAX_CELL_ID{999999};
 
-public:
-    static Util::IdManager cellsIdManager;
+    static Util::IdManager CellsIdManager;
+
+    ICell() = delete;
+    ICell(int id, const MapPosition& position);
+    virtual ~ICell();
 
     static std::unique_ptr<ICell> create(std::string type, int id, const MapPosition& position);
 
@@ -114,23 +117,25 @@ public:
     {
         return 0;
     }
-
-    ICell();
-    ICell(int id, const MapPosition& position);
-    virtual ~ICell();
 };
 
 class IAgv : public IMapEntity
 {
+private:
+    static constexpr int MIN_AGV_ID{0};
+    static constexpr int MAX_AGV_ID{9999};
+
+    static Util::IdManager AgvsIdManager;
+
 public:
-    static std::unique_ptr<IAgv> create(std::string type, int id, const MapPosition& position);
+    IAgv() = delete;
+    IAgv(const MapPosition& position);
+    virtual ~IAgv();
+
+    static std::unique_ptr<IAgv> create(std::string type, const MapPosition& position);
 
     virtual int getDrawOrder() const noexcept
     {
         return 1;
     }
-
-    IAgv();
-    IAgv(int id, const MapPosition& position);
-    virtual ~IAgv();
 };

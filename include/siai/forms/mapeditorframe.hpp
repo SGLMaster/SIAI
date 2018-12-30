@@ -14,7 +14,8 @@ enum class Tool
 {
     SELECT,
     REGULAR_CELL,
-    BLOCKED_CELL
+    BLOCKED_CELL,
+    ADD_AGV
 };
 
 enum class StatusBarFields
@@ -46,6 +47,7 @@ private:
     virtual void OnToolSelect(wxCommandEvent& event) override;
     virtual void OnToolRegularCell(wxCommandEvent& event) override;
 	virtual void OnToolBlockedCell(wxCommandEvent& event) override;
+	virtual void OnToolAddAgv(wxCommandEvent& event) override;
 	virtual void OnToolUndo(wxCommandEvent& event) override;
 	virtual void OnToolRedo(wxCommandEvent& event) override;
 
@@ -56,6 +58,7 @@ private:
     void callCurrentToolAction();
     void actionToolSelect(PanelPoint& mousePosition);
     void actionToolReplaceCell(const std::string& cellType, const PanelPoint& mousePosition);
+    void actionToolAddAgv(const std::string& agvType, const PanelPoint& mousePosition);
 
     void repaintMapNow();
     void prepareDCAndPaintMap(wxDC& dc);

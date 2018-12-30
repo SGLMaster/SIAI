@@ -12,7 +12,7 @@ protected:
     int m_sideLength;
 
 public:
-    CellDefault();
+    CellDefault() = delete;
     CellDefault(int id, const MapPosition& position);
     virtual ~CellDefault();
 
@@ -31,7 +31,7 @@ private:
 class RegularCell : public CellDefault
 {
 public:
-    RegularCell();
+    RegularCell() = delete;
     RegularCell(int id, const MapPosition& position);
     virtual ~RegularCell();
 
@@ -47,7 +47,7 @@ public:
 class BlockedCell : public CellDefault
 {
 public:
-    BlockedCell();
+    BlockedCell() = delete;
     BlockedCell(int id, const MapPosition& position);
     virtual ~BlockedCell();
 

@@ -155,6 +155,18 @@
                             <property name="tooltip">Celda Bloqueada</property>
                             <event name="OnToolClicked">OnToolBlockedCell</event>
                         </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap">Load From File; resources/tools/regular-agv.bmp</property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_RADIO</property>
+                            <property name="label">Agregar Agv</property>
+                            <property name="name">m_toolAddAgv</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar">Agregar Agv</property>
+                            <property name="tooltip">Agregar Agv</property>
+                            <event name="OnToolClicked">OnToolAddAgv</event>
+                        </object>
                         <object class="toolSeparator" expanded="0">
                             <property name="permission">protected</property>
                         </object>

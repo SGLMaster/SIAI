@@ -8,7 +8,7 @@
 
 void Entities::generateMapCells(Container& entities, int numberOfColumns, int numberOfRows)
 {
-    ICell::cellsIdManager.reset();
+    ICell::CellsIdManager.reset();
 
     for(int column = 0; column < numberOfColumns; ++column)
     {
@@ -18,7 +18,7 @@ void Entities::generateMapCells(Container& entities, int numberOfColumns, int nu
             {
                 MapPosition position{column, row, MapDirection::RIGHT};
 
-                Entities::Pointer tmpCell = ICell::create("RegularCell", ICell::cellsIdManager.getId(), position);
+                Entities::Pointer tmpCell = ICell::create("RegularCell", ICell::CellsIdManager.getId(), position);
 
                 entities.push_back(std::move(tmpCell));
             }
@@ -56,6 +56,23 @@ Entities::Iterator Entities::findCellIteratorWithPosition(Container& entities, c
                                     };
 
     return std::find_if(entities.begin(), entities.end(), findCellInPosition);
+}
+
+MapPosition Entities::findPositionWithPoint(Container& entities, const PanelPoint& point)
+{
+    auto findEntityWithPointInside = [&point](const Entities::Pointer& entity)
+                                    {
+                                        return entity->hasPointInside(point);
+                                    };
+
+    auto entityFound = std::find_if(entities.begin(), entities.end(), findEntityWithPointInside);
+
+    if(entityFound == entities.end())
+    {
+        throw EntityNotFound();
+    }
+
+    return (*entityFound)->getPosition();
 }
 
 bool Entities::isCellOccupied(const Container& entities, const MapPosition& position)

@@ -56,6 +56,7 @@
 			<Add directory="C:/Program Files/wxWidgets/lib/gcc_dll" />
 		</Linker>
 		<Unit filename="include/siai/globals.hpp" />
+		<Unit filename="include/siai/log.hpp" />
 		<Unit filename="include/siai/map/cmd/cmdstream.hpp" />
 		<Unit filename="include/siai/map/cmd/cmdstreamimp.hpp" />
 		<Unit filename="include/siai/map/cmd/command.hpp" />
@@ -72,6 +73,7 @@
 		<Unit filename="include/siai/util/id.hpp" />
 		<Unit filename="include/siai/util/reversion.hpp" />
 		<Unit filename="include/siai/util/string.hpp" />
+		<Unit filename="src/siai/log.cpp" />
 		<Unit filename="src/siai/map/cmd/cmdstream.cpp" />
 		<Unit filename="src/siai/map/cmd/cmdstreamimp.cpp" />
 		<Unit filename="src/siai/map/cmd/command.cpp" />

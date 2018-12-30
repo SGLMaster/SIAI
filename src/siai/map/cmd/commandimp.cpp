@@ -2,6 +2,8 @@
 #include "map/entities/mapentity.hpp"
 #include "map/entities/entities.hpp"
 
+#include "log.hpp"
+
 #include "map/exception.hpp"
 
 ReplaceCellCommand::ReplaceCellCommand(const MapCommand::Container& arguments) : m_cellPosition{uninitializedPosition}
@@ -80,4 +82,47 @@ void ReplaceCellCommand::assertCellOccupied(const Entities::Container& entities)
     {
         throw CellOccupiedException();
     }
+}
+
+AddAgvCommand::AddAgvCommand(const MapCommand::Container& arguments) : m_position{uninitializedPosition}
+{
+    if(arguments.size() != NUMBER_OF_ARGUMENTS)
+    {
+        throw InvalidNumberOfArguments();
+    }
+
+    m_agvType = arguments[AGV_TYPE];
+
+    int pointX = std::stoi(arguments[POINT_X]);
+    int pointY = std::stoi(arguments[POINT_Y]);
+
+    m_pointToAddAgv = PanelPoint{pointX, pointY};
+}
+
+AddAgvCommand::~AddAgvCommand() = default;
+
+void AddAgvCommand::execute(Entities::Container& entities)
+{
+    bool positionIsUninitialized = (m_position.column == uninitializedPosition.column
+                                    && m_position.row == uninitializedPosition.row);
+
+    if(positionIsUninitialized)
+    {
+        m_position = Entities::findPositionWithPoint(entities, m_pointToAddAgv);
+    }
+
+    try
+    {
+        Entities::Pointer agv = IAgv::create(m_agvType, m_position);
+        entities.push_back(std::move(agv));
+    }
+    catch(EntityException& e)
+    {
+        Log::warning(e.what());
+    }
+}
+
+void AddAgvCommand::undo(Entities::Container& entities)
+{
+    ;
 }

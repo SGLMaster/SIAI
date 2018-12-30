@@ -41,3 +41,32 @@ private:
     void assertCellOccupied(const Entities::Container& entities) const;
 
 };
+
+class AddAgvCommand : public MapCommand
+{
+private:
+    enum Args
+    {
+        AGV_TYPE,
+        POINT_X,
+        POINT_Y,
+        NUMBER_OF_ARGUMENTS
+    };
+
+    static constexpr MapPosition uninitializedPosition{-1, -1, MapDirection::DOWN};
+
+    std::string m_agvType;
+
+    PanelPoint m_pointToAddAgv;
+
+    MapPosition m_position;
+
+public:
+    AddAgvCommand() = delete;
+    AddAgvCommand(const MapCommand::Container& arguments);
+    virtual ~AddAgvCommand();
+
+    virtual void execute(Entities::Container& entities) override;
+    virtual void undo(Entities::Container& entities) override;
+
+};

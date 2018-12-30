@@ -11,6 +11,10 @@ std::unique_ptr<MapCommand> MapCommand::create(const std::string& command, const
     {
         return std::make_unique<ReplaceCellCommand>(arguments);
     }
+    else if(command == "add-agv")
+    {
+        return std::make_unique<AddAgvCommand>(arguments);
+    }
 
     throw InvalidCommand();
 }

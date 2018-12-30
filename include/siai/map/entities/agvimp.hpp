@@ -9,12 +9,11 @@ class AgvDefault : public IAgv
 {
 protected:
     PanelPoint m_origin;
-    //int m_sideLength;
     PanelSize m_size;
 
 public:
-    AgvDefault();
-    AgvDefault(int id, const MapPosition& position);
+    AgvDefault() = delete;
+    AgvDefault(const MapPosition& position);
     virtual ~AgvDefault();
 
     virtual void draw(Painter& painter) override;
@@ -31,8 +30,8 @@ protected:
 class RegularAgv : public AgvDefault
 {
 public:
-    RegularAgv();
-    RegularAgv(int id, const MapPosition& position);
+    RegularAgv() = delete;
+    RegularAgv(const MapPosition& position);
     virtual ~RegularAgv();
 
     virtual std::string getEntityName() const noexcept override
