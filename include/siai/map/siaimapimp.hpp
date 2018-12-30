@@ -35,8 +35,10 @@ public:
     virtual void selectEntity(const PanelPoint& point) override;
     virtual void diselectAll() override;
 
+    virtual int getSelectedEntityColumn() const noexcept override;
+    virtual int getSelectedEntityRow() const noexcept override;
+
     virtual int getLastSelectedId() const noexcept;
-    virtual MapPosition getLastSelectedPosition() const noexcept override;
 
 private:
     void generateCells();

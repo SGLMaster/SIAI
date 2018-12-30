@@ -34,10 +34,7 @@ public:
 private:
     void doReplaceCell(Entities::Container& entities, const std::string& cellType, bool undoingCommand);
 
-    Entities::Iterator findCellIterator(Entities::Container& entities);
-
-    void assertCellOccupied(const Entities::Container& entities) const;
-
+    void initializePosition(Entities::Container& entities);
 };
 
 class AddAgvCommand : public MapCommand

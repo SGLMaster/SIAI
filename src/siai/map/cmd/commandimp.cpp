@@ -37,9 +37,11 @@ void ReplaceCellCommand::undo(Entities::Container& entities)
 
 void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, const std::string& cellType, bool undoing)
 {
-    Entities::Iterator originalCellIterator = findCellIterator(entities);
+    initializePosition(entities);
 
-    assertCellOccupied(entities);
+    Entities::Iterator originalCellIterator = Entities::findCellIteratorWithPosition(entities, m_cellPosition);
+
+    Entities::assertCellOccupied(entities, m_cellPosition);
 
     if(!undoing)
     {
@@ -52,37 +54,14 @@ void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, const std:
     Entities::sortEntitiesByDrawOrder(entities);
 }
 
-Entities::Iterator ReplaceCellCommand::findCellIterator(Entities::Container& entities)
+void ReplaceCellCommand::initializePosition(Entities::Container& entities)
 {
-    bool cellPositionIsUninitialized = (m_cellPosition.column == uninitializedPosition.column
-                                        && m_cellPosition.row == uninitializedPosition.row);
+    bool positionIsUninitialized = (m_cellPosition.column == uninitializedPosition.column
+                                    && m_cellPosition.row == uninitializedPosition.row);
 
-    if(cellPositionIsUninitialized)
+    if(positionIsUninitialized)
     {
-        Entities::Iterator cellIterator = Entities::findCellIteratorWithPoint(entities, m_pointInsideCellToReplace);
-
-        if(cellIterator == entities.end())
-        {
-            throw CellNotFoundException();
-        }
-
-        m_cellPosition = (*cellIterator)->getPosition();
-
-        return cellIterator;
-    }
-    else
-    {
-        return Entities::findCellIteratorWithPosition(entities, m_cellPosition);
-    }
-}
-
-void ReplaceCellCommand::assertCellOccupied(const Entities::Container& entities) const
-{
-    bool cellFoundIsOccupied = Entities::isCellOccupied(entities, m_cellPosition);
-
-    if(cellFoundIsOccupied)
-    {
-        throw CellOccupiedException();
+        m_cellPosition = Entities::findPositionWithPoint(entities, m_pointInsideCellToReplace);
     }
 }
 
@@ -106,6 +85,8 @@ AddAgvCommand::~AddAgvCommand() = default;
 void AddAgvCommand::execute(Entities::Container& entities)
 {
     initializePosition(entities);
+
+    Entities::assertCellOccupied(entities, m_position);
 
     try
     {

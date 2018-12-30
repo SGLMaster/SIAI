@@ -15,13 +15,15 @@ namespace Entities
     using Iterator = std::vector<Pointer>::iterator;
 
     void generateMapCells(Container& entities, int numberOfColumns, int numberOfRows);
+    void tryToCreateAndAddCell(Container& entities, const MapPosition& position);
 
     Iterator findCellIteratorWithPoint(Container& entities, const PanelPoint& point);
     Iterator findCellIteratorWithPosition(Container& entities, const MapPosition& position);
-
     Iterator findAgvIteratorWithPosition(Container& entities, const MapPosition& position);
 
     MapPosition findPositionWithPoint(Container& entities, const PanelPoint& point);
+
+    void assertCellOccupied(const Entities::Container& entities, const MapPosition& position);
 
     bool isCellOccupied(const Container& entities, const MapPosition& position);
 

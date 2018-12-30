@@ -1,7 +1,6 @@
 #include "forms/mapeditorframe.hpp"
 #include "forms/newmapdialog.hpp"
 
-#include "map/entities/mapentity.hpp"
 #include "map/painter/painter.hpp"
 
 #include "util/string.hpp"
@@ -183,11 +182,11 @@ void MapEditorFrame::updateSelectedIdOnStatusBar()
 
 void MapEditorFrame::updateSelectedPositionOnStatusBar()
 {
-    MapPosition lastSelectedPosition{m_mapControl->getLastSelectedPosition()};
+    int selectedEntityColumn = m_mapControl->getSelectedEntityColumn();
+    int selectedEntityRow = m_mapControl->getSelectedEntityRow();
 
     wxString lastSelectedPositionString;
-    lastSelectedPositionString << _("Columna: ") << lastSelectedPosition.column
-                                << _(", Fila: ") << lastSelectedPosition.row;
+    lastSelectedPositionString << _("Columna: ") << selectedEntityColumn << _(", Fila: ") << selectedEntityRow;
 
     m_statusBar->SetStatusText(lastSelectedPositionString, static_cast<int>(StatusBarFields::SELECTED_POSITION));
 }

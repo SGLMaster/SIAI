@@ -14,20 +14,25 @@ void Entities::generateMapCells(Container& entities, int numberOfColumns, int nu
     {
         for(int row = 0; row < numberOfRows; ++row)
         {
-            try
-            {
-                MapPosition position{column, row, MapDirection::RIGHT};
+            MapPosition position{column, row, MapDirection::RIGHT};
 
-                Entities::Pointer tmpCell = ICell::create("RegularCell", ICell::CellsIdManager.getId(), position);
-
-                entities.push_back(std::move(tmpCell));
-            }
-            catch(EntityException& e)
-            {
-                Log::fatalError(e.what());
-                exit(-1);
-            }
+            tryToCreateAndAddCell(entities, position);
         }
+    }
+}
+
+void Entities::tryToCreateAndAddCell(Container& entities, const MapPosition& position)
+{
+    try
+    {
+        Entities::Pointer tmpCell = ICell::create("RegularCell", ICell::CellsIdManager.getId(), position);
+
+        entities.push_back(std::move(tmpCell));
+    }
+    catch(EntityException& e)
+    {
+        Log::fatalError(e.what());
+        exit(-1);
     }
 }
 
@@ -55,7 +60,14 @@ Entities::Iterator Entities::findCellIteratorWithPosition(Container& entities, c
                                                 && entityIsACell);
                                     };
 
-    return std::find_if(entities.begin(), entities.end(), findCellInPosition);
+    Entities::Iterator cellFound = std::find_if(entities.begin(), entities.end(), findCellInPosition);
+
+    if(cellFound == entities.end())
+    {
+        throw EntityNotFound();
+    }
+
+    return cellFound;
 }
 
 Entities::Iterator Entities::findAgvIteratorWithPosition(Container& entities, const MapPosition& position)
@@ -94,6 +106,16 @@ MapPosition Entities::findPositionWithPoint(Container& entities, const PanelPoin
     }
 
     return (*entityFound)->getPosition();
+}
+
+void Entities::assertCellOccupied(const Entities::Container& entities, const MapPosition& position)
+{
+    bool cellFoundIsOccupied = isCellOccupied(entities, position);
+
+    if(cellFoundIsOccupied)
+    {
+        throw CellOccupiedException();
+    }
 }
 
 bool Entities::isCellOccupied(const Container& entities, const MapPosition& position)

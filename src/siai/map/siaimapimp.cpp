@@ -73,7 +73,7 @@ void SIAIMapImp::diselectAll()
     }
 }
 
-MapPosition SIAIMapImp::getLastSelectedPosition() const noexcept
+int SIAIMapImp::getSelectedEntityColumn() const noexcept
 {
     MapPosition lastSelectedPosition{0, 0};
 
@@ -83,7 +83,20 @@ MapPosition SIAIMapImp::getLastSelectedPosition() const noexcept
             lastSelectedPosition = entity->getPosition();
     }
 
-    return lastSelectedPosition;
+    return lastSelectedPosition.column;
+}
+
+int SIAIMapImp::getSelectedEntityRow() const noexcept
+{
+    MapPosition lastSelectedPosition{0, 0};
+
+    for(const auto& entity : Util::reverse(m_entities))
+    {
+        if(entity->isSelected())
+            lastSelectedPosition = entity->getPosition();
+    }
+
+    return lastSelectedPosition.row;
 }
 
 int SIAIMapImp::getLastSelectedId() const noexcept
