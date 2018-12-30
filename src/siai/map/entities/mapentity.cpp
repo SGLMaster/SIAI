@@ -2,6 +2,8 @@
 #include "map/entities/cellimp.hpp"
 #include "map/entities/agvimp.hpp"
 
+#include "map/exception.hpp"
+
 IDrawable::IDrawable() = default;
 IDrawable::~IDrawable() = default;
 
@@ -13,10 +15,7 @@ Util::IdManager ICell::cellsIdManager = Util::IdManager{MIN_CELL_ID, MAX_CELL_ID
 
 ICell::ICell() = default;
 ICell::ICell(int id, const MapPosition& position) : IMapEntity(id, position) {}
-ICell::~ICell()
-{
-    cellsIdManager.returnId(m_id);
-}
+ICell::~ICell(){};
 
 std::unique_ptr<ICell> ICell::create(std::string type, int id, const MapPosition& position)
 {
@@ -25,7 +24,7 @@ std::unique_ptr<ICell> ICell::create(std::string type, int id, const MapPosition
     else if(type == "BlockedCell")
         return std::make_unique<BlockedCell>(id, position);
 
-    return nullptr;
+    throw InvalidEntityType();
 }
 
 IAgv::IAgv() = default;
@@ -37,5 +36,5 @@ std::unique_ptr<IAgv> IAgv::create(std::string type, int id, const MapPosition& 
     if(type == "RegularAgv")
         return std::make_unique<RegularAgv>(id, position);
 
-    return nullptr;
+    throw InvalidEntityType();
 }

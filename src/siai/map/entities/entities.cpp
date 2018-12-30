@@ -1,6 +1,9 @@
 #include "map/entities/entities.hpp"
 #include "map/entities/mapentity.hpp"
 
+#include "map/exception.hpp"
+#include "log.hpp"
+
 #include <algorithm>
 
 void Entities::generateMapCells(Container& entities, int numberOfColumns, int numberOfRows)
@@ -13,9 +16,16 @@ void Entities::generateMapCells(Container& entities, int numberOfColumns, int nu
         {
             MapPosition position{column, row, MapDirection::RIGHT};
 
-            Entities::Pointer tmpCell = ICell::create("RegularCell", ICell::cellsIdManager.getId(), position);
+            try
+            {
+                Entities::Pointer tmpCell = ICell::create("RegularCell", ICell::cellsIdManager.getId(), position);
 
-            entities.push_back(std::move(tmpCell));
+                entities.push_back(std::move(tmpCell));
+            }
+            catch(EntityException& e)
+            {
+                Log::msgBox(e.what());
+            }
         }
     }
 }

@@ -30,3 +30,14 @@ public:
         return "Cell occupied by an entity.";
     }
 };
+
+class EntityException : public std::exception{};
+
+class InvalidEntityType : public EntityException
+{
+public:
+    virtual const char* what() const noexcept override
+    {
+        return "Invalid entity type name.";
+    }
+};
