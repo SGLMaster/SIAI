@@ -1,5 +1,7 @@
 #include "map/cmd/commandimp.hpp"
 
+#include "map/exception.hpp"
+
 MapCommand::MapCommand() = default;
 MapCommand::~MapCommand() = default;
 
@@ -10,5 +12,5 @@ std::unique_ptr<MapCommand> MapCommand::create(const std::string& command, const
         return std::make_unique<ReplaceCellCommand>(arguments);
     }
 
-    return nullptr;
+    throw InvalidCommand();
 }

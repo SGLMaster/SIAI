@@ -4,5 +4,9 @@
 
 namespace Log
 {
-    void msgBox(const std::string& msg);
+    void simpleMessage(const std::string& msg);
+
+    void warning(const std::string& msg);
+
+    void fatalError(const std::string& msg);
 }

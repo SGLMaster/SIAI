@@ -4,12 +4,21 @@
 
 class CommandException : public std::exception{};
 
+class InvalidCommand : public CommandException
+{
+public:
+    virtual const char* what() const noexcept override
+    {
+        return "Comando inválido.";
+    }
+};
+
 class InvalidNumberOfArguments : public CommandException
 {
 public:
     virtual const char* what() const noexcept override
     {
-        return "Invalid number of arguments.";
+        return "Número de argumentos inválidos.";
     }
 };
 
@@ -18,7 +27,7 @@ class CellNotFoundException : public CommandException
 public:
     virtual const char* what() const noexcept override
     {
-        return "Cell not found.";
+        return "Celda no encontrada.";
     }
 };
 
@@ -27,7 +36,7 @@ class CellOccupiedException : public CommandException
 public:
     virtual const char* what() const noexcept override
     {
-        return "Cell occupied by an entity.";
+        return "Celda ocupada por una entidad.";
     }
 };
 
@@ -38,6 +47,6 @@ class InvalidEntityType : public EntityException
 public:
     virtual const char* what() const noexcept override
     {
-        return "Invalid entity type name.";
+        return "Tipo de entidad inválido.";
     }
 };

@@ -58,7 +58,10 @@ void SIAIMapImp::selectEntity(const PanelPoint& point)
     {
         bool someEntityChanged = Entities::selectOrDiselectIfHasPointInside(*entity, point);
 
-        if(someEntityChanged) return;
+        if(someEntityChanged)
+        {
+            break;
+        }
     }
 }
 

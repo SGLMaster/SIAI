@@ -2,6 +2,7 @@
 #include "map/cmd/command.hpp"
 
 #include "map/exception.hpp"
+#include "log.hpp"
 
 #include "util/string.hpp"
 
@@ -35,7 +36,7 @@ void CommandStreamImp::executeAndLog(Entities::Container& entities, const std::s
     }
     catch(CommandException& e)
     {
-        ;
+        Log::warning(e.what());
     }
 }
 

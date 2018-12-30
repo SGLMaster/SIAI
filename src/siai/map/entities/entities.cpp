@@ -14,17 +14,18 @@ void Entities::generateMapCells(Container& entities, int numberOfColumns, int nu
     {
         for(int row = 0; row < numberOfRows; ++row)
         {
-            MapPosition position{column, row, MapDirection::RIGHT};
-
             try
             {
+                MapPosition position{column, row, MapDirection::RIGHT};
+
                 Entities::Pointer tmpCell = ICell::create("RegularCell", ICell::cellsIdManager.getId(), position);
 
                 entities.push_back(std::move(tmpCell));
             }
             catch(EntityException& e)
             {
-                Log::msgBox(e.what());
+                Log::fatalError(e.what());
+                exit(-1);
             }
         }
     }
