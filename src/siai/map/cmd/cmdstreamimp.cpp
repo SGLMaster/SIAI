@@ -45,10 +45,7 @@ void CommandStreamImp::undo(Entities::Container& entities)
     if(m_iterator != m_commands.begin() && m_commands.size() > 0)
     {
         --m_iterator;
-    }
 
-    if(m_commands.size() > 0)
-    {
         auto& lastCommand = *m_iterator;
         lastCommand->undo(entities);
     }

@@ -48,6 +48,10 @@
 			<Add directory="C:/Program Files/wxWidgets/lib/gcc_dll" />
 			<Add directory="lib" />
 		</Linker>
+		<ExtraCommands>
+			<Add before="move-forms.bat" />
+			<Mode after="always" />
+		</ExtraCommands>
 		<Unit filename="forms/mapeditor.cpp" />
 		<Unit filename="forms/mapeditor.h" />
 		<Unit filename="include/siai/forms/mapeditorframe.hpp" />

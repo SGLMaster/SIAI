@@ -6,6 +6,8 @@
 
 #include "map/exception.hpp"
 
+static constexpr MapPosition uninitializedPosition{-1, -1, MapDirection::DOWN};
+
 ReplaceCellCommand::ReplaceCellCommand(const MapCommand::Container& arguments) : m_cellPosition{uninitializedPosition}
 {
     if(arguments.size() != NUMBER_OF_ARGUMENTS)
@@ -103,13 +105,7 @@ AddAgvCommand::~AddAgvCommand() = default;
 
 void AddAgvCommand::execute(Entities::Container& entities)
 {
-    bool positionIsUninitialized = (m_position.column == uninitializedPosition.column
-                                    && m_position.row == uninitializedPosition.row);
-
-    if(positionIsUninitialized)
-    {
-        m_position = Entities::findPositionWithPoint(entities, m_pointToAddAgv);
-    }
+    initializePosition(entities);
 
     try
     {
@@ -124,5 +120,18 @@ void AddAgvCommand::execute(Entities::Container& entities)
 
 void AddAgvCommand::undo(Entities::Container& entities)
 {
-    ;
+    Entities::Iterator agvToErase = Entities::findAgvIteratorWithPosition(entities, m_position);
+
+    entities.erase(agvToErase);
+}
+
+void AddAgvCommand::initializePosition(Entities::Container& entities)
+{
+    bool positionIsUninitialized = (m_position.column == uninitializedPosition.column
+                                    && m_position.row == uninitializedPosition.row);
+
+    if(positionIsUninitialized)
+    {
+        m_position = Entities::findPositionWithPoint(entities, m_pointToAddAgv);
+    }
 }

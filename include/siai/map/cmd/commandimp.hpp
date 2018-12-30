@@ -16,8 +16,6 @@ private:
         NUMBER_OF_ARGUMENTS
     };
 
-    static constexpr MapPosition uninitializedPosition{-1, -1, MapDirection::DOWN};
-
     std::string m_newCellType;
     std::string m_originalCellType;
 
@@ -53,8 +51,6 @@ private:
         NUMBER_OF_ARGUMENTS
     };
 
-    static constexpr MapPosition uninitializedPosition{-1, -1, MapDirection::DOWN};
-
     std::string m_agvType;
 
     PanelPoint m_pointToAddAgv;
@@ -69,4 +65,6 @@ public:
     virtual void execute(Entities::Container& entities) override;
     virtual void undo(Entities::Container& entities) override;
 
+private:
+    void initializePosition(Entities::Container& entities);
 };

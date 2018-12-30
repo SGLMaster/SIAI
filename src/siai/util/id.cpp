@@ -24,7 +24,7 @@ int IdManager::getId()
 
 void IdManager::returnId(int idToReturnToGenerator)
 {
-    m_idsAvailable.push_back(idToReturnToGenerator);
+    m_idsAvailable.push_front(idToReturnToGenerator);
 }
 
 void IdManager::generateIds()

@@ -27,10 +27,8 @@ std::unique_ptr<ICell> ICell::create(std::string type, int id, const MapPosition
 
 Util::IdManager IAgv::AgvsIdManager = Util::IdManager{MIN_AGV_ID, MAX_AGV_ID};
 
-IAgv::IAgv(const MapPosition& position) : IMapEntity(AgvsIdManager.getId(), position)
-{
-    ;
-}
+IAgv::IAgv(const MapPosition& position) : IMapEntity(AgvsIdManager.getId(), position) {}
+IAgv::IAgv(int id, const MapPosition& position) : IMapEntity(id, position) {}
 
 IAgv::~IAgv()
 {

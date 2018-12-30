@@ -19,6 +19,8 @@ namespace Entities
     Iterator findCellIteratorWithPoint(Container& entities, const PanelPoint& point);
     Iterator findCellIteratorWithPosition(Container& entities, const MapPosition& position);
 
+    Iterator findAgvIteratorWithPosition(Container& entities, const MapPosition& position);
+
     MapPosition findPositionWithPoint(Container& entities, const PanelPoint& point);
 
     bool isCellOccupied(const Container& entities, const MapPosition& position);

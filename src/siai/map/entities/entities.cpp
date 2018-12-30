@@ -58,6 +58,27 @@ Entities::Iterator Entities::findCellIteratorWithPosition(Container& entities, c
     return std::find_if(entities.begin(), entities.end(), findCellInPosition);
 }
 
+Entities::Iterator Entities::findAgvIteratorWithPosition(Container& entities, const MapPosition& position)
+{
+    auto findAgvInPosition = [agvPosition = position](const Entities::Pointer& entity)
+                                    {
+                                        bool entityIsAnAgv = dynamic_cast<IAgv*>(entity.get()) != nullptr;
+
+                                        return entity->getPosition().column == agvPosition.column
+                                                && entity->getPosition().row == agvPosition.row
+                                                && entityIsAnAgv;
+                                    };
+
+    Entities::Iterator agvFound = std::find_if(entities.begin(), entities.end(), findAgvInPosition);
+
+    if(agvFound == entities.end())
+    {
+        throw EntityNotFound();
+    }
+
+    return agvFound;
+}
+
 MapPosition Entities::findPositionWithPoint(Container& entities, const PanelPoint& point)
 {
     auto findEntityWithPointInside = [&point](const Entities::Pointer& entity)
