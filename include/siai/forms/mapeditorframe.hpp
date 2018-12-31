@@ -50,6 +50,8 @@ private:
 	virtual void OnToolAddAgv(wxCommandEvent& event) override;
 	virtual void OnToolUndo(wxCommandEvent& event) override;
 	virtual void OnToolRedo(wxCommandEvent& event) override;
+	virtual void OnToolTurnLeft(wxCommandEvent& event) override;
+    virtual void OnToolTurnRight(wxCommandEvent& event) override;
 
 	virtual void OnSliderZoom(wxCommandEvent& event) override;
 

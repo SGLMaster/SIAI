@@ -197,6 +197,33 @@
                         <object class="toolSeparator" expanded="1">
                             <property name="permission">protected</property>
                         </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap">Load From File; resources/tools/turn-left.bmp</property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_NORMAL</property>
+                            <property name="label">Girar a la izquierda</property>
+                            <property name="name">m_toolTurnLeft</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar">Girar a la izquierda</property>
+                            <property name="tooltip">Girar a la izquierda</property>
+                            <event name="OnToolClicked">OnToolTurnLeft</event>
+                        </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap">Load From File; resources/tools/turn-right.bmp</property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_NORMAL</property>
+                            <property name="label">Girar a la derecha</property>
+                            <property name="name">m_toolTurnRight</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar">Girar a la derecha</property>
+                            <property name="tooltip">Girar a la derecha</property>
+                            <event name="OnToolClicked">OnToolTurnRight</event>
+                        </object>
+                        <object class="toolSeparator" expanded="1">
+                            <property name="permission">protected</property>
+                        </object>
                         <object class="wxStaticText" expanded="0">
                             <property name="BottomDockable">1</property>
                             <property name="LeftDockable">1</property>

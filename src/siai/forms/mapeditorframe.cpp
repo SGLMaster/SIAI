@@ -77,6 +77,16 @@ void MapEditorFrame::OnToolRedo(wxCommandEvent& event)
     repaintMapNow();
 }
 
+void MapEditorFrame::OnToolTurnLeft(wxCommandEvent& event)
+{
+    ;
+}
+
+void MapEditorFrame::OnToolTurnRight(wxCommandEvent& event)
+{
+    ;
+}
+
 void MapEditorFrame::OnSliderZoom(wxCommandEvent& event)
 {
     m_mapPanelZoom = m_sliderZoom->GetValue();

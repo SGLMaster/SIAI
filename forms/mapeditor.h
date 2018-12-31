@@ -49,6 +49,8 @@ namespace Forms
 			wxToolBarToolBase* m_toolAddAgv;
 			wxToolBarToolBase* m_toolUndo;
 			wxToolBarToolBase* m_toolRedo;
+			wxToolBarToolBase* m_toolTurnLeft;
+			wxToolBarToolBase* m_toolTurnRight;
 			wxStaticText* m_staticTextZoom;
 			wxSlider* m_sliderZoom;
 			wxScrolledWindow* m_scrolledMapPanel;
@@ -63,6 +65,8 @@ namespace Forms
 			virtual void OnToolAddAgv( wxCommandEvent& event ) = 0;
 			virtual void OnToolUndo( wxCommandEvent& event ) = 0;
 			virtual void OnToolRedo( wxCommandEvent& event ) = 0;
+			virtual void OnToolTurnLeft( wxCommandEvent& event ) = 0;
+			virtual void OnToolTurnRight( wxCommandEvent& event ) = 0;
 			virtual void OnSliderZoom( wxCommandEvent& event ) = 0;
 			virtual void OnLeftClickMapPanel( wxMouseEvent& event ) = 0;
 			virtual void OnPaintMapPanel( wxPaintEvent& event ) = 0;
