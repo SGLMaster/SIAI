@@ -10,7 +10,7 @@ class MapPosition;
 
 namespace Entities
 {
-    using Pointer = std::unique_ptr<IMapEntity>;
+    using Pointer = std::shared_ptr<IMapEntity>;
     using Container = std::vector<Pointer>;
     using Iterator = std::vector<Pointer>::iterator;
 

@@ -15,6 +15,7 @@ private:
     int m_numberOfRows{0};
 
     Entities::Container m_entities;
+    Entities::Container m_selectedEntities;
 
     std::unique_ptr<CommandStream> m_commandStream;
 

@@ -8,6 +8,17 @@
 
 static constexpr MapPosition uninitializedPosition{-1, -1, MapDirection::DOWN};
 
+void Commands::initializePosition(Entities::Container& entities, MapPosition& position, PanelPoint& point)
+{
+    bool positionIsUninitialized = (position.column == uninitializedPosition.column
+                                    && position.row == uninitializedPosition.row);
+
+    if(positionIsUninitialized)
+    {
+        position = Entities::findPositionWithPoint(entities, point);
+    }
+}
+
 ReplaceCellCommand::ReplaceCellCommand(const MapCommand::Container& arguments) : m_cellPosition{uninitializedPosition}
 {
     if(arguments.size() != NUMBER_OF_ARGUMENTS)
@@ -37,7 +48,7 @@ void ReplaceCellCommand::undo(Entities::Container& entities)
 
 void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, const std::string& cellType, bool undoing)
 {
-    initializePosition(entities);
+    Commands::initializePosition(entities, m_cellPosition, m_pointInsideCellToReplace);
 
     Entities::Iterator originalCellIterator = Entities::findCellIteratorWithPosition(entities, m_cellPosition);
 
@@ -52,17 +63,6 @@ void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, const std:
     entities.erase(originalCellIterator);
 
     Entities::sortEntitiesByDrawOrder(entities);
-}
-
-void ReplaceCellCommand::initializePosition(Entities::Container& entities)
-{
-    bool positionIsUninitialized = (m_cellPosition.column == uninitializedPosition.column
-                                    && m_cellPosition.row == uninitializedPosition.row);
-
-    if(positionIsUninitialized)
-    {
-        m_cellPosition = Entities::findPositionWithPoint(entities, m_pointInsideCellToReplace);
-    }
 }
 
 AddAgvCommand::AddAgvCommand(const MapCommand::Container& arguments) : m_position{uninitializedPosition}
@@ -84,7 +84,7 @@ AddAgvCommand::~AddAgvCommand() = default;
 
 void AddAgvCommand::execute(Entities::Container& entities)
 {
-    initializePosition(entities);
+    Commands::initializePosition(entities, m_position, m_pointToAddAgv);
 
     Entities::assertCellOccupied(entities, m_position);
 
@@ -104,15 +104,4 @@ void AddAgvCommand::undo(Entities::Container& entities)
     Entities::Iterator agvToErase = Entities::findAgvIteratorWithPosition(entities, m_position);
 
     entities.erase(agvToErase);
-}
-
-void AddAgvCommand::initializePosition(Entities::Container& entities)
-{
-    bool positionIsUninitialized = (m_position.column == uninitializedPosition.column
-                                    && m_position.row == uninitializedPosition.row);
-
-    if(positionIsUninitialized)
-    {
-        m_position = Entities::findPositionWithPoint(entities, m_pointToAddAgv);
-    }
 }

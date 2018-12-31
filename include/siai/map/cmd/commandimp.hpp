@@ -5,6 +5,11 @@
 #include "map/entities/mapentity.hpp"
 #include "map/painter/painter.hpp"
 
+namespace Commands
+{
+    void initializePosition(Entities::Container& entities, MapPosition& position, PanelPoint& point);
+}
+
 class ReplaceCellCommand : public MapCommand
 {
 private:
@@ -33,8 +38,6 @@ public:
 
 private:
     void doReplaceCell(Entities::Container& entities, const std::string& cellType, bool undoingCommand);
-
-    void initializePosition(Entities::Container& entities);
 };
 
 class AddAgvCommand : public MapCommand
@@ -61,7 +64,4 @@ public:
 
     virtual void execute(Entities::Container& entities) override;
     virtual void undo(Entities::Container& entities) override;
-
-private:
-    void initializePosition(Entities::Container& entities);
 };
