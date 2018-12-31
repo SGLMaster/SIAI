@@ -1,5 +1,5 @@
-#include "forms/newmapdialog.hpp"
-#include "forms/mapeditorframe.hpp"
+#include "editor/forms/newmapdialog.hpp"
+#include "editor/forms/mapeditorframe.hpp"
 
 #include <wx/msgdlg.h>
 

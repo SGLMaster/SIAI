@@ -2,7 +2,7 @@
 
 #include "map/entities/entities.hpp"
 
-#include "siaimap.hpp"
+#include "map/siaimap.hpp"
 
 #include <memory>
 

@@ -1,11 +1,11 @@
-#include "forms/mapeditorframe.hpp"
-#include "forms/newmapdialog.hpp"
+#include "editor/forms/mapeditorframe.hpp"
+#include "editor/forms/newmapdialog.hpp"
 
-#include "map/painter/painter.hpp"
+#include "painter/painter.hpp"
 
 #include "util/string.hpp"
 
-#include "siaimap.hpp"
+#include "map/siaimap.hpp"
 #include "globals.hpp"
 
 #include <wx/dcclient.h>

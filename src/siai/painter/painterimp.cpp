@@ -1,4 +1,4 @@
-#include "map/painter/painterimp.hpp"
+#include "painter/painterimp.hpp"
 
 #include <wx/dc.h>
 #include <wx/scrolwin.h>

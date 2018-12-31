@@ -1,7 +1,7 @@
 #include <wx/splash.h>
 
-#include "mapeditorapp.hpp"
-#include "forms/mapeditorframe.hpp"
+#include "editor/mapeditorapp.hpp"
+#include "editor/forms/mapeditorframe.hpp"
 
 IMPLEMENT_APP(MapEditorApp)
 

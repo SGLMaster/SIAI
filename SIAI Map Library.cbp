@@ -66,13 +66,8 @@
 		<Unit filename="include/siai/map/entities/entities.hpp" />
 		<Unit filename="include/siai/map/entities/mapentity.hpp" />
 		<Unit filename="include/siai/map/exception.hpp" />
-		<Unit filename="include/siai/map/painter/painter.hpp" />
-		<Unit filename="include/siai/map/painter/painterimp.hpp" />
+		<Unit filename="include/siai/map/siaimap.hpp" />
 		<Unit filename="include/siai/map/siaimapimp.hpp" />
-		<Unit filename="include/siai/siaimap.hpp" />
-		<Unit filename="include/siai/util/id.hpp" />
-		<Unit filename="include/siai/util/reversion.hpp" />
-		<Unit filename="include/siai/util/string.hpp" />
 		<Unit filename="src/siai/log.cpp" />
 		<Unit filename="src/siai/map/cmd/cmdstream.cpp" />
 		<Unit filename="src/siai/map/cmd/cmdstreamimp.cpp" />
@@ -82,11 +77,8 @@
 		<Unit filename="src/siai/map/entities/cellimp.cpp" />
 		<Unit filename="src/siai/map/entities/entities.cpp" />
 		<Unit filename="src/siai/map/entities/mapentity.cpp" />
-		<Unit filename="src/siai/map/painter/painter.cpp" />
-		<Unit filename="src/siai/map/painter/painterimp.cpp" />
+		<Unit filename="src/siai/map/siaimap.cpp" />
 		<Unit filename="src/siai/map/siaimapimp.cpp" />
-		<Unit filename="src/siai/siaimap.cpp" />
-		<Unit filename="src/siai/util/id.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

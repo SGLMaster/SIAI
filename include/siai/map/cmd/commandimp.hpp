@@ -3,7 +3,7 @@
 #include "map/cmd/command.hpp"
 #include "map/entities/entities.hpp"
 #include "map/entities/mapentity.hpp"
-#include "map/painter/painter.hpp"
+#include "painter/painter.hpp"
 
 namespace Commands
 {
