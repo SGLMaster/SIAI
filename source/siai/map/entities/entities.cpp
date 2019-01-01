@@ -36,19 +36,6 @@ void Entities::tryToCreateAndAddCell(Container& entities, const MapPosition& pos
     }
 }
 
-Entities::Iterator Entities::findCellIteratorWithPoint(Container& entities, const PanelPoint& point)
-{
-    auto findCellWithPointInside = [&point](const Entities::Pointer& entity)
-                                    {
-                                        bool entityIsACell = dynamic_cast<ICell*>(entity.get()) != nullptr;
-
-                                        return (entity->hasPointInside(point)
-                                                && entityIsACell);
-                                    };
-
-    return std::find_if(entities.begin(), entities.end(), findCellWithPointInside);
-}
-
 Entities::Iterator Entities::findCellIteratorWithPosition(Container& entities, const MapPosition& position)
 {
     auto findCellInPosition = [&position](const Entities::Pointer& entity)
@@ -70,6 +57,23 @@ Entities::Iterator Entities::findCellIteratorWithPosition(Container& entities, c
     return cellFound;
 }
 
+MapPosition Entities::findPositionWithPoint(Container& entities, const PanelPoint& point)
+{
+    auto findEntityWithPointInside = [&point](const Entities::Pointer& entity)
+                                    {
+                                        return entity->hasPointInside(point);
+                                    };
+
+    auto entityFound = std::find_if(entities.begin(), entities.end(), findEntityWithPointInside);
+
+    if(entityFound == entities.end())
+    {
+        throw EntityNotFound();
+    }
+
+    return (*entityFound)->getPosition();
+}
+
 Entities::Iterator Entities::findAgvIteratorWithPosition(Container& entities, const MapPosition& position)
 {
     auto findAgvInPosition = [agvPosition = position](const Entities::Pointer& entity)
@@ -89,23 +93,6 @@ Entities::Iterator Entities::findAgvIteratorWithPosition(Container& entities, co
     }
 
     return agvFound;
-}
-
-MapPosition Entities::findPositionWithPoint(Container& entities, const PanelPoint& point)
-{
-    auto findEntityWithPointInside = [&point](const Entities::Pointer& entity)
-                                    {
-                                        return entity->hasPointInside(point);
-                                    };
-
-    auto entityFound = std::find_if(entities.begin(), entities.end(), findEntityWithPointInside);
-
-    if(entityFound == entities.end())
-    {
-        throw EntityNotFound();
-    }
-
-    return (*entityFound)->getPosition();
 }
 
 Entities::Pointer& Entities::getEntityByPosition(Entities::Container& entities, const MapPosition& position)

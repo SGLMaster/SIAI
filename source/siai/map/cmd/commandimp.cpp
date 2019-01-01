@@ -6,17 +6,6 @@
 
 #include "map/exception.hpp"
 
-void Commands::initializePosition(Entities::Container& entities, MapPosition& position, PanelPoint& point)
-{
-    bool positionIsUninitialized = (position.column == uninitializedPosition.column
-                                    && position.row == uninitializedPosition.row);
-
-    if(positionIsUninitialized)
-    {
-        position = Entities::findPositionWithPoint(entities, point);
-    }
-}
-
 ReplaceCellCommand::ReplaceCellCommand(const MapCommand::Container& arguments)
 {
     if(arguments.size() != NUMBER_OF_ARGUMENTS)

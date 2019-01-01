@@ -17,11 +17,10 @@ namespace Entities
     void generateMapCells(Container& entities, int numberOfColumns, int numberOfRows);
     void tryToCreateAndAddCell(Container& entities, const MapPosition& position);
 
-    Iterator findCellIteratorWithPoint(Container& entities, const PanelPoint& point);
+    MapPosition findPositionWithPoint(Container& entities, const PanelPoint& point);
+
     Iterator findCellIteratorWithPosition(Container& entities, const MapPosition& position);
     Iterator findAgvIteratorWithPosition(Container& entities, const MapPosition& position);
-
-    MapPosition findPositionWithPoint(Container& entities, const PanelPoint& point);
 
     Pointer& getEntityByPosition(Entities::Container& entities, const MapPosition& position);
 

@@ -5,13 +5,6 @@
 #include "map/entities/mapentity.hpp"
 #include "painter/painter.hpp"
 
-namespace Commands
-{
-	static constexpr MapPosition uninitializedPosition{-1, -1, MapDirection::DOWN};
-
-    void initializePosition(Entities::Container& entities, MapPosition& position, PanelPoint& point);
-}
-
 class ReplaceCellCommand : public MapCommand
 {
 private:

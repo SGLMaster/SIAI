@@ -20,7 +20,7 @@ ifeq ($(DEBUG), 1)
 	MAPEDITOR_LDFLAGS=-m64 -mwindows
 	MAPEDITOR_LIBS=-lwxbase30ud -lwxmsw30ud_core -lwxmsw30ud_adv_gcc_custom -lsiaimap
 	
-	CXXFLAGS=-std=c++14 -m64 -Wall -Wno-deprecated-declarations -g
+	CXXFLAGS=-std=c++14 -m64 -Wall -Wno-deprecated-declarations -g -MMD
 	
 	WX_INCLUDES=-I"$(WXWIDGETS_HOME)/include" -I"$(WXWIDGETS_HOME)/lib/gcc_dll/mswud"
 	WX_MAPLIB_LIBS=-lwxbase30ud -lwxmsw30ud_core
@@ -31,7 +31,7 @@ else
 	MAPEDITOR_LDFLAGS=-m64 -s -mwindows
 	MAPEDITOR_LIBS=-lwxbase30u -lwxmsw30u_core -lwxmsw30u_adv_gcc_custom -lsiaimap
 	
-	CXXFLAGS=-std=c++14 -m64 -Wall -Wno-deprecated-declarations -O2
+	CXXFLAGS=-std=c++14 -m64 -Wall -Wno-deprecated-declarations -O2 -MMD
 	
 	WX_INCLUDES=-I"$(WXWIDGETS_HOME)\include" -I"$(WXWIDGETS_HOME)\lib\gcc_dll\mswu"
 	WX_MAPLIB_LIBS=-lwxbase30u -lwxmsw30u_core
@@ -59,31 +59,61 @@ TARGETS=$(TARGET_MAP_LIBRARY) $(TARGET_MAP_EDITOR)
 
 all: $(TARGETS)
 	
-#Building Map Editor
 OBJS_SIAI_FILES:=$(patsubst $(SRC_SIAI_DIR)/%.cpp,$(OBJS_SIAI_DIR)/%.o,$(SRC_SIAI_FILES))
 OBJS_EDITOR_FILES:=$(patsubst $(SRC_EDITOR_DIR)/%.cpp,$(OBJS_EDITOR_DIR)/%.o,$(SRC_EDITOR_FILES))
 OBJS_PAINTER_FILES:=$(patsubst $(SRC_PAINTER_DIR)/%.cpp,$(OBJS_PAINTER_DIR)/%.o,$(SRC_PAINTER_FILES))
 OBJS_UTIL_FILES:=$(patsubst $(SRC_UTIL_DIR)/%.cpp,$(OBJS_UTIL_DIR)/%.o,$(SRC_UTIL_FILES))
 OBJS_MAP_FILES:=$(patsubst $(SRC_MAP_DIR)/%.cpp,$(OBJS_MAP_DIR)/%.o,$(SRC_MAP_FILES))
 
+#########################Map Library########################
+OBJS_MAP_LIBRARY=$(OBJS_SIAI_FILES) $(OBJS_MAP_FILES) $(OBJS_UTIL_FILES) $(OBJS_PAINTER_FILES)
 
-$(TARGET_MAP_LIBRARY): $(OBJS_SIAI_FILES) $(OBJS_MAP_FILES) $(OBJS_UTIL_FILES) $(OBJS_PAINTER_FILES)
+$(TARGET_MAP_LIBRARY): $(OBJS_MAP_LIBRARY)
 	g++  $(MAPLIB_LDFLAGS) $(LIB_DIRS) -o $@ $^ $(MAPLIB_LIBS)
+
+###Map Directory
+$(OBJS_MAP_DIR)/%.d: $(SRC_MAP_DIR)/%.cpp
+	mkdir -p $(@D)
+	g++ -MM $(CXXFLAGS) -DBUILD_DLL $(INCLUDE_DIRS) $@ $< > $@.$$$$; \
+	sed 's,\($*\)\.o[ :]*,\1.o $@ : .g' < $@.$$$$ > $@; \
+	rm -f $@.$$$$
+	
+include $(OBJS_MAP_FILES:.o=.d)
 	
 $(OBJS_MAP_DIR)/%.o: $(SRC_MAP_DIR)/%.cpp
+	g++ $(CXXFLAGS) -DBUILD_DLL $(INCLUDE_DIRS) -c -o $@ $(<:.d=.cpp)
+
+###Util Directory
+$(OBJS_UTIL_DIR)/%.d: $(SRC_UTIL_DIR)/%.cpp
 	mkdir -p $(@D)
-	g++ $(CXXFLAGS) -DBUILD_DLL $(INCLUDE_DIRS) -c -o $@ $^
+	g++ -MM $(CXXFLAGS) $(INCLUDE_DIRS) $@ $< > $@.$$$$; \
+	sed 's,\($*\)\.o[ :]*,\1.o $@ : .g' < $@.$$$$ > $@; \
+	rm -f $@.$$$$
+	
+include $(OBJS_UTIL_FILES:.o=.d)
 	
 $(OBJS_UTIL_DIR)/%.o: $(SRC_UTIL_DIR)/%.cpp
-	mkdir -p $(@D)
-	g++ $(CXXFLAGS) $(INCLUDE_DIRS) -c -o $@ $^
+	g++ $(CXXFLAGS) $(INCLUDE_DIRS) -c -o $@ $(<:.d=.cpp)
 
-$(TARGET_MAP_EDITOR): $(OBJS_SIAI_FILES) $(OBJS_EDITOR_FILES) $(OBJS_FORMS_FILES) $(OBJS_PAINTER_FILES)
+#########################Map Editor########################
+OBJS_MAP_EDITOR=$(OBJS_SIAI_FILES) $(OBJS_EDITOR_FILES) $(OBJS_PAINTER_FILES)
+
+$(TARGET_MAP_EDITOR): $(OBJS_MAP_EDITOR)
 	g++ $(LIB_DIRS) -o $@ $^ $(MAPEDITOR_LD_FLAGS) $(MAPEDITOR_LIBS)
+
+###SIAI Root Directory and other Subfolders that don't have custom rules
+$(OBJS_SIAI_DIR)/%.d: $(SRC_SIAI_DIR)/%.cpp
+	mkdir -p $(@D)
+	g++ -MM $(CXXFLAGS) $(INCLUDE_DIRS) $@ $< > $@.$$$$; \
+	sed 's,\($*\)\.o[ :]*,\1.o $@ : .g' < $@.$$$$ > $@; \
+	rm -f $@.$$$$
+	
+include $(OBJS_SIAI_FILES:.o=.d)
+include $(OBJS_EDITOR_FILES:.o=.d)
+include $(OBJS_PAINTER_FILES:.o=.d)
 	
 $(OBJS_SIAI_DIR)/%.o: $(SRC_SIAI_DIR)/%.cpp
-	mkdir -p $(@D)
-	g++ $(CXXFLAGS) $(INCLUDE_DIRS) -c -o $@ $^
+	g++ $(CXXFLAGS) $(INCLUDE_DIRS) -c -o $@ $(<:.d=.cpp)
 	
 clean:
 	rm -f $(TARGETS)
