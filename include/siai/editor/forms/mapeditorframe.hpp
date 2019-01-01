@@ -15,7 +15,9 @@ enum class Tool
     SELECT,
     REGULAR_CELL,
     BLOCKED_CELL,
-    ADD_AGV
+    ADD_AGV,
+	TURN_ENTITY_RIGHT,
+	TURN_ENTITY_LEFT
 };
 
 enum class StatusBarFields
@@ -61,6 +63,7 @@ private:
     void actionToolSelect(PanelPoint& mousePosition);
     void actionToolReplaceCell(const std::string& cellType, const PanelPoint& mousePosition);
     void actionToolAddAgv(const std::string& agvType, const PanelPoint& mousePosition);
+    void actionToolTurn(const std::string& direction);
 
     void repaintMapNow();
     void prepareDCAndPaintMap(wxDC& dc);

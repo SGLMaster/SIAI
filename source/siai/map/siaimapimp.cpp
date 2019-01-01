@@ -123,3 +123,4 @@ int SIAIMapImp::getLastSelectedId() const noexcept
 
     return lastSelectedId;
 }
+

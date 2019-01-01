@@ -6,8 +6,6 @@
 
 #include "map/exception.hpp"
 
-static constexpr MapPosition uninitializedPosition{-1, -1, MapDirection::DOWN};
-
 void Commands::initializePosition(Entities::Container& entities, MapPosition& position, PanelPoint& point)
 {
     bool positionIsUninitialized = (position.column == uninitializedPosition.column
@@ -19,7 +17,8 @@ void Commands::initializePosition(Entities::Container& entities, MapPosition& po
     }
 }
 
-ReplaceCellCommand::ReplaceCellCommand(const MapCommand::Container& arguments) : m_cellPosition{uninitializedPosition}
+ReplaceCellCommand::ReplaceCellCommand(const MapCommand::Container& arguments) :
+																		m_cellPosition{Commands::uninitializedPosition}
 {
     if(arguments.size() != NUMBER_OF_ARGUMENTS)
     {
@@ -65,7 +64,7 @@ void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, const std:
     Entities::sortEntitiesByDrawOrder(entities);
 }
 
-AddAgvCommand::AddAgvCommand(const MapCommand::Container& arguments) : m_position{uninitializedPosition}
+AddAgvCommand::AddAgvCommand(const MapCommand::Container& arguments) : m_position{Commands::uninitializedPosition}
 {
     if(arguments.size() != NUMBER_OF_ARGUMENTS)
     {

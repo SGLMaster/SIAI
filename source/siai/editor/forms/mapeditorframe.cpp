@@ -79,12 +79,12 @@ void MapEditorFrame::OnToolRedo(wxCommandEvent& event)
 
 void MapEditorFrame::OnToolTurnLeft(wxCommandEvent& event)
 {
-    ;
+    m_currentTool = Tool::TURN_ENTITY_LEFT;
 }
 
 void MapEditorFrame::OnToolTurnRight(wxCommandEvent& event)
 {
-    ;
+	m_currentTool = Tool::TURN_ENTITY_RIGHT;
 }
 
 void MapEditorFrame::OnSliderZoom(wxCommandEvent& event)
@@ -148,6 +148,15 @@ void MapEditorFrame::actionToolAddAgv(const std::string& agvType, const PanelPoi
 
     m_mapControl->executeCommand(commandAddAgv);
 }
+
+void MapEditorFrame::actionToolTurn(const std::string& direction)
+{
+	std::string commandTurn = Util::String::generateCommand("turn-entity", direction);
+
+	m_mapControl->executeCommand(commandTurn);
+}
+
+void
 
 void MapEditorFrame::repaintMapNow()
 {

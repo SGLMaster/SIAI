@@ -2,7 +2,7 @@
 
 #include "globals.hpp"
 
-CellDefault::CellDefault(int id, const MapPosition& position) : ICell(id, position) {}
+CellDefault::CellDefault(int id, const MapPosition& position) : ICell(id, position), m_sideLength{0} {}
 CellDefault::~CellDefault() = default;
 
 void CellDefault::draw(Painter& painter)

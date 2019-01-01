@@ -15,6 +15,11 @@ std::unique_ptr<MapCommand> MapCommand::create(const std::string& command, const
     {
         return std::make_unique<AddAgvCommand>(arguments);
     }
-
+    /*
+    else if(command == "turn-entity")
+    {
+    	return std::make_unique<AddAgvCommand>(arguments);
+    }
+     */
     throw InvalidCommand();
 }

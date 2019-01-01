@@ -75,9 +75,25 @@ void RegularAgv::draw(Painter& painter)
     {
         if(!m_selected)
         {
-            static auto normalImage = PanelImage::create("resources/map/regular-agv-down.png");
 
-            painter.drawImage(*normalImage, m_origin, m_size);
+        	if(m_position.direction == MapDirection::RIGHT)
+        	{
+        		static auto normalImage = PanelImage::create("resources/map/regular-agv-right.png");
+
+        		painter.drawImage(*normalImage, m_origin, m_size);
+        	}
+        	else if(m_position.direction == MapDirection::DOWN)
+        	{
+        		static auto normalImage = PanelImage::create("resources/map/regular-agv-down.png");
+
+        		painter.drawImage(*normalImage, m_origin, m_size);
+        	}
+        	else if(m_position.direction == MapDirection::LEFT)
+        	{
+        		static auto normalImage = PanelImage::create("resources/map/regular-agv-left.png");
+
+        		painter.drawImage(*normalImage, m_origin, m_size);
+        	}
         }
         else
         {

@@ -7,6 +7,8 @@
 
 namespace Commands
 {
+	static constexpr MapPosition uninitializedPosition{-1, -1, MapDirection::DOWN};
+
     void initializePosition(Entities::Container& entities, MapPosition& position, PanelPoint& point);
 }
 
@@ -65,3 +67,27 @@ public:
     virtual void execute(Entities::Container& entities) override;
     virtual void undo(Entities::Container& entities) override;
 };
+
+/*
+class TurnEntityCommand : public MapCommand
+{
+private:
+    enum Args
+    {
+    	DIRECTION,
+        POINT_X,
+        POINT_Y,
+        NUMBER_OF_ARGUMENTS
+    };
+
+    MapPosition m_position;
+
+public:
+    TurnEntityCommand() = delete;
+    TurnEntityCommand(const MapCommand::Container& arguments);
+    virtual ~TurnEntityCommand();
+
+    virtual void execute(Entities::Container& entities) override;
+    virtual void undo(Entities::Container& entities) override;
+};
+*/
