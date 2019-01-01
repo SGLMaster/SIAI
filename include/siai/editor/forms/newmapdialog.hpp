@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mapeditor.h>
+#include <editor/forms/mapeditor.h>
 
 #include <exception>
 

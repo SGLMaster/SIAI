@@ -20,7 +20,7 @@ void MapEditorApp::createAndShowSplashScreen()
     {
         wxSplashScreen* splashScreen = new wxSplashScreen(  splashScreenBitmap,
                                                             wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT,
-                                                            6000, NULL, -1, wxDefaultPosition, wxDefaultSize,
+                                                            3000, NULL, -1, wxDefaultPosition, wxDefaultSize,
                                                             wxBORDER_SIMPLE|wxSTAY_ON_TOP);
         splashScreen->Show();
     }

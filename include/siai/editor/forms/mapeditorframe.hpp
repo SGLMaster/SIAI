@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mapeditor.h>
+#include <editor/forms/mapeditor.h>
 
 #include <string>
 
@@ -30,7 +30,7 @@ class MapEditorFrame : public Forms::MapEditorFrame
 private:
     SIAIMap* m_mapControl;
 
-    Tool m_currentTool;
+    Tool m_currentTool{Tool::SELECT};
 
     int m_mapPanelZoom{1};
 

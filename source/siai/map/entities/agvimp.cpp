@@ -75,7 +75,7 @@ void RegularAgv::draw(Painter& painter)
     {
         if(!m_selected)
         {
-            static auto normalImage = PanelImage::create("resources/map/regular-agv.png");
+            static auto normalImage = PanelImage::create("resources/map/regular-agv-down.png");
 
             painter.drawImage(*normalImage, m_origin, m_size);
         }
