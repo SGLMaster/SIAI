@@ -94,6 +94,12 @@ void RegularAgv::draw(Painter& painter)
 
         		painter.drawImage(*normalImage, m_origin, m_size);
         	}
+        	else if(m_position.direction == MapDirection::UP)
+        	{
+        		static auto normalImage = PanelImage::create("resources/map/regular-agv-up.png");
+
+        		painter.drawImage(*normalImage, m_origin, m_size);
+        	}
         }
         else
         {

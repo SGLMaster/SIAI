@@ -4,6 +4,7 @@
 #include "painter/painter.hpp"
 
 #include "util/string.hpp"
+#include "util/map.hpp"
 
 #include "map/siaimap.hpp"
 #include "globals.hpp"
@@ -105,20 +106,29 @@ void MapEditorFrame::callCurrentToolAction()
 {
     PanelPoint mousePosition = getMousePositionRelativeToMapPanelOrigin();
 
+	int columnToPerformAction = Util::translatePanelPointXToColumn(mousePosition.x, m_mapPanelZoom);
+	int rowToPerformAction = Util::translatePanelPointYToRow(mousePosition.y, m_mapPanelZoom);
+
     switch(m_currentTool)
     {
     case Tool::SELECT:
         actionToolSelect(mousePosition);
         break;
     case Tool::REGULAR_CELL:
-        actionToolReplaceCell("RegularCell", mousePosition);
+        actionToolReplaceCell("RegularCell", columnToPerformAction, rowToPerformAction);
         break;
     case Tool::BLOCKED_CELL:
-        actionToolReplaceCell("BlockedCell", mousePosition);
+        actionToolReplaceCell("BlockedCell", columnToPerformAction, rowToPerformAction);
         break;
     case Tool::ADD_AGV:
-        actionToolAddAgv("RegularAgv", mousePosition);
+        actionToolAddAgv("RegularAgv", columnToPerformAction, rowToPerformAction);
         break;
+    case Tool::TURN_ENTITY_LEFT:
+    	actionToolTurn("left", columnToPerformAction, rowToPerformAction);
+    	break;
+    case Tool::TURN_ENTITY_RIGHT:
+    	actionToolTurn("right", columnToPerformAction, rowToPerformAction);
+    	break;
     default:
         break;
     }
@@ -134,29 +144,26 @@ void MapEditorFrame::actionToolSelect(PanelPoint& mousePosition)
     m_mapControl->selectEntity(mousePosition);
 }
 
-void MapEditorFrame::actionToolReplaceCell(const std::string& cellType, const PanelPoint& mousePosition)
+void MapEditorFrame::actionToolReplaceCell(const std::string& cellType, int column, int row)
 {
-    std::string commandReplaceCell = Util::String::generateCommand("replace-cell", cellType,
-                                                                   mousePosition.x, mousePosition.y);
+    std::string commandReplaceCell = Util::String::generateCommand("replace-cell", cellType, column, row);
 
     m_mapControl->executeCommand(commandReplaceCell);
 }
 
-void MapEditorFrame::actionToolAddAgv(const std::string& agvType, const PanelPoint& mousePosition)
+void MapEditorFrame::actionToolAddAgv(const std::string& agvType, int column, int row)
 {
-    std::string commandAddAgv = Util::String::generateCommand("add-agv", agvType, mousePosition.x, mousePosition.y);
+    std::string commandAddAgv = Util::String::generateCommand("add-agv", agvType, column, row);
 
     m_mapControl->executeCommand(commandAddAgv);
 }
 
-void MapEditorFrame::actionToolTurn(const std::string& direction)
+void MapEditorFrame::actionToolTurn(const std::string& direction, int column, int row)
 {
-	std::string commandTurn = Util::String::generateCommand("turn-entity", direction);
+	std::string commandTurn = Util::String::generateCommand("turn-entity", direction, column, row);
 
 	m_mapControl->executeCommand(commandTurn);
 }
-
-void
 
 void MapEditorFrame::repaintMapNow()
 {

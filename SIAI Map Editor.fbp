@@ -54,16 +54,16 @@
             <property name="window_name"></property>
             <property name="window_style">wxTAB_TRAVERSAL</property>
             <property name="xrc_skip_sizer">1</property>
-            <object class="wxBoxSizer" expanded="0">
+            <object class="wxBoxSizer" expanded="1">
                 <property name="minimum_size"></property>
                 <property name="name">bSizer1</property>
                 <property name="orient">wxVERTICAL</property>
                 <property name="permission">none</property>
-                <object class="sizeritem" expanded="0">
+                <object class="sizeritem" expanded="1">
                     <property name="border">5</property>
                     <property name="flag">wxEXPAND</property>
                     <property name="proportion">1</property>
-                    <object class="wxToolBar" expanded="0">
+                    <object class="wxToolBar" expanded="1">
                         <property name="BottomDockable">1</property>
                         <property name="LeftDockable">1</property>
                         <property name="RightDockable">1</property>
@@ -167,6 +167,30 @@
                             <property name="tooltip">Agregar Agv</property>
                             <event name="OnToolClicked">OnToolAddAgv</event>
                         </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap">Load From File; resources/tools/turn-left.bmp</property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_RADIO</property>
+                            <property name="label">Girar a la izquierda</property>
+                            <property name="name">m_toolTurnLeft</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar">Girar a la izquierda</property>
+                            <property name="tooltip">Girar a la izquierda</property>
+                            <event name="OnToolClicked">OnToolTurnLeft</event>
+                        </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap">Load From File; resources/tools/turn-right.bmp</property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_RADIO</property>
+                            <property name="label">Girar a la derecha</property>
+                            <property name="name">m_toolTurnRight</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar">Girar a la derecha</property>
+                            <property name="tooltip">Girar a la derecha</property>
+                            <event name="OnToolClicked">OnToolTurnRight</event>
+                        </object>
                         <object class="toolSeparator" expanded="0">
                             <property name="permission">protected</property>
                         </object>
@@ -193,33 +217,6 @@
                             <property name="statusbar">Rehacer</property>
                             <property name="tooltip">Rehacer</property>
                             <event name="OnToolClicked">OnToolRedo</event>
-                        </object>
-                        <object class="toolSeparator" expanded="1">
-                            <property name="permission">protected</property>
-                        </object>
-                        <object class="tool" expanded="1">
-                            <property name="bitmap">Load From File; resources/tools/turn-left.bmp</property>
-                            <property name="context_menu">0</property>
-                            <property name="id">wxID_ANY</property>
-                            <property name="kind">wxITEM_NORMAL</property>
-                            <property name="label">Girar a la izquierda</property>
-                            <property name="name">m_toolTurnLeft</property>
-                            <property name="permission">protected</property>
-                            <property name="statusbar">Girar a la izquierda</property>
-                            <property name="tooltip">Girar a la izquierda</property>
-                            <event name="OnToolClicked">OnToolTurnLeft</event>
-                        </object>
-                        <object class="tool" expanded="1">
-                            <property name="bitmap">Load From File; resources/tools/turn-right.bmp</property>
-                            <property name="context_menu">0</property>
-                            <property name="id">wxID_ANY</property>
-                            <property name="kind">wxITEM_NORMAL</property>
-                            <property name="label">Girar a la derecha</property>
-                            <property name="name">m_toolTurnRight</property>
-                            <property name="permission">protected</property>
-                            <property name="statusbar">Girar a la derecha</property>
-                            <property name="tooltip">Girar a la derecha</property>
-                            <event name="OnToolClicked">OnToolTurnRight</event>
                         </object>
                         <object class="toolSeparator" expanded="1">
                             <property name="permission">protected</property>

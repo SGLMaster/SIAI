@@ -1,15 +1,16 @@
-/*
- * map.hpp
- *
- *  Created on: 1 ene. 2019
- *      Author: Willians Briceño
- */
+#pragma once
 
-#ifndef INCLUDE_SIAI_UTIL_MAP_HPP_
-#define INCLUDE_SIAI_UTIL_MAP_HPP_
+#include "globals.hpp"
 
+namespace Util
+{
+	int translatePanelPointXToColumn(int pointX, int zoom)
+	{
+		return pointX/(SIAIGlobals::CELLS_DEFAULT_WIDTH_PX*zoom);
+	}
 
-
-
-
-#endif /* INCLUDE_SIAI_UTIL_MAP_HPP_ */
+	int translatePanelPointYToRow(int pointY, int zoom)
+	{
+		return pointY/(SIAIGlobals::CELLS_DEFAULT_WIDTH_PX*zoom);
+	}
+}

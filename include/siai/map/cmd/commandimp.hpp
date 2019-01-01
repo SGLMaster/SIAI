@@ -18,17 +18,16 @@ private:
     enum Args
     {
         NEW_CELL_TYPE,
-        POINT_X,
-        POINT_Y,
+        COLUMN,
+        ROW,
         NUMBER_OF_ARGUMENTS
     };
 
     std::string m_newCellType;
     std::string m_originalCellType;
 
-    PanelPoint m_pointInsideCellToReplace;
-
-    MapPosition m_cellPosition;
+    int m_column;
+    int m_row;
 
 public:
     ReplaceCellCommand() = delete;
@@ -48,16 +47,15 @@ private:
     enum Args
     {
         AGV_TYPE,
-        POINT_X,
-        POINT_Y,
+        COLUMN,
+        ROW,
         NUMBER_OF_ARGUMENTS
     };
 
     std::string m_agvType;
 
-    PanelPoint m_pointToAddAgv;
-
-    MapPosition m_position;
+    int m_column;
+    int m_row;
 
 public:
     AddAgvCommand() = delete;
@@ -68,19 +66,21 @@ public:
     virtual void undo(Entities::Container& entities) override;
 };
 
-/*
 class TurnEntityCommand : public MapCommand
 {
 private:
     enum Args
     {
     	DIRECTION,
-        POINT_X,
-        POINT_Y,
+        COLUMN,
+        ROW,
         NUMBER_OF_ARGUMENTS
     };
 
-    MapPosition m_position;
+    int m_column;
+    int m_row;
+
+    std::string m_directionToTurn;
 
 public:
     TurnEntityCommand() = delete;
@@ -90,4 +90,3 @@ public:
     virtual void execute(Entities::Container& entities) override;
     virtual void undo(Entities::Container& entities) override;
 };
-*/

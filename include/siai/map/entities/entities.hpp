@@ -23,6 +23,8 @@ namespace Entities
 
     MapPosition findPositionWithPoint(Container& entities, const PanelPoint& point);
 
+    Pointer& getEntityByPosition(Entities::Container& entities, const MapPosition& position);
+
     void assertCellOccupied(const Entities::Container& entities, const MapPosition& position);
 
     bool isCellOccupied(const Container& entities, const MapPosition& position);

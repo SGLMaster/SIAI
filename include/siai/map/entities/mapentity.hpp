@@ -97,6 +97,44 @@ public:
     {
         m_position = position;
     }
+
+    void turnRight() noexcept
+    {
+    	switch(m_position.direction)
+    	{
+    	case MapDirection::RIGHT:
+    		m_position.direction = MapDirection::DOWN;
+    		break;
+    	case MapDirection::DOWN:
+    		m_position.direction = MapDirection::LEFT;
+    		break;
+    	case MapDirection::LEFT:
+    		m_position.direction = MapDirection::UP;
+    		break;
+    	case MapDirection::UP:
+    		m_position.direction = MapDirection::RIGHT;
+    		break;
+    	}
+    }
+
+    void turnLeft() noexcept
+    {
+    	switch(m_position.direction)
+    	{
+    	case MapDirection::RIGHT:
+    		m_position.direction = MapDirection::UP;
+    		break;
+    	case MapDirection::DOWN:
+    		m_position.direction = MapDirection::RIGHT;
+    		break;
+    	case MapDirection::LEFT:
+    		m_position.direction = MapDirection::DOWN;
+    		break;
+    	case MapDirection::UP:
+    		m_position.direction = MapDirection::LEFT;
+    		break;
+    	}
+    }
 };
 
 class ICell : public IMapEntity

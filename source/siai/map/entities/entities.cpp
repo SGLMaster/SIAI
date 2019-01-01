@@ -108,6 +108,24 @@ MapPosition Entities::findPositionWithPoint(Container& entities, const PanelPoin
     return (*entityFound)->getPosition();
 }
 
+Entities::Pointer& Entities::getEntityByPosition(Entities::Container& entities, const MapPosition& position)
+{
+	auto findFirstEntityInPosition = [&position](Entities::Pointer& entity)
+	                                    {
+	                                        return (entity->getPosition().column == position.column
+	                                                && entity->getPosition().row == position.row);
+	                                    };
+
+	auto entityFound = std::find_if(entities.rbegin(), entities.rend(), findFirstEntityInPosition);
+
+	if(entityFound == entities.rend())
+	{
+		throw EntityNotFound();
+	}
+
+	return *entityFound;
+}
+
 void Entities::assertCellOccupied(const Entities::Container& entities, const MapPosition& position)
 {
     bool cellFoundIsOccupied = isCellOccupied(entities, position);

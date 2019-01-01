@@ -17,8 +17,7 @@ void Commands::initializePosition(Entities::Container& entities, MapPosition& po
     }
 }
 
-ReplaceCellCommand::ReplaceCellCommand(const MapCommand::Container& arguments) :
-																		m_cellPosition{Commands::uninitializedPosition}
+ReplaceCellCommand::ReplaceCellCommand(const MapCommand::Container& arguments)
 {
     if(arguments.size() != NUMBER_OF_ARGUMENTS)
     {
@@ -26,11 +25,8 @@ ReplaceCellCommand::ReplaceCellCommand(const MapCommand::Container& arguments) :
     }
 
     m_newCellType = arguments[NEW_CELL_TYPE];
-
-    int pointX = std::stoi(arguments[POINT_X]);
-    int pointY = std::stoi(arguments[POINT_Y]);
-
-    m_pointInsideCellToReplace = PanelPoint{pointX, pointY};
+    m_column = std::stoi(arguments[COLUMN]);
+    m_row = std::stoi(arguments[ROW]);
 }
 
 ReplaceCellCommand::~ReplaceCellCommand() = default;
@@ -47,11 +43,11 @@ void ReplaceCellCommand::undo(Entities::Container& entities)
 
 void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, const std::string& cellType, bool undoing)
 {
-    Commands::initializePosition(entities, m_cellPosition, m_pointInsideCellToReplace);
+	MapPosition position{m_column, m_row, MapDirection::RIGHT};
 
-    Entities::Iterator originalCellIterator = Entities::findCellIteratorWithPosition(entities, m_cellPosition);
+    Entities::Iterator originalCellIterator = Entities::findCellIteratorWithPosition(entities, position);
 
-    Entities::assertCellOccupied(entities, m_cellPosition);
+    Entities::assertCellOccupied(entities, position);
 
     if(!undoing)
     {
@@ -64,7 +60,7 @@ void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, const std:
     Entities::sortEntitiesByDrawOrder(entities);
 }
 
-AddAgvCommand::AddAgvCommand(const MapCommand::Container& arguments) : m_position{Commands::uninitializedPosition}
+AddAgvCommand::AddAgvCommand(const MapCommand::Container& arguments)
 {
     if(arguments.size() != NUMBER_OF_ARGUMENTS)
     {
@@ -72,24 +68,21 @@ AddAgvCommand::AddAgvCommand(const MapCommand::Container& arguments) : m_positio
     }
 
     m_agvType = arguments[AGV_TYPE];
-
-    int pointX = std::stoi(arguments[POINT_X]);
-    int pointY = std::stoi(arguments[POINT_Y]);
-
-    m_pointToAddAgv = PanelPoint{pointX, pointY};
+    m_column = std::stoi(arguments[COLUMN]);
+    m_row = std::stoi(arguments[ROW]);
 }
 
 AddAgvCommand::~AddAgvCommand() = default;
 
 void AddAgvCommand::execute(Entities::Container& entities)
 {
-    Commands::initializePosition(entities, m_position, m_pointToAddAgv);
+	MapPosition position{m_column, m_row, MapDirection::RIGHT};
 
-    Entities::assertCellOccupied(entities, m_position);
+    Entities::assertCellOccupied(entities, position);
 
     try
     {
-        Entities::Pointer agv = IAgv::create(m_agvType, m_position);
+        Entities::Pointer agv = IAgv::create(m_agvType, position);
         entities.push_back(std::move(agv));
     }
     catch(EntityException& e)
@@ -100,7 +93,42 @@ void AddAgvCommand::execute(Entities::Container& entities)
 
 void AddAgvCommand::undo(Entities::Container& entities)
 {
-    Entities::Iterator agvToErase = Entities::findAgvIteratorWithPosition(entities, m_position);
+	MapPosition position{m_column, m_row, MapDirection::RIGHT};
+
+    Entities::Iterator agvToErase = Entities::findAgvIteratorWithPosition(entities, position);
 
     entities.erase(agvToErase);
+}
+
+TurnEntityCommand::TurnEntityCommand(const MapCommand::Container& arguments)
+{
+	if(arguments.size() != NUMBER_OF_ARGUMENTS)
+	{
+		throw InvalidNumberOfArguments();
+	}
+
+	m_directionToTurn = arguments[DIRECTION];
+	m_column = std::stoi(arguments[COLUMN]);
+	m_row = std::stoi(arguments[ROW]);
+}
+
+TurnEntityCommand::~TurnEntityCommand() = default;
+
+void TurnEntityCommand::execute(Entities::Container& entities)
+{
+	auto entityToTurn = Entities::getEntityByPosition(entities, MapPosition{m_column, m_row, MapDirection::RIGHT});
+
+	if(m_directionToTurn == "right")
+	{
+		entityToTurn->turnRight();
+	}
+	else if(m_directionToTurn == "left")
+	{
+		entityToTurn->turnLeft();
+	}
+}
+
+void TurnEntityCommand::undo(Entities::Container& entities)
+{
+
 }

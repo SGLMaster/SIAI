@@ -7,7 +7,7 @@
 
 #include <wx/wxprec.h>
 
-#include <editor/forms/mapeditor.h>
+#include "editor/forms/mapeditor.h"
 
 ///////////////////////////////////////////////////////////////////////////
 using namespace Forms;
@@ -28,17 +28,15 @@ MapEditorFrame::MapEditorFrame( wxWindow* parent, wxWindowID id, const wxString&
 
 	m_toolAddAgv = m_toolBar1->AddTool( wxID_ANY, _("Agregar Agv"), wxBitmap( wxT("resources/tools/regular-agv.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, _("Agregar Agv"), _("Agregar Agv"), NULL );
 
+	m_toolTurnLeft = m_toolBar1->AddTool( wxID_ANY, _("Girar a la izquierda"), wxBitmap( wxT("resources/tools/turn-left.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, _("Girar a la izquierda"), _("Girar a la izquierda"), NULL );
+
+	m_toolTurnRight = m_toolBar1->AddTool( wxID_ANY, _("Girar a la derecha"), wxBitmap( wxT("resources/tools/turn-right.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, _("Girar a la derecha"), _("Girar a la derecha"), NULL );
+
 	m_toolBar1->AddSeparator();
 
 	m_toolUndo = m_toolBar1->AddTool( wxID_ANY, _("Deshacer"), wxBitmap( wxT("resources/tools/undo.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, _("Deshacer"), _("Deshacer"), NULL );
 
 	m_toolRedo = m_toolBar1->AddTool( wxID_ANY, _("Rehacer"), wxBitmap( wxT("resources/tools/redo.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, _("Rehacer"), _("Rehacer"), NULL );
-
-	m_toolBar1->AddSeparator();
-
-	m_toolTurnLeft = m_toolBar1->AddTool( wxID_ANY, _("Girar a la izquierda"), wxBitmap( wxT("resources/tools/turn-left.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, _("Girar a la izquierda"), _("Girar a la izquierda"), NULL );
-
-	m_toolTurnRight = m_toolBar1->AddTool( wxID_ANY, _("Girar a la derecha"), wxBitmap( wxT("resources/tools/turn-right.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, _("Girar a la derecha"), _("Girar a la derecha"), NULL );
 
 	m_toolBar1->AddSeparator();
 
@@ -77,10 +75,10 @@ MapEditorFrame::MapEditorFrame( wxWindow* parent, wxWindowID id, const wxString&
 	this->Connect( m_toolRegularCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolRegularCell ) );
 	this->Connect( m_toolBlockedCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolBlockedCell ) );
 	this->Connect( m_toolAddAgv->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolAddAgv ) );
-	this->Connect( m_toolUndo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolUndo ) );
-	this->Connect( m_toolRedo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolRedo ) );
 	this->Connect( m_toolTurnLeft->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolTurnLeft ) );
 	this->Connect( m_toolTurnRight->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolTurnRight ) );
+	this->Connect( m_toolUndo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolUndo ) );
+	this->Connect( m_toolRedo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolRedo ) );
 	m_sliderZoom->Connect( wxEVT_SLIDER, wxCommandEventHandler( MapEditorFrame::OnSliderZoom ), NULL, this );
 	m_scrolledMapPanel->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( MapEditorFrame::OnLeftClickMapPanel ), NULL, this );
 	m_scrolledMapPanel->Connect( wxEVT_PAINT, wxPaintEventHandler( MapEditorFrame::OnPaintMapPanel ), NULL, this );
@@ -94,10 +92,10 @@ MapEditorFrame::~MapEditorFrame()
 	this->Disconnect( m_toolRegularCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolRegularCell ) );
 	this->Disconnect( m_toolBlockedCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolBlockedCell ) );
 	this->Disconnect( m_toolAddAgv->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolAddAgv ) );
-	this->Disconnect( m_toolUndo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolUndo ) );
-	this->Disconnect( m_toolRedo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolRedo ) );
 	this->Disconnect( m_toolTurnLeft->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolTurnLeft ) );
 	this->Disconnect( m_toolTurnRight->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolTurnRight ) );
+	this->Disconnect( m_toolUndo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolUndo ) );
+	this->Disconnect( m_toolRedo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolRedo ) );
 	m_sliderZoom->Disconnect( wxEVT_SLIDER, wxCommandEventHandler( MapEditorFrame::OnSliderZoom ), NULL, this );
 	m_scrolledMapPanel->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( MapEditorFrame::OnLeftClickMapPanel ), NULL, this );
 	m_scrolledMapPanel->Disconnect( wxEVT_PAINT, wxPaintEventHandler( MapEditorFrame::OnPaintMapPanel ), NULL, this );
