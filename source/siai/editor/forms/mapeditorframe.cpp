@@ -198,7 +198,7 @@ void MapEditorFrame::updateStatusBar()
 
 void MapEditorFrame::updateSelectedIdOnStatusBar()
 {
-    int lastSelectedId{m_mapControl->getLastSelectedId()};
+    int lastSelectedId{m_mapControl->getSelectedId()};
 
     wxString lastSelectedIdString;
     lastSelectedIdString.Printf("%.10d", lastSelectedId);

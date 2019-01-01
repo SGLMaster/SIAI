@@ -37,7 +37,7 @@ public:
     virtual int getSelectedEntityColumn() const noexcept = 0;
     virtual int getSelectedEntityRow() const noexcept = 0;
 
-    virtual int getLastSelectedId() const noexcept = 0;
+    virtual int getSelectedId() const noexcept = 0;
 
 protected:
     SIAIMap();

@@ -38,8 +38,7 @@ public:
 
     virtual int getSelectedEntityColumn() const noexcept override;
     virtual int getSelectedEntityRow() const noexcept override;
-
-    virtual int getLastSelectedId() const noexcept;
+    virtual int getSelectedId() const noexcept;
 
 private:
     void generateCells();

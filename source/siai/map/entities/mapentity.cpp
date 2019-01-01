@@ -7,7 +7,8 @@
 IDrawable::IDrawable() = default;
 IDrawable::~IDrawable() = default;
 
-IMapEntity::IMapEntity(int id, const MapPosition& position) : m_id{id}, m_position {position} {}
+IMapEntity::IMapEntity(int id, const MapPosition& position) : m_id{id}, m_position {position},
+		m_direction{MapDirection::RIGHT} {}
 IMapEntity::~IMapEntity() = default;
 
 Util::IdManager ICell::CellsIdManager = Util::IdManager{MIN_CELL_ID, MAX_CELL_ID};

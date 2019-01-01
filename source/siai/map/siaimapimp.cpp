@@ -111,7 +111,7 @@ int SIAIMapImp::getSelectedEntityRow() const noexcept
     return lastSelectedPosition.row;
 }
 
-int SIAIMapImp::getLastSelectedId() const noexcept
+int SIAIMapImp::getSelectedId() const noexcept
 {
     int lastSelectedId{0};
 

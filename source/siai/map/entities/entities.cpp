@@ -14,7 +14,7 @@ void Entities::generateMapCells(Container& entities, int numberOfColumns, int nu
     {
         for(int row = 0; row < numberOfRows; ++row)
         {
-            MapPosition position{column, row, MapDirection::RIGHT};
+            MapPosition position{column, row};
 
             tryToCreateAndAddCell(entities, position);
         }
