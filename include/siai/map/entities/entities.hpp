@@ -24,8 +24,10 @@ namespace Entities
 
     Pointer& getEntityByPosition(Entities::Container& entities, const MapPosition& position);
 
-    void assertCellOccupied(const Entities::Container& entities, const MapPosition& position);
+    void assertPositionInsideMap(const Entities::Container& entities, const MapPosition& position);
+    bool isPositionInsideMap(const Entities::Container& entities, const MapPosition& position);
 
+    void assertCellOccupied(const Entities::Container& entities, const MapPosition& position);
     bool isCellOccupied(const Container& entities, const MapPosition& position);
 
     bool selectOrDiselectIfHasPointInside(IMapEntity& entity, const PanelPoint& point) noexcept;

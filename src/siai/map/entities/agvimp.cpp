@@ -75,38 +75,67 @@ void RegularAgv::draw(Painter& painter)
     {
         if(!m_selected)
         {
-
-        	if(m_direction == MapDirection::RIGHT)
-        	{
-        		static auto normalImage = PanelImage::create("resources/map/regular-agv-right.png");
-
-        		painter.drawImage(*normalImage, m_origin, m_size);
-        	}
-        	else if(m_direction == MapDirection::DOWN)
-        	{
-        		static auto normalImage = PanelImage::create("resources/map/regular-agv-down.png");
-
-        		painter.drawImage(*normalImage, m_origin, m_size);
-        	}
-        	else if(m_direction == MapDirection::LEFT)
-        	{
-        		static auto normalImage = PanelImage::create("resources/map/regular-agv-left.png");
-
-        		painter.drawImage(*normalImage, m_origin, m_size);
-        	}
-        	else if(m_direction == MapDirection::UP)
-        	{
-        		static auto normalImage = PanelImage::create("resources/map/regular-agv-up.png");
-
-        		painter.drawImage(*normalImage, m_origin, m_size);
-        	}
+        	drawNormalImage(painter);
         }
         else
         {
-            static auto selectedImage = PanelImage::create("resources/map/regular-agv-selected.png");
-
-            painter.drawImage(*selectedImage, m_origin, m_size);
+            drawSelectedImage(painter);
         }
-
     }
+}
+
+void RegularAgv::drawNormalImage(Painter& painter)
+{
+	if(m_direction == MapDirection::RIGHT)
+	{
+		static auto normalImage = PanelImage::create("resources/map/regular-agv-right.png");
+
+		painter.drawImage(*normalImage, m_origin, m_size);
+	}
+	else if(m_direction == MapDirection::DOWN)
+	{
+		static auto normalImage = PanelImage::create("resources/map/regular-agv-down.png");
+
+		painter.drawImage(*normalImage, m_origin, m_size);
+	}
+	else if(m_direction == MapDirection::LEFT)
+	{
+		static auto normalImage = PanelImage::create("resources/map/regular-agv-left.png");
+
+		painter.drawImage(*normalImage, m_origin, m_size);
+	}
+	else if(m_direction == MapDirection::UP)
+	{
+		static auto normalImage = PanelImage::create("resources/map/regular-agv-up.png");
+
+		painter.drawImage(*normalImage, m_origin, m_size);
+	}
+}
+
+void RegularAgv::drawSelectedImage(Painter& painter)
+{
+	if(m_direction == MapDirection::RIGHT)
+	{
+		static auto selectedImage = PanelImage::create("resources/map/regular-agv-right-selected.png");
+
+		painter.drawImage(*selectedImage, m_origin, m_size);
+	}
+	else if(m_direction == MapDirection::DOWN)
+	{
+		static auto selectedImage = PanelImage::create("resources/map/regular-agv-down-selected.png");
+
+		painter.drawImage(*selectedImage, m_origin, m_size);
+	}
+	else if(m_direction == MapDirection::LEFT)
+	{
+		static auto selectedImage = PanelImage::create("resources/map/regular-agv-left-selected.png");
+
+		painter.drawImage(*selectedImage, m_origin, m_size);
+	}
+	else if(m_direction == MapDirection::UP)
+	{
+		static auto selectedImage = PanelImage::create("resources/map/regular-agv-up-selected.png");
+
+		painter.drawImage(*selectedImage, m_origin, m_size);
+	}
 }

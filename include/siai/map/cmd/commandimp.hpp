@@ -19,8 +19,7 @@ private:
     std::string m_newCellType;
     std::string m_originalCellType;
 
-    int m_column;
-    int m_row;
+    MapPosition m_position;
 
 public:
     ReplaceCellCommand() = delete;
@@ -47,8 +46,7 @@ private:
 
     std::string m_agvType;
 
-    int m_column;
-    int m_row;
+    MapPosition m_position;
 
 public:
     AddAgvCommand() = delete;
@@ -70,8 +68,7 @@ private:
         NUMBER_OF_ARGUMENTS
     };
 
-    int m_column;
-    int m_row;
+    MapPosition m_position;
 
     std::string m_directionToTurn;
 

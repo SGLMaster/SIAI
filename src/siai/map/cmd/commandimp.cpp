@@ -14,8 +14,11 @@ ReplaceCellCommand::ReplaceCellCommand(const MapCommand::Container& arguments)
     }
 
     m_newCellType = arguments[NEW_CELL_TYPE];
-    m_column = std::stoi(arguments[COLUMN]);
-    m_row = std::stoi(arguments[ROW]);
+
+    int column = std::stoi(arguments[COLUMN]);
+    int row = std::stoi(arguments[ROW]);
+
+    m_position = MapPosition{column, row};
 }
 
 ReplaceCellCommand::~ReplaceCellCommand() = default;
@@ -32,11 +35,9 @@ void ReplaceCellCommand::undo(Entities::Container& entities)
 
 void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, const std::string& cellType, bool undoing)
 {
-	MapPosition position{m_column, m_row};
+    Entities::Iterator originalCellIterator = Entities::findCellIteratorWithPosition(entities, m_position);
 
-    Entities::Iterator originalCellIterator = Entities::findCellIteratorWithPosition(entities, position);
-
-    Entities::assertCellOccupied(entities, position);
+    Entities::assertCellOccupied(entities, m_position);
 
     if(!undoing)
     {
@@ -57,21 +58,23 @@ AddAgvCommand::AddAgvCommand(const MapCommand::Container& arguments)
     }
 
     m_agvType = arguments[AGV_TYPE];
-    m_column = std::stoi(arguments[COLUMN]);
-    m_row = std::stoi(arguments[ROW]);
+
+    int column = std::stoi(arguments[COLUMN]);
+    int row = std::stoi(arguments[ROW]);
+
+    m_position = MapPosition{column, row};
 }
 
 AddAgvCommand::~AddAgvCommand() = default;
 
 void AddAgvCommand::execute(Entities::Container& entities)
 {
-	MapPosition position{m_column, m_row};
-
-    Entities::assertCellOccupied(entities, position);
+	Entities::assertPositionInsideMap(entities, m_position);
+    Entities::assertCellOccupied(entities, m_position);
 
     try
     {
-        Entities::Pointer agv = IAgv::create(m_agvType, position);
+        Entities::Pointer agv = IAgv::create(m_agvType, m_position);
         entities.push_back(std::move(agv));
     }
     catch(EntityException& e)
@@ -82,9 +85,7 @@ void AddAgvCommand::execute(Entities::Container& entities)
 
 void AddAgvCommand::undo(Entities::Container& entities)
 {
-	MapPosition position{m_column, m_row};
-
-    Entities::Iterator agvToErase = Entities::findAgvIteratorWithPosition(entities, position);
+    Entities::Iterator agvToErase = Entities::findAgvIteratorWithPosition(entities, m_position);
 
     entities.erase(agvToErase);
 }
@@ -97,15 +98,18 @@ TurnEntityCommand::TurnEntityCommand(const MapCommand::Container& arguments)
 	}
 
 	m_directionToTurn = arguments[DIRECTION];
-	m_column = std::stoi(arguments[COLUMN]);
-	m_row = std::stoi(arguments[ROW]);
+
+	int column = std::stoi(arguments[COLUMN]);
+	int row = std::stoi(arguments[ROW]);
+
+	m_position = MapPosition{column, row};
 }
 
 TurnEntityCommand::~TurnEntityCommand() = default;
 
 void TurnEntityCommand::execute(Entities::Container& entities)
 {
-	auto entityToTurn = Entities::getEntityByPosition(entities, MapPosition{m_column, m_row});
+	auto entityToTurn = Entities::getEntityByPosition(entities, m_position);
 
 	if(m_directionToTurn == "right")
 	{
@@ -119,7 +123,7 @@ void TurnEntityCommand::execute(Entities::Container& entities)
 
 void TurnEntityCommand::undo(Entities::Container& entities)
 {
-	auto entityToTurn = Entities::getEntityByPosition(entities, MapPosition{m_column, m_row});
+	auto entityToTurn = Entities::getEntityByPosition(entities, m_position);
 
 	if(m_directionToTurn == "right")
 	{

@@ -22,7 +22,7 @@ void NewMapDialog::OnButtonClickAccept( wxCommandEvent& event )
     }
     catch(const InvalidNumberException& e)
     {
-        wxMessageBox(_("Por favor, ingrese valores válidos para generar el mapa."), _("Número Inválido"));
+        wxMessageBox(_("Por favor, ingrese valores vÃ¡lidos para generar el mapa."), _("NÃºmero InvÃ¡lido"));
     }
     catch(...)
     {

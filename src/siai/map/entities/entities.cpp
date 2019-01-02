@@ -113,6 +113,34 @@ Entities::Pointer& Entities::getEntityByPosition(Entities::Container& entities, 
 	return *entityFound;
 }
 
+void Entities::assertPositionInsideMap(const Entities::Container& entities, const MapPosition& position)
+{
+	bool foundAnyEntityInThisPosition = isPositionInsideMap(entities, position);
+
+	if(!foundAnyEntityInThisPosition)
+	{
+		throw CellNotFoundException();
+	}
+}
+
+bool Entities::isPositionInsideMap(const Entities::Container& entities, const MapPosition& position)
+{
+	auto findAnyEntityWithPosition = [&position](const Entities::Pointer& entity)
+	                                 {
+										return (entity->getPosition().column == position.column
+												&& entity->getPosition().row == position.row);
+	                                 };
+
+	auto entityIterator = std::find_if(entities.begin(), entities.end(), findAnyEntityWithPosition);
+
+	if(entityIterator == entities.end())
+	{
+		return false;
+	}
+
+	return true;
+}
+
 void Entities::assertCellOccupied(const Entities::Container& entities, const MapPosition& position)
 {
     bool cellFoundIsOccupied = isCellOccupied(entities, position);

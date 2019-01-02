@@ -112,7 +112,7 @@ NewMapDialog::NewMapDialog( wxWindow* parent, wxWindowID id, const wxString& tit
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
 
-	m_staticTextNumberOfCols = new wxStaticText( this, wxID_ANY, _("N�mero de Columnas:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticTextNumberOfCols = new wxStaticText( this, wxID_ANY, _("Número de Columnas:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextNumberOfCols->Wrap( -1 );
 	bSizer3->Add( m_staticTextNumberOfCols, 0, wxALL, 5 );
 
@@ -136,7 +136,7 @@ NewMapDialog::NewMapDialog( wxWindow* parent, wxWindowID id, const wxString& tit
 	wxBoxSizer* bSizer4;
 	bSizer4 = new wxBoxSizer( wxHORIZONTAL );
 
-	m_staticTextNumberOfRows = new wxStaticText( this, wxID_ANY, _("N�mero de Filas:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticTextNumberOfRows = new wxStaticText( this, wxID_ANY, _("Número de Filas:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextNumberOfRows->Wrap( -1 );
 	bSizer4->Add( m_staticTextNumberOfRows, 0, wxALL, 5 );
 

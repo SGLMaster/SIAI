@@ -1,5 +1,5 @@
 bin/
-obj/
+build/
 lib/
 
 #########Codeblocks########
@@ -11,3 +11,4 @@ lib/
 .cproject
 .project
 /.externalToolBuilders
+/build/

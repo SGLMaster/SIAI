@@ -43,4 +43,7 @@ public:
 
     virtual void draw(Painter& painter) override;
 
+private:
+    void drawNormalImage(Painter& painter);
+    void drawSelectedImage(Painter& painter);
 };
