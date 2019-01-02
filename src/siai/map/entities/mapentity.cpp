@@ -4,6 +4,8 @@
 
 #include "map/exception.hpp"
 
+#include "log.hpp"
+
 IDrawable::IDrawable() = default;
 IDrawable::~IDrawable() = default;
 
@@ -19,9 +21,14 @@ ICell::~ICell(){};
 std::unique_ptr<ICell> ICell::create(std::string type, int id, const MapPosition& position)
 {
     if(type == "RegularCell")
-        return std::make_unique<RegularCell>(id, position);
+    {
+    	return std::make_unique<RegularCell>(id, position);
+    }
+
     else if(type == "BlockedCell")
-        return std::make_unique<BlockedCell>(id, position);
+    {
+    	return std::make_unique<BlockedCell>(id, position);
+    }
 
     throw InvalidEntityType();
 }
@@ -40,7 +47,16 @@ std::unique_ptr<IAgv> IAgv::create(std::string type, const MapPosition& position
 {
     if(type == "RegularAgv")
     {
-        return std::make_unique<RegularAgv>(position);
+    	try
+    	{
+    		auto agv = std::make_unique<RegularAgv>(position);
+
+        	return agv;
+    	}
+    	catch(Util::IdsNotAvailable& e)
+    	{
+    		Log::warning(e.what());
+    	}
     }
 
     throw InvalidEntityType();

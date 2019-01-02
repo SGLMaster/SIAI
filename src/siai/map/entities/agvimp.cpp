@@ -86,56 +86,62 @@ void RegularAgv::draw(Painter& painter)
 
 void RegularAgv::drawNormalImage(Painter& painter)
 {
-	if(m_direction == MapDirection::RIGHT)
+	switch(m_direction)
+	{
+	case MapDirection::RIGHT:
 	{
 		static auto normalImage = PanelImage::create("resources/map/regular-agv-right.png");
-
 		painter.drawImage(*normalImage, m_origin, m_size);
+		break;
 	}
-	else if(m_direction == MapDirection::DOWN)
+	case MapDirection::DOWN:
 	{
 		static auto normalImage = PanelImage::create("resources/map/regular-agv-down.png");
-
 		painter.drawImage(*normalImage, m_origin, m_size);
+		break;
 	}
-	else if(m_direction == MapDirection::LEFT)
+	case MapDirection::LEFT:
 	{
 		static auto normalImage = PanelImage::create("resources/map/regular-agv-left.png");
-
 		painter.drawImage(*normalImage, m_origin, m_size);
+		break;
 	}
-	else if(m_direction == MapDirection::UP)
+	case MapDirection::UP:
 	{
 		static auto normalImage = PanelImage::create("resources/map/regular-agv-up.png");
-
 		painter.drawImage(*normalImage, m_origin, m_size);
+		break;
+	}
 	}
 }
 
 void RegularAgv::drawSelectedImage(Painter& painter)
 {
-	if(m_direction == MapDirection::RIGHT)
+	switch(m_direction)
+	{
+	case MapDirection::RIGHT:
 	{
 		static auto selectedImage = PanelImage::create("resources/map/regular-agv-right-selected.png");
-
 		painter.drawImage(*selectedImage, m_origin, m_size);
+		break;
 	}
-	else if(m_direction == MapDirection::DOWN)
+	case MapDirection::DOWN:
 	{
 		static auto selectedImage = PanelImage::create("resources/map/regular-agv-down-selected.png");
-
 		painter.drawImage(*selectedImage, m_origin, m_size);
+		break;
 	}
-	else if(m_direction == MapDirection::LEFT)
+	case MapDirection::LEFT:
 	{
 		static auto selectedImage = PanelImage::create("resources/map/regular-agv-left-selected.png");
-
 		painter.drawImage(*selectedImage, m_origin, m_size);
+		break;
 	}
-	else if(m_direction == MapDirection::UP)
+	case MapDirection::UP:
 	{
 		static auto selectedImage = PanelImage::create("resources/map/regular-agv-up-selected.png");
-
 		painter.drawImage(*selectedImage, m_origin, m_size);
+		break;
+	}
 	}
 }

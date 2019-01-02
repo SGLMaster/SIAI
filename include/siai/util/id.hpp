@@ -24,4 +24,13 @@ namespace Util
     private:
         void generateIds();
     };
+
+    class IdsNotAvailable : public std::exception
+	{
+	public:
+    	virtual const char* what() const noexcept override
+    	{
+    		return "No se pueden generar más ID's para esta clase.";
+    	}
+	};
 }

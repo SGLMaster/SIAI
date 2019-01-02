@@ -18,6 +18,10 @@ int IdManager::getId()
         idToDeliver = m_idsAvailable.front();
         m_idsAvailable.pop_front();
     }
+    else
+    {
+    	throw IdsNotAvailable();
+    }
 
     return idToDeliver;
 }
