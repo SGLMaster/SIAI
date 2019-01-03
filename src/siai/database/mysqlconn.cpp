@@ -1,7 +1,8 @@
-#include "mysqlconn.h"
-#include "dbquery.h"
+#include "../../../include/siai/database/mysqlconn.hpp"
 
-MySQLConnector::MySQLConnector(DBConnectionOptions options) :
+#include "../../../include/siai/database/dbquery.hpp"
+
+MySqlConnector::MySqlConnector(DbConnectionOptions options) :
     m_connection(std::make_unique<mysqlpp::Connection>(false))
 {
     bool isConnectionSuccess = m_connection->connect(  options.schema.c_str(), options.host.c_str(), options.user.c_str(),
@@ -10,7 +11,7 @@ MySQLConnector::MySQLConnector(DBConnectionOptions options) :
     logConnectionSuccessStatus(isConnectionSuccess);
 }
 
-void MySQLConnector::logConnectionSuccessStatus(bool isSuccess) const noexcept
+void MySqlConnector::logConnectionSuccessStatus(bool isSuccess) const noexcept
 {
     if(isSuccess)
     {
@@ -22,7 +23,7 @@ void MySQLConnector::logConnectionSuccessStatus(bool isSuccess) const noexcept
     }
 }
 
-bool MySQLConnector::executeQueryWithoutResults(DBQuery& query)
+bool MySqlConnector::executeQueryWithoutResults(DbQuery& query)
 {
     auto queryOutput = m_connection->query();
 

@@ -4,11 +4,11 @@
 #include <vector>
 #include <exception>
 
-class DBQuery
+class DbQuery
 {
 public:
-    DBQuery() = default;
-    virtual ~DBQuery() = default;
+    DbQuery() = default;
+    virtual ~DbQuery() = default;
 
     virtual std::string generateString() const = 0;
 };

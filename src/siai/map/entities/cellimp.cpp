@@ -1,5 +1,7 @@
 #include "map/entities/cellimp.hpp"
 
+#include "database/sqlquery.hpp"
+
 #include "globals.hpp"
 
 CellDefault::CellDefault(int id, const MapPosition& position) : ICell(id, position), m_sideLength{0} {}
@@ -58,6 +60,16 @@ void CellDefault::setDifferentPenIfSelected(Painter& painter)
     {
         painter.setPen(PanelColor::SELECTED);
     }
+}
+
+void CellDefault::saveToDatabase(DbConnector& connector)
+{
+
+}
+
+void CellDefault::loadFromDatabase(DbConnector& connector)
+{
+
 }
 
 RegularCell::RegularCell(int id, const MapPosition& position) : CellDefault(id, position) {}

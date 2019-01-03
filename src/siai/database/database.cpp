@@ -1,12 +1,13 @@
-#include "mysqlconn.h"
-#include "database.h"
+#include "../../../include/siai/database/database.hpp"
 
-std::unique_ptr<DBConnector> DBConnector::makeConnector(DBConnectionOptions options)
+#include "../../../include/siai/database/mysqlconn.hpp"
+
+std::unique_ptr<DbConnector> DbConnector::makeConnector(DbConnectionOptions options)
 {
-    return std::make_unique<MySQLConnector>(options);
+    return std::make_unique<MySqlConnector>(options);
 }
 
-const char* DBConnectionException::what() const noexcept
+const char* DbConnectionException::what() const noexcept
 {
     return "";
 }

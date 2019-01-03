@@ -1,4 +1,4 @@
-#include "sqlquery.h"
+#include "../../../include/siai/database/sqlquery.hpp"
 
 SQLQuery::SQLQuery(const SQLQueryData& data):
             m_table(data.table), m_columns(data.cols), m_values(data.values) {}

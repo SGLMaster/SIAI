@@ -1,6 +1,6 @@
 #pragma once
 
-#include "dbquery.h"
+#include "dbquery.hpp"
 
 struct SQLQueryData
 {
@@ -9,7 +9,7 @@ struct SQLQueryData
     std::vector<std::string> values;
 };
 
-class SQLQuery : public DBQuery
+class SQLQuery : public DbQuery
 {
 protected:
     std::string m_table;
