@@ -1,5 +1,6 @@
 #include "map/cmd/commandimp.hpp"
-#include "map/entities/mapentity.hpp"
+#include "map/entities/agv.hpp"
+#include "map/entities/cell.hpp"
 #include "map/entities/entities.hpp"
 
 #include "log.hpp"

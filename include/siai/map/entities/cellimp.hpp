@@ -1,6 +1,6 @@
 #pragma once
 
-#include "map/entities/mapentity.hpp"
+#include "map/entities/cell.hpp"
 #include "painter/painter.hpp"
 
 #include "util/id.hpp"

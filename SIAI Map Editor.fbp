@@ -397,6 +397,8 @@
                         <property name="window_extra_style"></property>
                         <property name="window_name"></property>
                         <property name="window_style">wxHSCROLL|wxVSCROLL</property>
+                        <event name="OnEnterWindow">OnEnterMapPanel</event>
+                        <event name="OnLeaveWindow">OnLeaveMapPanel</event>
                         <event name="OnLeftDown">OnLeftClickMapPanel</event>
                         <event name="OnPaint">OnPaintMapPanel</event>
                     </object>

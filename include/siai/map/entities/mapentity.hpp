@@ -1,8 +1,5 @@
 #pragma once
 
-#include "util/id.hpp"
-
-#include <memory>
 #include <string>
 
 class Painter;
@@ -133,47 +130,5 @@ public:
     		m_direction = MapDirection::LEFT;
     		break;
     	}
-    }
-};
-
-class ICell : public IMapEntity
-{
-public:
-    static constexpr int MIN_CELL_ID{1};
-    static constexpr int MAX_CELL_ID{999999};
-
-    static Util::IdManager CellsIdManager;
-
-    ICell() = delete;
-    ICell(int id, const MapPosition& position);
-    virtual ~ICell();
-
-    static std::unique_ptr<ICell> create(std::string type, int id, const MapPosition& position);
-
-    virtual int getDrawOrder() const noexcept
-    {
-        return 0;
-    }
-};
-
-class IAgv : public IMapEntity
-{
-private:
-    static constexpr int MIN_AGV_ID{1};
-    static constexpr int MAX_AGV_ID{9999};
-
-    static Util::IdManager AgvsIdManager;
-
-public:
-    IAgv() = delete;
-    IAgv(const MapPosition& position);
-    IAgv(int id, const MapPosition& position);
-    virtual ~IAgv();
-
-    static std::unique_ptr<IAgv> create(std::string type, const MapPosition& position);
-
-    virtual int getDrawOrder() const noexcept
-    {
-        return 1;
     }
 };

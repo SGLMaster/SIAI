@@ -1,5 +1,6 @@
 #include "map/entities/entities.hpp"
-#include "map/entities/mapentity.hpp"
+#include "map/entities/cell.hpp"
+#include "map/entities/agv.hpp"
 
 #include "map/exception.hpp"
 #include "log.hpp"

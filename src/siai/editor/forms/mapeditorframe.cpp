@@ -96,6 +96,17 @@ void MapEditorFrame::OnSliderZoom(wxCommandEvent& event)
     updateScrollbarsSize();
 }
 
+void MapEditorFrame::OnEnterMapPanel( wxMouseEvent& event )
+{
+
+}
+
+void MapEditorFrame::OnLeaveMapPanel( wxMouseEvent& event )
+{
+
+}
+
+
 void MapEditorFrame::OnPaintMapPanel( wxPaintEvent& event )
 {
     wxPaintDC paintDC(m_scrolledMapPanel);

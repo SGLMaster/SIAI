@@ -57,6 +57,9 @@ private:
 
 	virtual void OnSliderZoom(wxCommandEvent& event) override;
 
+	virtual void OnEnterMapPanel( wxMouseEvent& event ) override;
+	virtual void OnLeaveMapPanel( wxMouseEvent& event ) override;
+
     virtual void OnPaintMapPanel(wxPaintEvent& event) override;
 
     void callCurrentToolAction();

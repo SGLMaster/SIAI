@@ -80,6 +80,8 @@ MapEditorFrame::MapEditorFrame( wxWindow* parent, wxWindowID id, const wxString&
 	this->Connect( m_toolUndo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolUndo ) );
 	this->Connect( m_toolRedo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolRedo ) );
 	m_sliderZoom->Connect( wxEVT_SLIDER, wxCommandEventHandler( MapEditorFrame::OnSliderZoom ), NULL, this );
+	m_scrolledMapPanel->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( MapEditorFrame::OnEnterMapPanel ), NULL, this );
+	m_scrolledMapPanel->Connect( wxEVT_LEAVE_WINDOW, wxMouseEventHandler( MapEditorFrame::OnLeaveMapPanel ), NULL, this );
 	m_scrolledMapPanel->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( MapEditorFrame::OnLeftClickMapPanel ), NULL, this );
 	m_scrolledMapPanel->Connect( wxEVT_PAINT, wxPaintEventHandler( MapEditorFrame::OnPaintMapPanel ), NULL, this );
 	m_menuMap->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MapEditorFrame::OnSelectionNewMap ), this, m_menuItemNewMap->GetId());
@@ -97,6 +99,8 @@ MapEditorFrame::~MapEditorFrame()
 	this->Disconnect( m_toolUndo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolUndo ) );
 	this->Disconnect( m_toolRedo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolRedo ) );
 	m_sliderZoom->Disconnect( wxEVT_SLIDER, wxCommandEventHandler( MapEditorFrame::OnSliderZoom ), NULL, this );
+	m_scrolledMapPanel->Disconnect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( MapEditorFrame::OnEnterMapPanel ), NULL, this );
+	m_scrolledMapPanel->Disconnect( wxEVT_LEAVE_WINDOW, wxMouseEventHandler( MapEditorFrame::OnLeaveMapPanel ), NULL, this );
 	m_scrolledMapPanel->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( MapEditorFrame::OnLeftClickMapPanel ), NULL, this );
 	m_scrolledMapPanel->Disconnect( wxEVT_PAINT, wxPaintEventHandler( MapEditorFrame::OnPaintMapPanel ), NULL, this );
 

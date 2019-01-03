@@ -68,6 +68,8 @@ namespace Forms
 			virtual void OnToolUndo( wxCommandEvent& event ) = 0;
 			virtual void OnToolRedo( wxCommandEvent& event ) = 0;
 			virtual void OnSliderZoom( wxCommandEvent& event ) = 0;
+			virtual void OnEnterMapPanel( wxMouseEvent& event ) = 0;
+			virtual void OnLeaveMapPanel( wxMouseEvent& event ) = 0;
 			virtual void OnLeftClickMapPanel( wxMouseEvent& event ) = 0;
 			virtual void OnPaintMapPanel( wxPaintEvent& event ) = 0;
 			virtual void OnSelectionNewMap( wxCommandEvent& event ) = 0;
