@@ -15,5 +15,9 @@ public:
     MySqlConnector(const DbConnectionOptions& options);
     virtual ~MySqlConnector() = default;
 
-    virtual void executeQueryWithoutResults(DbQuery& query) override;
+    virtual void executeQueryWithoutResults(const DbQuery& query) override;
+
+private:
+    void tryToConnect(const DbConnectionOptions& options);
+    void tryToExecuteQueryWithoutResults(const DbQuery& query);
 };

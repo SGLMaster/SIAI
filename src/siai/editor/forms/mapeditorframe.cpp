@@ -50,9 +50,9 @@ void MapEditorFrame::tryToConnectToDatabase(const DbConnectionOptions& options)
 
 		m_dbConnector = std::move(connector);
 	}
-	catch(const std::exception& e)
+	catch(const DbConnectionException& e)
 	{
-		Log::warning(e.what());
+		Log::warning(std::string("Error al conectar a base de datos: ") + e.what());
 	}
 }
 
@@ -67,7 +67,7 @@ void MapEditorFrame::tryToSaveMapToDatabase()
 	}
 	catch(const std::exception& e)
 	{
-		Log::warning(e.what());
+		Log::warning(std::string("Error al guardar mapa: ") + e.what());
 	}
 }
 

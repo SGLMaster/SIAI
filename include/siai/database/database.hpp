@@ -23,11 +23,16 @@ public:
 
     static std::unique_ptr<DbConnector> makeConnector(const DbConnectionOptions& options);
 
-    virtual void executeQueryWithoutResults(DbQuery& query) = 0;
+    virtual void executeQueryWithoutResults(const DbQuery& query) = 0;
 };
 
 class DbConnectionException : public std::exception
 {
+private:
+	const char* m_errorMsg;
+
 public:
+	DbConnectionException(const char* errorMsg);
+
     virtual const char* what() const noexcept override;
 };

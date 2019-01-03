@@ -7,7 +7,9 @@ std::unique_ptr<DbConnector> DbConnector::makeConnector(const DbConnectionOption
     return std::make_unique<MySqlConnector>(options);
 }
 
+DbConnectionException::DbConnectionException(const char* errorMsg) : m_errorMsg{errorMsg} {}
+
 const char* DbConnectionException::what() const noexcept
 {
-    return "No se pudo conectar con la base de datos. Verifique sus datos y la conexión.";
+    return m_errorMsg;
 }
