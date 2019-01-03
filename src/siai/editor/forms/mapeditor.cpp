@@ -121,6 +121,28 @@ NewMapDialog::NewMapDialog( wxWindow* parent, wxWindowID id, const wxString& tit
 	wxBoxSizer* bSizer2;
 	bSizer2 = new wxBoxSizer( wxVERTICAL );
 
+	wxBoxSizer* bSizer13;
+	bSizer13 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizer14;
+	bSizer14 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticMapName = new wxStaticText( this, wxID_ANY, _("Nombre del Mapa:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticMapName->Wrap( -1 );
+	bSizer14->Add( m_staticMapName, 0, wxALL, 5 );
+
+
+	bSizer14->Add( 0, 0, 1, wxEXPAND, 5 );
+
+	m_textCtrl8 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer14->Add( m_textCtrl8, 0, wxALL, 5 );
+
+
+	bSizer13->Add( bSizer14, 1, wxEXPAND, 5 );
+
+
+	bSizer2->Add( bSizer13, 1, wxEXPAND, 5 );
+
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
 
@@ -187,6 +209,7 @@ NewMapDialog::NewMapDialog( wxWindow* parent, wxWindowID id, const wxString& tit
 
 	this->SetSizer( bSizer2 );
 	this->Layout();
+	bSizer2->Fit( this );
 
 	this->Centre( wxBOTH );
 

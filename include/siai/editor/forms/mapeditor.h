@@ -93,6 +93,8 @@ namespace Forms
 		private:
 
 		protected:
+			wxStaticText* m_staticMapName;
+			wxTextCtrl* m_textCtrl8;
 			wxStaticText* m_staticTextNumberOfCols;
 			wxTextCtrl* m_textCtrlNumberOfCols;
 			wxStaticText* m_staticTextNumberOfRows;
@@ -108,7 +110,7 @@ namespace Forms
 
 		public:
 
-			NewMapDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Nuevo Mapa..."), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 275,150 ), long style = wxDEFAULT_DIALOG_STYLE|wxSTAY_ON_TOP );
+			NewMapDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Nuevo Mapa..."), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE|wxSTAY_ON_TOP );
 			~NewMapDialog();
 
 	};
