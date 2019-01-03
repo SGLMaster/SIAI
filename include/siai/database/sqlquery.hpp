@@ -64,3 +64,18 @@ private:
     void appendColsAndNewValues(std::string& queryString) const;
 };
 
+class SQLCreateTableQuery : public SQLQuery
+{
+private:
+    std::string m_primaryKeyName;
+
+public:
+    SQLCreateTableQuery() = delete;
+    SQLCreateTableQuery(const SQLQueryData& data, const std::string& primaryKeyName);
+    virtual ~SQLCreateTableQuery();
+
+    virtual std::string generateString() const override;
+
+private:
+    void appendStringForColsPlusPrimaryKey(std::string& queryString) const;
+};

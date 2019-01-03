@@ -1,4 +1,4 @@
-#include "../../../include/siai/database/sqlquery.hpp"
+#include "database/sqlquery.hpp"
 
 SQLQuery::SQLQuery(const SQLQueryData& data):
             m_table(data.table), m_columns(data.cols), m_values(data.values) {}
@@ -99,4 +99,31 @@ void SQLUpdateQuery::appendColsAndNewValues(std::string& queryString) const
     }
     //We delete the comma after the last element cause we don't want it, it is a side effect of the loop
     queryString.replace(queryString.end()-1, queryString.end(), "");
+}
+
+SQLCreateTableQuery::SQLCreateTableQuery(const SQLQueryData& data, const std::string& primaryKeyName) : SQLQuery(data),
+		m_primaryKeyName{primaryKeyName} {}
+
+SQLCreateTableQuery::~SQLCreateTableQuery() = default;
+
+std::string SQLCreateTableQuery::generateString() const
+{
+    std::string query;
+
+    query += "CREATE TABLE `" + m_table + "` ";
+    appendStringForColsPlusPrimaryKey(query);
+
+    return query;
+}
+
+void SQLCreateTableQuery::appendStringForColsPlusPrimaryKey(std::string& queryString) const
+{
+    queryString += "(";
+
+    for(unsigned int i = 0; i < m_columns.size(); ++i)
+    {
+        queryString += "`" + m_columns[i] + "` " + m_values[i] +",";
+    }
+
+    queryString += " PRIMARY KEY (`" + m_primaryKeyName + "`) )";
 }
