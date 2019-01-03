@@ -28,16 +28,15 @@ MapEditorFrame::MapEditorFrame(wxWindow* parent) : Forms::MapEditorFrame(parent)
 
 void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows)
 {
+	if(!m_dbConnector)
+	{
+		Log::warning("Base de datos no conectada! No se puede guardar el mapa!");
+		return;
+	}
+
     m_mapControl->reset(numberOfColumns, numberOfRows);
 
-	try
-	{
-		m_mapControl->saveAllToDb(*m_dbConnector);
-	}
-    catch(const std::exception& e)
-    {
-    	Log::warning(e.what());
-    }
+    tryToSaveMapToDatabase();
 
     repaintMapNow();
     updateScrollbarsSize();
@@ -50,6 +49,21 @@ void MapEditorFrame::tryToConnectToDatabase(const DbConnectionOptions& options)
 		auto connector = DbConnector::makeConnector(options);
 
 		m_dbConnector = std::move(connector);
+	}
+	catch(const std::exception& e)
+	{
+		Log::warning(e.what());
+	}
+}
+
+void MapEditorFrame::tryToSaveMapToDatabase()
+{
+	try
+	{
+		if(m_dbConnector)
+		{
+			m_mapControl->saveAllToDb(*m_dbConnector);
+		}
 	}
 	catch(const std::exception& e)
 	{

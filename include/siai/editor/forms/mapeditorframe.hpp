@@ -48,6 +48,7 @@ public:
     void initializeNewMap(int numberOfColumns, int numberOfRows);
 
     void tryToConnectToDatabase(const DbConnectionOptions& options);
+    void tryToSaveMapToDatabase();
 
 private:
     virtual void OnLeftClickMapPanel(wxMouseEvent& event) override;
