@@ -1,6 +1,6 @@
-#include "../../../include/siai/database/database.hpp"
+#include "database/database.hpp"
 
-#include "../../../include/siai/database/mysqlconn.hpp"
+#include "database/mysqlconn.hpp"
 
 std::unique_ptr<DbConnector> DbConnector::makeConnector(DbConnectionOptions options)
 {
@@ -9,5 +9,5 @@ std::unique_ptr<DbConnector> DbConnector::makeConnector(DbConnectionOptions opti
 
 const char* DbConnectionException::what() const noexcept
 {
-    return "";
+    return "No se pudo conectar con la base de datos. Verifique sus datos y la conexión.";
 }

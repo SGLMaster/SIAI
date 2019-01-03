@@ -45,6 +45,7 @@ private:
     virtual void OnLeftClickMapPanel(wxMouseEvent& event) override;
 
     virtual void OnSelectionNewMap(wxCommandEvent& event) override;
+    virtual void OnSelectionDbSettings( wxCommandEvent& event ) override;
 
     virtual void OnToolSelect(wxCommandEvent& event) override;
     virtual void OnToolRegularCell(wxCommandEvent& event) override;

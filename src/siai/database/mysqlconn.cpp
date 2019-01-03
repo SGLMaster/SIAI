@@ -1,6 +1,6 @@
-#include "../../../include/siai/database/mysqlconn.hpp"
+#include "database/mysqlconn.hpp"
 
-#include "../../../include/siai/database/dbquery.hpp"
+#include "database/dbquery.hpp"
 
 MySqlConnector::MySqlConnector(DbConnectionOptions options) :
     m_connection(std::make_unique<mysqlpp::Connection>(false))
@@ -11,15 +11,11 @@ MySqlConnector::MySqlConnector(DbConnectionOptions options) :
     logConnectionSuccessStatus(isConnectionSuccess);
 }
 
-void MySqlConnector::logConnectionSuccessStatus(bool isSuccess) const noexcept
+void MySqlConnector::logConnectionSuccessStatus(bool isSuccess) const
 {
-    if(isSuccess)
+    if(!isSuccess)
     {
-        std::cout << "Conexión a base de Datos Correcta\n";
-    }
-    else
-    {
-        std::cout << "Problema al conectar Base de Datos: " << m_connection->error() << "\n";
+        throw DbConnectionException();
     }
 }
 

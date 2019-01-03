@@ -64,6 +64,13 @@ MapEditorFrame::MapEditorFrame( wxWindow* parent, wxWindowID id, const wxString&
 
 	m_menubar->Append( m_menuMap, _("Mapa") );
 
+	m_menuDatabase = new wxMenu();
+	wxMenuItem* m_menuItemDbSettings;
+	m_menuItemDbSettings = new wxMenuItem( m_menuDatabase, wxID_ANY, wxString( _("Configuraci�n") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuDatabase->Append( m_menuItemDbSettings );
+
+	m_menubar->Append( m_menuDatabase, _("Base de Datos") );
+
 	this->SetMenuBar( m_menubar );
 
 	m_statusBar = this->CreateStatusBar( 3, wxSTB_ELLIPSIZE_END|wxSTB_SIZEGRIP, wxID_ANY );
@@ -85,6 +92,7 @@ MapEditorFrame::MapEditorFrame( wxWindow* parent, wxWindowID id, const wxString&
 	m_scrolledMapPanel->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( MapEditorFrame::OnLeftClickMapPanel ), NULL, this );
 	m_scrolledMapPanel->Connect( wxEVT_PAINT, wxPaintEventHandler( MapEditorFrame::OnPaintMapPanel ), NULL, this );
 	m_menuMap->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MapEditorFrame::OnSelectionNewMap ), this, m_menuItemNewMap->GetId());
+	m_menuDatabase->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MapEditorFrame::OnSelectionDbSettings ), this, m_menuItemDbSettings->GetId());
 }
 
 MapEditorFrame::~MapEditorFrame()
@@ -116,14 +124,14 @@ NewMapDialog::NewMapDialog( wxWindow* parent, wxWindowID id, const wxString& tit
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
 
-	m_staticTextNumberOfCols = new wxStaticText( this, wxID_ANY, _("Número de Columnas:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticTextNumberOfCols = new wxStaticText( this, wxID_ANY, _("N�mero de Columnas:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextNumberOfCols->Wrap( -1 );
 	bSizer3->Add( m_staticTextNumberOfCols, 0, wxALL, 5 );
 
 
 	bSizer3->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_textCtrlNumberOfCols = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_textCtrlNumberOfCols = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_RIGHT );
 	#ifdef __WXGTK__
 	if ( !m_textCtrlNumberOfCols->HasFlag( wxTE_MULTILINE ) )
 	{
@@ -140,14 +148,14 @@ NewMapDialog::NewMapDialog( wxWindow* parent, wxWindowID id, const wxString& tit
 	wxBoxSizer* bSizer4;
 	bSizer4 = new wxBoxSizer( wxHORIZONTAL );
 
-	m_staticTextNumberOfRows = new wxStaticText( this, wxID_ANY, _("Número de Filas:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticTextNumberOfRows = new wxStaticText( this, wxID_ANY, _("N�mero de Filas:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextNumberOfRows->Wrap( -1 );
 	bSizer4->Add( m_staticTextNumberOfRows, 0, wxALL, 5 );
 
 
 	bSizer4->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_textCtrlNumberOfRows = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_textCtrlNumberOfRows = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_RIGHT );
 	#ifdef __WXGTK__
 	if ( !m_textCtrlNumberOfRows->HasFlag( wxTE_MULTILINE ) )
 	{
@@ -194,5 +202,110 @@ NewMapDialog::~NewMapDialog()
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( NewMapDialog::OnClose ) );
 	m_buttonAccept->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( NewMapDialog::OnButtonClickAccept ), NULL, this );
 	m_buttonCancel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( NewMapDialog::OnButtonClickCancel ), NULL, this );
+
+}
+
+DbSettingsDialog::DbSettingsDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* bSizer6;
+	bSizer6 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizer7;
+	bSizer7 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticHost = new wxStaticText( this, wxID_ANY, _("Host:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticHost->Wrap( -1 );
+	bSizer7->Add( m_staticHost, 0, wxALL, 5 );
+
+
+	bSizer7->Add( 0, 0, 1, wxEXPAND, 5 );
+
+	m_textCtrlHost = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer7->Add( m_textCtrlHost, 0, wxALL, 5 );
+
+
+	bSizer6->Add( bSizer7, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer10;
+	bSizer10 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticPort = new wxStaticText( this, wxID_ANY, _("Puerto:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticPort->Wrap( -1 );
+	bSizer10->Add( m_staticPort, 0, wxALL, 5 );
+
+
+	bSizer10->Add( 0, 0, 1, wxEXPAND, 5 );
+
+	m_textCtrlPort = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer10->Add( m_textCtrlPort, 0, wxALL, 5 );
+
+
+	bSizer6->Add( bSizer10, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer8;
+	bSizer8 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticUser = new wxStaticText( this, wxID_ANY, _("Usuario:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticUser->Wrap( -1 );
+	bSizer8->Add( m_staticUser, 0, wxALL, 5 );
+
+
+	bSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
+
+	m_textCtrlUser = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer8->Add( m_textCtrlUser, 0, wxALL, 5 );
+
+
+	bSizer6->Add( bSizer8, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer9;
+	bSizer9 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticPassword = new wxStaticText( this, wxID_ANY, _("Contrase�a:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticPassword->Wrap( -1 );
+	bSizer9->Add( m_staticPassword, 0, wxALL, 5 );
+
+
+	bSizer9->Add( 0, 0, 1, wxEXPAND, 5 );
+
+	m_textCtrlPassword = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+	bSizer9->Add( m_textCtrlPassword, 0, wxALL, 5 );
+
+
+	bSizer6->Add( bSizer9, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer12;
+	bSizer12 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_buttonAccept = new wxButton( this, wxID_ANY, _("Aceptar"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer12->Add( m_buttonAccept, 0, wxALL, 5 );
+
+	m_button4 = new wxButton( this, wxID_ANY, _("Cancelar"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer12->Add( m_button4, 0, wxALL, 5 );
+
+
+	bSizer6->Add( bSizer12, 1, wxEXPAND, 5 );
+
+
+	this->SetSizer( bSizer6 );
+	this->Layout();
+	bSizer6->Fit( this );
+
+	this->Centre( wxBOTH );
+
+	// Connect Events
+	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( DbSettingsDialog::OnClose ) );
+	m_buttonAccept->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DbSettingsDialog::OnButtonClickAccept ), NULL, this );
+	m_button4->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DbSettingsDialog::OnButtonClickCancel ), NULL, this );
+}
+
+DbSettingsDialog::~DbSettingsDialog()
+{
+	// Disconnect Events
+	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( DbSettingsDialog::OnClose ) );
+	m_buttonAccept->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DbSettingsDialog::OnButtonClickAccept ), NULL, this );
+	m_button4->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DbSettingsDialog::OnButtonClickCancel ), NULL, this );
 
 }

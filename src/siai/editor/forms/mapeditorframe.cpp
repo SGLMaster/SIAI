@@ -1,5 +1,8 @@
 #include "editor/forms/mapeditorframe.hpp"
 #include "editor/forms/newmapdialog.hpp"
+#include "editor/forms/dbsettingsdialog.hpp"
+
+#include "database/database.hpp"
 
 #include "painter/painter.hpp"
 
@@ -7,7 +10,9 @@
 #include "util/map.hpp"
 
 #include "map/siaimap.hpp"
+
 #include "globals.hpp"
+#include "log.hpp"
 
 #include <wx/dcclient.h>
 #include <wx/utils.h>
@@ -23,6 +28,18 @@ MapEditorFrame::MapEditorFrame(wxWindow* parent) : Forms::MapEditorFrame(parent)
 
 void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows)
 {
+	/*
+	DbConnectionOptions options{"test_schema", "localhost", 3306, "test_user", "easypass"};
+
+	try
+	{
+		auto connector = DbConnector::makeConnector(options);
+	}
+	catch(const DbConnectionException& e)
+	{
+		Log::warning(e.what());
+	}
+	*/
     m_mapControl->reset(numberOfColumns, numberOfRows);
 
     repaintMapNow();
@@ -42,6 +59,13 @@ void MapEditorFrame::OnSelectionNewMap(wxCommandEvent& event)
     NewMapDialog* newMapDialog = new NewMapDialog(this);
     newMapDialog->Show();
     Disable();
+}
+
+void MapEditorFrame::OnSelectionDbSettings(wxCommandEvent& event)
+{
+	DbSettingsDialog* dbSettingsDialog = new DbSettingsDialog(this);
+	dbSettingsDialog->Show();
+	Disable();
 }
 
 void MapEditorFrame::OnToolSelect(wxCommandEvent& event)

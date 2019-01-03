@@ -23,5 +23,5 @@ public:
     virtual bool executeQueryWithoutResults(DbQuery& query) override;
 
 private:
-    void logConnectionSuccessStatus(bool isSuccess) const noexcept;
+    void logConnectionSuccessStatus(bool isSuccess) const;
 };

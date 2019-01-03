@@ -56,6 +56,7 @@ namespace Forms
 			wxScrolledWindow* m_scrolledMapPanel;
 			wxMenuBar* m_menubar;
 			wxMenu* m_menuMap;
+			wxMenu* m_menuDatabase;
 			wxStatusBar* m_statusBar;
 
 			// Virtual event handlers, overide them in your derived class
@@ -73,6 +74,7 @@ namespace Forms
 			virtual void OnLeftClickMapPanel( wxMouseEvent& event ) = 0;
 			virtual void OnPaintMapPanel( wxPaintEvent& event ) = 0;
 			virtual void OnSelectionNewMap( wxCommandEvent& event ) = 0;
+			virtual void OnSelectionDbSettings( wxCommandEvent& event ) = 0;
 
 
 		public:
@@ -108,6 +110,38 @@ namespace Forms
 
 			NewMapDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Nuevo Mapa..."), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 275,150 ), long style = wxDEFAULT_DIALOG_STYLE|wxSTAY_ON_TOP );
 			~NewMapDialog();
+
+	};
+
+	///////////////////////////////////////////////////////////////////////////////
+	/// Class DbSettingsDialog
+	///////////////////////////////////////////////////////////////////////////////
+	class DbSettingsDialog : public wxDialog
+	{
+		private:
+
+		protected:
+			wxStaticText* m_staticHost;
+			wxTextCtrl* m_textCtrlHost;
+			wxStaticText* m_staticPort;
+			wxTextCtrl* m_textCtrlPort;
+			wxStaticText* m_staticUser;
+			wxTextCtrl* m_textCtrlUser;
+			wxStaticText* m_staticPassword;
+			wxTextCtrl* m_textCtrlPassword;
+			wxButton* m_buttonAccept;
+			wxButton* m_button4;
+
+			// Virtual event handlers, overide them in your derived class
+			virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
+			virtual void OnButtonClickAccept( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnButtonClickCancel( wxCommandEvent& event ) { event.Skip(); }
+
+
+		public:
+
+			DbSettingsDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Configurar Base de Datos"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE|wxSTAY_ON_TOP );
+			~DbSettingsDialog();
 
 	};
 
