@@ -16,6 +16,8 @@ class PanelPoint;
 
 class MapPosition;
 
+class DbConnector;
+
 class DLL_EXPORT SIAIMap
 {
 public:
@@ -38,6 +40,8 @@ public:
     virtual int getSelectedEntityRow() const noexcept = 0;
 
     virtual int getSelectedId() const noexcept = 0;
+
+    virtual void saveAllToDb(DbConnector& connector) = 0;
 
 protected:
     SIAIMap();

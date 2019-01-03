@@ -20,6 +20,16 @@ bool RackDefault::hasPointInside(const PanelPoint& point) const noexcept
 	return false;
 }
 
+void RackDefault::saveToDatabase(DbConnector& connector)  const
+{
+
+}
+
+void RackDefault::loadFromDatabase(DbConnector& connector)
+{
+
+}
+
 CircularRack::CircularRack(const MapPosition& position) : RackDefault(position){}
 CircularRack::~CircularRack() = default;
 

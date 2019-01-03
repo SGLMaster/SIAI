@@ -10,7 +10,7 @@ NewMapDialog::NewMapDialog(MapEditorFrame* parent) : Forms::NewMapDialog( (wxFra
 
 void NewMapDialog::OnClose(wxCloseEvent& event)
 {
-    closeDialogAndEnableMainFrame();
+	enableMainFrameAndCloseDialog();
 }
 
 void NewMapDialog::OnButtonClickAccept( wxCommandEvent& event )
@@ -18,21 +18,17 @@ void NewMapDialog::OnButtonClickAccept( wxCommandEvent& event )
     try
     {
         validateColsAndRowsNumbersAndInitializeNewMap();
-        closeDialogAndEnableMainFrame();
+        enableMainFrameAndCloseDialog();
     }
     catch(const InvalidNumberException& e)
     {
         wxMessageBox(_("Por favor, ingrese valores válidos para generar el mapa."), _("Número Inválido"));
     }
-    catch(...)
-    {
-        wxMessageBox(_("Error desconocido a la hora de generar el mapa!"), _("Error Fatal"));
-    }
 }
 
 void NewMapDialog::OnButtonClickCancel( wxCommandEvent& event )
 {
-    closeDialogAndEnableMainFrame();
+	enableMainFrameAndCloseDialog();
 }
 
 void NewMapDialog::validateColsAndRowsNumbersAndInitializeNewMap()
@@ -48,7 +44,7 @@ void NewMapDialog::validateColsAndRowsNumbersAndInitializeNewMap()
     m_parentFrame->initializeNewMap(numberOfColumns, numberOfRows);
 }
 
-void NewMapDialog::closeDialogAndEnableMainFrame()
+void NewMapDialog::enableMainFrameAndCloseDialog()
 {
     m_parentFrame->Enable();
     Destroy();

@@ -16,4 +16,6 @@ private:
     virtual void OnClose( wxCloseEvent& event ) override;
     virtual void OnButtonClickAccept( wxCommandEvent& event ) override;
 	virtual void OnButtonClickCancel( wxCommandEvent& event ) override;
+
+	void enableMainFrameAndCloseDialog();
 };

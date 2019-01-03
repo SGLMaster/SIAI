@@ -40,6 +40,8 @@ public:
     virtual int getSelectedEntityRow() const noexcept override;
     virtual int getSelectedId() const noexcept;
 
+    virtual void saveAllToDb(DbConnector& connector) override;
+
 private:
     void generateCells();
 };

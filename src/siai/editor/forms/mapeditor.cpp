@@ -66,7 +66,7 @@ MapEditorFrame::MapEditorFrame( wxWindow* parent, wxWindowID id, const wxString&
 
 	m_menuDatabase = new wxMenu();
 	wxMenuItem* m_menuItemDbSettings;
-	m_menuItemDbSettings = new wxMenuItem( m_menuDatabase, wxID_ANY, wxString( _("Configuraciï¿½n") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuItemDbSettings = new wxMenuItem( m_menuDatabase, wxID_ANY, wxString( _("Configuración") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menuDatabase->Append( m_menuItemDbSettings );
 
 	m_menubar->Append( m_menuDatabase, _("Base de Datos") );
@@ -124,7 +124,7 @@ NewMapDialog::NewMapDialog( wxWindow* parent, wxWindowID id, const wxString& tit
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
 
-	m_staticTextNumberOfCols = new wxStaticText( this, wxID_ANY, _("Nï¿½mero de Columnas:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticTextNumberOfCols = new wxStaticText( this, wxID_ANY, _("Número de Columnas:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextNumberOfCols->Wrap( -1 );
 	bSizer3->Add( m_staticTextNumberOfCols, 0, wxALL, 5 );
 
@@ -148,7 +148,7 @@ NewMapDialog::NewMapDialog( wxWindow* parent, wxWindowID id, const wxString& tit
 	wxBoxSizer* bSizer4;
 	bSizer4 = new wxBoxSizer( wxHORIZONTAL );
 
-	m_staticTextNumberOfRows = new wxStaticText( this, wxID_ANY, _("Nï¿½mero de Filas:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticTextNumberOfRows = new wxStaticText( this, wxID_ANY, _("Número de Filas:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextNumberOfRows->Wrap( -1 );
 	bSizer4->Add( m_staticTextNumberOfRows, 0, wxALL, 5 );
 
@@ -222,7 +222,7 @@ DbSettingsDialog::DbSettingsDialog( wxWindow* parent, wxWindowID id, const wxStr
 
 	bSizer7->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_textCtrlHost = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_textCtrlHost = new wxTextCtrl( this, wxID_ANY, _("localhost"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer7->Add( m_textCtrlHost, 0, wxALL, 5 );
 
 
@@ -238,7 +238,7 @@ DbSettingsDialog::DbSettingsDialog( wxWindow* parent, wxWindowID id, const wxStr
 
 	bSizer10->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_textCtrlPort = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_textCtrlPort = new wxTextCtrl( this, wxID_ANY, _("3306"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer10->Add( m_textCtrlPort, 0, wxALL, 5 );
 
 
@@ -254,7 +254,7 @@ DbSettingsDialog::DbSettingsDialog( wxWindow* parent, wxWindowID id, const wxStr
 
 	bSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_textCtrlUser = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_textCtrlUser = new wxTextCtrl( this, wxID_ANY, _("test_user"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer8->Add( m_textCtrlUser, 0, wxALL, 5 );
 
 
@@ -263,14 +263,14 @@ DbSettingsDialog::DbSettingsDialog( wxWindow* parent, wxWindowID id, const wxStr
 	wxBoxSizer* bSizer9;
 	bSizer9 = new wxBoxSizer( wxHORIZONTAL );
 
-	m_staticPassword = new wxStaticText( this, wxID_ANY, _("Contraseï¿½a:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticPassword = new wxStaticText( this, wxID_ANY, _("Contraseña:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticPassword->Wrap( -1 );
 	bSizer9->Add( m_staticPassword, 0, wxALL, 5 );
 
 
 	bSizer9->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_textCtrlPassword = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+	m_textCtrlPassword = new wxTextCtrl( this, wxID_ANY, _("easypass"), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
 	bSizer9->Add( m_textCtrlPassword, 0, wxALL, 5 );
 
 

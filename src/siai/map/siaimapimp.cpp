@@ -124,3 +124,10 @@ int SIAIMapImp::getSelectedId() const noexcept
     return lastSelectedId;
 }
 
+void SIAIMapImp::saveAllToDb(DbConnector& connector)
+{
+	for(const auto& entity : m_entities)
+	{
+		entity->saveToDatabase(connector);
+	}
+}

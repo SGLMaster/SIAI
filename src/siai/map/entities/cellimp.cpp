@@ -1,5 +1,6 @@
 #include "map/entities/cellimp.hpp"
 
+#include "database/database.hpp"
 #include "database/sqlquery.hpp"
 
 #include "globals.hpp"
@@ -30,8 +31,8 @@ bool CellDefault::isVisibleOnScreen(const PanelPoint& panelOrigin, const PanelSi
     int minValidCellOriginX = panelOrigin.x - m_sideLength;
     int minValidCellOriginY = panelOrigin.y - m_sideLength;
 
-    return m_origin.x < panelLimitX && m_origin.y < panelLimitY
-            && m_origin.x >= minValidCellOriginX && m_origin.y >= minValidCellOriginY;
+    return m_origin.x < panelLimitX && m_origin.y < panelLimitY && m_origin.x >= minValidCellOriginX
+    		&& m_origin.y >= minValidCellOriginY;
 }
 
 bool CellDefault::hasPointInside(const PanelPoint& point) const noexcept
@@ -62,9 +63,13 @@ void CellDefault::setDifferentPenIfSelected(Painter& painter)
     }
 }
 
-void CellDefault::saveToDatabase(DbConnector& connector)
+void CellDefault::saveToDatabase(DbConnector& connector) const
 {
+	std::vector<std::string> columnsToSave{"column", "row"};
+	std::vector<std::string> valuesToSave{std::to_string(m_position.column), std::to_string(m_position.row)};
+	SQLInsertQuery insertCellQuery(SQLQueryData{"test_table", columnsToSave, valuesToSave});
 
+	connector.executeQueryWithoutResults(insertCellQuery);
 }
 
 void CellDefault::loadFromDatabase(DbConnector& connector)

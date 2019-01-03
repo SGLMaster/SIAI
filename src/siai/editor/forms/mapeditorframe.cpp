@@ -1,8 +1,8 @@
+#include "database/database.hpp"
+
 #include "editor/forms/mapeditorframe.hpp"
 #include "editor/forms/newmapdialog.hpp"
 #include "editor/forms/dbsettingsdialog.hpp"
-
-#include "database/database.hpp"
 
 #include "painter/painter.hpp"
 
@@ -28,22 +28,33 @@ MapEditorFrame::MapEditorFrame(wxWindow* parent) : Forms::MapEditorFrame(parent)
 
 void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows)
 {
-	/*
-	DbConnectionOptions options{"test_schema", "localhost", 3306, "test_user", "easypass"};
+    m_mapControl->reset(numberOfColumns, numberOfRows);
 
 	try
 	{
-		auto connector = DbConnector::makeConnector(options);
+		m_mapControl->saveAllToDb(*m_dbConnector);
 	}
-	catch(const DbConnectionException& e)
-	{
-		Log::warning(e.what());
-	}
-	*/
-    m_mapControl->reset(numberOfColumns, numberOfRows);
+    catch(const std::exception& e)
+    {
+    	Log::warning(e.what());
+    }
 
     repaintMapNow();
     updateScrollbarsSize();
+}
+
+void MapEditorFrame::tryToConnectToDatabase(const DbConnectionOptions& options)
+{
+	try
+	{
+		auto connector = DbConnector::makeConnector(options);
+
+		m_dbConnector = std::move(connector);
+	}
+	catch(const std::exception& e)
+	{
+		Log::warning(e.what());
+	}
 }
 
 void MapEditorFrame::OnLeftClickMapPanel(wxMouseEvent& event)
@@ -169,6 +180,18 @@ void MapEditorFrame::callCurrentToolAction()
     }
 }
 
+PanelPoint MapEditorFrame::getMousePositionRelativeToMapPanelOrigin()
+{
+    PanelPoint mousePos{wxGetMousePosition().x, wxGetMousePosition().y};
+
+    int mouseX = mousePos.x - m_scrolledMapPanel->GetScreenPosition().x;
+    int mouseY = mousePos.y - m_scrolledMapPanel->GetScreenPosition().y;
+
+    wxPoint mouseRelativePos( m_scrolledMapPanel->CalcUnscrolledPosition( wxPoint(mouseX, mouseY) ) );
+
+    return PanelPoint{mouseRelativePos.x, mouseRelativePos.y};
+}
+
 void MapEditorFrame::actionToolSelect(PanelPoint& mousePosition)
 {
     if(!wxGetKeyState(WXK_CONTROL))
@@ -265,14 +288,3 @@ void MapEditorFrame::updateScrollbarsSize()
     m_scrolledMapPanel->SetVirtualSize(virtualScrollingWidth, virtualScrollingHeight);
 }
 
-PanelPoint MapEditorFrame::getMousePositionRelativeToMapPanelOrigin()
-{
-    PanelPoint mousePos{wxGetMousePosition().x, wxGetMousePosition().y};
-
-    int mouseX = mousePos.x - m_scrolledMapPanel->GetScreenPosition().x;
-    int mouseY = mousePos.y - m_scrolledMapPanel->GetScreenPosition().y;
-
-    wxPoint mouseRelativePos( m_scrolledMapPanel->CalcUnscrolledPosition( wxPoint(mouseX, mouseY) ) );
-
-    return PanelPoint{mouseRelativePos.x, mouseRelativePos.y};
-}

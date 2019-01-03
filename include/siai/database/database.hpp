@@ -21,9 +21,9 @@ public:
     DbConnector() = default;
     virtual ~DbConnector() = default;
 
-    static std::unique_ptr<DbConnector> makeConnector(DbConnectionOptions options);
+    static std::unique_ptr<DbConnector> makeConnector(const DbConnectionOptions& options);
 
-    virtual bool executeQueryWithoutResults(DbQuery& query) = 0;
+    virtual void executeQueryWithoutResults(DbQuery& query) = 0;
 };
 
 class DbConnectionException : public std::exception

@@ -24,5 +24,5 @@ private:
 	virtual void OnButtonClickCancel( wxCommandEvent& event ) override;
 
 	void validateColsAndRowsNumbersAndInitializeNewMap();
-	void closeDialogAndEnableMainFrame();
+	void enableMainFrameAndCloseDialog();
 };

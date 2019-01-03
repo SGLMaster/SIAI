@@ -2,7 +2,7 @@
 
 #include "database/mysqlconn.hpp"
 
-std::unique_ptr<DbConnector> DbConnector::makeConnector(DbConnectionOptions options)
+std::unique_ptr<DbConnector> DbConnector::makeConnector(const DbConnectionOptions& options)
 {
     return std::make_unique<MySqlConnector>(options);
 }

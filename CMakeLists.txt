@@ -25,9 +25,9 @@ file(GLOB UTIL_SOURCES "src/siai/util/*.cpp")
 file(GLOB ROOT_SOURCES "src/siai/*.cpp")
 
 #Map Library
-add_library(siaimap SHARED ${MAP_SOURCES} ${PAINTER_SOURCES} ${UTIL_SOURCES} ${ROOT_SOURCES})
+add_library(siaimap SHARED ${MAP_SOURCES} ${DATABASE_SOURCES} ${PAINTER_SOURCES} ${UTIL_SOURCES} ${ROOT_SOURCES})
 
-target_link_libraries(siaimap wxbase30ud wxmsw30ud_core user32)
+target_link_libraries(siaimap wxbase30ud wxmsw30ud_core mysqlpp mysql user32)
 target_compile_options(siaimap PUBLIC -std=c++14 -m64 -Wall -Wno-deprecated-declarations -g -DBUILD_DLL)
 	
 #Map Editor

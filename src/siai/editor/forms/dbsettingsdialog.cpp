@@ -1,3 +1,5 @@
+#include "database/database.hpp"
+
 #include "editor/forms/dbsettingsdialog.hpp"
 #include "editor/forms/mapeditorframe.hpp"
 
@@ -8,16 +10,30 @@ DbSettingsDialog::DbSettingsDialog(MapEditorFrame* parent) : Forms::DbSettingsDi
 
 void DbSettingsDialog::OnClose(wxCloseEvent& event)
 {
-	m_parentFrame->Enable();
-	Destroy();
+	enableMainFrameAndCloseDialog();
 }
 
 void DbSettingsDialog::OnButtonClickAccept( wxCommandEvent& event )
 {
+	unsigned int portNumber = static_cast<unsigned int>( wxAtoi( m_textCtrlPort->GetValue() ) );
+	const std::string& hostName = m_textCtrlHost->GetValue().ToStdString();
+	const std::string& userName = m_textCtrlUser->GetValue().ToStdString();
+	const std::string& password = m_textCtrlPassword->GetValue().ToStdString();
 
+	DbConnectionOptions options{"test_schema", hostName, portNumber, userName, password};
+
+	m_parentFrame->tryToConnectToDatabase(options);
+
+	enableMainFrameAndCloseDialog();
 }
 
 void DbSettingsDialog::OnButtonClickCancel( wxCommandEvent& event )
 {
+	enableMainFrameAndCloseDialog();
+}
 
+void DbSettingsDialog::enableMainFrameAndCloseDialog()
+{
+	m_parentFrame->Enable();
+	Destroy();
 }

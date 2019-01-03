@@ -2,6 +2,7 @@
 
 #include <editor/forms/mapeditor.h>
 
+#include <memory>
 #include <string>
 
 class SIAIMap;
@@ -9,6 +10,9 @@ class PanelPoint;
 class PanelData;
 
 class wxDC;
+
+class DbConnectionOptions;
+class DbConnector;
 
 enum class Tool
 {
@@ -36,10 +40,14 @@ private:
 
     int m_mapPanelZoom{1};
 
+    std::unique_ptr<DbConnector> m_dbConnector;
+
 public:
     MapEditorFrame(wxWindow* parent);
 
     void initializeNewMap(int numberOfColumns, int numberOfRows);
+
+    void tryToConnectToDatabase(const DbConnectionOptions& options);
 
 private:
     virtual void OnLeftClickMapPanel(wxMouseEvent& event) override;
@@ -64,6 +72,8 @@ private:
     virtual void OnPaintMapPanel(wxPaintEvent& event) override;
 
     void callCurrentToolAction();
+    PanelPoint getMousePositionRelativeToMapPanelOrigin();
+
     void actionToolSelect(PanelPoint& mousePosition);
     void actionToolReplaceCell(const std::string& cellType, int column, int row);
     void actionToolAddAgv(const std::string& agvType, int column, int row);
@@ -77,6 +87,4 @@ private:
     void updateStatusBar();
     void updateSelectedIdOnStatusBar();
     void updateSelectedPositionOnStatusBar();
-
-    PanelPoint getMousePositionRelativeToMapPanelOrigin();
 };

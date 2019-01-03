@@ -1,15 +1,10 @@
 #pragma once
 
-#include "database.hpp"
-
 #include <mysql++.h>
 
-#include <memory>
+#include "database.hpp"
 
-namespace mysqlpp
-{
-    class Connection;
-}
+#include <memory>
 
 class MySqlConnector : public DbConnector
 {
@@ -17,11 +12,8 @@ private:
     std::unique_ptr<mysqlpp::Connection> m_connection;
 
 public:
-    MySqlConnector(DbConnectionOptions options);
+    MySqlConnector(const DbConnectionOptions& options);
     virtual ~MySqlConnector() = default;
 
-    virtual bool executeQueryWithoutResults(DbQuery& query) override;
-
-private:
-    void logConnectionSuccessStatus(bool isSuccess) const;
+    virtual void executeQueryWithoutResults(DbQuery& query) override;
 };

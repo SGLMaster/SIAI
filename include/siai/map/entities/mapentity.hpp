@@ -1,5 +1,7 @@
 #pragma once
 
+#include "database/dbobject.hpp"
+
 #include <string>
 
 class Painter;
@@ -58,7 +60,7 @@ enum class MapEntityType
     AGV
 };
 
-class IMapEntity : public IDrawable
+class IMapEntity : public IDrawable, public DbObject
 {
 protected:
     int m_id;

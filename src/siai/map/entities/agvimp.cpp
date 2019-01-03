@@ -62,6 +62,16 @@ void AgvDefault::calculateOrigin(int zoom)
     m_origin = PanelPoint{originX, originY};
 }
 
+void AgvDefault::saveToDatabase(DbConnector& connector) const
+{
+
+}
+
+void AgvDefault::loadFromDatabase(DbConnector& connector)
+{
+
+}
+
 RegularAgv::RegularAgv(const MapPosition& position) : AgvDefault(position){}
 RegularAgv::~RegularAgv() = default;
 

@@ -1,13 +1,12 @@
 #pragma once
 
 #include "map/entities/mapentity.hpp"
-#include "database/dbobject.hpp"
 
 #include "util/id.hpp"
 
 #include <memory>
 
-class ICell : public IMapEntity, public DbObject
+class ICell : public IMapEntity
 {
 public:
     static constexpr int MIN_CELL_ID{1};
