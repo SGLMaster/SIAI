@@ -5,6 +5,11 @@ SQLQuery::SQLQuery(const SQLQueryData& data):
 
 SQLQuery::~SQLQuery() {}
 
+SQLMultipleQuery::SQLMultipleQuery(const SQLMultipleQueryData& data) : m_table(data.table),
+		m_columns(data.cols), m_values(data.values) {}
+
+SQLMultipleQuery::~SQLMultipleQuery() = default;
+
 SQLWhereCondition::SQLWhereCondition(const SQLQueryData& data):
                     SQLQuery(data) {}
 
@@ -69,6 +74,51 @@ std::string SQLInsertQuery::getStringForColsOrValues(const std::string& starting
     queryString += ")";
 
     return queryString;
+}
+
+SQLMultipleInsertQuery::SQLMultipleInsertQuery(const SQLMultipleQueryData& data) : SQLMultipleQuery(data) {}
+
+SQLMultipleInsertQuery::~SQLMultipleInsertQuery() = default;
+
+std::string SQLMultipleInsertQuery::generateString() const
+{
+    std::string query;
+
+    query += "INSERT INTO `" + m_table + "` ";
+    appendStringForColumns(query);
+    query += " VALUES ";
+    appendStringForValues(query);
+
+    return query;
+}
+
+void SQLMultipleInsertQuery::appendStringForColumns(std::string& queryString) const
+{
+	queryString += "(";
+	for(const auto& value : m_columns)
+	{
+		queryString = queryString + "`" + value + "`" +",";
+	}
+	//We delete the comma after the last element cause we don't want it, it is a side effect of the loop
+	queryString.replace(queryString.end()-1, queryString.end(), "");
+	queryString += ")";
+}
+
+void SQLMultipleInsertQuery::appendStringForValues(std::string& queryString) const
+{
+	for(const auto& column : m_values)
+	{
+		queryString += "(";
+		for(const auto& value : column)
+		{
+			queryString = queryString + "'" + value + "'" +",";
+		}
+		//We delete the comma after the last element cause we don't want it, it is a side effect of the loop
+		queryString.replace(queryString.end()-1, queryString.end(), "");
+		queryString += "),";
+	}
+	//We delete the comma and space after the last element cause we don't want it
+	queryString.replace(queryString.end()-1, queryString.end(), "");
 }
 
 SQLUpdateQuery::SQLUpdateQuery(const SQLQueryData& data, const std::string& whereCondition):

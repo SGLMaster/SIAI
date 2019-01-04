@@ -9,6 +9,13 @@ struct SQLQueryData
     std::vector<std::string> values;
 };
 
+struct SQLMultipleQueryData
+{
+    std::string table;
+    std::vector<std::string> cols;
+    std::vector<std::vector<std::string>> values;
+};
+
 class SQLQuery : public DbQuery
 {
 protected:
@@ -19,6 +26,18 @@ protected:
     SQLQuery() = delete;
     SQLQuery(const SQLQueryData& data);
     virtual ~SQLQuery();
+};
+
+class SQLMultipleQuery : public DbQuery
+{
+protected:
+    const std::string& m_table;
+    const std::vector<std::string>& m_columns;
+    const std::vector<std::vector<std::string>>& m_values;
+
+    SQLMultipleQuery() = delete;
+    SQLMultipleQuery(const SQLMultipleQueryData& data);
+    virtual ~SQLMultipleQuery();
 };
 
 class SQLWhereCondition : public SQLQuery
@@ -46,6 +65,20 @@ public:
 private:
     std::string getStringForColsOrValues(const std::string& startingString, const std::string& quoteChar,
                                          const std::vector<std::string>& valuesToInsertOnString) const;
+};
+
+class SQLMultipleInsertQuery : public SQLMultipleQuery
+{
+public:
+	SQLMultipleInsertQuery() = delete;
+	SQLMultipleInsertQuery(const SQLMultipleQueryData& data);
+    virtual ~SQLMultipleInsertQuery();
+
+    virtual std::string generateString() const override;
+
+private:
+    void appendStringForColumns(std::string& queryString) const;
+    void appendStringForValues(std::string& queryString) const;
 };
 
 class SQLUpdateQuery : public SQLQuery
