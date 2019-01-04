@@ -1,10 +1,13 @@
 #pragma once
 
-#include <mysql++.h>
-
 #include "database.hpp"
 
 #include <memory>
+
+namespace mysqlpp
+{
+	class Connection;
+}
 
 class MySqlConnector : public DbConnector
 {
@@ -13,7 +16,7 @@ private:
 
 public:
     MySqlConnector(const DbConnectionOptions& options);
-    virtual ~MySqlConnector() = default;
+    virtual ~MySqlConnector();
 
     virtual void executeQueryWithoutResults(const DbQuery& query) override;
 

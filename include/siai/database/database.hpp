@@ -18,8 +18,8 @@ struct DbConnectionOptions
 class DbConnector
 {
 public:
-    DbConnector() = default;
-    virtual ~DbConnector() = default;
+    DbConnector();
+    virtual ~DbConnector();
 
     static std::unique_ptr<DbConnector> makeConnector(const DbConnectionOptions& options);
 

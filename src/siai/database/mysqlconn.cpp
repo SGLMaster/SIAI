@@ -2,20 +2,19 @@
 
 #include "database/dbquery.hpp"
 
+#include <mysql++.h>
+
 MySqlConnector::MySqlConnector(const DbConnectionOptions& options) :
     m_connection(std::make_unique<mysqlpp::Connection>(true))
 {
     tryToConnect(options);
 }
 
+MySqlConnector::~MySqlConnector() = default;
+
 void MySqlConnector::executeQueryWithoutResults(const DbQuery& query)
 {
-    auto queryOutput = m_connection->query();
-
-    std::string strQuery = query.generateString();
-    queryOutput << strQuery;
-
-    queryOutput.exec();
+    tryToExecuteQueryWithoutResults(query);
 }
 
 void MySqlConnector::tryToConnect(const DbConnectionOptions& options)
@@ -25,7 +24,7 @@ void MySqlConnector::tryToConnect(const DbConnectionOptions& options)
 		m_connection->connect(options.schema.c_str(), options.host.c_str(), options.user.c_str(),
 				options.password.c_str(), options.port);
 	}
-	catch(mysqlpp::ConnectionFailed& e)
+	catch(const mysqlpp::ConnectionFailed& e)
 	{
 		throw DbConnectionException(e.what());
 	}
@@ -42,9 +41,8 @@ void MySqlConnector::tryToExecuteQueryWithoutResults(const DbQuery& query)
 
 		queryOutput.exec();
 	}
-	catch(mysqlpp::BadQuery& e)
+	catch(const mysqlpp::BadQuery& e)
 	{
 		throw DbQueryException(e.what());
 	}
-
 }

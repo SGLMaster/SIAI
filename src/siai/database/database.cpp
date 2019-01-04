@@ -2,6 +2,9 @@
 
 #include "database/mysqlconn.hpp"
 
+DbConnector::DbConnector() = default;
+DbConnector::~DbConnector() = default;
+
 std::unique_ptr<DbConnector> DbConnector::makeConnector(const DbConnectionOptions& options)
 {
     return std::make_unique<MySqlConnector>(options);
