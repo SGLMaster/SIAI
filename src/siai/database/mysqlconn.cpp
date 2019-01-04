@@ -32,17 +32,10 @@ void MySqlConnector::tryToConnect(const DbConnectionOptions& options)
 
 void MySqlConnector::tryToExecuteQueryWithoutResults(const DbQuery& query)
 {
-	try
-	{
-		auto queryOutput = m_connection->query();
+	auto queryOutput = m_connection->query();
 
-		std::string strQuery = query.generateString();
-		queryOutput << strQuery;
+	std::string strQuery = query.generateString();
+	queryOutput << strQuery;
 
-		queryOutput.exec();
-	}
-	catch(const mysqlpp::BadQuery& e)
-	{
-		throw DbQueryException(e.what());
-	}
+	queryOutput.exec();
 }

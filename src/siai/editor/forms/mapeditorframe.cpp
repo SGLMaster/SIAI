@@ -35,9 +35,7 @@ void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows, con
 	}
 
     m_mapControl->reset(numberOfColumns, numberOfRows);
-
-    tryToCreateMapDbTable(mapName);
-    tryToSaveMapToDatabase(mapName);
+    m_mapControl->createDatabaseTable(*m_dbConnector, mapName);
 
     repaintMapNow();
     updateScrollbarsSize();
@@ -56,34 +54,6 @@ void MapEditorFrame::tryToConnectToDatabase(const DbConnectionOptions& options)
 		Log::warning(std::string("Error al conectar a base de datos: ") + e.what());
 
 		m_dbConnector.reset(nullptr);
-	}
-}
-
-void MapEditorFrame::tryToCreateMapDbTable(const std::string& mapName)
-{
-	try
-	{
-		m_mapControl->createDatabaseTable(*m_dbConnector, mapName);
-	}
-	catch(const std::exception& e)
-	{
-		Log::warning(std::string("Error al guardar mapa: ") + e.what());
-
-		m_mapControl->reset(0, 0);
-	}
-}
-
-void MapEditorFrame::tryToSaveMapToDatabase(const std::string& mapName)
-{
-	try
-	{
-		m_mapControl->saveMapToDb(*m_dbConnector, SIAIGlobals::DB_TABLES_PREFIX + mapName);
-	}
-	catch(const std::exception& e)
-	{
-		Log::warning(std::string("Error al guardar mapa: ") + e.what());
-
-		m_mapControl->reset(0, 0);
 	}
 }
 

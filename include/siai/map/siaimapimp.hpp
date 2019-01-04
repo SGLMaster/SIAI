@@ -8,6 +8,8 @@
 
 class CommandStream;
 
+class DbQuery;
+
 class SIAIMapImp : public SIAIMap
 {
 private:
@@ -41,8 +43,12 @@ public:
     virtual int getSelectedId() const noexcept;
 
     virtual void createDatabaseTable(DbConnector& connector, const std::string& mapName) override;
-    virtual void saveMapToDb(DbConnector& connector, const std::string& tableName) override;
 
 private:
     void generateCells();
+
+    void createCellsDbTable(DbConnector& connector, const std::string& tableName, std::vector<std::string> colsNames);
+    void fillCellsDbTable(DbConnector& connector, const std::string& tableName, std::vector<std::string> colsNames);
+
+    void tryToExecuteDbQuery(DbConnector& connector, const DbQuery& query);
 };

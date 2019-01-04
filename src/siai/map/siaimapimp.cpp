@@ -8,8 +8,10 @@
 #include "database/sqlquery.hpp"
 
 #include "globals.hpp"
+#include "log.hpp"
 
 #include <algorithm>
+#include <vector>
 
 SIAIMapImp::SIAIMapImp() : m_commandStream{CommandStream::create()} {}
 SIAIMapImp::~SIAIMapImp() = default;
@@ -131,19 +133,51 @@ int SIAIMapImp::getSelectedId() const noexcept
 
 void SIAIMapImp::createDatabaseTable(DbConnector& connector, const std::string& mapName)
 {
-	SQLQueryData dataForCellsTable{SIAIGlobals::DB_TABLES_PREFIX + mapName, { "id", "column", "row" },
-		{ "INT NOT NULL", "INT NOT NULL", "INT NOT NULL"}};
+	std::string cellsTableName{SIAIGlobals::DB_CELLS_TABLE_PREFIX + mapName};
+	std::vector<std::string> cellsColsNames{ "id", "column", "row" };
+
+	createCellsDbTable(connector, cellsTableName, cellsColsNames);
+	fillCellsDbTable(connector, cellsTableName, cellsColsNames);
+}
+
+void SIAIMapImp::createCellsDbTable(DbConnector& connector, const std::string& tableName,
+		std::vector<std::string> colsNames)
+{
+	SQLQueryData dataForCellsTable{tableName, colsNames, { "INT NOT NULL", "INT NOT NULL", "INT NOT NULL"}};
 	std::string primaryKey = "id";
 
 	SQLCreateTableQuery createCellsTableQuery(dataForCellsTable, primaryKey);
 
-	connector.executeQueryWithoutResults(createCellsTableQuery);
+	tryToExecuteDbQuery(connector, createCellsTableQuery);
 }
 
-void SIAIMapImp::saveMapToDb(DbConnector& connector, const std::string& tableName)
+void SIAIMapImp::fillCellsDbTable(DbConnector& connector, const std::string& tableName,
+		std::vector<std::string> colsNames)
 {
-	for(const auto& entity : m_entities)
+	std::vector<std::vector<std::string>> cellsValues;
+
+	for(const auto& cell : m_entities)
 	{
-		entity->saveToDatabase(connector, tableName);
+		cellsValues.push_back(std::vector<std::string>{ std::to_string(cell->getId()),
+			std::to_string(cell->getPosition().column), std::to_string(cell->getPosition().row) });
+	}
+
+	SQLMultipleQueryData cellsDataToInsert{tableName, colsNames, cellsValues};
+	SQLMultipleInsertQuery cellsInsertQuery(cellsDataToInsert);
+
+	tryToExecuteDbQuery(connector, cellsInsertQuery);
+}
+
+void SIAIMapImp::tryToExecuteDbQuery(DbConnector& connector, const DbQuery& createQuery)
+{
+	try
+	{
+		connector.executeQueryWithoutResults(createQuery);
+	}
+	catch(const std::exception& e)
+	{
+		Log::warning(std::string("Error al enviar comando a base de datos: ") + e.what());
+
+		reset(0, 0);
 	}
 }

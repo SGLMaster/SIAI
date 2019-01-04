@@ -19,9 +19,9 @@ struct SQLMultipleQueryData
 class SQLQuery : public DbQuery
 {
 protected:
-    std::string m_table;
-    std::vector<std::string> m_columns;
-    std::vector<std::string> m_values;
+    const std::string& m_table;
+    const std::vector<std::string>& m_columns;
+    const std::vector<std::string>& m_values;
 
     SQLQuery() = delete;
     SQLQuery(const SQLQueryData& data);

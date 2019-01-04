@@ -177,7 +177,6 @@ void SQLCreateTableQuery::appendStringForColsPlusPrimaryKey(std::string& querySt
     {
         queryString += "`" + m_columns[i] + "` " + m_values[i] +",";
     }
-    DbUtil::removeTrailingComma(queryString);
 
     queryString += " PRIMARY KEY (`" + m_primaryKeyName + "`) )";
 }
