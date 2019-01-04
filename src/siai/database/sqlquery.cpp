@@ -8,22 +8,22 @@ namespace DbUtil
 	}
 }
 
-SQLQuery::SQLQuery(const SQLQueryData& data):
+SqlQuery::SqlQuery(const SqlQueryData& data):
             m_table(data.table), m_columns(data.cols), m_values(data.values) {}
 
-SQLQuery::~SQLQuery() {}
+SqlQuery::~SqlQuery() {}
 
-SQLMultipleQuery::SQLMultipleQuery(const SQLMultipleQueryData& data) : m_table(data.table),
+SqlMultipleQuery::SqlMultipleQuery(const SqlMultipleQueryData& data) : m_table(data.table),
 		m_columns(data.cols), m_values(data.values) {}
 
-SQLMultipleQuery::~SQLMultipleQuery() = default;
+SqlMultipleQuery::~SqlMultipleQuery() = default;
 
-SQLWhereCondition::SQLWhereCondition(const SQLQueryData& data):
-                    SQLQuery(data) {}
+SqlWhereCondition::SqlWhereCondition(const SqlQueryData& data):
+                    SqlQuery(data) {}
 
-SQLWhereCondition::~SQLWhereCondition(){}
+SqlWhereCondition::~SqlWhereCondition(){}
 
-std::string SQLWhereCondition::generateString() const
+std::string SqlWhereCondition::generateString() const
 {
     if(m_columns.size() != m_values.size())
         return "";
@@ -41,7 +41,7 @@ std::string SQLWhereCondition::generateString() const
     return query;
 }
 
-void SQLWhereCondition::appendConditionsForColsAndValues(std::string& queryString) const
+void SqlWhereCondition::appendConditionsForColsAndValues(std::string& queryString) const
 {
     for(unsigned int i = 0; i < m_columns.size(); ++i)
     {
@@ -52,12 +52,12 @@ void SQLWhereCondition::appendConditionsForColsAndValues(std::string& queryStrin
     queryString.replace(queryString.end()-5, queryString.end(), "");
 }
 
-SQLInsertQuery::SQLInsertQuery(const SQLQueryData& data):
-                SQLQuery(data) {}
+SqlInsertQuery::SqlInsertQuery(const SqlQueryData& data):
+                SqlQuery(data) {}
 
-SQLInsertQuery::~SQLInsertQuery() = default;
+SqlInsertQuery::~SqlInsertQuery() = default;
 
-std::string SQLInsertQuery::generateString() const
+std::string SqlInsertQuery::generateString() const
 {
     std::string query;
 
@@ -68,7 +68,7 @@ std::string SQLInsertQuery::generateString() const
     return query;
 }
 
-std::string SQLInsertQuery::getStringForColsOrValues(const std::string& startingString, const std::string& quoteChar,
+std::string SqlInsertQuery::getStringForColsOrValues(const std::string& startingString, const std::string& quoteChar,
                                                      const std::vector<std::string>& valuesToInsertOnString) const
 {
     std::string queryString(startingString);
@@ -83,11 +83,11 @@ std::string SQLInsertQuery::getStringForColsOrValues(const std::string& starting
     return queryString;
 }
 
-SQLMultipleInsertQuery::SQLMultipleInsertQuery(const SQLMultipleQueryData& data) : SQLMultipleQuery(data) {}
+SqlMultipleInsertQuery::SqlMultipleInsertQuery(const SqlMultipleQueryData& data) : SqlMultipleQuery(data) {}
 
-SQLMultipleInsertQuery::~SQLMultipleInsertQuery() = default;
+SqlMultipleInsertQuery::~SqlMultipleInsertQuery() = default;
 
-std::string SQLMultipleInsertQuery::generateString() const
+std::string SqlMultipleInsertQuery::generateString() const
 {
     std::string query;
 
@@ -99,7 +99,7 @@ std::string SQLMultipleInsertQuery::generateString() const
     return query;
 }
 
-void SQLMultipleInsertQuery::appendStringForColumns(std::string& queryString) const
+void SqlMultipleInsertQuery::appendStringForColumns(std::string& queryString) const
 {
 	queryString += "(";
 	for(const auto& value : m_columns)
@@ -110,7 +110,7 @@ void SQLMultipleInsertQuery::appendStringForColumns(std::string& queryString) co
 	queryString += ")";
 }
 
-void SQLMultipleInsertQuery::appendStringForValues(std::string& queryString) const
+void SqlMultipleInsertQuery::appendStringForValues(std::string& queryString) const
 {
 	for(const auto& column : m_values)
 	{
@@ -125,12 +125,12 @@ void SQLMultipleInsertQuery::appendStringForValues(std::string& queryString) con
 	DbUtil::removeTrailingComma(queryString);
 }
 
-SQLUpdateQuery::SQLUpdateQuery(const SQLQueryData& data, const std::string& whereCondition):
-                SQLQuery(data), m_whereCondition(whereCondition) {}
+SqlUpdateQuery::SqlUpdateQuery(const SqlQueryData& data, const std::string& whereCondition):
+                SqlQuery(data), m_whereCondition(whereCondition) {}
 
-SQLUpdateQuery::~SQLUpdateQuery() = default;
+SqlUpdateQuery::~SqlUpdateQuery() = default;
 
-std::string SQLUpdateQuery::generateString() const
+std::string SqlUpdateQuery::generateString() const
 {
     if(m_columns.size() != m_values.size())
         return "";
@@ -145,7 +145,7 @@ std::string SQLUpdateQuery::generateString() const
     return query;
 }
 
-void SQLUpdateQuery::appendColsAndNewValues(std::string& queryString) const
+void SqlUpdateQuery::appendColsAndNewValues(std::string& queryString) const
 {
     for(unsigned int i = 0; i < m_columns.size(); ++i)
     {
@@ -154,12 +154,12 @@ void SQLUpdateQuery::appendColsAndNewValues(std::string& queryString) const
     DbUtil::removeTrailingComma(queryString);
 }
 
-SQLCreateTableQuery::SQLCreateTableQuery(const SQLQueryData& data, const std::string& primaryKeyName) : SQLQuery(data),
+SqlCreateTableQuery::SqlCreateTableQuery(const SqlQueryData& data, const std::string& primaryKeyName) : SqlQuery(data),
 		m_primaryKeyName{primaryKeyName} {}
 
-SQLCreateTableQuery::~SQLCreateTableQuery() = default;
+SqlCreateTableQuery::~SqlCreateTableQuery() = default;
 
-std::string SQLCreateTableQuery::generateString() const
+std::string SqlCreateTableQuery::generateString() const
 {
     std::string query;
 
@@ -169,7 +169,7 @@ std::string SQLCreateTableQuery::generateString() const
     return query;
 }
 
-void SQLCreateTableQuery::appendStringForColsPlusPrimaryKey(std::string& queryString) const
+void SqlCreateTableQuery::appendStringForColsPlusPrimaryKey(std::string& queryString) const
 {
     queryString += "(";
 

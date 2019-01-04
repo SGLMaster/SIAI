@@ -2,50 +2,50 @@
 
 #include "dbquery.hpp"
 
-struct SQLQueryData
+struct SqlQueryData
 {
     std::string table;
     std::vector<std::string> cols;
     std::vector<std::string> values;
 };
 
-struct SQLMultipleQueryData
+struct SqlMultipleQueryData
 {
     std::string table;
     std::vector<std::string> cols;
     std::vector<std::vector<std::string>> values;
 };
 
-class SQLQuery : public DbQuery
+class SqlQuery : public DbQuery
 {
 protected:
     const std::string& m_table;
     const std::vector<std::string>& m_columns;
     const std::vector<std::string>& m_values;
 
-    SQLQuery() = delete;
-    SQLQuery(const SQLQueryData& data);
-    virtual ~SQLQuery();
+    SqlQuery() = delete;
+    SqlQuery(const SqlQueryData& data);
+    virtual ~SqlQuery();
 };
 
-class SQLMultipleQuery : public DbQuery
+class SqlMultipleQuery : public DbQuery
 {
 protected:
     const std::string& m_table;
     const std::vector<std::string>& m_columns;
     const std::vector<std::vector<std::string>>& m_values;
 
-    SQLMultipleQuery() = delete;
-    SQLMultipleQuery(const SQLMultipleQueryData& data);
-    virtual ~SQLMultipleQuery();
+    SqlMultipleQuery() = delete;
+    SqlMultipleQuery(const SqlMultipleQueryData& data);
+    virtual ~SqlMultipleQuery();
 };
 
-class SQLWhereCondition : public SQLQuery
+class SqlWhereCondition : public SqlQuery
 {
 public:
-    SQLWhereCondition() = delete;
-    SQLWhereCondition(const SQLQueryData& data);
-    virtual ~SQLWhereCondition();
+    SqlWhereCondition() = delete;
+    SqlWhereCondition(const SqlQueryData& data);
+    virtual ~SqlWhereCondition();
 
     virtual std::string generateString() const override;
 
@@ -53,12 +53,12 @@ private:
     void appendConditionsForColsAndValues(std::string& queryString) const;
 };
 
-class SQLInsertQuery : public SQLQuery
+class SqlInsertQuery : public SqlQuery
 {
 public:
-    SQLInsertQuery() = delete;
-    SQLInsertQuery(const SQLQueryData& data);
-    virtual ~SQLInsertQuery();
+    SqlInsertQuery() = delete;
+    SqlInsertQuery(const SqlQueryData& data);
+    virtual ~SqlInsertQuery();
 
     virtual std::string generateString() const override;
 
@@ -67,12 +67,12 @@ private:
                                          const std::vector<std::string>& valuesToInsertOnString) const;
 };
 
-class SQLMultipleInsertQuery : public SQLMultipleQuery
+class SqlMultipleInsertQuery : public SqlMultipleQuery
 {
 public:
-	SQLMultipleInsertQuery() = delete;
-	SQLMultipleInsertQuery(const SQLMultipleQueryData& data);
-    virtual ~SQLMultipleInsertQuery();
+	SqlMultipleInsertQuery() = delete;
+	SqlMultipleInsertQuery(const SqlMultipleQueryData& data);
+    virtual ~SqlMultipleInsertQuery();
 
     virtual std::string generateString() const override;
 
@@ -81,15 +81,15 @@ private:
     void appendStringForValues(std::string& queryString) const;
 };
 
-class SQLUpdateQuery : public SQLQuery
+class SqlUpdateQuery : public SqlQuery
 {
 private:
     std::string m_whereCondition;
 
 public:
-    SQLUpdateQuery() = delete;
-    SQLUpdateQuery(const SQLQueryData& data, const std::string& whereCondition="");
-    virtual ~SQLUpdateQuery();
+    SqlUpdateQuery() = delete;
+    SqlUpdateQuery(const SqlQueryData& data, const std::string& whereCondition="");
+    virtual ~SqlUpdateQuery();
 
     virtual std::string generateString() const override;
 
@@ -97,15 +97,15 @@ private:
     void appendColsAndNewValues(std::string& queryString) const;
 };
 
-class SQLCreateTableQuery : public SQLQuery
+class SqlCreateTableQuery : public SqlQuery
 {
 private:
     std::string m_primaryKeyName;
 
 public:
-    SQLCreateTableQuery() = delete;
-    SQLCreateTableQuery(const SQLQueryData& data, const std::string& primaryKeyName);
-    virtual ~SQLCreateTableQuery();
+    SqlCreateTableQuery() = delete;
+    SqlCreateTableQuery(const SqlQueryData& data, const std::string& primaryKeyName);
+    virtual ~SqlCreateTableQuery();
 
     virtual std::string generateString() const override;
 

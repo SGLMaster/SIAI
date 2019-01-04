@@ -143,10 +143,10 @@ void SIAIMapImp::createDatabaseTable(DbConnector& connector, const std::string& 
 void SIAIMapImp::createCellsDbTable(DbConnector& connector, const std::string& tableName,
 		std::vector<std::string> colsNames)
 {
-	SQLQueryData dataForCellsTable{tableName, colsNames, { "INT NOT NULL", "INT NOT NULL", "INT NOT NULL"}};
+	SqlQueryData dataForCellsTable{tableName, colsNames, { "INT NOT NULL", "INT NOT NULL", "INT NOT NULL"}};
 	std::string primaryKey = "id";
 
-	SQLCreateTableQuery createCellsTableQuery(dataForCellsTable, primaryKey);
+	SqlCreateTableQuery createCellsTableQuery(dataForCellsTable, primaryKey);
 
 	tryToExecuteDbQuery(connector, createCellsTableQuery);
 }
@@ -162,8 +162,8 @@ void SIAIMapImp::fillCellsDbTable(DbConnector& connector, const std::string& tab
 			std::to_string(cell->getPosition().column), std::to_string(cell->getPosition().row) });
 	}
 
-	SQLMultipleQueryData cellsDataToInsert{tableName, colsNames, cellsValues};
-	SQLMultipleInsertQuery cellsInsertQuery(cellsDataToInsert);
+	SqlMultipleQueryData cellsDataToInsert{tableName, colsNames, cellsValues};
+	SqlMultipleInsertQuery cellsInsertQuery(cellsDataToInsert);
 
 	tryToExecuteDbQuery(connector, cellsInsertQuery);
 }

@@ -68,7 +68,7 @@ void CellDefault::saveToDatabase(DbConnector& connector, const std::string& tabl
 	std::vector<std::string> columnsToSave{"id", "column", "row"};
 	std::vector<std::string> valuesToSave{std::to_string(m_id),
 		std::to_string(m_position.column), std::to_string(m_position.row)};
-	SQLInsertQuery insertCellQuery(SQLQueryData{tableName, columnsToSave, valuesToSave});
+	SqlInsertQuery insertCellQuery(SqlQueryData{tableName, columnsToSave, valuesToSave});
 
 	connector.executeQueryWithoutResults(insertCellQuery);
 }
