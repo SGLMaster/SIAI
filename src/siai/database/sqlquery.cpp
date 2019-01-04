@@ -1,5 +1,13 @@
 #include "database/sqlquery.hpp"
 
+namespace DbUtil
+{
+	inline void removeTrailingComma(std::string& stringWithTrailingComma)
+	{
+		stringWithTrailingComma.replace(stringWithTrailingComma.end()-1, stringWithTrailingComma.end(), "");
+	}
+}
+
 SQLQuery::SQLQuery(const SQLQueryData& data):
             m_table(data.table), m_columns(data.cols), m_values(data.values) {}
 
@@ -69,8 +77,7 @@ std::string SQLInsertQuery::getStringForColsOrValues(const std::string& starting
     {
         queryString = queryString + quoteChar + value + quoteChar +",";
     }
-    //We delete the comma after the last element cause we don't want it, it is a side effect of the loop
-    queryString.replace(queryString.end()-1, queryString.end(), "");
+    DbUtil::removeTrailingComma(queryString);
     queryString += ")";
 
     return queryString;
@@ -99,8 +106,7 @@ void SQLMultipleInsertQuery::appendStringForColumns(std::string& queryString) co
 	{
 		queryString = queryString + "`" + value + "`" +",";
 	}
-	//We delete the comma after the last element cause we don't want it, it is a side effect of the loop
-	queryString.replace(queryString.end()-1, queryString.end(), "");
+	DbUtil::removeTrailingComma(queryString);
 	queryString += ")";
 }
 
@@ -113,12 +119,10 @@ void SQLMultipleInsertQuery::appendStringForValues(std::string& queryString) con
 		{
 			queryString = queryString + "'" + value + "'" +",";
 		}
-		//We delete the comma after the last element cause we don't want it, it is a side effect of the loop
-		queryString.replace(queryString.end()-1, queryString.end(), "");
+		DbUtil::removeTrailingComma(queryString);
 		queryString += "),";
 	}
-	//We delete the comma and space after the last element cause we don't want it
-	queryString.replace(queryString.end()-1, queryString.end(), "");
+	DbUtil::removeTrailingComma(queryString);
 }
 
 SQLUpdateQuery::SQLUpdateQuery(const SQLQueryData& data, const std::string& whereCondition):
@@ -147,8 +151,7 @@ void SQLUpdateQuery::appendColsAndNewValues(std::string& queryString) const
     {
         queryString += "`" + m_columns[i] + "` = '" + m_values[i] + "',";
     }
-    //We delete the comma after the last element cause we don't want it, it is a side effect of the loop
-    queryString.replace(queryString.end()-1, queryString.end(), "");
+    DbUtil::removeTrailingComma(queryString);
 }
 
 SQLCreateTableQuery::SQLCreateTableQuery(const SQLQueryData& data, const std::string& primaryKeyName) : SQLQuery(data),
@@ -174,6 +177,7 @@ void SQLCreateTableQuery::appendStringForColsPlusPrimaryKey(std::string& querySt
     {
         queryString += "`" + m_columns[i] + "` " + m_values[i] +",";
     }
+    DbUtil::removeTrailingComma(queryString);
 
     queryString += " PRIMARY KEY (`" + m_primaryKeyName + "`) )";
 }
