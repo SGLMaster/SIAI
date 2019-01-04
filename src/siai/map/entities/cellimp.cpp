@@ -63,12 +63,12 @@ void CellDefault::setDifferentPenIfSelected(Painter& painter)
     }
 }
 
-void CellDefault::saveToDatabase(DbConnector& connector) const
+void CellDefault::saveToDatabase(DbConnector& connector, const std::string& tableName) const
 {
 	std::vector<std::string> columnsToSave{"id", "column", "row"};
 	std::vector<std::string> valuesToSave{std::to_string(m_id),
 		std::to_string(m_position.column), std::to_string(m_position.row)};
-	SQLInsertQuery insertCellQuery(SQLQueryData{"test_table", columnsToSave, valuesToSave});
+	SQLInsertQuery insertCellQuery(SQLQueryData{tableName, columnsToSave, valuesToSave});
 
 	connector.executeQueryWithoutResults(insertCellQuery);
 }

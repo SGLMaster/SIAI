@@ -41,7 +41,8 @@ public:
 
     virtual int getSelectedId() const noexcept = 0;
 
-    virtual void saveAllToDb(DbConnector& connector) = 0;
+    virtual void createDatabaseTable(DbConnector& connector, const std::string& mapName) = 0;
+    virtual void saveMapToDb(DbConnector& connector, const std::string& tableName) = 0;
 
 protected:
     SIAIMap();

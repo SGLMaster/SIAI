@@ -94,7 +94,7 @@ namespace Forms
 
 		protected:
 			wxStaticText* m_staticMapName;
-			wxTextCtrl* m_textCtrl8;
+			wxTextCtrl* m_textCtrlMapName;
 			wxStaticText* m_staticTextNumberOfCols;
 			wxTextCtrl* m_textCtrlNumberOfCols;
 			wxStaticText* m_staticTextNumberOfRows;

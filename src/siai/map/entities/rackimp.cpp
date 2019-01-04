@@ -20,7 +20,7 @@ bool RackDefault::hasPointInside(const PanelPoint& point) const noexcept
 	return false;
 }
 
-void RackDefault::saveToDatabase(DbConnector& connector)  const
+void RackDefault::saveToDatabase(DbConnector& connector, const std::string& tableName)  const
 {
 
 }

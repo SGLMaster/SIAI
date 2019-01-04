@@ -4,6 +4,11 @@
 
 #include "util/reversion.hpp"
 
+#include "database/database.hpp"
+#include "database/sqlquery.hpp"
+
+#include "globals.hpp"
+
 #include <algorithm>
 
 SIAIMapImp::SIAIMapImp() : m_commandStream{CommandStream::create()} {}
@@ -124,10 +129,21 @@ int SIAIMapImp::getSelectedId() const noexcept
     return lastSelectedId;
 }
 
-void SIAIMapImp::saveAllToDb(DbConnector& connector)
+void SIAIMapImp::createDatabaseTable(DbConnector& connector, const std::string& mapName)
+{
+	SQLQueryData dataForCellsTable{SIAIGlobals::DB_TABLES_PREFIX + mapName, { "id", "column", "row" },
+		{ "INT NOT NULL", "INT NOT NULL", "INT NOT NULL"}};
+	std::string primaryKey = "id";
+
+	SQLCreateTableQuery createCellsTableQuery(dataForCellsTable, primaryKey);
+
+	connector.executeQueryWithoutResults(createCellsTableQuery);
+}
+
+void SIAIMapImp::saveMapToDb(DbConnector& connector, const std::string& tableName)
 {
 	for(const auto& entity : m_entities)
 	{
-		entity->saveToDatabase(connector);
+		entity->saveToDatabase(connector, tableName);
 	}
 }

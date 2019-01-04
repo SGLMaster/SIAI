@@ -26,7 +26,7 @@ MapEditorFrame::MapEditorFrame(wxWindow* parent) : Forms::MapEditorFrame(parent)
     wxImage::AddHandler(new wxPNGHandler);
 }
 
-void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows)
+void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows, const std::string& mapName)
 {
 	if(!m_dbConnector)
 	{
@@ -36,7 +36,8 @@ void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows)
 
     m_mapControl->reset(numberOfColumns, numberOfRows);
 
-    tryToSaveMapToDatabase();
+    tryToCreateMapDbTable(mapName);
+    tryToSaveMapToDatabase(mapName);
 
     repaintMapNow();
     updateScrollbarsSize();
@@ -58,11 +59,25 @@ void MapEditorFrame::tryToConnectToDatabase(const DbConnectionOptions& options)
 	}
 }
 
-void MapEditorFrame::tryToSaveMapToDatabase()
+void MapEditorFrame::tryToCreateMapDbTable(const std::string& mapName)
 {
 	try
 	{
-		m_mapControl->saveAllToDb(*m_dbConnector);
+		m_mapControl->createDatabaseTable(*m_dbConnector, mapName);
+	}
+	catch(const std::exception& e)
+	{
+		Log::warning(std::string("Error al guardar mapa: ") + e.what());
+
+		m_mapControl->reset(0, 0);
+	}
+}
+
+void MapEditorFrame::tryToSaveMapToDatabase(const std::string& mapName)
+{
+	try
+	{
+		m_mapControl->saveMapToDb(*m_dbConnector, SIAIGlobals::DB_TABLES_PREFIX + mapName);
 	}
 	catch(const std::exception& e)
 	{

@@ -45,10 +45,11 @@ private:
 public:
     MapEditorFrame(wxWindow* parent);
 
-    void initializeNewMap(int numberOfColumns, int numberOfRows);
+    void initializeNewMap(int numberOfColumns, int numberOfRows, const std::string& mapName);
 
     void tryToConnectToDatabase(const DbConnectionOptions& options);
-    void tryToSaveMapToDatabase();
+    void tryToCreateMapDbTable(const std::string& mapName);
+    void tryToSaveMapToDatabase(const std::string& mapName);
 
 private:
     virtual void OnLeftClickMapPanel(wxMouseEvent& event) override;

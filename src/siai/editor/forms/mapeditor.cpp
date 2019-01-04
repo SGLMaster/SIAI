@@ -134,8 +134,8 @@ NewMapDialog::NewMapDialog( wxWindow* parent, wxWindowID id, const wxString& tit
 
 	bSizer14->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_textCtrl8 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer14->Add( m_textCtrl8, 0, wxALL, 5 );
+	m_textCtrlMapName = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer14->Add( m_textCtrlMapName, 0, wxALL, 5 );
 
 
 	bSizer13->Add( bSizer14, 1, wxEXPAND, 5 );

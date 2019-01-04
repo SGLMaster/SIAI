@@ -33,6 +33,7 @@ void NewMapDialog::OnButtonClickCancel( wxCommandEvent& event )
 
 void NewMapDialog::validateColsAndRowsNumbersAndInitializeNewMap()
 {
+	std::string mapName = m_textCtrlMapName->GetValue().ToStdString();
     int numberOfColumns = wxAtoi( m_textCtrlNumberOfCols->GetValue() );
     int numberOfRows = wxAtoi( m_textCtrlNumberOfRows->GetValue() );
 
@@ -41,7 +42,7 @@ void NewMapDialog::validateColsAndRowsNumbersAndInitializeNewMap()
 		throw InvalidNumberException();
 	}
 
-    m_parentFrame->initializeNewMap(numberOfColumns, numberOfRows);
+    m_parentFrame->initializeNewMap(numberOfColumns, numberOfRows, mapName);
 }
 
 void NewMapDialog::enableMainFrameAndCloseDialog()
