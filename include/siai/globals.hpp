@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 namespace SIAIGlobals
 {
     constexpr int DISTANCE_BETWEEN_CELL_AND_AGV_PX = 5;
