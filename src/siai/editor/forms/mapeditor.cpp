@@ -134,7 +134,7 @@ NewMapDialog::NewMapDialog( wxWindow* parent, wxWindowID id, const wxString& tit
 
 	bSizer14->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_textCtrlMapName = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_textCtrlMapName = new wxTextCtrl( this, wxID_ANY, _("Mapa_por_defecto"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer14->Add( m_textCtrlMapName, 0, wxALL, 5 );
 
 
@@ -153,14 +153,14 @@ NewMapDialog::NewMapDialog( wxWindow* parent, wxWindowID id, const wxString& tit
 
 	bSizer3->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_textCtrlNumberOfCols = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_RIGHT );
+	m_textCtrlNumberOfCols = new wxTextCtrl( this, wxID_ANY, _("10"), wxDefaultPosition, wxDefaultSize, wxTE_RIGHT );
 	#ifdef __WXGTK__
 	if ( !m_textCtrlNumberOfCols->HasFlag( wxTE_MULTILINE ) )
 	{
-	m_textCtrlNumberOfCols->SetMaxLength( 3 );
+	m_textCtrlNumberOfCols->SetMaxLength( 2 );
 	}
 	#else
-	m_textCtrlNumberOfCols->SetMaxLength( 3 );
+	m_textCtrlNumberOfCols->SetMaxLength( 2 );
 	#endif
 	bSizer3->Add( m_textCtrlNumberOfCols, 0, wxALL, 5 );
 
@@ -177,14 +177,14 @@ NewMapDialog::NewMapDialog( wxWindow* parent, wxWindowID id, const wxString& tit
 
 	bSizer4->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_textCtrlNumberOfRows = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_RIGHT );
+	m_textCtrlNumberOfRows = new wxTextCtrl( this, wxID_ANY, _("10"), wxDefaultPosition, wxDefaultSize, wxTE_RIGHT );
 	#ifdef __WXGTK__
 	if ( !m_textCtrlNumberOfRows->HasFlag( wxTE_MULTILINE ) )
 	{
-	m_textCtrlNumberOfRows->SetMaxLength( 3 );
+	m_textCtrlNumberOfRows->SetMaxLength( 2 );
 	}
 	#else
-	m_textCtrlNumberOfRows->SetMaxLength( 3 );
+	m_textCtrlNumberOfRows->SetMaxLength( 2 );
 	#endif
 	bSizer4->Add( m_textCtrlNumberOfRows, 0, wxALL, 5 );
 
