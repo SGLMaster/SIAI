@@ -42,7 +42,7 @@ public:
     virtual int getSelectedEntityRow() const noexcept override;
     virtual int getSelectedId() const noexcept;
 
-    virtual void createDatabaseTable(DbConnector& connector, const std::string& mapName) override;
+    virtual void createDatabaseTables(DbConnector& connector, const std::string& mapName) override;
 
 private:
     void generateCells();

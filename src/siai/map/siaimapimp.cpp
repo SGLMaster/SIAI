@@ -131,7 +131,7 @@ int SIAIMapImp::getSelectedId() const noexcept
     return lastSelectedId;
 }
 
-void SIAIMapImp::createDatabaseTable(DbConnector& connector, const std::string& mapName)
+void SIAIMapImp::createDatabaseTables(DbConnector& connector, const std::string& mapName)
 {
 	std::string cellsTableName{SIAIGlobals::DB_CELLS_TABLE_PREFIX + mapName};
 	std::vector<std::string> cellsColsNames{ "id", "column", "row" };
