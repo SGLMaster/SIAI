@@ -50,5 +50,7 @@ private:
     void createCellsDbTable(DbConnector& connector, const std::string& tableName, std::vector<std::string> colsNames);
     void fillCellsDbTable(DbConnector& connector, const std::string& tableName, std::vector<std::string> colsNames);
 
+    void createAgvsDbTable(DbConnector& connector, const std::string& mapName);
+
     void tryToExecuteDbQuery(DbConnector& connector, const DbQuery& query);
 };

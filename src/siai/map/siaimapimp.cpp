@@ -138,6 +138,8 @@ void SIAIMapImp::createDatabaseTables(DbConnector& connector, const std::string&
 
 	createCellsDbTable(connector, cellsTableName, cellsColsNames);
 	fillCellsDbTable(connector, cellsTableName, cellsColsNames);
+
+	createAgvsDbTable(connector, mapName);
 }
 
 void SIAIMapImp::createCellsDbTable(DbConnector& connector, const std::string& tableName,
@@ -166,6 +168,19 @@ void SIAIMapImp::fillCellsDbTable(DbConnector& connector, const std::string& tab
 	SqlMultipleInsertQuery cellsInsertQuery(cellsDataToInsert);
 
 	tryToExecuteDbQuery(connector, cellsInsertQuery);
+}
+
+void SIAIMapImp::createAgvsDbTable(DbConnector& connector, const std::string& mapName)
+{
+	std::string agvsTableName{SIAIGlobals::DB_AGVS_TABLE_PREFIX + mapName};
+	std::vector<std::string> agvsColsNames{ "id", "column", "row" };
+
+	SqlQueryData dataForAgvsTable{agvsTableName, agvsColsNames, { "INT NOT NULL", "INT NOT NULL", "INT NOT NULL"}};
+	std::string primaryKey = "id";
+
+	SqlCreateTableQuery createAgvsTableQuery(dataForAgvsTable, primaryKey);
+
+	tryToExecuteDbQuery(connector, createAgvsTableQuery);
 }
 
 void SIAIMapImp::tryToExecuteDbQuery(DbConnector& connector, const DbQuery& createQuery)
