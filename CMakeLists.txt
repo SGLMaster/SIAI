@@ -24,15 +24,19 @@ file(GLOB PAINTER_SOURCES "src/siai/painter/*.cpp")
 file(GLOB UTIL_SOURCES "src/siai/util/*.cpp")
 file(GLOB ROOT_SOURCES "src/siai/*.cpp")
 
+set(CMAKE_CXX_FLAGS "-std=c++14 -m64 -Wall -Wno-deprecated-declarations -Wno-attributes")
+set(CMAKE_CXX_FLAGS_RELEASE "-O2")
+set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
+
 #Map Library
 add_library(siaimap SHARED ${MAP_SOURCES} ${DATABASE_SOURCES} ${PAINTER_SOURCES} ${UTIL_SOURCES} ${ROOT_SOURCES})
 
 target_link_libraries(siaimap wxbase30ud wxmsw30ud_core mysqlpp mysql user32)
-target_compile_options(siaimap PUBLIC -std=c++14 -m64 -Wall -Wno-deprecated-declarations -g -DBUILD_DLL)
+target_compile_options(siaimap PUBLIC -DBUILD_DLL)
 	
 #Map Editor
 add_executable(map-editor ${EDITOR_SOURCES} ${DATABASE_SOURCES} ${PAINTER_SOURCES} ${UTIL_SOURCES} ${ROOT_SOURCES})
 
 target_link_libraries(map-editor siaimap wxbase30ud wxmsw30ud_core wxmsw30ud_adv mysqlpp mysql)
-target_compile_options(map-editor PUBLIC -std=c++14 -m64 -Wall -Wno-deprecated-declarations -g)
 target_link_options(map-editor PUBLIC -mwindows)
+
