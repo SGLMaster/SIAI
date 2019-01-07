@@ -5,6 +5,10 @@
 
 Util::IdManager ICell::CellsIdManager = Util::IdManager{MIN_CELL_ID, MAX_CELL_ID};
 
+const std::vector<std::string> ICell::dbColumnNames{ "id", "column", "row" };
+const std::vector<std::string> ICell::dbColumnTypes{ "INT NOT NULL", "INT NOT NULL", "INT NOT NULL" };
+const std::string ICell::primaryKeyName{"id"};
+
 ICell::ICell(int id, const MapPosition& position) : IMapEntity(id, position) {}
 ICell::~ICell(){};
 

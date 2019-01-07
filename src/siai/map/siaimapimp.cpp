@@ -1,5 +1,7 @@
 #include "map/siaimapimp.hpp"
 #include "map/entities/mapentity.hpp"
+#include "map/entities/cell.hpp"
+#include "map/entities/agv.hpp"
 #include "map/cmd/cmdstream.hpp"
 
 #include "util/reversion.hpp"
@@ -133,28 +135,23 @@ int SIAIMapImp::getSelectedId() const noexcept
 
 void SIAIMapImp::createDatabaseTables(DbConnector& connector, const std::string& mapName)
 {
-	std::string cellsTableName{SIAIGlobals::DB_CELLS_TABLE_PREFIX + mapName};
-	std::vector<std::string> cellsColsNames{ "id", "column", "row" };
-
-	createCellsDbTable(connector, cellsTableName, cellsColsNames);
-	fillCellsDbTable(connector, cellsTableName, cellsColsNames);
+	createCellsDbTable(connector, mapName);
+	fillCellsDbTable(connector, mapName);
 
 	createAgvsDbTable(connector, mapName);
 }
 
-void SIAIMapImp::createCellsDbTable(DbConnector& connector, const std::string& tableName,
-		std::vector<std::string> colsNames)
+void SIAIMapImp::createCellsDbTable(DbConnector& connector, const std::string& mapName)
 {
-	SqlQueryData dataForCellsTable{tableName, colsNames, { "INT NOT NULL", "INT NOT NULL", "INT NOT NULL"}};
-	std::string primaryKey = "id";
+	std::string cellsTableName{SIAIGlobals::DB_CELLS_TABLE_PREFIX + mapName};
 
-	SqlCreateTableQuery createCellsTableQuery(dataForCellsTable, primaryKey);
+	SqlQueryData dataForCellsTable{cellsTableName, ICell::dbColumnNames, ICell::dbColumnTypes};
+	SqlCreateTableQuery createCellsTableQuery(dataForCellsTable, ICell::primaryKeyName);
 
 	tryToExecuteDbQuery(connector, createCellsTableQuery);
 }
 
-void SIAIMapImp::fillCellsDbTable(DbConnector& connector, const std::string& tableName,
-		std::vector<std::string> colsNames)
+void SIAIMapImp::fillCellsDbTable(DbConnector& connector, const std::string& mapName)
 {
 	std::vector<std::vector<std::string>> cellsValues;
 
@@ -164,7 +161,8 @@ void SIAIMapImp::fillCellsDbTable(DbConnector& connector, const std::string& tab
 			std::to_string(cell->getPosition().column), std::to_string(cell->getPosition().row) });
 	}
 
-	SqlMultipleQueryData cellsDataToInsert{tableName, colsNames, cellsValues};
+	SqlMultipleQueryData cellsDataToInsert{SIAIGlobals::DB_CELLS_TABLE_PREFIX + mapName, ICell::dbColumnNames,
+		cellsValues};
 	SqlMultipleInsertQuery cellsInsertQuery(cellsDataToInsert);
 
 	tryToExecuteDbQuery(connector, cellsInsertQuery);
@@ -173,12 +171,9 @@ void SIAIMapImp::fillCellsDbTable(DbConnector& connector, const std::string& tab
 void SIAIMapImp::createAgvsDbTable(DbConnector& connector, const std::string& mapName)
 {
 	std::string agvsTableName{SIAIGlobals::DB_AGVS_TABLE_PREFIX + mapName};
-	std::vector<std::string> agvsColsNames{ "id", "column", "row" };
 
-	SqlQueryData dataForAgvsTable{agvsTableName, agvsColsNames, { "INT NOT NULL", "INT NOT NULL", "INT NOT NULL"}};
-	std::string primaryKey = "id";
-
-	SqlCreateTableQuery createAgvsTableQuery(dataForAgvsTable, primaryKey);
+	SqlQueryData dataForAgvsTable{agvsTableName, IAgv::dbColumnNames, IAgv::dbColumnTypes};
+	SqlCreateTableQuery createAgvsTableQuery(dataForAgvsTable, IAgv::primaryKeyName);
 
 	tryToExecuteDbQuery(connector, createAgvsTableQuery);
 }
