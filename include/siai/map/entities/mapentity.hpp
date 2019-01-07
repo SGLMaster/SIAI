@@ -85,6 +85,11 @@ public:
         return m_position;
     }
 
+    inline MapDirection getDirection() const noexcept
+    {
+    	return m_direction;
+    }
+
     inline void setPosition(int column, int row)
     {
         m_position.column = column;
