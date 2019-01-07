@@ -161,7 +161,7 @@ void SIAIMapImp::fillCellsDbTable(DbConnector& connector, const std::string& map
 
 		cellsValues.push_back(std::vector<std::string>{ std::to_string(cell->getId()),
 			std::to_string(cell->getPosition().column), std::to_string(cell->getPosition().row),
-			std::to_string(direction) });
+			std::to_string(direction), cell->getEntityName()});
 	}
 
 	SqlMultipleQueryData cellsDataToInsert{SIAIGlobals::DB_CELLS_TABLE_PREFIX + mapName, ICell::dbColumnNames,
