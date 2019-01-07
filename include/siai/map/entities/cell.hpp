@@ -11,12 +11,6 @@
 class ICell : public IMapEntity
 {
 public:
-	enum class Type
-	{
-		REGULAR,
-		BLOCKED
-	};
-
 	static const std::vector<std::string> dbColumnNames;
 	static const std::vector<std::string> dbColumnTypes;
 	static const std::string primaryKeyName;

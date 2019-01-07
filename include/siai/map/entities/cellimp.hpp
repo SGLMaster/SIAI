@@ -40,7 +40,7 @@ public:
 
     virtual std::string getEntityName() const noexcept override
     {
-        return "RegularCell";
+        return "Regular";
     }
 
     virtual void draw(Painter& painter) override;
@@ -56,7 +56,7 @@ public:
 
     virtual std::string getEntityName() const noexcept override
     {
-        return "BlockedCell";
+        return "Blocked";
     }
 
     virtual void draw(Painter& painter) override;

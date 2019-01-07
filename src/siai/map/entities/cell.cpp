@@ -15,12 +15,12 @@ ICell::~ICell(){};
 
 std::unique_ptr<ICell> ICell::create(std::string type, int id, const MapPosition& position)
 {
-    if(type == "RegularCell")
+    if(type == "Regular")
     {
     	return std::make_unique<RegularCell>(id, position);
     }
 
-    else if(type == "BlockedCell")
+    else if(type == "Blocked")
     {
     	return std::make_unique<BlockedCell>(id, position);
     }

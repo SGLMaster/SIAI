@@ -161,10 +161,10 @@ void MapEditorFrame::callCurrentToolAction()
         actionToolSelect(mousePosition);
         break;
     case Tool::REGULAR_CELL:
-        actionToolReplaceCell("RegularCell", columnToPerformAction, rowToPerformAction);
+        actionToolReplaceCell("Regular", columnToPerformAction, rowToPerformAction);
         break;
     case Tool::BLOCKED_CELL:
-        actionToolReplaceCell("BlockedCell", columnToPerformAction, rowToPerformAction);
+        actionToolReplaceCell("Blocked", columnToPerformAction, rowToPerformAction);
         break;
     case Tool::ADD_AGV:
         actionToolAddAgv("RegularAgv", columnToPerformAction, rowToPerformAction);
