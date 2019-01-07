@@ -23,6 +23,8 @@ public:
     virtual bool isVisibleOnScreen(const PanelPoint& panelOrigin, const PanelSize& panelSize) const noexcept override;
     virtual bool hasPointInside(const PanelPoint& point) const noexcept override;
 
+    virtual void insertToDatabase(DbConnector& connector, const std::string& tableName) const override;
+
     virtual void saveToDatabase(DbConnector& connector, const std::string& tableName) const override;
     virtual void loadFromDatabase(DbConnector& connector) override;
 

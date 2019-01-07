@@ -62,6 +62,11 @@ void AgvDefault::calculateOrigin(int zoom)
     m_origin = PanelPoint{originX, originY};
 }
 
+void AgvDefault::insertToDatabase(DbConnector& connector, const std::string& tableName) const
+{
+
+}
+
 void AgvDefault::saveToDatabase(DbConnector& connector, const std::string& tableName) const
 {
 
