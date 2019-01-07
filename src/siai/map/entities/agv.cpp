@@ -7,8 +7,8 @@
 
 Util::IdManager IAgv::AgvsIdManager = Util::IdManager{MIN_AGV_ID, MAX_AGV_ID};
 
-const std::vector<std::string> IAgv::dbColumnNames{ "id", "column", "row" };
-const std::vector<std::string> IAgv::dbColumnTypes{ "INT NOT NULL", "INT NOT NULL", "INT NOT NULL" };
+const std::vector<std::string> IAgv::dbColumnNames{ "id", "column", "row", "direction" };
+const std::vector<std::string> IAgv::dbColumnTypes{ "INT NOT NULL", "INT NOT NULL", "INT NOT NULL", "INT NOT NULL" };
 const std::string IAgv::primaryKeyName{"id"};
 
 IAgv::IAgv(const MapPosition& position) : IMapEntity(AgvsIdManager.getId(), position) {}
