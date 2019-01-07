@@ -11,11 +11,16 @@
 class ICell : public IMapEntity
 {
 public:
+	enum class Type
+	{
+		REGULAR,
+		BLOCKED
+	};
+
 	static const std::vector<std::string> dbColumnNames;
 	static const std::vector<std::string> dbColumnTypes;
 	static const std::string primaryKeyName;
 
-public:
     static constexpr int MIN_CELL_ID{1};
     static constexpr int MAX_CELL_ID{999999};
 
