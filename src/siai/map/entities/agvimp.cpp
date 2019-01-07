@@ -1,5 +1,8 @@
 #include "map/entities/agvimp.hpp"
 
+#include "database/database.hpp"
+#include "database/sqlquery.hpp"
+
 #include "globals.hpp"
 
 AgvDefault::AgvDefault(const MapPosition& position) : IAgv(position) {}
@@ -64,7 +67,14 @@ void AgvDefault::calculateOrigin(int zoom)
 
 void AgvDefault::insertToDatabase(DbConnector& connector, const std::string& tableName) const
 {
+	int direction = static_cast<int>(m_direction);
 
+	std::vector<std::string> valuesToSave{std::to_string(m_id), std::to_string(m_position.column),
+		std::to_string(m_position.row), std::to_string(direction)};
+
+	SqlInsertQuery insertCellQuery(SqlQueryData{tableName, IAgv::dbColumnNames, valuesToSave});
+
+	connector.executeQueryWithoutResults(insertCellQuery);
 }
 
 void AgvDefault::saveToDatabase(DbConnector& connector, const std::string& tableName) const
