@@ -26,7 +26,7 @@ void Entities::tryToCreateAndAddCell(Container& entities, const MapPosition& pos
 {
     try
     {
-        Entities::Pointer tmpCell = ICell::create("RegularCell", ICell::CellsIdManager.getId(), position);
+        Entities::Pointer tmpCell = ICell::create("Regular", ICell::CellsIdManager.getId(), position);
 
         entities.push_back(std::move(tmpCell));
     }
