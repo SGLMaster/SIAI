@@ -58,6 +58,7 @@ AddAgvCommand::AddAgvCommand(const MapCommand::Container& arguments)
         throw InvalidNumberOfArguments();
     }
 
+    m_mapName = arguments[MAP_NAME];
     m_agvType = arguments[AGV_TYPE];
 
     int column = std::stoi(arguments[COLUMN]);
