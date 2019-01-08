@@ -18,16 +18,6 @@
 SIAIMapImp::SIAIMapImp() : m_commandStream{CommandStream::create()} {}
 SIAIMapImp::~SIAIMapImp() = default;
 
-void SIAIMapImp::setName(const std::string& name)
-{
-	m_name = name;
-}
-
-std::string SIAIMapImp::getName()
-{
-	return m_name;
-}
-
 void SIAIMapImp::executeCommand(const std::string& command)
 {
     m_commandStream->executeAndLog(m_entities, command);

@@ -34,7 +34,6 @@ void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows, con
 		return;
 	}
 
-	m_mapControl->setName(mapName);
     m_mapControl->reset(numberOfColumns, numberOfRows);
     m_mapControl->createDatabaseTables(*m_dbConnector, mapName);
 
@@ -212,7 +211,7 @@ void MapEditorFrame::actionToolReplaceCell(const std::string& cellType, int colu
 
 void MapEditorFrame::actionToolAddAgv(const std::string& agvType, int column, int row)
 {
-    std::string commandAddAgv = Util::String::generateCommand("add-agv", m_mapControl->getName(), agvType, column, row);
+    std::string commandAddAgv = Util::String::generateCommand("add-agv", agvType, column, row);
 
     m_mapControl->executeCommand(commandAddAgv);
 }

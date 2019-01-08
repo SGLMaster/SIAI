@@ -38,14 +38,12 @@ class AddAgvCommand : public MapCommand
 private:
     enum Args
     {
-    	MAP_NAME,
         AGV_TYPE,
         COLUMN,
         ROW,
         NUMBER_OF_ARGUMENTS
     };
 
-    std::string m_mapName;
     std::string m_agvType;
 
     MapPosition m_position;
