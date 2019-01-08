@@ -47,15 +47,15 @@ public:
     virtual int getSelectedEntityRow() const noexcept override;
     virtual int getSelectedId() const noexcept;
 
-    virtual void createDatabaseTables(DbConnector& connector, const std::string& mapName) override;
+    virtual void createDatabaseTables(DbConnector& connector) override;
 
 private:
     void generateCells();
 
-    void createCellsDbTable(DbConnector& connector, const std::string& mapName);
-    void fillCellsDbTable(DbConnector& connector, const std::string& mapName);
+    void createCellsDbTable(DbConnector& connector);
+    void fillCellsDbTable(DbConnector& connector);
 
-    void createAgvsDbTable(DbConnector& connector, const std::string& mapName);
+    void createAgvsDbTable(DbConnector& connector);
 
     void tryToExecuteDbQuery(DbConnector& connector, const DbQuery& query);
 };

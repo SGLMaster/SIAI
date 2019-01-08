@@ -143,17 +143,17 @@ int SIAIMapImp::getSelectedId() const noexcept
     return lastSelectedId;
 }
 
-void SIAIMapImp::createDatabaseTables(DbConnector& connector, const std::string& mapName)
+void SIAIMapImp::createDatabaseTables(DbConnector& connector)
 {
-	createCellsDbTable(connector, mapName);
-	fillCellsDbTable(connector, mapName);
+	createCellsDbTable(connector);
+	fillCellsDbTable(connector);
 
-	createAgvsDbTable(connector, mapName);
+	createAgvsDbTable(connector);
 }
 
-void SIAIMapImp::createCellsDbTable(DbConnector& connector, const std::string& mapName)
+void SIAIMapImp::createCellsDbTable(DbConnector& connector)
 {
-	std::string cellsTableName{SIAIGlobals::DB_CELLS_TABLE_PREFIX + mapName};
+	std::string cellsTableName{SIAIGlobals::DB_CELLS_TABLE_PREFIX + m_name};
 
 	SqlQueryData dataForCellsTable{cellsTableName, ICell::dbColumnNames, ICell::dbColumnTypes};
 	SqlCreateTableQuery createCellsTableQuery(dataForCellsTable, ICell::primaryKeyName);
@@ -161,7 +161,7 @@ void SIAIMapImp::createCellsDbTable(DbConnector& connector, const std::string& m
 	tryToExecuteDbQuery(connector, createCellsTableQuery);
 }
 
-void SIAIMapImp::fillCellsDbTable(DbConnector& connector, const std::string& mapName)
+void SIAIMapImp::fillCellsDbTable(DbConnector& connector)
 {
 	std::vector<std::vector<std::string>> cellsValues;
 
@@ -174,16 +174,16 @@ void SIAIMapImp::fillCellsDbTable(DbConnector& connector, const std::string& map
 			std::to_string(direction), cell->getEntityName()});
 	}
 
-	SqlMultipleQueryData cellsDataToInsert{SIAIGlobals::DB_CELLS_TABLE_PREFIX + mapName, ICell::dbColumnNames,
+	SqlMultipleQueryData cellsDataToInsert{SIAIGlobals::DB_CELLS_TABLE_PREFIX + m_name, ICell::dbColumnNames,
 		cellsValues};
 	SqlMultipleInsertQuery cellsInsertQuery(cellsDataToInsert);
 
 	tryToExecuteDbQuery(connector, cellsInsertQuery);
 }
 
-void SIAIMapImp::createAgvsDbTable(DbConnector& connector, const std::string& mapName)
+void SIAIMapImp::createAgvsDbTable(DbConnector& connector)
 {
-	std::string agvsTableName{SIAIGlobals::DB_AGVS_TABLE_PREFIX + mapName};
+	std::string agvsTableName{SIAIGlobals::DB_AGVS_TABLE_PREFIX + m_name};
 
 	SqlQueryData dataForAgvsTable{agvsTableName, IAgv::dbColumnNames, IAgv::dbColumnTypes};
 	SqlCreateTableQuery createAgvsTableQuery(dataForAgvsTable, IAgv::primaryKeyName);

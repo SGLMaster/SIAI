@@ -44,7 +44,7 @@ public:
 
     virtual int getSelectedId() const noexcept = 0;
 
-    virtual void createDatabaseTables(DbConnector& connector, const std::string& mapName) = 0;
+    virtual void createDatabaseTables(DbConnector& connector) = 0;
 
 protected:
     SIAIMap();

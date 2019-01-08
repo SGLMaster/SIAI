@@ -36,7 +36,7 @@ void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows, con
 
 	m_mapControl->setName(mapName);
     m_mapControl->reset(numberOfColumns, numberOfRows);
-    m_mapControl->createDatabaseTables(*m_dbConnector, mapName);
+    m_mapControl->createDatabaseTables(*m_dbConnector);
 
     repaintMapNow();
     updateScrollbarsSize();
