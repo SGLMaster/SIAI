@@ -209,6 +209,6 @@ void SIAIMapImp::uploadChanges(DbConnector& connector)
 {
 	for(const auto& entity : m_entities)
 	{
-		entity->saveToDatabase(connector, SIAIGlobals::DB_AGVS_TABLE_PREFIX + m_name);
+		entity->saveToDatabase(connector, m_name);
 	}
 }
