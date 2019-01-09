@@ -74,12 +74,31 @@ void AgvDefault::saveToDatabase(DbConnector& connector, const std::string& table
 
 	SqlInsertQuery insertCellQuery(SqlQueryData{tableName, IAgv::dbColumnNames, valuesToSave});
 
-	connector.executeQueryWithoutResults(insertCellQuery);
+	try
+	{
+		connector.executeQueryWithoutResults(insertCellQuery);
+	}
+	catch(const std::exception& e)
+	{
+		updateOnDatabase(connector, tableName, valuesToSave);
+	}
+
 }
 
 void AgvDefault::loadFromDatabase(DbConnector& connector)
 {
 
+}
+
+void AgvDefault::updateOnDatabase(DbConnector& connector, const std::string& tableName,
+		const std::vector<std::string>& valuesToUpdate) const
+{
+	SqlQueryData dataForUpdate{tableName, IAgv::dbColumnNames, valuesToUpdate};
+	SqlWhereCondition whereCondition( SqlQueryData{tableName, {"id"}, {std::to_string(m_id)} } );
+
+	SqlUpdateQuery updateQuery(dataForUpdate, whereCondition.generateString());
+
+	connector.executeQueryWithoutResults(updateQuery);
 }
 
 RegularAgv::RegularAgv(const MapPosition& position) : AgvDefault(position){}

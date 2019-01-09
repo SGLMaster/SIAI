@@ -30,6 +30,10 @@ protected:
     void calculateDrawingData(int zoom);
     void calculateZoomedSize(int zoom);
     void calculateOrigin(int zoom);
+
+private:
+    void updateOnDatabase(DbConnector& connector, const std::string& tableName,
+    		const std::vector<std::string>& valuesToUpdate) const;
 };
 
 class RegularAgv : public AgvDefault
