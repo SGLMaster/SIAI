@@ -72,7 +72,18 @@ void AgvDefault::saveToDatabase(DbConnector& connector, const std::string& table
 	std::vector<std::string> valuesToSave{std::to_string(m_id), std::to_string(m_position.column),
 		std::to_string(m_position.row), std::to_string(direction)};
 
-	SqlInsertQuery insertCellQuery(SqlQueryData{tableName, IAgv::dbColumnNames, valuesToSave});
+	tryToInsertToDb(connector, tableName, valuesToSave);
+}
+
+void AgvDefault::loadFromDatabase(DbConnector& connector)
+{
+
+}
+
+void AgvDefault::tryToInsertToDb(DbConnector& connector, const std::string& tableName,
+		const std::vector<std::string>& valuesToInsert) const
+{
+	SqlInsertQuery insertCellQuery(SqlQueryData{tableName, IAgv::dbColumnNames, valuesToInsert});
 
 	try
 	{
@@ -80,14 +91,8 @@ void AgvDefault::saveToDatabase(DbConnector& connector, const std::string& table
 	}
 	catch(const std::exception& e)
 	{
-		updateOnDatabase(connector, tableName, valuesToSave);
+		updateOnDatabase(connector, tableName, valuesToInsert);
 	}
-
-}
-
-void AgvDefault::loadFromDatabase(DbConnector& connector)
-{
-
 }
 
 void AgvDefault::updateOnDatabase(DbConnector& connector, const std::string& tableName,

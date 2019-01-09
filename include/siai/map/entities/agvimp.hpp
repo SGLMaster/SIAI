@@ -32,6 +32,8 @@ protected:
     void calculateOrigin(int zoom);
 
 private:
+    void tryToInsertToDb(DbConnector& connector, const std::string& tableName,
+    		const std::vector<std::string>& valuesToInsert) const;
     void updateOnDatabase(DbConnector& connector, const std::string& tableName,
     		const std::vector<std::string>& valuesToUpdate) const;
 };
