@@ -49,6 +49,8 @@ public:
 
     virtual void createDatabaseTables(DbConnector& connector) override;
 
+    virtual void uploadChanges(DbConnector& connector) override;
+
 private:
     void generateCells();
 

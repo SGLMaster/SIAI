@@ -204,3 +204,11 @@ void SIAIMapImp::tryToExecuteDbQuery(DbConnector& connector, const DbQuery& crea
 		reset(0, 0);
 	}
 }
+
+void SIAIMapImp::uploadChanges(DbConnector& connector)
+{
+	for(const auto& entity : m_entities)
+	{
+		entity->saveToDatabase(connector, SIAIGlobals::DB_AGVS_TABLE_PREFIX + m_name);
+	}
+}

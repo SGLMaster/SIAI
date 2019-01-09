@@ -46,6 +46,8 @@ public:
 
     virtual void createDatabaseTables(DbConnector& connector) = 0;
 
+    virtual void uploadChanges(DbConnector& connector) = 0;
+
 protected:
     SIAIMap();
     virtual ~SIAIMap();
