@@ -65,7 +65,17 @@ void CellDefault::setDifferentPenIfSelected(Painter& painter)
 
 void CellDefault::saveToDatabase(DbConnector& connector, const std::string& tableName) const
 {
+	int direction = static_cast<int>(m_direction);
 
+	std::vector<std::string> valuesToSave{std::to_string(m_id), std::to_string(m_position.column),
+		std::to_string(m_position.row), std::to_string(direction), getEntityName()};
+
+	SqlQueryData dataForUpdate{tableName, ICell::dbColumnNames, valuesToSave};
+	SqlWhereCondition whereCondition( SqlQueryData{tableName, {"id"}, {std::to_string(m_id)} } );
+
+	SqlUpdateQuery updateQuery(dataForUpdate, whereCondition.generateString());
+
+	connector.executeQueryWithoutResults(updateQuery);
 }
 
 void CellDefault::loadFromDatabase(DbConnector& connector)
