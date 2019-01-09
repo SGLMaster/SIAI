@@ -17,6 +17,11 @@ void CommandStreamImp::executeAndLog(Entities::Container& entities, const std::s
     tryToExecuteAndLog(entities, arguments);
 }
 
+void CommandStreamImp::saveLastCommandChangeToDb(DbConnector& connector, const std::string& mapName)
+{
+
+}
+
 void CommandStreamImp::undo(Entities::Container& entities)
 {
     if(m_iterator != m_commands.begin() && m_commands.size() > 0)

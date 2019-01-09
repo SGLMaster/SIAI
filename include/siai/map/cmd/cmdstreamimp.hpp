@@ -6,6 +6,8 @@
 
 class MapCommand;
 
+class DbConnector;
+
 class CommandStreamImp : public CommandStream
 {
 private:
@@ -18,6 +20,8 @@ public:
     virtual ~CommandStreamImp();
 
     virtual void executeAndLog(Entities::Container& entities, const std::string& command) override;
+    virtual void saveLastCommandChangeToDb(DbConnector& connector, const std::string& mapName) override;
+
     virtual void undo(Entities::Container& entities) override;
     virtual void redo(Entities::Container& entities) override;
 
