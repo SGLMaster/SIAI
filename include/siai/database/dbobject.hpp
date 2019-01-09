@@ -7,8 +7,6 @@ class DbConnector;
 class DbObject
 {
 public:
-	virtual void insertToDatabase(DbConnector& connector, const std::string& tableName) const = 0;
-
 	virtual void saveToDatabase(DbConnector& connector, const std::string& tableName) const = 0;
 	virtual void loadFromDatabase(DbConnector& connector) = 0;
 

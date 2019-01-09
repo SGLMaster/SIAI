@@ -65,7 +65,7 @@ void AgvDefault::calculateOrigin(int zoom)
     m_origin = PanelPoint{originX, originY};
 }
 
-void AgvDefault::insertToDatabase(DbConnector& connector, const std::string& tableName) const
+void AgvDefault::saveToDatabase(DbConnector& connector, const std::string& tableName) const
 {
 	int direction = static_cast<int>(m_direction);
 
@@ -75,11 +75,6 @@ void AgvDefault::insertToDatabase(DbConnector& connector, const std::string& tab
 	SqlInsertQuery insertCellQuery(SqlQueryData{tableName, IAgv::dbColumnNames, valuesToSave});
 
 	connector.executeQueryWithoutResults(insertCellQuery);
-}
-
-void AgvDefault::saveToDatabase(DbConnector& connector, const std::string& tableName) const
-{
-
 }
 
 void AgvDefault::loadFromDatabase(DbConnector& connector)
