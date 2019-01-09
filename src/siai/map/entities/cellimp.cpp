@@ -63,12 +63,14 @@ void CellDefault::setDifferentPenIfSelected(Painter& painter)
     }
 }
 
-void CellDefault::saveToDatabase(DbConnector& connector, const std::string& tableName) const
+void CellDefault::saveToDatabase(DbConnector& connector, const std::string& mapName) const
 {
 	int direction = static_cast<int>(m_direction);
 
 	std::vector<std::string> valuesToSave{std::to_string(m_id), std::to_string(m_position.column),
 		std::to_string(m_position.row), std::to_string(direction), getEntityName()};
+
+	std::string tableName = SIAIGlobals::DB_CELLS_TABLE_PREFIX + mapName;
 
 	SqlQueryData dataForUpdate{tableName, ICell::dbColumnNames, valuesToSave};
 	SqlWhereCondition whereCondition( SqlQueryData{tableName, {"id"}, {std::to_string(m_id)} } );

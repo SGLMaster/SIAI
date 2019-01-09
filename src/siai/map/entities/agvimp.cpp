@@ -65,12 +65,14 @@ void AgvDefault::calculateOrigin(int zoom)
     m_origin = PanelPoint{originX, originY};
 }
 
-void AgvDefault::saveToDatabase(DbConnector& connector, const std::string& tableName) const
+void AgvDefault::saveToDatabase(DbConnector& connector, const std::string& mapName) const
 {
 	int direction = static_cast<int>(m_direction);
 
 	std::vector<std::string> valuesToSave{std::to_string(m_id), std::to_string(m_position.column),
 		std::to_string(m_position.row), std::to_string(direction)};
+
+	std::string tableName = SIAIGlobals::DB_AGVS_TABLE_PREFIX + mapName;
 
 	tryToInsertToDb(connector, tableName, valuesToSave);
 }
