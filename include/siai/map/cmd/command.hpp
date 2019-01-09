@@ -6,6 +6,8 @@
 #include <string>
 #include <deque>
 
+class DbConnector;
+
 class MapCommand
 {
 public:
@@ -18,4 +20,6 @@ public:
 
     virtual void execute(Entities::Container& entities) = 0;
     virtual void undo(Entities::Container& entities) = 0;
+
+    virtual void saveChangeToDb(DbConnector& connector, const std::string& mapName) = 0;
 };
