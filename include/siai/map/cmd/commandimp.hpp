@@ -29,6 +29,7 @@ public:
     virtual void execute(Entities::Container& entities) override;
     virtual void execute(Entities::Container& entities, DbConnector& connector) override;
     virtual void undo(Entities::Container& entities) override;
+    virtual void undo(Entities::Container& entities, DbConnector& connector) override;
 private:
     void doReplaceCell(Entities::Container& entities, const std::string& cellType, bool undoingCommand);
 };
@@ -58,6 +59,7 @@ public:
     virtual void execute(Entities::Container& entities) override;
     virtual void execute(Entities::Container& entities, DbConnector& connector) override;
     virtual void undo(Entities::Container& entities) override;
+    virtual void undo(Entities::Container& entities, DbConnector& connector) override;
 };
 
 class TurnEntityCommand : public MapCommand
@@ -85,4 +87,5 @@ public:
     virtual void execute(Entities::Container& entities) override;
     virtual void execute(Entities::Container& entities, DbConnector& connector) override;
     virtual void undo(Entities::Container& entities) override;
+    virtual void undo(Entities::Container& entities, DbConnector& connector) override;
 };
