@@ -99,6 +99,8 @@ void AddAgvCommand::undo(Entities::Container& entities, DbConnector& connector)
 {
 	Entities::Iterator agvToErase = Entities::findAgvIteratorWithPosition(entities, m_position);
 
+	Entities::eraseAgvOnDbWithId(connector, m_mapName, (*agvToErase)->getId());
+
 	entities.erase(agvToErase);
 }
 

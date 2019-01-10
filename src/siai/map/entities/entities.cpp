@@ -1,8 +1,12 @@
 #include "map/entities/entities.hpp"
 #include "map/entities/cell.hpp"
 #include "map/entities/agv.hpp"
-
 #include "map/exception.hpp"
+
+#include "database/database.hpp"
+#include "database/sqlquery.hpp"
+
+#include "globals.hpp"
 #include "log.hpp"
 
 #include <algorithm>
@@ -94,6 +98,14 @@ Entities::Iterator Entities::findAgvIteratorWithPosition(Container& entities, co
     }
 
     return agvFound;
+}
+
+void Entities::eraseAgvOnDbWithId(DbConnector& connector, const std::string& mapName, int id)
+{
+	SqlWhereCondition whereCondition( SqlQueryData{"", {IAgv::primaryKeyName}, {std::to_string(id)} } );
+	SqlDeleteRowQuery eraseAgvQuery(SIAIGlobals::DB_AGVS_TABLE_PREFIX + mapName, whereCondition.generateString());
+
+	connector.executeQueryWithoutResults(eraseAgvQuery);
 }
 
 Entities::Pointer& Entities::getEntityByPosition(Entities::Container& entities, const MapPosition& position)

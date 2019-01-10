@@ -8,6 +8,8 @@ class PanelPoint;
 class IMapEntity;
 class MapPosition;
 
+class DbConnector;
+
 namespace Entities
 {
     using Pointer = std::shared_ptr<IMapEntity>;
@@ -21,6 +23,8 @@ namespace Entities
 
     Iterator findCellIteratorWithPosition(Container& entities, const MapPosition& position);
     Iterator findAgvIteratorWithPosition(Container& entities, const MapPosition& position);
+
+    void eraseAgvOnDbWithId(DbConnector& connector, const std::string& mapName, int id);
 
     Pointer& getEntityByPosition(Entities::Container& entities, const MapPosition& position);
 
