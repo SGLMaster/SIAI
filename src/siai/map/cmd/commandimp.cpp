@@ -97,7 +97,21 @@ void AddAgvCommand::execute(Entities::Container& entities)
 
 void AddAgvCommand::execute(Entities::Container& entities, DbConnector& connector)
 {
+	Entities::assertPositionInsideMap(entities, m_position);
+	Entities::assertCellOccupied(entities, m_position);
 
+	try
+	{
+		Entities::Pointer agv = IAgv::create(m_agvType, m_position);
+
+		agv->saveToDatabase(connector, m_mapName);
+
+		entities.push_back(std::move(agv));
+	}
+	catch(EntityException& e)
+	{
+		Log::warning(e.what());
+	}
 }
 
 void AddAgvCommand::undo(Entities::Container& entities)

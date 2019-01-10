@@ -108,7 +108,7 @@ void CommandStreamImp::doExecuteAndLog(Entities::Container& entities, DbConnecto
 	arguments.pop_front();
 
 	auto mapCommand = MapCommand::create(commandName, arguments);
-	mapCommand->execute(entities);
+	mapCommand->execute(entities, connector);
 
 	if(m_commands.size() > 0 && m_iterator != m_commands.end())
 	{
