@@ -15,6 +15,7 @@ ReplaceCellCommand::ReplaceCellCommand(const MapCommand::Container& arguments)
     }
 
     m_newCellType = arguments[NEW_CELL_TYPE];
+    m_mapName = arguments[MAP_NAME];
 
     int column = std::stoi(arguments[COLUMN]);
     int row = std::stoi(arguments[ROW]);
@@ -26,17 +27,17 @@ ReplaceCellCommand::~ReplaceCellCommand() = default;
 
 void ReplaceCellCommand::execute(Entities::Container& entities)
 {
-    doReplaceCell(entities, m_newCellType, false);
+    doReplaceCell(entities, false);
 }
 
 void ReplaceCellCommand::execute(Entities::Container& entities, DbConnector& connector)
 {
-
+	doReplaceCell(entities, connector, false);
 }
 
 void ReplaceCellCommand::undo(Entities::Container& entities)
 {
-    doReplaceCell(entities, m_originalCellType, true);
+    doReplaceCell(entities, true);
 }
 
 void ReplaceCellCommand::undo(Entities::Container& entities, DbConnector& connector)
@@ -44,7 +45,7 @@ void ReplaceCellCommand::undo(Entities::Container& entities, DbConnector& connec
 
 }
 
-void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, const std::string& cellType, bool undoing)
+void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, bool undoing)
 {
     Entities::Iterator originalCellIterator = Entities::findCellIteratorWithPosition(entities, m_position);
 
@@ -55,7 +56,30 @@ void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, const std:
         m_originalCellType = (*originalCellIterator)->getEntityName();
     }
 
-    Entities::createCellCopyWithDifferentType(entities, originalCellIterator, cellType);
+    Entities::createCellCopyWithDifferentType(entities, originalCellIterator, m_newCellType);
+    entities.erase(originalCellIterator);
+
+    Entities::sortEntitiesByDrawOrder(entities);
+}
+
+void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, DbConnector& connector, bool undoing)
+{
+    Entities::Iterator originalCellIterator = Entities::findCellIteratorWithPosition(entities, m_position);
+
+    Entities::assertCellOccupied(entities, m_position);
+
+    if(!undoing)
+    {
+        m_originalCellType = (*originalCellIterator)->getEntityName();
+    }
+
+    int newId = (*originalCellIterator)->getId();
+    MapPosition newPosition = (*originalCellIterator)->getPosition();
+
+    auto newCell = ICell::create(m_newCellType, newId, newPosition);
+    newCell->saveToDatabase(connector, m_mapName);
+
+    entities.push_back(std::move(newCell));
     entities.erase(originalCellIterator);
 
     Entities::sortEntitiesByDrawOrder(entities);

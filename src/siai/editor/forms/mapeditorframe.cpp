@@ -209,9 +209,10 @@ void MapEditorFrame::actionToolSelect(PanelPoint& mousePosition)
 
 void MapEditorFrame::actionToolReplaceCell(const std::string& cellType, int column, int row)
 {
-    std::string commandReplaceCell = Util::String::generateCommand("replace-cell", cellType, column, row);
+    std::string commandReplaceCell = Util::String::generateCommand("replace-cell", cellType, m_mapControl->getName(),
+    		column, row);
 
-    m_mapControl->executeCommand(commandReplaceCell);
+    m_mapControl->executeCommand(commandReplaceCell, *m_dbConnector);
 }
 
 void MapEditorFrame::actionToolAddAgv(const std::string& agvType, int column, int row)

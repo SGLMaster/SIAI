@@ -11,12 +11,15 @@ private:
     enum Args
     {
         NEW_CELL_TYPE,
+		MAP_NAME,
         COLUMN,
         ROW,
         NUMBER_OF_ARGUMENTS
     };
 
     std::string m_newCellType;
+    std::string m_mapName;
+
     std::string m_originalCellType;
 
     MapPosition m_position;
@@ -31,7 +34,8 @@ public:
     virtual void undo(Entities::Container& entities) override;
     virtual void undo(Entities::Container& entities, DbConnector& connector) override;
 private:
-    void doReplaceCell(Entities::Container& entities, const std::string& cellType, bool undoingCommand);
+    void doReplaceCell(Entities::Container& entities, bool undoing);
+    void doReplaceCell(Entities::Container& entities, DbConnector& connector, bool undoing);
 };
 
 class AddAgvCommand : public MapCommand
