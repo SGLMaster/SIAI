@@ -71,6 +71,7 @@ private:
     enum Args
     {
     	DIRECTION,
+		MAP_NAME,
         COLUMN,
         ROW,
         NUMBER_OF_ARGUMENTS
@@ -78,6 +79,7 @@ private:
 
     MapPosition m_position;
 
+    std::string m_mapName;
     std::string m_directionToTurn;
 
 public:

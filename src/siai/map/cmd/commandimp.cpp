@@ -134,6 +134,7 @@ TurnEntityCommand::TurnEntityCommand(const MapCommand::Container& arguments)
 	}
 
 	m_directionToTurn = arguments[DIRECTION];
+	m_mapName = arguments[MAP_NAME];
 
 	int column = std::stoi(arguments[COLUMN]);
 	int row = std::stoi(arguments[ROW]);
@@ -159,7 +160,18 @@ void TurnEntityCommand::execute(Entities::Container& entities)
 
 void TurnEntityCommand::execute(Entities::Container& entities, DbConnector& connector)
 {
+	auto entityToTurn = Entities::getEntityByPosition(entities, m_position);
 
+	if(m_directionToTurn == "right")
+	{
+		entityToTurn->turnRight();
+	}
+	else if(m_directionToTurn == "left")
+	{
+		entityToTurn->turnLeft();
+	}
+
+	entityToTurn->saveToDatabase(connector, m_mapName);
 }
 
 void TurnEntityCommand::undo(Entities::Container& entities)

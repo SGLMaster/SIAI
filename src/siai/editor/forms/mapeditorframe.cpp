@@ -223,9 +223,10 @@ void MapEditorFrame::actionToolAddAgv(const std::string& agvType, int column, in
 
 void MapEditorFrame::actionToolTurn(const std::string& direction, int column, int row)
 {
-	std::string commandTurn = Util::String::generateCommand("turn-entity", direction, column, row);
+	std::string commandTurn = Util::String::generateCommand("turn-entity", direction, m_mapControl->getName(),
+			column, row);
 
-	m_mapControl->executeCommand(commandTurn);
+	m_mapControl->executeCommand(commandTurn, *m_dbConnector);
 }
 
 void MapEditorFrame::repaintMapNow()
