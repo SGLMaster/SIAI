@@ -217,7 +217,7 @@ void MapEditorFrame::actionToolReplaceCell(const std::string& cellType, int colu
 
 void MapEditorFrame::actionToolAddAgv(const std::string& agvType, int column, int row)
 {
-    std::string commandAddAgv = Util::String::generateCommand("add-agv", agvType, column, row);
+    std::string commandAddAgv = Util::String::generateCommand("add-agv", m_mapControl->getName(), agvType, column, row);
 
     m_mapControl->executeCommand(commandAddAgv);
 }

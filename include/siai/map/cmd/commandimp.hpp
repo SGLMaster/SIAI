@@ -42,12 +42,14 @@ private:
     enum Args
     {
         AGV_TYPE,
+		MAP_NAME,
         COLUMN,
         ROW,
         NUMBER_OF_ARGUMENTS
     };
 
     std::string m_agvType;
+    std::string m_mapName;
 
     MapPosition m_position;
 
