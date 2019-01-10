@@ -21,6 +21,4 @@ public:
     virtual void execute(Entities::Container& entities) = 0;
     virtual void execute(Entities::Container& entities, DbConnector& connector) = 0;
     virtual void undo(Entities::Container& entities) = 0;
-
-    virtual void saveChangeToDb(DbConnector& connector, const std::string& mapName) = 0;
 };

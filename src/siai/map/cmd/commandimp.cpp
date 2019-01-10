@@ -39,11 +39,6 @@ void ReplaceCellCommand::undo(Entities::Container& entities)
     doReplaceCell(entities, m_originalCellType, true);
 }
 
-void ReplaceCellCommand::saveChangeToDb(DbConnector& connector, const std::string& mapName)
-{
-
-}
-
 void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, const std::string& cellType, bool undoing)
 {
     Entities::Iterator originalCellIterator = Entities::findCellIteratorWithPosition(entities, m_position);
@@ -121,11 +116,6 @@ void AddAgvCommand::undo(Entities::Container& entities)
     entities.erase(agvToErase);
 }
 
-void AddAgvCommand::saveChangeToDb(DbConnector& connector, const std::string& mapName)
-{
-
-}
-
 TurnEntityCommand::TurnEntityCommand(const MapCommand::Container& arguments)
 {
 	if(arguments.size() != NUMBER_OF_ARGUMENTS)
@@ -186,9 +176,4 @@ void TurnEntityCommand::undo(Entities::Container& entities)
 	{
 		entityToTurn->turnRight();
 	}
-}
-
-void TurnEntityCommand::saveChangeToDb(DbConnector& connector, const std::string& mapName)
-{
-
 }
