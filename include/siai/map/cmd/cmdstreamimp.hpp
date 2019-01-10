@@ -18,10 +18,15 @@ public:
     virtual ~CommandStreamImp();
 
     virtual void executeAndLog(Entities::Container& entities, const std::string& command) override;
+    virtual void executeAndLog(Entities::Container& entities, DbConnector& connector,
+    		const std::string& command) override;
     virtual void undo(Entities::Container& entities) override;
     virtual void redo(Entities::Container& entities) override;
 
 private:
     void tryToExecuteAndLog(Entities::Container& entities, std::deque<std::string>& arguments);
     void doExecuteAndLog(Entities::Container& entities, std::deque<std::string>& arguments);
+
+    void tryToExecuteAndLog(Entities::Container& entities, DbConnector& connector, std::deque<std::string>& arguments);
+    void doExecuteAndLog(Entities::Container& entities, DbConnector& connector, std::deque<std::string>& arguments);
 };
