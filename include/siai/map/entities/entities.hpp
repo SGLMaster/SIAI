@@ -32,7 +32,5 @@ namespace Entities
 
     bool selectOrDiselectIfHasPointInside(IMapEntity& entity, const PanelPoint& point) noexcept;
 
-    void createCellCopyWithDifferentType(Container& entities, Iterator& it, const std::string& type);
-
     void sortEntitiesByDrawOrder(Container& entities);
 }

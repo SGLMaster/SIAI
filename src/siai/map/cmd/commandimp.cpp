@@ -25,10 +25,6 @@ ReplaceCellCommand::ReplaceCellCommand(const MapCommand::Container& arguments)
 
 ReplaceCellCommand::~ReplaceCellCommand() = default;
 
-void ReplaceCellCommand::execute(Entities::Container& entities)
-{
-    doReplaceCell(entities, false);
-}
 
 void ReplaceCellCommand::execute(Entities::Container& entities, DbConnector& connector)
 {
@@ -37,29 +33,12 @@ void ReplaceCellCommand::execute(Entities::Container& entities, DbConnector& con
 
 void ReplaceCellCommand::undo(Entities::Container& entities)
 {
-    doReplaceCell(entities, true);
+    //doReplaceCell(entities, true);
 }
 
 void ReplaceCellCommand::undo(Entities::Container& entities, DbConnector& connector)
 {
 
-}
-
-void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, bool undoing)
-{
-    Entities::Iterator originalCellIterator = Entities::findCellIteratorWithPosition(entities, m_position);
-
-    Entities::assertCellOccupied(entities, m_position);
-
-    if(!undoing)
-    {
-        m_originalCellType = (*originalCellIterator)->getEntityName();
-    }
-
-    Entities::createCellCopyWithDifferentType(entities, originalCellIterator, m_newCellType);
-    entities.erase(originalCellIterator);
-
-    Entities::sortEntitiesByDrawOrder(entities);
 }
 
 void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, DbConnector& connector, bool undoing)
@@ -102,22 +81,6 @@ AddAgvCommand::AddAgvCommand(const MapCommand::Container& arguments)
 }
 
 AddAgvCommand::~AddAgvCommand() = default;
-
-void AddAgvCommand::execute(Entities::Container& entities)
-{
-	Entities::assertPositionInsideMap(entities, m_position);
-    Entities::assertCellOccupied(entities, m_position);
-
-    try
-    {
-        Entities::Pointer agv = IAgv::create(m_agvType, m_position);
-        entities.push_back(std::move(agv));
-    }
-    catch(EntityException& e)
-    {
-        Log::warning(e.what());
-    }
-}
 
 void AddAgvCommand::execute(Entities::Container& entities, DbConnector& connector)
 {
@@ -167,20 +130,6 @@ TurnEntityCommand::TurnEntityCommand(const MapCommand::Container& arguments)
 }
 
 TurnEntityCommand::~TurnEntityCommand() = default;
-
-void TurnEntityCommand::execute(Entities::Container& entities)
-{
-	auto entityToTurn = Entities::getEntityByPosition(entities, m_position);
-
-	if(m_directionToTurn == "right")
-	{
-		entityToTurn->turnRight();
-	}
-	else if(m_directionToTurn == "left")
-	{
-		entityToTurn->turnLeft();
-	}
-}
 
 void TurnEntityCommand::execute(Entities::Container& entities, DbConnector& connector)
 {

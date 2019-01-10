@@ -29,12 +29,10 @@ public:
     ReplaceCellCommand(const MapCommand::Container& arguments);
     virtual ~ReplaceCellCommand();
 
-    virtual void execute(Entities::Container& entities) override;
     virtual void execute(Entities::Container& entities, DbConnector& connector) override;
     virtual void undo(Entities::Container& entities) override;
     virtual void undo(Entities::Container& entities, DbConnector& connector) override;
 private:
-    void doReplaceCell(Entities::Container& entities, bool undoing);
     void doReplaceCell(Entities::Container& entities, DbConnector& connector, bool undoing);
 };
 
@@ -60,7 +58,6 @@ public:
     AddAgvCommand(const MapCommand::Container& arguments);
     virtual ~AddAgvCommand();
 
-    virtual void execute(Entities::Container& entities) override;
     virtual void execute(Entities::Container& entities, DbConnector& connector) override;
     virtual void undo(Entities::Container& entities) override;
     virtual void undo(Entities::Container& entities, DbConnector& connector) override;
@@ -88,7 +85,6 @@ public:
     TurnEntityCommand(const MapCommand::Container& arguments);
     virtual ~TurnEntityCommand();
 
-    virtual void execute(Entities::Container& entities) override;
     virtual void execute(Entities::Container& entities, DbConnector& connector) override;
     virtual void undo(Entities::Container& entities) override;
     virtual void undo(Entities::Container& entities, DbConnector& connector) override;

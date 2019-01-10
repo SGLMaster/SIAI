@@ -23,7 +23,6 @@ class DLL_EXPORT SIAIMap
 public:
     static SIAIMap* createMap();
 
-    virtual void executeCommand(const std::string& command) = 0;
     virtual void executeCommand(const std::string& command, DbConnector& connector) = 0;
     virtual void undo() = 0;
     virtual void redo() = 0;

@@ -190,14 +190,6 @@ bool Entities::selectOrDiselectIfHasPointInside(IMapEntity& entity, const PanelP
     return noEntityChanged;
 }
 
-void Entities::createCellCopyWithDifferentType(Container& entities, Iterator& it, const std::string& type)
-{
-    int newId = (*it)->getId();
-    MapPosition newPosition = (*it)->getPosition();
-
-    entities.push_back(ICell::create(type, newId, newPosition));
-}
-
 void Entities::sortEntitiesByDrawOrder(Container& entities)
 {
     auto drawOrderSorting = [](const Entities::Pointer& entityLhs, const Entities::Pointer& entityRhs)

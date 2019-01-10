@@ -27,7 +27,6 @@ public:
     SIAIMapImp();
     virtual ~SIAIMapImp();
 
-    virtual void executeCommand(const std::string& command) override;
     virtual void executeCommand(const std::string& command, DbConnector& connector) override;
     virtual void undo() override;
     virtual void redo() override;

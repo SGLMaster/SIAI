@@ -28,13 +28,6 @@ std::string SIAIMapImp::getName()
 	return m_name;
 }
 
-void SIAIMapImp::executeCommand(const std::string& command)
-{
-    m_commandStream->executeAndLog(m_entities, command);
-
-    diselectAll();
-}
-
 void SIAIMapImp::executeCommand(const std::string& command, DbConnector& connector)
 {
     m_commandStream->executeAndLog(m_entities, connector, command);
