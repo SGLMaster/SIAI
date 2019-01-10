@@ -147,7 +147,6 @@ void MapEditorFrame::OnLeaveMapPanel( wxMouseEvent& event )
 
 }
 
-
 void MapEditorFrame::OnPaintMapPanel( wxPaintEvent& event )
 {
     wxPaintDC paintDC(m_scrolledMapPanel);
@@ -217,9 +216,9 @@ void MapEditorFrame::actionToolReplaceCell(const std::string& cellType, int colu
 
 void MapEditorFrame::actionToolAddAgv(const std::string& agvType, int column, int row)
 {
-    std::string commandAddAgv = Util::String::generateCommand("add-agv", m_mapControl->getName(), agvType, column, row);
+    std::string commandAddAgv = Util::String::generateCommand("add-agv", agvType, m_mapControl->getName(), column, row);
 
-    m_mapControl->executeCommand(commandAddAgv);
+    m_mapControl->executeCommand(commandAddAgv, *m_dbConnector);
 }
 
 void MapEditorFrame::actionToolTurn(const std::string& direction, int column, int row)
