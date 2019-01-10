@@ -29,6 +29,11 @@ void ReplaceCellCommand::execute(Entities::Container& entities)
     doReplaceCell(entities, m_newCellType, false);
 }
 
+void ReplaceCellCommand::execute(Entities::Container& entities, DbConnector& connector)
+{
+
+}
+
 void ReplaceCellCommand::undo(Entities::Container& entities)
 {
     doReplaceCell(entities, m_originalCellType, true);
@@ -89,6 +94,11 @@ void AddAgvCommand::execute(Entities::Container& entities)
     }
 }
 
+void AddAgvCommand::execute(Entities::Container& entities, DbConnector& connector)
+{
+
+}
+
 void AddAgvCommand::undo(Entities::Container& entities)
 {
     Entities::Iterator agvToErase = Entities::findAgvIteratorWithPosition(entities, m_position);
@@ -130,6 +140,11 @@ void TurnEntityCommand::execute(Entities::Container& entities)
 	{
 		entityToTurn->turnLeft();
 	}
+}
+
+void TurnEntityCommand::execute(Entities::Container& entities, DbConnector& connector)
+{
+
 }
 
 void TurnEntityCommand::undo(Entities::Container& entities)
