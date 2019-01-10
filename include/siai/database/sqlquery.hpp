@@ -97,6 +97,20 @@ private:
     void appendColsAndNewValues(std::string& queryString) const;
 };
 
+class SqlDeleteRowQuery : public SqlQuery
+{
+private:
+	std::string m_tableName;
+    std::string m_whereCondition;
+
+public:
+    SqlDeleteRowQuery() = delete;
+    SqlDeleteRowQuery(const std::string& tableName, const std::string& whereCondition);
+    virtual ~SqlDeleteRowQuery();
+
+    virtual std::string generateString() const override;
+};
+
 class SqlCreateTableQuery : public SqlQuery
 {
 private:

@@ -154,6 +154,20 @@ void SqlUpdateQuery::appendColsAndNewValues(std::string& queryString) const
     DbUtil::removeTrailingComma(queryString);
 }
 
+SqlDeleteRowQuery::SqlDeleteRowQuery(const std::string& tableName, const std::string& whereCondition) :
+		SqlQuery(SqlQueryData{"", {""}, {""}}), m_tableName{tableName}, m_whereCondition{whereCondition} {}
+
+SqlDeleteRowQuery::~SqlDeleteRowQuery() = default;
+
+std::string SqlDeleteRowQuery::generateString() const
+{
+	std::string query;
+
+	query += "DELETE FROM `" + m_tableName + "` " + m_whereCondition;
+
+	return query;
+}
+
 SqlCreateTableQuery::SqlCreateTableQuery(const SqlQueryData& data, const std::string& primaryKeyName) : SqlQuery(data),
 		m_primaryKeyName{primaryKeyName} {}
 
