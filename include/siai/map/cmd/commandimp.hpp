@@ -30,7 +30,6 @@ public:
     virtual ~ReplaceCellCommand();
 
     virtual void execute(Entities::Container& entities, DbConnector& connector) override;
-    virtual void undo(Entities::Container& entities) override;
     virtual void undo(Entities::Container& entities, DbConnector& connector) override;
 private:
     void doReplaceCell(Entities::Container& entities, DbConnector& connector, bool undoing);
@@ -59,7 +58,6 @@ public:
     virtual ~AddAgvCommand();
 
     virtual void execute(Entities::Container& entities, DbConnector& connector) override;
-    virtual void undo(Entities::Container& entities) override;
     virtual void undo(Entities::Container& entities, DbConnector& connector) override;
 };
 
@@ -86,6 +84,5 @@ public:
     virtual ~TurnEntityCommand();
 
     virtual void execute(Entities::Container& entities, DbConnector& connector) override;
-    virtual void undo(Entities::Container& entities) override;
     virtual void undo(Entities::Container& entities, DbConnector& connector) override;
 };

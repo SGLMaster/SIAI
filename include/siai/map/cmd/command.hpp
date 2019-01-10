@@ -19,6 +19,5 @@ public:
     virtual ~MapCommand();
 
     virtual void execute(Entities::Container& entities, DbConnector& connector) = 0;
-    virtual void undo(Entities::Container& entities) = 0;
     virtual void undo(Entities::Container& entities, DbConnector& connector) = 0;
 };

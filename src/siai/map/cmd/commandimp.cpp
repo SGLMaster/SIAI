@@ -25,20 +25,14 @@ ReplaceCellCommand::ReplaceCellCommand(const MapCommand::Container& arguments)
 
 ReplaceCellCommand::~ReplaceCellCommand() = default;
 
-
 void ReplaceCellCommand::execute(Entities::Container& entities, DbConnector& connector)
 {
 	doReplaceCell(entities, connector, false);
 }
 
-void ReplaceCellCommand::undo(Entities::Container& entities)
-{
-    //doReplaceCell(entities, true);
-}
-
 void ReplaceCellCommand::undo(Entities::Container& entities, DbConnector& connector)
 {
-
+	doReplaceCell(entities, connector, true);
 }
 
 void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, DbConnector& connector, bool undoing)
@@ -101,16 +95,11 @@ void AddAgvCommand::execute(Entities::Container& entities, DbConnector& connecto
 	}
 }
 
-void AddAgvCommand::undo(Entities::Container& entities)
-{
-    Entities::Iterator agvToErase = Entities::findAgvIteratorWithPosition(entities, m_position);
-
-    entities.erase(agvToErase);
-}
-
 void AddAgvCommand::undo(Entities::Container& entities, DbConnector& connector)
 {
+	Entities::Iterator agvToErase = Entities::findAgvIteratorWithPosition(entities, m_position);
 
+	entities.erase(agvToErase);
 }
 
 TurnEntityCommand::TurnEntityCommand(const MapCommand::Container& arguments)
@@ -145,20 +134,6 @@ void TurnEntityCommand::execute(Entities::Container& entities, DbConnector& conn
 	}
 
 	entityToTurn->saveToDatabase(connector, m_mapName);
-}
-
-void TurnEntityCommand::undo(Entities::Container& entities)
-{
-	auto entityToTurn = Entities::getEntityByPosition(entities, m_position);
-
-	if(m_directionToTurn == "right")
-	{
-		entityToTurn->turnLeft();
-	}
-	else if(m_directionToTurn == "left")
-	{
-		entityToTurn->turnRight();
-	}
 }
 
 void TurnEntityCommand::undo(Entities::Container& entities, DbConnector& connector)

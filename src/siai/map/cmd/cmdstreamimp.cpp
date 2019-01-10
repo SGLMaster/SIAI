@@ -19,6 +19,7 @@ void CommandStreamImp::executeAndLog(Entities::Container& entities, DbConnector&
 
 void CommandStreamImp::undo(Entities::Container& entities)
 {
+	/*
     if(m_iterator != m_commands.begin() && m_commands.size() > 0)
     {
         --m_iterator;
@@ -26,6 +27,7 @@ void CommandStreamImp::undo(Entities::Container& entities)
         auto& lastCommand = *m_iterator;
         lastCommand->undo(entities);
     }
+    */
 }
 
 void CommandStreamImp::redo(Entities::Container& entities)
