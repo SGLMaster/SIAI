@@ -41,15 +41,22 @@ void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, DbConnecto
 
     Entities::assertCellOccupied(entities, m_position);
 
+    std::string cellTypeToCreate;
+
     if(!undoing)
     {
         m_originalCellType = (*originalCellIterator)->getEntityName();
+        cellTypeToCreate = m_newCellType;
+    }
+    else
+    {
+    	cellTypeToCreate = m_originalCellType;
     }
 
     int newId = (*originalCellIterator)->getId();
     MapPosition newPosition = (*originalCellIterator)->getPosition();
 
-    auto newCell = ICell::create(m_newCellType, newId, newPosition);
+    auto newCell = ICell::create(cellTypeToCreate, newId, newPosition);
     newCell->saveToDatabase(connector, m_mapName);
 
     entities.push_back(std::move(newCell));

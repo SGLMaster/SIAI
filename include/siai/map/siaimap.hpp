@@ -24,7 +24,7 @@ public:
     static SIAIMap* createMap();
 
     virtual void executeCommand(const std::string& command, DbConnector& connector) = 0;
-    virtual void undo() = 0;
+    virtual void undo(DbConnector& connector) = 0;
     virtual void redo() = 0;
 
     virtual void setName(const std::string& name) = 0;

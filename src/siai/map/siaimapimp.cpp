@@ -35,9 +35,9 @@ void SIAIMapImp::executeCommand(const std::string& command, DbConnector& connect
     diselectAll();
 }
 
-void SIAIMapImp::undo()
+void SIAIMapImp::undo(DbConnector& connector)
 {
-    //m_commandStream->undo(m_entities);
+    m_commandStream->undo(m_entities, connector);
 
     diselectAll();
 }

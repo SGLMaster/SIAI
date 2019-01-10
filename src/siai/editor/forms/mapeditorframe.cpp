@@ -102,7 +102,7 @@ void MapEditorFrame::OnToolAddAgv(wxCommandEvent& event)
 
 void MapEditorFrame::OnToolUndo(wxCommandEvent& event)
 {
-    m_mapControl->undo();
+    m_mapControl->undo(*m_dbConnector);
 
     repaintMapNow();
 }
