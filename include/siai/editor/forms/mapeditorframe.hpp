@@ -73,7 +73,7 @@ private:
 
     virtual void OnPaintMapPanel(wxPaintEvent& event) override;
 
-    //void assertDatabaseConnected();
+    void assertDatabaseConnected();
     void callCurrentToolAction();
     PanelPoint getMousePositionRelativeToMapPanelOrigin();
 

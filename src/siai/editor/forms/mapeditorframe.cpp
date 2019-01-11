@@ -60,6 +60,16 @@ void MapEditorFrame::tryToConnectToDatabase(const DbConnectionOptions& options)
 
 void MapEditorFrame::OnLeftClickMapPanel(wxMouseEvent& event)
 {
+	try
+	{
+		assertDatabaseConnected();
+	}
+	catch(const DbNotConnectedException& e)
+	{
+		Log::warning(e.what());
+		return;
+	}
+
     callCurrentToolAction();
 
     updateStatusBar();
@@ -151,6 +161,14 @@ void MapEditorFrame::OnPaintMapPanel( wxPaintEvent& event )
 {
     wxPaintDC paintDC(m_scrolledMapPanel);
     prepareDCAndPaintMap(paintDC);
+}
+
+void MapEditorFrame::assertDatabaseConnected()
+{
+	if(!m_dbConnector)
+	{
+		throw DbNotConnectedException();
+	}
 }
 
 void MapEditorFrame::callCurrentToolAction()
