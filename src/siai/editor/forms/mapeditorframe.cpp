@@ -64,7 +64,7 @@ void MapEditorFrame::OnLeftClickMapPanel(wxMouseEvent& event)
 	{
 		assertDatabaseConnected();
 	}
-	catch(const DbNotConnectedException& e)
+	catch(const std::exception& e)
 	{
 		Log::warning(e.what());
 		return;

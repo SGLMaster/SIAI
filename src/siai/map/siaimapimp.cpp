@@ -30,7 +30,14 @@ std::string SIAIMapImp::getName()
 
 void SIAIMapImp::executeCommand(const std::string& command, DbConnector& connector)
 {
-    m_commandStream->executeAndLog(m_entities, connector, command);
+	try
+	{
+		m_commandStream->executeAndLog(m_entities, connector, command);
+	}
+    catch(const std::exception& e)
+    {
+    	Log::warning(e.what());
+    }
 
     diselectAll();
 }
