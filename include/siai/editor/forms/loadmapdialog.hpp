@@ -13,6 +13,7 @@ public:
     LoadMapDialog(MapEditorFrame* parent);
 
 private:
+    virtual void OnClose(wxCloseEvent& event) override;
     virtual void OnAccept(wxCommandEvent& event) override;
 	virtual void OnCancel(wxCommandEvent& event) override;
 

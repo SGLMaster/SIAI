@@ -6,6 +6,11 @@ LoadMapDialog::LoadMapDialog(MapEditorFrame* parent) : Forms::LoadMapDialog( (wx
     m_parentFrame = parent;
 }
 
+void LoadMapDialog::OnClose(wxCloseEvent& event)
+{
+	enableMainFrameAndCloseDialog();
+}
+
 void LoadMapDialog::OnAccept(wxCommandEvent& event)
 {
 

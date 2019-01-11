@@ -392,6 +392,7 @@ LoadMapDialog::LoadMapDialog( wxWindow* parent, wxWindowID id, const wxString& t
 	this->Centre( wxBOTH );
 
 	// Connect Events
+	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( LoadMapDialog::OnClose ) );
 	m_buttonAccept->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoadMapDialog::OnAccept ), NULL, this );
 	m_buttonCancel->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoadMapDialog::OnCancel ), NULL, this );
 }
@@ -399,6 +400,7 @@ LoadMapDialog::LoadMapDialog( wxWindow* parent, wxWindowID id, const wxString& t
 LoadMapDialog::~LoadMapDialog()
 {
 	// Disconnect Events
+	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( LoadMapDialog::OnClose ) );
 	m_buttonAccept->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoadMapDialog::OnAccept ), NULL, this );
 	m_buttonCancel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoadMapDialog::OnCancel ), NULL, this );
 

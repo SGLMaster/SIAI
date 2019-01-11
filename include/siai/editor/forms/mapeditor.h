@@ -164,6 +164,7 @@ namespace Forms
 			wxButton* m_buttonCancel;
 
 			// Virtual event handlers, overide them in your derived class
+			virtual void OnClose( wxCloseEvent& event ) = 0;
 			virtual void OnAccept( wxCommandEvent& event ) = 0;
 			virtual void OnCancel( wxCommandEvent& event ) = 0;
 
