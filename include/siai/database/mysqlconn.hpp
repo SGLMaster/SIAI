@@ -18,6 +18,8 @@ public:
     MySqlConnector(const DbConnectionOptions& options);
     virtual ~MySqlConnector();
 
+    virtual bool isConnected() const noexcept override;
+
     virtual void executeQueryWithoutResults(const DbQuery& query) override;
 
 private:

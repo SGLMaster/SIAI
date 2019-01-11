@@ -12,6 +12,11 @@ MySqlConnector::MySqlConnector(const DbConnectionOptions& options) :
 
 MySqlConnector::~MySqlConnector() = default;
 
+bool MySqlConnector::isConnected() const noexcept
+{
+	return m_connection->connected();
+}
+
 void MySqlConnector::executeQueryWithoutResults(const DbQuery& query)
 {
     tryToExecuteQueryWithoutResults(query);

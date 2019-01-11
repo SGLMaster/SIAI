@@ -23,6 +23,8 @@ public:
 
     static std::unique_ptr<DbConnector> makeConnector(const DbConnectionOptions& options);
 
+    virtual bool isConnected() const noexcept = 0;
+
     virtual void executeQueryWithoutResults(const DbQuery& query) = 0;
 };
 
