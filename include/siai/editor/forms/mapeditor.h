@@ -76,6 +76,7 @@ namespace Forms
 			virtual void OnLeftClickMapPanel( wxMouseEvent& event ) = 0;
 			virtual void OnPaintMapPanel( wxPaintEvent& event ) = 0;
 			virtual void OnSelectionNewMap( wxCommandEvent& event ) = 0;
+			virtual void OnSelectionLoadMap( wxCommandEvent& event ) = 0;
 			virtual void OnSelectionDbSettings( wxCommandEvent& event ) = 0;
 
 
@@ -137,15 +138,40 @@ namespace Forms
 			wxButton* m_button4;
 
 			// Virtual event handlers, overide them in your derived class
-			virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
-			virtual void OnButtonClickAccept( wxCommandEvent& event ) { event.Skip(); }
-			virtual void OnButtonClickCancel( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnClose( wxCloseEvent& event ) = 0;
+			virtual void OnButtonClickAccept( wxCommandEvent& event ) = 0;
+			virtual void OnButtonClickCancel( wxCommandEvent& event ) = 0;
 
 
 		public:
 
 			DbSettingsDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Configurar Base de Datos"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE|wxSTAY_ON_TOP );
 			~DbSettingsDialog();
+
+	};
+
+	///////////////////////////////////////////////////////////////////////////////
+	/// Class LoadMapDialog
+	///////////////////////////////////////////////////////////////////////////////
+	class LoadMapDialog : public wxDialog
+	{
+		private:
+
+		protected:
+			wxStaticText* m_staticMapName;
+			wxTextCtrl* m_textCtrlMapName;
+			wxButton* m_buttonAccept;
+			wxButton* m_buttonCancel;
+
+			// Virtual event handlers, overide them in your derived class
+			virtual void OnAccept( wxCommandEvent& event ) = 0;
+			virtual void OnCancel( wxCommandEvent& event ) = 0;
+
+
+		public:
+
+			LoadMapDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Cargar Mapa..."), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE|wxSTAY_ON_TOP );
+			~LoadMapDialog();
 
 	};
 

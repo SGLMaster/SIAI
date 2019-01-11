@@ -83,6 +83,11 @@ void MapEditorFrame::OnSelectionNewMap(wxCommandEvent& event)
     Disable();
 }
 
+void MapEditorFrame::OnSelectionLoadMap(wxCommandEvent& event)
+{
+	;
+}
+
 void MapEditorFrame::OnSelectionDbSettings(wxCommandEvent& event)
 {
 	DbSettingsDialog* dbSettingsDialog = new DbSettingsDialog(this);

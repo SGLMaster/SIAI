@@ -66,6 +66,12 @@ MapEditorFrame::MapEditorFrame( wxWindow* parent, wxWindowID id, const wxString&
 	m_menuItemNewMap = new wxMenuItem( m_menuMap, wxID_ANY, wxString( _("Nuevo Mapa...") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menuMap->Append( m_menuItemNewMap );
 
+	m_menuMap->AppendSeparator();
+
+	wxMenuItem* m_menuItemLoadMap;
+	m_menuItemLoadMap = new wxMenuItem( m_menuMap, wxID_ANY, wxString( _("Cargar Mapa...") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuMap->Append( m_menuItemLoadMap );
+
 	m_menubar->Append( m_menuMap, _("Mapa") );
 
 	m_menuDatabase = new wxMenu();
@@ -97,6 +103,7 @@ MapEditorFrame::MapEditorFrame( wxWindow* parent, wxWindowID id, const wxString&
 	m_scrolledMapPanel->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( MapEditorFrame::OnLeftClickMapPanel ), NULL, this );
 	m_scrolledMapPanel->Connect( wxEVT_PAINT, wxPaintEventHandler( MapEditorFrame::OnPaintMapPanel ), NULL, this );
 	m_menuMap->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MapEditorFrame::OnSelectionNewMap ), this, m_menuItemNewMap->GetId());
+	m_menuMap->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MapEditorFrame::OnSelectionLoadMap ), this, m_menuItemLoadMap->GetId());
 	m_menuDatabase->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MapEditorFrame::OnSelectionDbSettings ), this, m_menuItemDbSettings->GetId());
 }
 
@@ -140,7 +147,7 @@ NewMapDialog::NewMapDialog( wxWindow* parent, wxWindowID id, const wxString& tit
 
 	bSizer14->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_textCtrlMapName = new wxTextCtrl( this, wxID_ANY, _("Mapa_por_defecto"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_textCtrlMapName = new wxTextCtrl( this, wxID_ANY, _("mapa_por_defecto"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer14->Add( m_textCtrlMapName, 0, wxALL, 5 );
 
 
@@ -308,6 +315,9 @@ DbSettingsDialog::DbSettingsDialog( wxWindow* parent, wxWindowID id, const wxStr
 	wxBoxSizer* bSizer12;
 	bSizer12 = new wxBoxSizer( wxHORIZONTAL );
 
+
+	bSizer12->Add( 0, 0, 1, wxEXPAND, 5 );
+
 	m_buttonAccept = new wxButton( this, wxID_ANY, _("Aceptar"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer12->Add( m_buttonAccept, 0, wxALL, 5 );
 
@@ -336,5 +346,60 @@ DbSettingsDialog::~DbSettingsDialog()
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( DbSettingsDialog::OnClose ) );
 	m_buttonAccept->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DbSettingsDialog::OnButtonClickAccept ), NULL, this );
 	m_button4->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DbSettingsDialog::OnButtonClickCancel ), NULL, this );
+
+}
+
+LoadMapDialog::LoadMapDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* bSizer14;
+	bSizer14 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* bSizer16;
+	bSizer16 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticMapName = new wxStaticText( this, wxID_ANY, _("Nombre del Mapa:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticMapName->Wrap( -1 );
+	bSizer16->Add( m_staticMapName, 0, wxALL, 5 );
+
+	m_textCtrlMapName = new wxTextCtrl( this, wxID_ANY, _("mapa_por_defecto"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer16->Add( m_textCtrlMapName, 0, wxALL, 5 );
+
+
+	bSizer14->Add( bSizer16, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer15;
+	bSizer15 = new wxBoxSizer( wxHORIZONTAL );
+
+
+	bSizer15->Add( 0, 0, 1, wxEXPAND, 5 );
+
+	m_buttonAccept = new wxButton( this, wxID_ANY, _("Aceptar"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer15->Add( m_buttonAccept, 0, wxALL, 5 );
+
+	m_buttonCancel = new wxButton( this, wxID_ANY, _("Cancelar"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer15->Add( m_buttonCancel, 0, wxALL, 5 );
+
+
+	bSizer14->Add( bSizer15, 1, wxEXPAND, 5 );
+
+
+	this->SetSizer( bSizer14 );
+	this->Layout();
+	bSizer14->Fit( this );
+
+	this->Centre( wxBOTH );
+
+	// Connect Events
+	m_buttonAccept->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoadMapDialog::OnAccept ), NULL, this );
+	m_buttonCancel->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoadMapDialog::OnCancel ), NULL, this );
+}
+
+LoadMapDialog::~LoadMapDialog()
+{
+	// Disconnect Events
+	m_buttonAccept->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoadMapDialog::OnAccept ), NULL, this );
+	m_buttonCancel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoadMapDialog::OnCancel ), NULL, this );
 
 }
