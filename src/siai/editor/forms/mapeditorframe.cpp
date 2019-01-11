@@ -169,6 +169,13 @@ void MapEditorFrame::assertDatabaseConnected()
 	{
 		throw DbNotConnectedException();
 	}
+	else
+	{
+		if(!m_dbConnector->isConnected())
+		{
+			throw DbNotConnectedException();
+		}
+	}
 }
 
 void MapEditorFrame::callCurrentToolAction()
