@@ -42,9 +42,9 @@ void SIAIMapImp::undo(DbConnector& connector)
     diselectAll();
 }
 
-void SIAIMapImp::redo()
+void SIAIMapImp::redo(DbConnector& connector)
 {
-    //m_commandStream->redo(m_entities);
+    m_commandStream->redo(m_entities, connector);
 
     diselectAll();
 }

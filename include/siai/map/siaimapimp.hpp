@@ -29,7 +29,7 @@ public:
 
     virtual void executeCommand(const std::string& command, DbConnector& connector) override;
     virtual void undo(DbConnector& connector) override;
-    virtual void redo() override;
+    virtual void redo(DbConnector& connector) override;
 
     virtual void setName(const std::string& name) override;
     virtual std::string getName() override;

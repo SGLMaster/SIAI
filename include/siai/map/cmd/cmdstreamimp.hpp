@@ -20,7 +20,7 @@ public:
     virtual void executeAndLog(Entities::Container& entities, DbConnector& connector,
     		const std::string& command) override;
     virtual void undo(Entities::Container& entities, DbConnector& connector) override;
-    virtual void redo(Entities::Container& entities) override;
+    virtual void redo(Entities::Container& entities, DbConnector& connector) override;
 
 private:
     void tryToExecuteAndLog(Entities::Container& entities, DbConnector& connector, std::deque<std::string>& arguments);

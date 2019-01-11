@@ -25,7 +25,7 @@ public:
 
     virtual void executeCommand(const std::string& command, DbConnector& connector) = 0;
     virtual void undo(DbConnector& connector) = 0;
-    virtual void redo() = 0;
+    virtual void redo(DbConnector& connector) = 0;
 
     virtual void setName(const std::string& name) = 0;
     virtual std::string getName() = 0;

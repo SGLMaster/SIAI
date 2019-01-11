@@ -109,7 +109,7 @@ void MapEditorFrame::OnToolUndo(wxCommandEvent& event)
 
 void MapEditorFrame::OnToolRedo(wxCommandEvent& event)
 {
-    m_mapControl->redo();
+    m_mapControl->redo(*m_dbConnector);
 
     repaintMapNow();
 }
