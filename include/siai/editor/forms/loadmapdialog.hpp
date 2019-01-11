@@ -15,4 +15,6 @@ public:
 private:
     virtual void OnAccept(wxCommandEvent& event) override;
 	virtual void OnCancel(wxCommandEvent& event) override;
+
+	void enableMainFrameAndCloseDialog();
 };

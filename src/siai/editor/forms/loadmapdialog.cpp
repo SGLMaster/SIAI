@@ -13,5 +13,11 @@ void LoadMapDialog::OnAccept(wxCommandEvent& event)
 
 void LoadMapDialog::OnCancel(wxCommandEvent& event)
 {
+	enableMainFrameAndCloseDialog();
+}
 
+void LoadMapDialog::enableMainFrameAndCloseDialog()
+{
+    m_parentFrame->Enable();
+    Destroy();
 }
