@@ -2,6 +2,7 @@
 
 #include "editor/forms/mapeditorframe.hpp"
 #include "editor/forms/newmapdialog.hpp"
+#include "editor/forms/loadmapdialog.hpp"
 #include "editor/forms/dbsettingsdialog.hpp"
 
 #include "painter/painter.hpp"
@@ -85,7 +86,9 @@ void MapEditorFrame::OnSelectionNewMap(wxCommandEvent& event)
 
 void MapEditorFrame::OnSelectionLoadMap(wxCommandEvent& event)
 {
-	;
+	LoadMapDialog* loadMapDialog = new LoadMapDialog(this);
+	loadMapDialog->Show();
+	Disable();
 }
 
 void MapEditorFrame::OnSelectionDbSettings(wxCommandEvent& event)
