@@ -2,6 +2,7 @@
 
 #include <editor/forms/mapeditor.h>
 
+#include <exception>
 #include <memory>
 #include <string>
 
@@ -72,6 +73,7 @@ private:
 
     virtual void OnPaintMapPanel(wxPaintEvent& event) override;
 
+    //void assertDatabaseConnected();
     void callCurrentToolAction();
     PanelPoint getMousePositionRelativeToMapPanelOrigin();
 
@@ -88,4 +90,13 @@ private:
     void updateStatusBar();
     void updateSelectedIdOnStatusBar();
     void updateSelectedPositionOnStatusBar();
+};
+
+class DbNotConnectedException : public std::exception
+{
+public:
+    virtual const char* what() const noexcept override
+    {
+        return "No hay ninguna conexión con la base de datos";
+    }
 };
