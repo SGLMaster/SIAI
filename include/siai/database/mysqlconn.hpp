@@ -24,5 +24,4 @@ public:
 
 private:
     void tryToConnect(const DbConnectionOptions& options);
-    void tryToExecuteQueryWithoutResults(const DbQuery& query);
 };

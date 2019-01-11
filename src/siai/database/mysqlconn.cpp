@@ -19,7 +19,12 @@ bool MySqlConnector::isConnected() const noexcept
 
 void MySqlConnector::executeQueryWithoutResults(const DbQuery& query)
 {
-    tryToExecuteQueryWithoutResults(query);
+	auto queryOutput = m_connection->query();
+
+	std::string strQuery = query.generateString();
+	queryOutput << strQuery;
+
+	queryOutput.exec();
 }
 
 void MySqlConnector::tryToConnect(const DbConnectionOptions& options)
@@ -33,14 +38,4 @@ void MySqlConnector::tryToConnect(const DbConnectionOptions& options)
 	{
 		throw DbConnectionException(e.what());
 	}
-}
-
-void MySqlConnector::tryToExecuteQueryWithoutResults(const DbQuery& query)
-{
-	auto queryOutput = m_connection->query();
-
-	std::string strQuery = query.generateString();
-	queryOutput << strQuery;
-
-	queryOutput.exec();
 }
