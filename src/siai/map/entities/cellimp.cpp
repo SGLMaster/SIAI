@@ -100,7 +100,22 @@ BlockedCell::~BlockedCell() = default;
 
 void BlockedCell::draw(Painter& painter)
 {
-    painter.setBrush(PanelColor::BLACK);
+	calculateZoomedSideLength(painter.getZoom());
+	calculateOrigin();
 
-    CellDefault::draw(painter);
+	bool isVisible = isVisibleOnScreen(painter.getOrigin(), painter.getSize());
+
+	if(isVisible)
+	{
+		if(!m_selected)
+		{
+			static auto normalImage = PanelImage::create("resources/map/blocked-cell.png");
+			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
+		}
+		else
+		{
+			static auto normalImage = PanelImage::create("resources/map/blocked-cell-selected.png");
+			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
+		}
+	}
 }

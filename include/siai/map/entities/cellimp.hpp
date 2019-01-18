@@ -24,7 +24,7 @@ public:
     virtual void saveToDatabase(DbConnector& connector, const std::string& mapName) const override;
     virtual void loadFromDatabase(DbConnector& connector) override;
 
-private:
+protected:
     void calculateZoomedSideLength(int zoom);
     void calculateOrigin();
 
