@@ -39,6 +39,8 @@ void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows, con
     m_mapControl->reset(numberOfColumns, numberOfRows);
     m_mapControl->createDatabaseTables(*m_dbConnector);
 
+    SetTitle(m_mapControl->getName() + std::string(" - Editor de Mapas SIAI"));
+
     repaintMapNow();
     updateScrollbarsSize();
 }
