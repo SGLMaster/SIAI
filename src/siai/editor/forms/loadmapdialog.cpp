@@ -13,7 +13,11 @@ void LoadMapDialog::OnClose(wxCloseEvent& event)
 
 void LoadMapDialog::OnAccept(wxCommandEvent& event)
 {
+    std::string mapName = m_textCtrlMapName->GetValue().ToStdString();
 
+    m_parentFrame->loadMap(mapName);
+
+    enableMainFrameAndCloseDialog();
 }
 
 void LoadMapDialog::OnCancel(wxCommandEvent& event)
