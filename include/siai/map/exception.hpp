@@ -9,7 +9,7 @@ class InvalidCommand : public CommandException
 public:
     virtual const char* what() const noexcept override
     {
-        return "Comando inválido.";
+        return "Comando invï¿½lido.";
     }
 };
 
@@ -18,7 +18,7 @@ class InvalidNumberOfArguments : public CommandException
 public:
     virtual const char* what() const noexcept override
     {
-        return "Número de argumentos inválidos.";
+        return "Numero de argumentos invalidos.";
     }
 };
 
@@ -40,6 +40,15 @@ public:
     }
 };
 
+class NotParkingCellException : public CommandException
+{
+public:
+    virtual const char* what() const noexcept override
+    {
+        return "Esta celda no es de estacionamiento.";
+    }
+};
+
 class EntityException : public std::exception{};
 
 class InvalidEntityType : public EntityException
@@ -47,7 +56,7 @@ class InvalidEntityType : public EntityException
 public:
     virtual const char* what() const noexcept override
     {
-        return "Tipo de entidad inválido.";
+        return "Tipo de entidad invalido.";
     }
 };
 

@@ -154,7 +154,7 @@ bool Entities::isPositionInsideMap(const Entities::Container& entities, const Ma
 	return true;
 }
 
-void Entities::assertCellOccupied(const Entities::Container& entities, const MapPosition& position)
+void Entities::assertCellOccupied(const Container& entities, const MapPosition& position)
 {
     bool cellFoundIsOccupied = isCellOccupied(entities, position);
 
@@ -183,6 +183,27 @@ bool Entities::isCellOccupied(const Container& entities, const MapPosition& posi
     }
 
     return true;
+}
+
+void Entities::assertIsParkingCell(Container& entities, const MapPosition& position)
+{
+    bool cellFoundIsParking = isParkingCell(entities, position);
+
+    if(!cellFoundIsParking)
+    {
+        throw NotParkingCellException();
+    }
+}
+
+bool Entities::isParkingCell(Container& entities, const MapPosition& position)
+{
+    Entities::Iterator cell = findCellIteratorWithPosition(entities, position);
+
+    if((*cell)->getEntityName() == std::string("Parking"))
+    {
+        return true;
+    }
+    return false;
 }
 
 bool Entities::selectOrDiselectIfHasPointInside(IMapEntity& entity, const PanelPoint& point) noexcept
