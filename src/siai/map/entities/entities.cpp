@@ -218,9 +218,9 @@ void Entities::assertIsParkingCell(Container& entities, const MapPosition& posit
 
 bool Entities::isParkingCell(Container& entities, const MapPosition& position)
 {
-    Entities::Iterator cell = findCellIteratorWithPosition(entities, position);
+    Pointer cellToAssert = getCellByPosition(entities, position);
 
-    if((*cell)->getEntityName() == std::string("Parking"))
+    if(cellToAssert->getEntityName() == std::string("Parking"))
     {
         return true;
     }
