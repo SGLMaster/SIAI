@@ -119,3 +119,28 @@ void BlockedCell::draw(Painter& painter)
 		}
 	}
 }
+
+ParkingCell::ParkingCell(int id, const MapPosition& position) : CellDefault(id, position) {}
+ParkingCell::~ParkingCell() = default;
+
+void ParkingCell::draw(Painter& painter)
+{
+	calculateZoomedSideLength(painter.getZoom());
+	calculateOrigin();
+
+	bool isVisible = isVisibleOnScreen(painter.getOrigin(), painter.getSize());
+
+	if(isVisible)
+	{
+		if(!m_selected)
+		{
+			static auto normalImage = PanelImage::create("resources/map/parking-cell.png");
+			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
+		}
+		else
+		{
+			static auto normalImage = PanelImage::create("resources/map/parking-cell-selected.png");
+			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
+		}
+	}
+}

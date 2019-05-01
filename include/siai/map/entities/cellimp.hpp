@@ -61,3 +61,18 @@ public:
 
     virtual void draw(Painter& painter) override;
 };
+
+class ParkingCell : public CellDefault
+{
+public:
+    ParkingCell() = delete;
+    ParkingCell(int id, const MapPosition& position);
+    virtual ~ParkingCell();
+
+    virtual std::string getEntityName() const noexcept override
+    {
+        return "Parking";
+    }
+
+    virtual void draw(Painter& painter) override;
+};

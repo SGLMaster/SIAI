@@ -210,7 +210,7 @@ void MapEditorFrame::callCurrentToolAction()
         actionToolReplaceCell("Blocked", columnToPerformAction, rowToPerformAction);
         break;
     case Tool::PARKING_CELL:
-        
+        actionToolReplaceCell("Parking", columnToPerformAction, rowToPerformAction);
         break;
     case Tool::ADD_AGV:
         actionToolAddAgv("RegularAgv", columnToPerformAction, rowToPerformAction);
