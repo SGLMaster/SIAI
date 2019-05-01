@@ -25,6 +25,8 @@ MapEditorFrame::MapEditorFrame(wxWindow* parent) : Forms::MapEditorFrame(parent)
     m_scrolledMapPanel->SetDoubleBuffered(true);
 
     wxImage::AddHandler(new wxPNGHandler);
+
+    m_originalFrameTitle = GetTitle();
 }
 
 void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows, const std::string& mapName)
@@ -39,7 +41,7 @@ void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows, con
     m_mapControl->reset(numberOfColumns, numberOfRows);
     m_mapControl->createDatabaseTables(*m_dbConnector);
 
-    SetTitle(m_mapControl->getName() + std::string(" - Editor de Mapas SIAI"));
+    SetTitle(m_mapControl->getName() + " - " + m_originalFrameTitle);
 
     repaintMapNow();
     updateScrollbarsSize();

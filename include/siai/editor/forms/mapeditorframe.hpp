@@ -36,6 +36,8 @@ enum class StatusBarFields
 class MapEditorFrame : public Forms::MapEditorFrame
 {
 private:
+    std::string m_originalFrameTitle;
+
     SIAIMap* m_mapControl;
 
     Tool m_currentTool{Tool::SELECT};
