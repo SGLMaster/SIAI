@@ -92,6 +92,7 @@ private:
     void prepareDCAndPaintMap(wxDC& dc);
     PanelData calculatePainterData() const;
 
+    void updateFrameTitle();
     void updateScrollbarsSize();
     void updateStatusBar();
     void updateSelectedIdOnStatusBar();

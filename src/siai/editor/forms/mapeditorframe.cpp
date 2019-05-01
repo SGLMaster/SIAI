@@ -41,8 +41,7 @@ void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows, con
     m_mapControl->reset(numberOfColumns, numberOfRows);
     m_mapControl->createDatabaseTables(*m_dbConnector);
 
-    SetTitle(m_mapControl->getName() + " - " + m_originalFrameTitle);
-
+    updateFrameTitle();
     repaintMapNow();
     updateScrollbarsSize();
 }
@@ -309,6 +308,11 @@ PanelData MapEditorFrame::calculatePainterData() const
     PanelSize painterSize{panelSize.GetWidth(), panelSize.GetHeight()};
 
     return PanelData{painterOrigin, painterSize, m_mapPanelZoom};
+}
+
+void MapEditorFrame::updateFrameTitle()
+{
+    SetTitle(m_mapControl->getName() + " - " + m_originalFrameTitle);
 }
 
 void MapEditorFrame::updateStatusBar()
