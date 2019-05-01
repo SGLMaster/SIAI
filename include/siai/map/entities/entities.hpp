@@ -27,6 +27,7 @@ namespace Entities
     void eraseAgvOnDbWithId(DbConnector& connector, const std::string& mapName, int id);
 
     Pointer& getEntityByPosition(Entities::Container& entities, const MapPosition& position);
+    Pointer& getCellByPosition(Entities::Container& entities, const MapPosition& position);
 
     void assertPositionInsideMap(const Entities::Container& entities, const MapPosition& position);
     bool isPositionInsideMap(const Entities::Container& entities, const MapPosition& position);
