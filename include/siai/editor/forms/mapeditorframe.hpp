@@ -50,6 +50,7 @@ public:
     MapEditorFrame(wxWindow* parent);
 
     void initializeNewMap(int numberOfColumns, int numberOfRows, const std::string& mapName);
+    void loadMap(const std::string& mapName);
 
     void tryToConnectToDatabase(const DbConnectionOptions& options);
 

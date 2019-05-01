@@ -47,6 +47,17 @@ void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows, con
     updateScrollbarsSize();
 }
 
+void MapEditorFrame::loadMap(const std::string& mapName)
+{
+	if(!m_dbConnector)
+	{
+		Log::warning("Base de datos no conectada! No se puede abrir ningún mapa!");
+		return;
+	}
+
+	
+}
+
 void MapEditorFrame::tryToConnectToDatabase(const DbConnectionOptions& options)
 {
 	try
