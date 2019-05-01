@@ -20,6 +20,7 @@ enum class Tool
     SELECT,
     REGULAR_CELL,
     BLOCKED_CELL,
+    PARKING_CELL,
     ADD_AGV,
 	TURN_ENTITY_LEFT,
 	TURN_ENTITY_RIGHT
@@ -60,6 +61,7 @@ private:
     virtual void OnToolSelect(wxCommandEvent& event) override;
     virtual void OnToolRegularCell(wxCommandEvent& event) override;
 	virtual void OnToolBlockedCell(wxCommandEvent& event) override;
+    virtual void OnToolParkingCell(wxCommandEvent& event) override;
 	virtual void OnToolAddAgv(wxCommandEvent& event) override;
 	virtual void OnToolUndo(wxCommandEvent& event) override;
 	virtual void OnToolRedo(wxCommandEvent& event) override;

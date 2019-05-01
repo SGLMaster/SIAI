@@ -24,7 +24,9 @@ MapEditorFrame::MapEditorFrame( wxWindow* parent, wxWindowID id, const wxString&
 
 	m_toolRegularCell = m_toolBar1->AddTool( wxID_ANY, _("Celda Libre"), wxBitmap( wxT("resources/tools/white-cell.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, _("Celda Libre"), _("Celda Libre"), NULL );
 
-	m_toolBlockedCell = m_toolBar1->AddTool( wxID_ANY, _("Celda Bloqueada"), wxBitmap( wxT("resources/tools/black-cell.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, _("Celda Bloqueada"), _("Celda Bloqueada"), NULL );
+	m_toolBlockedCell = m_toolBar1->AddTool( wxID_ANY, _("Celda Bloqueada"), wxBitmap( wxT("resources/tools/blocked-cell.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, _("Celda Bloqueada"), _("Celda Bloqueada"), NULL );
+
+	m_toolParkingCell = m_toolBar1->AddTool( wxID_ANY, _("tool"), wxBitmap( wxT("resources/tools/parking-cell.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, wxEmptyString, wxEmptyString, NULL );
 
 	m_toolAddAgv = m_toolBar1->AddTool( wxID_ANY, _("Agregar Agv"), wxBitmap( wxT("resources/tools/regular-agv.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, _("Agregar Agv"), _("Agregar Agv"), NULL );
 
@@ -91,6 +93,7 @@ MapEditorFrame::MapEditorFrame( wxWindow* parent, wxWindowID id, const wxString&
 	this->Connect( m_toolSelect->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolSelect ) );
 	this->Connect( m_toolRegularCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolRegularCell ) );
 	this->Connect( m_toolBlockedCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolBlockedCell ) );
+	this->Connect( m_toolParkingCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolParkingCell ) );
 	this->Connect( m_toolAddAgv->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolAddAgv ) );
 	this->Connect( m_toolTurnLeft->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolTurnLeft ) );
 	this->Connect( m_toolTurnRight->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolTurnRight ) );
@@ -113,6 +116,7 @@ MapEditorFrame::~MapEditorFrame()
 	this->Disconnect( m_toolSelect->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolSelect ) );
 	this->Disconnect( m_toolRegularCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolRegularCell ) );
 	this->Disconnect( m_toolBlockedCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolBlockedCell ) );
+	this->Disconnect( m_toolParkingCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolParkingCell ) );
 	this->Disconnect( m_toolAddAgv->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolAddAgv ) );
 	this->Disconnect( m_toolTurnLeft->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolTurnLeft ) );
 	this->Disconnect( m_toolTurnRight->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolTurnRight ) );

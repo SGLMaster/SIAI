@@ -113,6 +113,11 @@ void MapEditorFrame::OnToolBlockedCell(wxCommandEvent& event)
     m_currentTool = Tool::BLOCKED_CELL;
 }
 
+void MapEditorFrame::OnToolParkingCell(wxCommandEvent& event)
+{
+    m_currentTool = Tool::PARKING_CELL;
+}
+
 void MapEditorFrame::OnToolAddAgv(wxCommandEvent& event)
 {
     m_currentTool = Tool::ADD_AGV;
@@ -203,6 +208,9 @@ void MapEditorFrame::callCurrentToolAction()
         break;
     case Tool::BLOCKED_CELL:
         actionToolReplaceCell("Blocked", columnToPerformAction, rowToPerformAction);
+        break;
+    case Tool::PARKING_CELL:
+        
         break;
     case Tool::ADD_AGV:
         actionToolAddAgv("RegularAgv", columnToPerformAction, rowToPerformAction);
