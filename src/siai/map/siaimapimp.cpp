@@ -68,7 +68,7 @@ int SIAIMapImp::getNumberOfRows() const noexcept
 
 void SIAIMapImp::loadFromDb(DbConnector& connector, const std::string& mapName)
 {
-    
+
 }
 
 void SIAIMapImp::reset(int numberOfColumns, int numberOfRows)
@@ -170,7 +170,7 @@ void SIAIMapImp::createCellsDbTable(DbConnector& connector)
 	SqlQueryData dataForCellsTable{cellsTableName, ICell::dbColumnNames, ICell::dbColumnTypes};
 	SqlCreateTableQuery createCellsTableQuery(dataForCellsTable, ICell::primaryKeyName);
 
-	tryToExecuteDbQuery(connector, createCellsTableQuery);
+	tryQueryWithoutResults(connector, createCellsTableQuery);
 }
 
 void SIAIMapImp::fillCellsDbTable(DbConnector& connector)
@@ -190,7 +190,7 @@ void SIAIMapImp::fillCellsDbTable(DbConnector& connector)
 		cellsValues};
 	SqlMultipleInsertQuery cellsInsertQuery(cellsDataToInsert);
 
-	tryToExecuteDbQuery(connector, cellsInsertQuery);
+	tryQueryWithoutResults(connector, cellsInsertQuery);
 }
 
 void SIAIMapImp::createAgvsDbTable(DbConnector& connector)
@@ -200,10 +200,10 @@ void SIAIMapImp::createAgvsDbTable(DbConnector& connector)
 	SqlQueryData dataForAgvsTable{agvsTableName, IAgv::dbColumnNames, IAgv::dbColumnTypes};
 	SqlCreateTableQuery createAgvsTableQuery(dataForAgvsTable, IAgv::primaryKeyName);
 
-	tryToExecuteDbQuery(connector, createAgvsTableQuery);
+	tryQueryWithoutResults(connector, createAgvsTableQuery);
 }
 
-void SIAIMapImp::tryToExecuteDbQuery(DbConnector& connector, const DbQuery& createQuery)
+void SIAIMapImp::tryQueryWithoutResults(DbConnector& connector, const DbQuery& createQuery)
 {
 	try
 	{

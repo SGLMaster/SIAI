@@ -61,5 +61,5 @@ private:
 
     void createAgvsDbTable(DbConnector& connector);
 
-    void tryToExecuteDbQuery(DbConnector& connector, const DbQuery& query);
+    void tryQueryWithoutResults(DbConnector& connector, const DbQuery& query);
 };
