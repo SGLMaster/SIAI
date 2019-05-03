@@ -80,21 +80,7 @@ void SIAIMapImp::loadFromDb(DbConnector& connector, const std::string& mapName)
     std::vector<DbRow> results;
     tryQueryAndStore(connector, selectCellsQuery, results);
 
-    for (const DbRow& cellDataRow : results) 
-    {
-        int cellId = cellDataRow[0];
-        int cellCol = cellDataRow[1];
-        int cellRow = cellDataRow[2];
-        int cellDirection = cellDataRow[3];
-        std::string cellType(cellDataRow[4]);
-
-        MapPosition cellPosition{cellCol, cellRow};
-
-        Entities::Pointer tmpCell = ICell::create(cellType, cellId, cellPosition);
-        tmpCell->setDirection(static_cast<MapDirection>(cellDirection));
-
-        m_entities.push_back(std::move(tmpCell));
-    }
+    Entities::loadCellsFromQueryRows(m_entities, results);
 }
 
 void SIAIMapImp::reset(int numberOfColumns, int numberOfRows)

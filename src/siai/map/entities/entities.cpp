@@ -9,6 +9,8 @@
 #include "globals.hpp"
 #include "log.hpp"
 
+#include <mysql++.h>
+
 #include <algorithm>
 
 void Entities::generateMapCells(Container& entities, int numberOfColumns, int numberOfRows)
@@ -38,6 +40,25 @@ void Entities::tryToCreateAndAddCell(Container& entities, int id, const MapPosit
     {
         Log::fatalError(e.what());
         exit(-1);
+    }
+}
+
+void Entities::loadCellsFromQueryRows(Container& entities, const std::vector<DbRow>& rows)
+{
+    for (const DbRow& cellDataRow : rows) 
+    {
+        int cellId = cellDataRow[0];
+        int cellCol = cellDataRow[1];
+        int cellRow = cellDataRow[2];
+        int cellDirection = cellDataRow[3];
+        std::string cellType(cellDataRow[4]);
+
+        MapPosition cellPosition{cellCol, cellRow};
+
+        Entities::Pointer tmpCell = ICell::create(cellType, cellId, cellPosition);
+        tmpCell->setDirection(static_cast<MapDirection>(cellDirection));
+
+        entities.push_back(std::move(tmpCell));
     }
 }
 

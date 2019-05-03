@@ -1,5 +1,7 @@
 #pragma once
 
+#include "database/database.hpp"
+
 #include <memory>
 #include <vector>
 
@@ -7,8 +9,6 @@ class PanelPoint;
 
 class IMapEntity;
 class MapPosition;
-
-class DbConnector;
 
 namespace Entities
 {
@@ -18,6 +18,8 @@ namespace Entities
 
     void generateMapCells(Container& entities, int numberOfColumns, int numberOfRows);
     void tryToCreateAndAddCell(Container& entities, int id, const MapPosition& position);
+
+    void loadCellsFromQueryRows(Container& entities, const std::vector<DbRow>& rows);
 
     MapPosition findPositionWithPoint(Container& entities, const PanelPoint& point);
 
