@@ -17,6 +17,9 @@ class SIAIMapImp : public SIAIMap
 private:
 	std::string m_name;
 
+    std::string m_cellsTableName;
+    std::string m_agvsTableName;
+
     int m_numberOfColumns{0};
     int m_numberOfRows{0};
 
