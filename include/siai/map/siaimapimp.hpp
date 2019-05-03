@@ -4,6 +4,8 @@
 
 #include "map/siaimap.hpp"
 
+#include "database/database.hpp"
+
 #include <memory>
 
 class CommandStream;
@@ -62,4 +64,5 @@ private:
     void createAgvsDbTable(DbConnector& connector);
 
     void tryQueryWithoutResults(DbConnector& connector, const DbQuery& query);
+    void tryQueryAndStore(DbConnector& connector, const DbQuery& query, std::vector<DbRow>& vector);
 };

@@ -217,6 +217,20 @@ void SIAIMapImp::tryQueryWithoutResults(DbConnector& connector, const DbQuery& c
 	}
 }
 
+void SIAIMapImp::tryQueryAndStore(DbConnector& connector, const DbQuery& query, std::vector<DbRow>& vector)
+{
+    try
+	{
+		connector.executeQueryAndStoreInVector(query, vector);
+	}
+	catch(const std::exception& e)
+	{
+		Log::warning(std::string("Error al enviar comando a base de datos: ") + e.what());
+
+		reset(0, 0);
+	}
+}
+
 void SIAIMapImp::uploadChanges(DbConnector& connector)
 {
 	for(const auto& entity : m_entities)
