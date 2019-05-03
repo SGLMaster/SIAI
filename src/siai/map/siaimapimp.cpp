@@ -68,10 +68,8 @@ int SIAIMapImp::getNumberOfRows() const noexcept
     return m_numberOfRows;
 }
 
-void SIAIMapImp::loadFromDb(DbConnector& connector, const std::string& mapName)
+void SIAIMapImp::loadFromDb(DbConnector& connector)
 {
-    m_name = mapName;
-
     reset(0, 0);
 
     loadCellsFromDb(connector);

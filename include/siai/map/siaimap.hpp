@@ -30,7 +30,7 @@ public:
     virtual void setName(const std::string& name) = 0;
     virtual std::string getName() = 0;
 
-    virtual void loadFromDb(DbConnector& connector, const std::string& mapName) = 0;
+    virtual void loadFromDb(DbConnector& connector) = 0;
 
     virtual void reset(int numberOfColumns, int numberOfRows) = 0;
     virtual void repaint(Painter& painter) = 0;

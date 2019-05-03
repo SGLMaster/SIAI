@@ -55,7 +55,7 @@ void MapEditorFrame::loadMap(const std::string& mapName)
 	}
 
     m_mapControl->setName(mapName);
-	m_mapControl->loadFromDb(*m_dbConnector, mapName);
+	m_mapControl->loadFromDb(*m_dbConnector);
 
     updateFrameTitle();
     repaintMapNow();
