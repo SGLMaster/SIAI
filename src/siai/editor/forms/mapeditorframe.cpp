@@ -37,9 +37,9 @@ void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows, con
 		return;
 	}
 
+    m_mapControl->setName(mapName);
     m_mapControl->reset(numberOfColumns, numberOfRows);
     m_mapControl->createDatabaseTables(*m_dbConnector);
-    m_mapControl->setName(mapName);
 
     updateFrameTitle();
     repaintMapNow();
@@ -54,8 +54,8 @@ void MapEditorFrame::loadMap(const std::string& mapName)
 		return;
 	}
 
-	m_mapControl->loadFromDb(*m_dbConnector, mapName);
     m_mapControl->setName(mapName);
+	m_mapControl->loadFromDb(*m_dbConnector, mapName);
 
     updateFrameTitle();
     repaintMapNow();
