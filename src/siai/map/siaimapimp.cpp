@@ -175,6 +175,14 @@ void SIAIMapImp::createDatabaseTables(DbConnector& connector)
 	createAgvsDbTable(connector);
 }
 
+void SIAIMapImp::uploadChanges(DbConnector& connector)
+{
+	for(const auto& entity : m_entities)
+	{
+		entity->saveToDatabase(connector, m_name);
+	}
+}
+
 void  SIAIMapImp::loadCellsFromDb(DbConnector& connector)
 {
     SqlQueryData dataToSelectFromCells{m_cellsDbTableName, ICell::dbColumnNames};
@@ -248,13 +256,5 @@ void SIAIMapImp::tryQueryAndStore(DbConnector& connector, const DbQuery& query, 
 		Log::warning(std::string("Error al enviar comando a base de datos: ") + e.what());
 
 		reset(0, 0);
-	}
-}
-
-void SIAIMapImp::uploadChanges(DbConnector& connector)
-{
-	for(const auto& entity : m_entities)
-	{
-		entity->saveToDatabase(connector, m_name);
 	}
 }
