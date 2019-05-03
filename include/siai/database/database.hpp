@@ -3,8 +3,14 @@
 #include <string>
 #include <memory>
 #include <exception>
+#include <vector>
 
 class DbQuery;
+
+namespace mysqlpp
+{
+	class Row;
+}
 
 struct DbConnectionOptions
 {
@@ -26,6 +32,7 @@ public:
     virtual bool isConnected() const noexcept = 0;
 
     virtual void executeQueryWithoutResults(const DbQuery& query) = 0;
+    virtual void executeQueryAndStoreInVector(const DbQuery& query, std::vector<mysqlpp::Row>& vector) = 0;
 };
 
 class DbConnectionException : public std::exception

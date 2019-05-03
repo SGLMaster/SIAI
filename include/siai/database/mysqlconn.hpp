@@ -21,6 +21,7 @@ public:
     virtual bool isConnected() const noexcept override;
 
     virtual void executeQueryWithoutResults(const DbQuery& query) override;
+    virtual void executeQueryAndStoreInVector(const DbQuery& query, std::vector<mysqlpp::Row>& vector) override;
 
 private:
     void tryToConnect(const DbConnectionOptions& options);
