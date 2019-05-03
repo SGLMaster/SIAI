@@ -101,6 +101,11 @@ public:
         m_position = position;
     }
 
+    inline void setDirection(MapDirection direction)
+    {
+        m_direction = direction;
+    }
+
     void turnRight() noexcept
     {
     	switch(m_direction)
