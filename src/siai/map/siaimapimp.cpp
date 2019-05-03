@@ -74,15 +74,7 @@ void SIAIMapImp::loadFromDb(DbConnector& connector, const std::string& mapName)
 
     reset(0, 0);
 
-    std::string cellsTableName{SIAIGlobals::DB_CELLS_TABLE_PREFIX + m_name};
-    SqlQueryData dataToSelectFromCells{cellsTableName, ICell::dbColumnNames};
-
-    SqlSelectQuery selectCellsQuery(dataToSelectFromCells);
-
-    std::vector<DbRow> results;
-    tryQueryAndStore(connector, selectCellsQuery, results);
-
-    Entities::loadCellsFromQueryRows(m_entities, results);
+    loadCellsFromDb(connector);
 }
 
 void SIAIMapImp::reset(int numberOfColumns, int numberOfRows)
@@ -175,6 +167,19 @@ void SIAIMapImp::createDatabaseTables(DbConnector& connector)
 	fillCellsDbTable(connector);
 
 	createAgvsDbTable(connector);
+}
+
+void  SIAIMapImp::loadCellsFromDb(DbConnector& connector)
+{
+    std::string cellsTableName{SIAIGlobals::DB_CELLS_TABLE_PREFIX + m_name};
+    SqlQueryData dataToSelectFromCells{cellsTableName, ICell::dbColumnNames};
+
+    SqlSelectQuery selectCellsQuery(dataToSelectFromCells);
+
+    std::vector<DbRow> results;
+    tryQueryAndStore(connector, selectCellsQuery, results);
+
+    Entities::loadCellsFromQueryRows(m_entities, results);
 }
 
 void SIAIMapImp::createCellsDbTable(DbConnector& connector)

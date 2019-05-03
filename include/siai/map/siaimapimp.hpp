@@ -56,6 +56,8 @@ public:
     virtual void uploadChanges(DbConnector& connector) override;
 
 private:
+    void loadCellsFromDb(DbConnector& connector);
+
     void generateCells();
 
     void createCellsDbTable(DbConnector& connector);
