@@ -23,6 +23,9 @@ SIAIMapImp::~SIAIMapImp() = default;
 void SIAIMapImp::setName(const std::string& name)
 {
 	m_name = name;
+
+    m_cellsDbTableName = SIAIGlobals::DB_CELLS_TABLE_PREFIX + m_name;
+    m_agvsDbTableName = SIAIGlobals::DB_AGVS_TABLE_PREFIX + m_name;
 }
 
 std::string SIAIMapImp::getName()
@@ -169,8 +172,7 @@ void SIAIMapImp::createDatabaseTables(DbConnector& connector)
 
 void  SIAIMapImp::loadCellsFromDb(DbConnector& connector)
 {
-    std::string cellsTableName{SIAIGlobals::DB_CELLS_TABLE_PREFIX + m_name};
-    SqlQueryData dataToSelectFromCells{cellsTableName, ICell::dbColumnNames};
+    SqlQueryData dataToSelectFromCells{m_cellsDbTableName, ICell::dbColumnNames};
 
     SqlSelectQuery selectCellsQuery(dataToSelectFromCells);
 
@@ -182,9 +184,7 @@ void  SIAIMapImp::loadCellsFromDb(DbConnector& connector)
 
 void SIAIMapImp::createCellsDbTable(DbConnector& connector)
 {
-	std::string cellsTableName{SIAIGlobals::DB_CELLS_TABLE_PREFIX + m_name};
-
-	SqlQueryData dataForCellsTable{cellsTableName, ICell::dbColumnNames, ICell::dbColumnTypes};
+	SqlQueryData dataForCellsTable{m_cellsDbTableName, ICell::dbColumnNames, ICell::dbColumnTypes};
 	SqlCreateTableQuery createCellsTableQuery(dataForCellsTable, ICell::primaryKeyName);
 
 	tryQueryWithoutResults(connector, createCellsTableQuery);
@@ -212,9 +212,7 @@ void SIAIMapImp::fillCellsDbTable(DbConnector& connector)
 
 void SIAIMapImp::createAgvsDbTable(DbConnector& connector)
 {
-	std::string agvsTableName{SIAIGlobals::DB_AGVS_TABLE_PREFIX + m_name};
-
-	SqlQueryData dataForAgvsTable{agvsTableName, IAgv::dbColumnNames, IAgv::dbColumnTypes};
+	SqlQueryData dataForAgvsTable{m_agvsDbTableName, IAgv::dbColumnNames, IAgv::dbColumnTypes};
 	SqlCreateTableQuery createAgvsTableQuery(dataForAgvsTable, IAgv::primaryKeyName);
 
 	tryQueryWithoutResults(connector, createAgvsTableQuery);
