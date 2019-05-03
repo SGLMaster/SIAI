@@ -12,6 +12,8 @@
 #include "globals.hpp"
 #include "log.hpp"
 
+#include <mysql++.h>
+
 #include <algorithm>
 #include <vector>
 
@@ -68,7 +70,15 @@ int SIAIMapImp::getNumberOfRows() const noexcept
 
 void SIAIMapImp::loadFromDb(DbConnector& connector, const std::string& mapName)
 {
+    reset(0, 0);
 
+    std::string cellsTableName{SIAIGlobals::DB_CELLS_TABLE_PREFIX + m_name};
+    SqlQueryData dataToSelectFromCells{cellsTableName, ICell::dbColumnNames};
+
+    SqlSelectQuery selectCellsQuery(dataToSelectFromCells);
+
+    std::vector<DbRow> results;
+    tryQueryAndStore(connector, selectCellsQuery, results);
 }
 
 void SIAIMapImp::reset(int numberOfColumns, int numberOfRows)

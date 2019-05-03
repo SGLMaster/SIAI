@@ -54,7 +54,12 @@ void MapEditorFrame::loadMap(const std::string& mapName)
 		return;
 	}
 
-	
+	m_mapControl->loadFromDb(*m_dbConnector, mapName);
+    m_mapControl->setName(mapName);
+
+    updateFrameTitle();
+    repaintMapNow();
+    updateScrollbarsSize();
 }
 
 void MapEditorFrame::tryToConnectToDatabase(const DbConnectionOptions& options)
