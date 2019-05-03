@@ -27,7 +27,7 @@ void MySqlConnector::executeQueryWithoutResults(const DbQuery& query)
 	queryOutput.exec();
 }
 
-void MySqlConnector::executeQueryAndStoreInVector(const DbQuery& query, std::vector<mysqlpp::Row>& vector)
+void MySqlConnector::executeQueryAndStoreInVector(const DbQuery& query, std::vector<DbRow>& vector)
 {
 	auto queryOutput = m_connection->query();
 

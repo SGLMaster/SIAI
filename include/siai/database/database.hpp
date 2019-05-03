@@ -12,6 +12,8 @@ namespace mysqlpp
 	class Row;
 }
 
+using DbRow = mysqlpp::Row;
+
 struct DbConnectionOptions
 {
     std::string schema;
@@ -32,7 +34,7 @@ public:
     virtual bool isConnected() const noexcept = 0;
 
     virtual void executeQueryWithoutResults(const DbQuery& query) = 0;
-    virtual void executeQueryAndStoreInVector(const DbQuery& query, std::vector<mysqlpp::Row>& vector) = 0;
+    virtual void executeQueryAndStoreInVector(const DbQuery& query, std::vector<DbRow>& vector) = 0;
 };
 
 class DbConnectionException : public std::exception
