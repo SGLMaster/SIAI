@@ -195,6 +195,16 @@ void  SIAIMapImp::loadCellsFromDb(DbConnector& connector)
     Entities::loadCellsFromQueryRows(m_entities, results);
 }
 
+void SIAIMapImp::loadAgvsFromDb(DbConnector& connector)
+{
+    SqlQueryData dataToSelectFromAgvs{m_agvsDbTableName, IAgv::dbColumnNames};
+
+    SqlSelectQuery selectAgvsQuery(dataToSelectFromAgvs);
+
+    std::vector<DbRow> results;
+    tryQueryAndStore(connector, selectAgvsQuery, results);
+}
+
 void SIAIMapImp::createCellsDbTable(DbConnector& connector)
 {
 	SqlQueryData dataForCellsTable{m_cellsDbTableName, ICell::dbColumnNames, ICell::dbColumnTypes};

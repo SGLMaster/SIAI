@@ -62,6 +62,7 @@ private:
     void updateDbTableNames();
 
     void loadCellsFromDb(DbConnector& connector);
+    void loadAgvsFromDb(DbConnector& connector);
 
     void createCellsDbTable(DbConnector& connector);
     void fillCellsDbTable(DbConnector& connector);
