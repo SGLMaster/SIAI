@@ -21,16 +21,16 @@ void Entities::generateMapCells(Container& entities, int numberOfColumns, int nu
         {
             MapPosition position{column, row};
 
-            tryToCreateAndAddCell(entities, position);
+            tryToCreateAndAddCell(entities, ICell::CellsIdManager.getId(), position);
         }
     }
 }
 
-void Entities::tryToCreateAndAddCell(Container& entities, const MapPosition& position)
+void Entities::tryToCreateAndAddCell(Container& entities, int id, const MapPosition& position)
 {
     try
     {
-        Entities::Pointer tmpCell = ICell::create("Regular", ICell::CellsIdManager.getId(), position);
+        Entities::Pointer tmpCell = ICell::create("Regular", id, position);
 
         entities.push_back(std::move(tmpCell));
     }
