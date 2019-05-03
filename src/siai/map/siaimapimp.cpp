@@ -24,8 +24,7 @@ void SIAIMapImp::setName(const std::string& name)
 {
 	m_name = name;
 
-    m_cellsDbTableName = SIAIGlobals::DB_CELLS_TABLE_PREFIX + m_name;
-    m_agvsDbTableName = SIAIGlobals::DB_AGVS_TABLE_PREFIX + m_name;
+    updateDbTableNames();
 }
 
 std::string SIAIMapImp::getName()
@@ -160,6 +159,12 @@ int SIAIMapImp::getSelectedId() const noexcept
     }
 
     return lastSelectedId;
+}
+
+void SIAIMapImp::updateDbTableNames()
+{
+    m_cellsDbTableName = SIAIGlobals::DB_CELLS_TABLE_PREFIX + m_name;
+    m_agvsDbTableName = SIAIGlobals::DB_AGVS_TABLE_PREFIX + m_name;
 }
 
 void SIAIMapImp::createDatabaseTables(DbConnector& connector)
