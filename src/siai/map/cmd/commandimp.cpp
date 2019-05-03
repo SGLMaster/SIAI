@@ -91,7 +91,7 @@ void AddAgvCommand::execute(Entities::Container& entities, DbConnector& connecto
 
 	try
 	{
-		Entities::Pointer agv = IAgv::create(m_agvType, m_position);
+		Entities::Pointer agv = IAgv::create(m_agvType, IAgv::AgvsIdManager.getId(), m_position);
 
 		agv->saveToDatabase(connector, m_mapName);
 

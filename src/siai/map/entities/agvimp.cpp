@@ -5,7 +5,7 @@
 
 #include "globals.hpp"
 
-AgvDefault::AgvDefault(const MapPosition& position) : IAgv(position) {}
+AgvDefault::AgvDefault(int id, const MapPosition& position) : IAgv(id, position) {}
 AgvDefault::~AgvDefault() = default;
 
 void AgvDefault::draw(Painter& painter)
@@ -108,7 +108,7 @@ void AgvDefault::updateOnDatabase(DbConnector& connector, const std::string& tab
 	connector.executeQueryWithoutResults(updateQuery);
 }
 
-RegularAgv::RegularAgv(const MapPosition& position) : AgvDefault(position){}
+RegularAgv::RegularAgv(int id, const MapPosition& position) : AgvDefault(id, position){}
 RegularAgv::~RegularAgv() = default;
 
 void RegularAgv::draw(Painter& painter)

@@ -11,7 +11,6 @@ const std::vector<std::string> IAgv::dbColumnNames{ "id", "column", "row", "dire
 const std::vector<std::string> IAgv::dbColumnTypes{ "INT NOT NULL", "INT NOT NULL", "INT NOT NULL", "INT NOT NULL" };
 const std::string IAgv::primaryKeyName{"id"};
 
-IAgv::IAgv(const MapPosition& position) : IMapEntity(AgvsIdManager.getId(), position) {}
 IAgv::IAgv(int id, const MapPosition& position) : IMapEntity(id, position) {}
 
 IAgv::~IAgv()
@@ -19,13 +18,13 @@ IAgv::~IAgv()
     AgvsIdManager.returnId(m_id);
 }
 
-std::unique_ptr<IAgv> IAgv::create(std::string type, const MapPosition& position)
+std::unique_ptr<IAgv> IAgv::create(std::string type, int id, const MapPosition& position)
 {
     if(type == "RegularAgv")
     {
     	try
     	{
-    		auto agv = std::make_unique<RegularAgv>(position);
+    		auto agv = std::make_unique<RegularAgv>(id, position);
 
         	return agv;
     	}

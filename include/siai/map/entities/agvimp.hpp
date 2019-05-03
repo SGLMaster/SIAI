@@ -15,7 +15,7 @@ protected:
 
 public:
     AgvDefault() = delete;
-    AgvDefault(const MapPosition& position);
+    AgvDefault(int id, const MapPosition& position);
     virtual ~AgvDefault();
 
     virtual void draw(Painter& painter) override;
@@ -42,7 +42,7 @@ class RegularAgv : public AgvDefault
 {
 public:
     RegularAgv() = delete;
-    RegularAgv(const MapPosition& position);
+    RegularAgv(int id, const MapPosition& position);
     virtual ~RegularAgv();
 
     virtual std::string getEntityName() const noexcept override
