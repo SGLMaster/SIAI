@@ -189,10 +189,10 @@ void  SIAIMapImp::loadCellsFromDb(DbConnector& connector)
 
     SqlSelectQuery selectCellsQuery(dataToSelectFromCells);
 
-    std::vector<DbRow> results;
-    tryQueryAndStore(connector, selectCellsQuery, results);
+    std::vector<DbRow> cellsRows;
+    tryQueryAndStore(connector, selectCellsQuery, cellsRows);
 
-    Entities::loadCellsFromQueryRows(m_entities, results);
+    Entities::loadCellsFromQueryRows(m_entities, cellsRows);
 }
 
 void SIAIMapImp::loadAgvsFromDb(DbConnector& connector)
@@ -201,8 +201,8 @@ void SIAIMapImp::loadAgvsFromDb(DbConnector& connector)
 
     SqlSelectQuery selectAgvsQuery(dataToSelectFromAgvs);
 
-    std::vector<DbRow> results;
-    tryQueryAndStore(connector, selectAgvsQuery, results);
+    std::vector<DbRow> agvsRows;
+    tryQueryAndStore(connector, selectAgvsQuery, agvsRows);
 }
 
 void SIAIMapImp::createCellsDbTable(DbConnector& connector)
