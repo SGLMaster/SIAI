@@ -66,6 +66,11 @@ int SIAIMapImp::getNumberOfRows() const noexcept
     return m_numberOfRows;
 }
 
+void SIAIMapImp::loadFromDb(DbConnector& connector, const std::string& mapName)
+{
+    
+}
+
 void SIAIMapImp::reset(int numberOfColumns, int numberOfRows)
 {
     m_numberOfColumns = numberOfColumns;

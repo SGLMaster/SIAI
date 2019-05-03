@@ -34,6 +34,8 @@ public:
     virtual void setName(const std::string& name) override;
     virtual std::string getName() override;
 
+    virtual void loadFromDb(DbConnector& connector, const std::string& mapName) override;
+
     virtual void reset(int numberOfColumns, int numberOfRows) override;
     virtual void repaint(Painter& painter) override;
 
