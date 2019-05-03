@@ -58,8 +58,6 @@ public:
 private:
     void loadCellsFromDb(DbConnector& connector);
 
-    void generateCells();
-
     void createCellsDbTable(DbConnector& connector);
     void fillCellsDbTable(DbConnector& connector);
 
