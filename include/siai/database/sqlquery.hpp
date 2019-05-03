@@ -40,6 +40,22 @@ protected:
     virtual ~SqlMultipleQuery();
 };
 
+class SqlSelectQuery : public SqlQuery
+{
+private:
+    std::string m_whereCondition;
+
+public:
+    SqlSelectQuery() = delete;
+    SqlSelectQuery(const SqlQueryData& data, const std::string& whereCondition="");
+    virtual ~SqlSelectQuery();
+
+    virtual std::string generateString() const override;
+
+private:
+    void appendCols(std::string& queryString) const;
+};
+
 class SqlWhereCondition : public SqlQuery
 {
 public:

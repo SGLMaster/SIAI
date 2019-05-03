@@ -18,6 +18,37 @@ SqlMultipleQuery::SqlMultipleQuery(const SqlMultipleQueryData& data) : m_table(d
 
 SqlMultipleQuery::~SqlMultipleQuery() = default;
 
+SqlSelectQuery::SqlSelectQuery(const SqlQueryData& data, const std::string& whereCondition):
+                SqlQuery(data), m_whereCondition(whereCondition) {}
+
+SqlSelectQuery::~SqlSelectQuery() = default;
+
+std::string SqlSelectQuery::generateString() const
+{
+    std::string query;
+
+    query += "SELECT ";
+
+    appendCols(query);
+
+    query += " FROM `" + m_table + "`";
+
+    if(!m_whereCondition.empty())
+        query += " " + m_whereCondition;
+
+    return query;
+}
+
+void SqlSelectQuery::appendCols(std::string& queryString) const
+{
+    for(unsigned int i = 0; i < m_columns.size(); ++i)
+    {
+        queryString += "`" + m_columns[i] + "`,";
+    }
+    //We delete the comma after the last element cause we don't want it, it is a side effect of the loop
+    queryString.replace(queryString.end()-1, queryString.end(), "");
+}
+
 SqlWhereCondition::SqlWhereCondition(const SqlQueryData& data):
                     SqlQuery(data) {}
 
