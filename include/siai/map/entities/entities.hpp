@@ -20,6 +20,7 @@ namespace Entities
     void tryToCreateAndAddCell(Container& entities, int id, const MapPosition& position);
 
     void loadCellsFromQueryRows(Container& entities, const std::vector<DbRow>& rows);
+    void loadAgvsFromQueryRows(Container& entities, const std::vector<DbRow>& rows);
 
     MapPosition findPositionWithPoint(Container& entities, const PanelPoint& point);
 

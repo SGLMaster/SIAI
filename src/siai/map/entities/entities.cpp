@@ -62,6 +62,24 @@ void Entities::loadCellsFromQueryRows(Container& entities, const std::vector<DbR
     }
 }
 
+void Entities::loadAgvsFromQueryRows(Container& entities, const std::vector<DbRow>& rows)
+{
+    for (const DbRow& agvDataRow : rows) 
+    {
+        int agvId = agvDataRow[0];
+        int agvCol = agvDataRow[1];
+        int agvRow = agvDataRow[2];
+        int agvDirection = agvDataRow[3];
+
+        MapPosition agvPosition{agvCol, agvRow};
+
+        //Entities::Pointer tmpCell = ICell::create(agvype, agvId, agvPosition);
+        //tmpCell->setDirection(static_cast<MapDirection>(cellDirection));
+
+        //entities.push_back(std::move(tmpCell));
+    }
+}
+
 Entities::Iterator Entities::findCellIteratorWithPosition(Container& entities, const MapPosition& position)
 {
     auto findCellInPosition = [&position](const Entities::Pointer& entity)
