@@ -70,10 +70,13 @@ private:
 	virtual void OnToolBlockedCell(wxCommandEvent& event) override;
     virtual void OnToolParkingCell(wxCommandEvent& event) override;
 	virtual void OnToolAddAgv(wxCommandEvent& event) override;
-	virtual void OnToolUndo(wxCommandEvent& event) override;
-	virtual void OnToolRedo(wxCommandEvent& event) override;
+    
 	virtual void OnToolTurnLeft(wxCommandEvent& event) override;
     virtual void OnToolTurnRight(wxCommandEvent& event) override;
+
+    virtual void OnToolUndo(wxCommandEvent& event) override;
+	virtual void OnToolRedo(wxCommandEvent& event) override;
+
     virtual void OnToolConnectDatabase(wxCommandEvent& event) override;
 
 	virtual void OnSliderZoom(wxCommandEvent& event) override;
@@ -85,7 +88,7 @@ private:
 
     void tryToConnectToDatabase();
     void assertDatabaseConnected();
-    
+
     void callCurrentToolAction();
     PanelPoint getMousePositionRelativeToMapPanelOrigin();
 

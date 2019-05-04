@@ -131,6 +131,16 @@ void MapEditorFrame::OnToolAddAgv(wxCommandEvent& event)
     m_currentTool = Tool::ADD_AGV;
 }
 
+void MapEditorFrame::OnToolTurnLeft(wxCommandEvent& event)
+{
+    m_currentTool = Tool::TURN_ENTITY_LEFT;
+}
+
+void MapEditorFrame::OnToolTurnRight(wxCommandEvent& event)
+{
+	m_currentTool = Tool::TURN_ENTITY_RIGHT;
+}
+
 void MapEditorFrame::OnToolUndo(wxCommandEvent& event)
 {
     m_mapControl->undo(*m_dbConnector);
@@ -143,16 +153,6 @@ void MapEditorFrame::OnToolRedo(wxCommandEvent& event)
     m_mapControl->redo(*m_dbConnector);
 
     repaintMapNow();
-}
-
-void MapEditorFrame::OnToolTurnLeft(wxCommandEvent& event)
-{
-    m_currentTool = Tool::TURN_ENTITY_LEFT;
-}
-
-void MapEditorFrame::OnToolTurnRight(wxCommandEvent& event)
-{
-	m_currentTool = Tool::TURN_ENTITY_RIGHT;
 }
 
 void MapEditorFrame::OnToolConnectDatabase(wxCommandEvent& event)
