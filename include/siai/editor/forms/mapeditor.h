@@ -52,7 +52,7 @@ namespace Forms
 			wxToolBarToolBase* m_toolTurnRight;
 			wxToolBarToolBase* m_toolUndo;
 			wxToolBarToolBase* m_toolRedo;
-			wxToolBarToolBase* m_toolUploadChanges;
+			wxToolBarToolBase* m_toolConnectDatabase;
 			wxStaticText* m_staticTextZoom;
 			wxSlider* m_sliderZoom;
 			wxScrolledWindow* m_scrolledMapPanel;
@@ -71,7 +71,7 @@ namespace Forms
 			virtual void OnToolTurnRight( wxCommandEvent& event ) = 0;
 			virtual void OnToolUndo( wxCommandEvent& event ) = 0;
 			virtual void OnToolRedo( wxCommandEvent& event ) = 0;
-			virtual void OnToolUploadChanges( wxCommandEvent& event ) = 0;
+			virtual void OnToolConnectDatabase( wxCommandEvent& event ) = 0;
 			virtual void OnSliderZoom( wxCommandEvent& event ) = 0;
 			virtual void OnEnterMapPanel( wxMouseEvent& event ) = 0;
 			virtual void OnLeaveMapPanel( wxMouseEvent& event ) = 0;

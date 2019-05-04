@@ -42,7 +42,7 @@ MapEditorFrame::MapEditorFrame( wxWindow* parent, wxWindowID id, const wxString&
 
 	m_toolBar1->AddSeparator();
 
-	m_toolUploadChanges = m_toolBar1->AddTool( wxID_ANY, _("Subir Cambios"), wxBitmap( wxT("resources/tools/upload-changes.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, _("Subir Cambios"), _("Subir Cambios"), NULL );
+	m_toolConnectDatabase = m_toolBar1->AddTool( wxID_ANY, _("Conectar a Base de Datos"), wxBitmap( wxT("resources/tools/upload-changes.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, _("Conectar a Base de Datos"), _("Conectar a Base de Datos"), NULL );
 
 	m_toolBar1->AddSeparator();
 
@@ -99,7 +99,7 @@ MapEditorFrame::MapEditorFrame( wxWindow* parent, wxWindowID id, const wxString&
 	this->Connect( m_toolTurnRight->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolTurnRight ) );
 	this->Connect( m_toolUndo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolUndo ) );
 	this->Connect( m_toolRedo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolRedo ) );
-	this->Connect( m_toolUploadChanges->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolUploadChanges ) );
+	this->Connect( m_toolConnectDatabase->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolConnectDatabase ) );
 	m_sliderZoom->Connect( wxEVT_SLIDER, wxCommandEventHandler( MapEditorFrame::OnSliderZoom ), NULL, this );
 	m_scrolledMapPanel->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( MapEditorFrame::OnEnterMapPanel ), NULL, this );
 	m_scrolledMapPanel->Connect( wxEVT_LEAVE_WINDOW, wxMouseEventHandler( MapEditorFrame::OnLeaveMapPanel ), NULL, this );
@@ -122,7 +122,7 @@ MapEditorFrame::~MapEditorFrame()
 	this->Disconnect( m_toolTurnRight->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolTurnRight ) );
 	this->Disconnect( m_toolUndo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolUndo ) );
 	this->Disconnect( m_toolRedo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolRedo ) );
-	this->Disconnect( m_toolUploadChanges->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolUploadChanges ) );
+	this->Disconnect( m_toolConnectDatabase->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MapEditorFrame::OnToolConnectDatabase ) );
 	m_sliderZoom->Disconnect( wxEVT_SLIDER, wxCommandEventHandler( MapEditorFrame::OnSliderZoom ), NULL, this );
 	m_scrolledMapPanel->Disconnect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( MapEditorFrame::OnEnterMapPanel ), NULL, this );
 	m_scrolledMapPanel->Disconnect( wxEVT_LEAVE_WINDOW, wxMouseEventHandler( MapEditorFrame::OnLeaveMapPanel ), NULL, this );

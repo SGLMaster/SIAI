@@ -171,9 +171,9 @@ void MapEditorFrame::OnToolTurnRight(wxCommandEvent& event)
 	m_currentTool = Tool::TURN_ENTITY_RIGHT;
 }
 
-void MapEditorFrame::OnToolUploadChanges(wxCommandEvent& event)
+void MapEditorFrame::OnToolConnectDatabase(wxCommandEvent& event)
 {
-	m_mapControl->uploadChanges(*m_dbConnector);
+	
 }
 
 void MapEditorFrame::OnSliderZoom(wxCommandEvent& event)
