@@ -35,12 +35,6 @@ MapEditorFrame::MapEditorFrame(wxWindow* parent) : Forms::MapEditorFrame(parent)
 
 void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows, const std::string& mapName)
 {
-	if(!m_dbConnector)
-	{
-		Log::warning("Base de datos no conectada! No se puede guardar el mapa!");
-		return;
-	}
-
     m_mapControl->setName(mapName);
     m_mapControl->reset(numberOfColumns, numberOfRows);
     m_mapControl->createDatabaseTables(*m_dbConnector);
@@ -81,6 +75,12 @@ void MapEditorFrame::OnLeftClickMapPanel(wxMouseEvent& event)
 
 void MapEditorFrame::OnSelectionNewMap(wxCommandEvent& event)
 {
+    if(!m_dbConnector)
+	{
+		Log::warning("Base de datos no conectada! No se puede guardar el mapa!");
+		return;
+	}
+
     NewMapDialog* newMapDialog = new NewMapDialog(this);
     newMapDialog->Show();
     Disable();
