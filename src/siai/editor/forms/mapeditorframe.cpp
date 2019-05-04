@@ -27,6 +27,8 @@ MapEditorFrame::MapEditorFrame(wxWindow* parent) : Forms::MapEditorFrame(parent)
     wxImage::AddHandler(new wxPNGHandler);
 
     m_originalFrameTitle = GetTitle();
+
+    updateFrameTitle();
 }
 
 void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows, const std::string& mapName)
@@ -76,6 +78,8 @@ void MapEditorFrame::tryToConnectToDatabase(const DbConnectionOptions& options)
 
 		m_dbConnector.reset(nullptr);
 	}
+
+    updateFrameTitle();
 }
 
 void MapEditorFrame::OnLeftClickMapPanel(wxMouseEvent& event)
@@ -92,6 +96,7 @@ void MapEditorFrame::OnLeftClickMapPanel(wxMouseEvent& event)
 
     callCurrentToolAction();
 
+    updateFrameTitle();
     updateStatusBar();
     repaintMapNow();
 }
@@ -317,7 +322,12 @@ PanelData MapEditorFrame::calculatePainterData() const
 
 void MapEditorFrame::updateFrameTitle()
 {
-    std::string newFrameTitle(m_mapControl->getName() + " - " + m_originalFrameTitle);
+    std::string newFrameTitle;
+
+    if(m_mapControl->getName() != "")
+        newFrameTitle += m_mapControl->getName() + " - " + m_originalFrameTitle;
+    else
+         newFrameTitle = m_originalFrameTitle;
     
     if(m_dbConnector)
         newFrameTitle += " [Conectado]";
