@@ -73,10 +73,10 @@ void Entities::loadAgvsFromQueryRows(Container& entities, const std::vector<DbRo
 
         MapPosition agvPosition{agvCol, agvRow};
 
-        //Entities::Pointer tmpAgv = IAgv::create("RegularAgv", agvId, agvPosition);
-        //tmpAgv->setDirection(static_cast<MapDirection>(agvDirection));
+        Entities::Pointer tmpAgv = IAgv::create("RegularAgv", agvId, agvPosition);
+        tmpAgv->setDirection(static_cast<MapDirection>(agvDirection));
 
-        //entities.push_back(std::move(tmpAgv));
+        entities.push_back(std::move(tmpAgv));
     }
 }
 

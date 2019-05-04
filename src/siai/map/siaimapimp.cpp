@@ -75,6 +75,7 @@ void SIAIMapImp::loadFromDb(DbConnector& connector)
     reset(0, 0);
 
     loadCellsFromDb(connector);
+    loadAgvsFromDb(connector);
 }
 
 void SIAIMapImp::reset(int numberOfColumns, int numberOfRows)
@@ -203,6 +204,8 @@ void SIAIMapImp::loadAgvsFromDb(DbConnector& connector)
 
     std::vector<DbRow> agvsRows;
     tryQueryAndStore(connector, selectAgvsQuery, agvsRows);
+
+    Entities::loadAgvsFromQueryRows(m_entities, agvsRows);
 }
 
 void SIAIMapImp::createCellsDbTable(DbConnector& connector)
