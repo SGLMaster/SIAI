@@ -18,6 +18,15 @@ SqlMultipleQuery::SqlMultipleQuery(const SqlMultipleQueryData& data) : m_table(d
 
 SqlMultipleQuery::~SqlMultipleQuery() = default;
 
+SqlShowTablesQuery::SqlShowTablesQuery() : SqlQuery(SqlQueryData()) {}
+
+SqlShowTablesQuery::~SqlShowTablesQuery() = default;
+
+std::string SqlShowTablesQuery::generateString() const
+{
+    return "SHOW TABLES";
+}
+
 SqlSelectQuery::SqlSelectQuery(const SqlQueryData& data, const std::string& whereCondition):
                 SqlQuery(data), m_whereCondition(whereCondition) {}
 

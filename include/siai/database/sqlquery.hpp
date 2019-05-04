@@ -40,6 +40,15 @@ protected:
     virtual ~SqlMultipleQuery();
 };
 
+class SqlShowTablesQuery : public SqlQuery
+{
+public:
+    SqlShowTablesQuery();
+    virtual ~SqlShowTablesQuery();
+
+    virtual std::string generateString() const override;
+};
+
 class SqlSelectQuery : public SqlQuery
 {
 private:
