@@ -29,6 +29,7 @@
 #include <wx/textctrl.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
+#include <wx/choice.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -162,6 +163,7 @@ namespace Forms
 		protected:
 			wxStaticText* m_staticMapName;
 			wxTextCtrl* m_textCtrlMapName;
+			wxChoice* m_choiceMapName;
 			wxButton* m_buttonAccept;
 			wxButton* m_buttonCancel;
 

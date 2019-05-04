@@ -373,6 +373,11 @@ LoadMapDialog::LoadMapDialog( wxWindow* parent, wxWindowID id, const wxString& t
 
 	bSizer14->Add( bSizer16, 1, wxEXPAND, 5 );
 
+	wxArrayString m_choiceMapNameChoices;
+	m_choiceMapName = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choiceMapNameChoices, 0 );
+	m_choiceMapName->SetSelection( 0 );
+	bSizer14->Add( m_choiceMapName, 0, wxALL, 5 );
+
 	wxBoxSizer* bSizer15;
 	bSizer15 = new wxBoxSizer( wxHORIZONTAL );
 
