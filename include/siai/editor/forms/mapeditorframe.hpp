@@ -43,7 +43,7 @@ private:
 
     int m_mapPanelZoom{1};
 
-    DbConnectionOptions m_connectionOptions;
+    DbConnectionOptions m_dbConnectionOptions;
 
     std::unique_ptr<DbConnector> m_dbConnector;
 
@@ -53,9 +53,9 @@ public:
     void initializeNewMap(int numberOfColumns, int numberOfRows, const std::string& mapName);
     void loadMap(const std::string& mapName);
 
-    inline void setConnectionOptions(const DbConnectionOptions& connectionOptions)
+    inline void setDbConnectionOptions(const DbConnectionOptions& dbConnectionOptions)
     {
-        m_connectionOptions = connectionOptions;
+        m_dbConnectionOptions = dbConnectionOptions;
     }
 
 private:

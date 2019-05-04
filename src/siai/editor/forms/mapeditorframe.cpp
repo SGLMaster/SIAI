@@ -19,8 +19,8 @@
 #include <wx/utils.h>
 
 MapEditorFrame::MapEditorFrame(wxWindow* parent) : Forms::MapEditorFrame(parent), 
-                                                    m_connectionOptions{ SIAIGlobals::DB_NAME, "localhost", 3306, 
-                                                                         "test_user", "easypass" }
+                                                    m_dbConnectionOptions{SIAIGlobals::DB_NAME, "localhost", 3306, 
+                                                                          "test_user", "easypass" }
 {
     m_mapControl = SIAIMap::createMap();
 
@@ -190,7 +190,7 @@ void MapEditorFrame::tryToConnectToDatabase()
 {
 	try
 	{
-		auto connector = DbConnector::makeConnector(m_connectionOptions);
+		auto connector = DbConnector::makeConnector(m_dbConnectionOptions);
 
 		m_dbConnector = std::move(connector);
 	}

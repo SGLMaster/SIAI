@@ -24,7 +24,7 @@ void DbSettingsDialog::OnButtonClickAccept( wxCommandEvent& event )
 
 	DbConnectionOptions options{SIAIGlobals::DB_NAME, hostName, portNumber, userName, password};
 
-	m_parentFrame->setConnectionOptions(options);
+	m_parentFrame->setDbConnectionOptions(options);
 
 	enableMainFrameAndCloseDialog();
 }
