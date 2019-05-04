@@ -91,7 +91,7 @@ int Entities::getNumberOfMapColsFromDbRows(const std::vector<DbRow>& rows)
         numberOfCols = (cellCol>numberOfCols) ? cellCol : numberOfCols;
     }
 
-    return numberOfCols;
+    return ++numberOfCols; //Since the cols are numbered starting from 0, we must sum 1 to get the total of cols
 }
 
 int Entities::getNumberOfMapRowsFromDbRows(const std::vector<DbRow>& rows)
@@ -105,7 +105,7 @@ int Entities::getNumberOfMapRowsFromDbRows(const std::vector<DbRow>& rows)
         numberOfRows = (cellRow>numberOfRows) ? cellRow : numberOfRows;
     }
 
-    return numberOfRows;
+    return ++numberOfRows; //Since the rows are numbered starting from 0, we must sum 1 to get the total of rows
 }
 
 Entities::Iterator Entities::findCellIteratorWithPosition(Container& entities, const MapPosition& position)
