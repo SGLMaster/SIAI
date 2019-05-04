@@ -317,7 +317,14 @@ PanelData MapEditorFrame::calculatePainterData() const
 
 void MapEditorFrame::updateFrameTitle()
 {
-    SetTitle(m_mapControl->getName() + " - " + m_originalFrameTitle);
+    std::string newFrameTitle(m_mapControl->getName() + " - " + m_originalFrameTitle);
+    
+    if(m_dbConnector)
+        newFrameTitle += " [Conectado]";
+    else
+        newFrameTitle += " [Desconectado]";
+
+    SetTitle(newFrameTitle);
 }
 
 void MapEditorFrame::updateStatusBar()
