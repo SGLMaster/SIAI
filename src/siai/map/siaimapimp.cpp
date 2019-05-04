@@ -194,6 +194,9 @@ void  SIAIMapImp::loadCellsFromDb(DbConnector& connector)
     tryQueryAndStore(connector, selectCellsQuery, cellsRows);
 
     Entities::loadCellsFromQueryRows(m_entities, cellsRows);
+
+    m_numberOfColumns = Entities::getNumberOfMapColsFromDbRows(cellsRows);
+    m_numberOfRows = Entities::getNumberOfMapRowsFromDbRows(cellsRows);
 }
 
 void SIAIMapImp::loadAgvsFromDb(DbConnector& connector)

@@ -80,7 +80,7 @@ void Entities::loadAgvsFromQueryRows(Container& entities, const std::vector<DbRo
     }
 }
 
-int getNumberOfMapColsFromDbRows(const std::vector<DbRow>& rows)
+int Entities::getNumberOfMapColsFromDbRows(const std::vector<DbRow>& rows)
 {
     int numberOfCols = 0;
 
@@ -94,7 +94,7 @@ int getNumberOfMapColsFromDbRows(const std::vector<DbRow>& rows)
     return numberOfCols;
 }
 
-int getNumberOfMapRowsFromDbRows(const std::vector<DbRow>& rows)
+int Entities::getNumberOfMapRowsFromDbRows(const std::vector<DbRow>& rows)
 {
     int numberOfRows = 0;
 
