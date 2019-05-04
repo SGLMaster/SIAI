@@ -94,6 +94,20 @@ int getNumberOfMapColsFromDbRows(const std::vector<DbRow>& rows)
     return numberOfCols;
 }
 
+int getNumberOfMapRowsFromDbRows(const std::vector<DbRow>& rows)
+{
+    int numberOfRows = 0;
+
+    for (const DbRow& cellDataRow : rows) 
+    {
+        int cellRow = cellDataRow[2];
+
+        numberOfRows = (cellRow>numberOfRows) ? cellRow : numberOfRows;
+    }
+
+    return numberOfRows;
+}
+
 Entities::Iterator Entities::findCellIteratorWithPosition(Container& entities, const MapPosition& position)
 {
     auto findCellInPosition = [&position](const Entities::Pointer& entity)

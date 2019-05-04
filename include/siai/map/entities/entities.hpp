@@ -23,6 +23,7 @@ namespace Entities
     void loadAgvsFromQueryRows(Container& entities, const std::vector<DbRow>& rows);
 
     int getNumberOfMapColsFromDbRows(const std::vector<DbRow>& rows);
+    int getNumberOfMapRowsFromDbRows(const std::vector<DbRow>& rows);
 
     MapPosition findPositionWithPoint(Container& entities, const PanelPoint& point);
 
