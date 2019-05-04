@@ -22,6 +22,8 @@ namespace Entities
     void loadCellsFromQueryRows(Container& entities, const std::vector<DbRow>& rows);
     void loadAgvsFromQueryRows(Container& entities, const std::vector<DbRow>& rows);
 
+    int getNumberOfMapColsFromDbRows(const std::vector<DbRow>& rows);
+
     MapPosition findPositionWithPoint(Container& entities, const PanelPoint& point);
 
     Iterator findCellIteratorWithPosition(Container& entities, const MapPosition& position);

@@ -80,6 +80,20 @@ void Entities::loadAgvsFromQueryRows(Container& entities, const std::vector<DbRo
     }
 }
 
+int getNumberOfMapColsFromDbRows(const std::vector<DbRow>& rows)
+{
+    int numberOfCols = 0;
+
+    for (const DbRow& cellDataRow : rows) 
+    {
+        int cellCol = cellDataRow[1];
+
+        numberOfCols = (cellCol>numberOfCols) ? cellCol : numberOfCols;
+    }
+
+    return numberOfCols;
+}
+
 Entities::Iterator Entities::findCellIteratorWithPosition(Container& entities, const MapPosition& position)
 {
     auto findCellInPosition = [&position](const Entities::Pointer& entity)
