@@ -53,6 +53,11 @@ public:
     void initializeNewMap(int numberOfColumns, int numberOfRows, const std::string& mapName);
     void loadMap(const std::string& mapName);
 
+    inline void setConnectionOptions(const DbConnectionOptions& connectionOptions)
+    {
+        m_connectionOptions = connectionOptions;
+    }
+
     void tryToConnectToDatabase(const DbConnectionOptions& options);
 
 private:
