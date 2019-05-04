@@ -94,6 +94,12 @@ void MapEditorFrame::OnSelectionNewMap(wxCommandEvent& event)
 
 void MapEditorFrame::OnSelectionLoadMap(wxCommandEvent& event)
 {
+    if(!m_dbConnector)
+	{
+		Log::warning("Base de datos no conectada! No se puede abrir ningún mapa!");
+		return;
+	}
+
 	LoadMapDialog* loadMapDialog = new LoadMapDialog(this);
 	loadMapDialog->Show();
 	Disable();
