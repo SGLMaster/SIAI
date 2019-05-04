@@ -1,6 +1,8 @@
 #pragma once
 
-#include <editor/forms/mapeditor.h>
+#include "editor/forms/mapeditor.h"
+
+#include "database/database.hpp"
 
 #include <exception>
 #include <memory>
@@ -11,9 +13,6 @@ class PanelPoint;
 class PanelData;
 
 class wxDC;
-
-class DbConnectionOptions;
-class DbConnector;
 
 enum class Tool
 {
@@ -43,6 +42,8 @@ private:
     Tool m_currentTool{Tool::SELECT};
 
     int m_mapPanelZoom{1};
+
+    DbConnectionOptions m_connectionOptions;
 
     std::unique_ptr<DbConnector> m_dbConnector;
 

@@ -18,7 +18,9 @@
 #include <wx/dcclient.h>
 #include <wx/utils.h>
 
-MapEditorFrame::MapEditorFrame(wxWindow* parent) : Forms::MapEditorFrame(parent)
+MapEditorFrame::MapEditorFrame(wxWindow* parent) : Forms::MapEditorFrame(parent), 
+                                                    m_connectionOptions{"test_schema", "localhost", 3306, 
+                                                                        "test_user", "eassypass"}
 {
     m_mapControl = SIAIMap::createMap();
 
