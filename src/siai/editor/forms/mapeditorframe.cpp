@@ -20,7 +20,7 @@
 
 MapEditorFrame::MapEditorFrame(wxWindow* parent) : Forms::MapEditorFrame(parent), 
                                                     m_connectionOptions{ SIAIGlobals::DB_NAME, "localhost", 3306, 
-                                                                         "", "eassypass" }
+                                                                         "test_user", "easypass" }
 {
     m_mapControl = SIAIMap::createMap();
 
