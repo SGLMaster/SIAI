@@ -20,7 +20,7 @@
 
 MapEditorFrame::MapEditorFrame(wxWindow* parent) : Forms::MapEditorFrame(parent), 
                                                     m_connectionOptions{ SIAIGlobals::DB_NAME, "localhost", 3306, 
-                                                                         "test_user", "eassypass" }
+                                                                         "", "eassypass" }
 {
     m_mapControl = SIAIMap::createMap();
 
@@ -64,24 +64,6 @@ void MapEditorFrame::loadMap(const std::string& mapName)
     updateFrameTitle();
     repaintMapNow();
     updateScrollbarsSize();
-}
-
-void MapEditorFrame::tryToConnectToDatabase(const DbConnectionOptions& options)
-{
-	try
-	{
-		auto connector = DbConnector::makeConnector(options);
-
-		m_dbConnector = std::move(connector);
-	}
-	catch(const DbConnectionException& e)
-	{
-		Log::warning(std::string("Error al conectar a base de datos: ") + e.what());
-
-		m_dbConnector.reset(nullptr);
-	}
-
-    updateFrameTitle();
 }
 
 void MapEditorFrame::OnLeftClickMapPanel(wxMouseEvent& event)
@@ -175,7 +157,9 @@ void MapEditorFrame::OnToolTurnRight(wxCommandEvent& event)
 
 void MapEditorFrame::OnToolConnectDatabase(wxCommandEvent& event)
 {
-	
+	tryToConnectToDatabase();
+
+    updateFrameTitle();
 }
 
 void MapEditorFrame::OnSliderZoom(wxCommandEvent& event)
@@ -200,6 +184,24 @@ void MapEditorFrame::OnPaintMapPanel( wxPaintEvent& event )
 {
     wxPaintDC paintDC(m_scrolledMapPanel);
     prepareDCAndPaintMap(paintDC);
+}
+
+void MapEditorFrame::tryToConnectToDatabase()
+{
+	try
+	{
+		auto connector = DbConnector::makeConnector(m_connectionOptions);
+
+		m_dbConnector = std::move(connector);
+	}
+	catch(const DbConnectionException& e)
+	{
+		Log::warning(std::string("Error al conectar a base de datos: ") + e.what());
+
+		m_dbConnector.reset(nullptr);
+	}
+
+    updateFrameTitle();
 }
 
 void MapEditorFrame::assertDatabaseConnected()

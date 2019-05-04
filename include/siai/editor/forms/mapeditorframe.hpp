@@ -58,8 +58,6 @@ public:
         m_connectionOptions = connectionOptions;
     }
 
-    void tryToConnectToDatabase(const DbConnectionOptions& options);
-
 private:
     virtual void OnLeftClickMapPanel(wxMouseEvent& event) override;
 
@@ -85,7 +83,9 @@ private:
 
     virtual void OnPaintMapPanel(wxPaintEvent& event) override;
 
+    void tryToConnectToDatabase();
     void assertDatabaseConnected();
+    
     void callCurrentToolAction();
     PanelPoint getMousePositionRelativeToMapPanelOrigin();
 
