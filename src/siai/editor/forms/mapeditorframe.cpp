@@ -52,12 +52,6 @@ void MapEditorFrame::initializeNewMap(int numberOfColumns, int numberOfRows, con
 
 void MapEditorFrame::loadMap(const std::string& mapName)
 {
-	if(!m_dbConnector)
-	{
-		Log::warning("Base de datos no conectada! No se puede abrir ningún mapa!");
-		return;
-	}
-
     m_mapControl->setName(mapName);
 	m_mapControl->loadFromDb(*m_dbConnector);
 
