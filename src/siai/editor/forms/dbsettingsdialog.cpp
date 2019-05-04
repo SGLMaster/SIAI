@@ -3,6 +3,8 @@
 #include "editor/forms/dbsettingsdialog.hpp"
 #include "editor/forms/mapeditorframe.hpp"
 
+#include "globals.hpp"
+
 DbSettingsDialog::DbSettingsDialog(MapEditorFrame* parent) : Forms::DbSettingsDialog( (wxFrame *) NULL )
 {
     m_parentFrame = parent;
@@ -20,7 +22,7 @@ void DbSettingsDialog::OnButtonClickAccept( wxCommandEvent& event )
 	const std::string& userName = m_textCtrlUser->GetValue().ToStdString();
 	const std::string& password = m_textCtrlPassword->GetValue().ToStdString();
 
-	DbConnectionOptions options{"test_schema", hostName, portNumber, userName, password};
+	DbConnectionOptions options{SIAIGlobals::DB_NAME, hostName, portNumber, userName, password};
 
 	m_parentFrame->tryToConnectToDatabase(options);
 

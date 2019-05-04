@@ -19,8 +19,8 @@
 #include <wx/utils.h>
 
 MapEditorFrame::MapEditorFrame(wxWindow* parent) : Forms::MapEditorFrame(parent), 
-                                                    m_connectionOptions{"test_schema", "localhost", 3306, 
-                                                                        "test_user", "eassypass"}
+                                                    m_connectionOptions{ SIAIGlobals::DB_NAME, "localhost", 3306, 
+                                                                         "test_user", "eassypass" }
 {
     m_mapControl = SIAIMap::createMap();
 
