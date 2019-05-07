@@ -52,7 +52,9 @@ void LoadMapDialog::OnClose(wxCloseEvent& event)
 
 void LoadMapDialog::OnAccept(wxCommandEvent& event)
 {
-    std::string mapName = m_textCtrlMapName->GetValue().ToStdString();
+    std::string mapName;
+    
+    mapName = m_choiceMapName->GetString(m_choiceMapName->GetSelection()).ToStdString();
 
     m_parentFrame->loadMap(mapName);
 

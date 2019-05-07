@@ -367,16 +367,13 @@ LoadMapDialog::LoadMapDialog( wxWindow* parent, wxWindowID id, const wxString& t
 	m_staticMapName->Wrap( -1 );
 	bSizer16->Add( m_staticMapName, 0, wxALL, 5 );
 
-	m_textCtrlMapName = new wxTextCtrl( this, wxID_ANY, _("mapa_por_defecto"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer16->Add( m_textCtrlMapName, 0, wxALL, 5 );
-
-
-	bSizer14->Add( bSizer16, 1, wxEXPAND, 5 );
-
 	wxArrayString m_choiceMapNameChoices;
 	m_choiceMapName = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choiceMapNameChoices, 0 );
 	m_choiceMapName->SetSelection( 0 );
-	bSizer14->Add( m_choiceMapName, 0, wxALL, 5 );
+	bSizer16->Add( m_choiceMapName, 0, wxALL, 5 );
+
+
+	bSizer14->Add( bSizer16, 1, wxEXPAND, 5 );
 
 	wxBoxSizer* bSizer15;
 	bSizer15 = new wxBoxSizer( wxHORIZONTAL );

@@ -162,7 +162,6 @@ namespace Forms
 
 		protected:
 			wxStaticText* m_staticMapName;
-			wxTextCtrl* m_textCtrlMapName;
 			wxChoice* m_choiceMapName;
 			wxButton* m_buttonAccept;
 			wxButton* m_buttonCancel;
