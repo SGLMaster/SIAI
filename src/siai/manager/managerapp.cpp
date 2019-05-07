@@ -1,11 +1,11 @@
 #include <wx/splash.h>
 
-#include "editor/mapeditorapp.hpp"
-#include "editor/forms/mapeditorframe.hpp"
+#include "manager/managerapp.hpp"
+#include "manager/forms/managerframe.hpp"
 
-IMPLEMENT_APP(MapEditorApp)
+IMPLEMENT_APP(ManagerApp)
 
-bool MapEditorApp::OnInit()
+bool ManagerApp::OnInit()
 {
     createAndShowSplashScreen();
     initializeFrame();
@@ -13,7 +13,7 @@ bool MapEditorApp::OnInit()
     return true;
 }
 
-void MapEditorApp::createAndShowSplashScreen()
+void ManagerApp::createAndShowSplashScreen()
 {
     wxBitmap splashScreenBitmap;
     if(splashScreenBitmap.LoadFile("resources/splash.bmp", wxBITMAP_TYPE_BMP))
@@ -26,14 +26,14 @@ void MapEditorApp::createAndShowSplashScreen()
     }
 }
 
-void MapEditorApp::initializeFrame()
+void ManagerApp::initializeFrame()
 {
-    m_frame = new MapEditorFrame( (wxFrame *)NULL );
+    m_frame = new ManagerFrame( (wxFrame *)NULL );
     loadAndSetIcon();
     m_frame->Show();
 }
 
-void MapEditorApp::loadAndSetIcon()
+void ManagerApp::loadAndSetIcon()
 {
     wxImage::AddHandler(new wxICOHandler);
 

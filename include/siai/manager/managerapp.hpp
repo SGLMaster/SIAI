@@ -2,12 +2,12 @@
 
 #include <wx/app.h>
 
-class MapEditorFrame;
+class ManagerFrame;
 
-class MapEditorApp : public wxApp
+class ManagerApp : public wxApp
 {
 private:
-    MapEditorFrame* m_frame;
+    ManagerFrame* m_frame;
 
     virtual bool OnInit() override;
 

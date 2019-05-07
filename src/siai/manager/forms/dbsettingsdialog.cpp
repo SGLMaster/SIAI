@@ -1,11 +1,11 @@
 #include "database/database.hpp"
 
-#include "editor/forms/dbsettingsdialog.hpp"
-#include "editor/forms/mapeditorframe.hpp"
+#include "manager/forms/dbsettingsdialog.hpp"
+#include "manager/forms/managerframe.hpp"
 
 #include "globals.hpp"
 
-DbSettingsDialog::DbSettingsDialog(MapEditorFrame* parent) : Forms::DbSettingsDialog( (wxFrame *) NULL )
+DbSettingsDialog::DbSettingsDialog(ManagerFrame* parent) : Forms::DbSettingsDialog( (wxFrame *) NULL )
 {
     m_parentFrame = parent;
 }

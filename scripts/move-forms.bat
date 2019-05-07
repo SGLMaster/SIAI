@@ -1,12 +1,12 @@
 cd ../
 
-if exist "mapeditor.cpp" (move "mapeditor.cpp" "src/siai/editor/forms")
+if exist "manager.cpp" (move "manager.cpp" "src/siai/manager/forms")
 
-if exist "mapeditor.h" (move "mapeditor.h" "include/siai/editor/forms")
+if exist "manager.h" (move "manager.h" "include/siai/manager/forms")
 
 cd scripts
 
-fix-mapeditor-include.py
+fix-manager-include.py
 
 echo "Done"
 

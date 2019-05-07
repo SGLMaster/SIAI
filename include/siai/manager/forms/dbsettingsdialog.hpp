@@ -1,16 +1,16 @@
 #pragma once
 
-#include <editor/forms/mapeditor.h>
+#include <manager/forms/manager.h>
 
-class MapEditorFrame;
+class ManagerFrame;
 
 class DbSettingsDialog: public Forms::DbSettingsDialog
 {
 private:
-    MapEditorFrame* m_parentFrame;
+    ManagerFrame* m_parentFrame;
 
 public:
-    DbSettingsDialog(MapEditorFrame* parent);
+    DbSettingsDialog(ManagerFrame* parent);
 
 private:
     virtual void OnClose( wxCloseEvent& event ) override;

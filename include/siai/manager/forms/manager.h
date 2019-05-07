@@ -36,9 +36,9 @@
 namespace Forms
 {
 	///////////////////////////////////////////////////////////////////////////////
-	/// Class MapEditorFrame
+	/// Class ManagerFrame
 	///////////////////////////////////////////////////////////////////////////////
-	class MapEditorFrame : public wxFrame
+	class ManagerFrame : public wxFrame
 	{
 		private:
 
@@ -85,9 +85,9 @@ namespace Forms
 
 		public:
 
-			MapEditorFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Editor de Mapas SIAI"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,600 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+			ManagerFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Administrador de Almacén SIAI"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,600 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
-			~MapEditorFrame();
+			~ManagerFrame();
 
 	};
 

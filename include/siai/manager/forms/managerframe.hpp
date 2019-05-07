@@ -1,6 +1,6 @@
 #pragma once
 
-#include "editor/forms/mapeditor.h"
+#include "manager/forms/manager.h"
 
 #include "database/database.hpp"
 
@@ -32,7 +32,7 @@ enum class StatusBarFields
     SELECTED_POSITION
 };
 
-class MapEditorFrame : public Forms::MapEditorFrame
+class ManagerFrame : public Forms::ManagerFrame
 {
 private:
     std::string m_originalFrameTitle;
@@ -48,7 +48,7 @@ private:
     std::unique_ptr<DbConnector> m_dbConnector;
 
 public:
-    MapEditorFrame(wxWindow* parent);
+    ManagerFrame(wxWindow* parent);
 
     void initializeNewMap(int numberOfColumns, int numberOfRows, const std::string& mapName);
     void loadMap(const std::string& mapName);

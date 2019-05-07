@@ -18,7 +18,7 @@ include_directories(${WXWIDGETS_HOME}/include ${WXWIDGETS_HOME}/lib/gcc_dll/mswu
 link_directories(${WXWIDGETS_HOME}/lib/gcc_dll ${MYSQLPP_HOME}/lib/Debug ${CONNECTOR_C_HOME}/lib)
 
 file(GLOB DATABASE_SOURCES "src/siai/database/*.cpp")
-file(GLOB_RECURSE EDITOR_SOURCES "src/siai/editor/*.cpp")
+file(GLOB_RECURSE MANAGER_SOURCES "src/siai/manager/*.cpp")
 file(GLOB_RECURSE MAP_SOURCES "src/siai/map/*.cpp")
 file(GLOB PAINTER_SOURCES "src/siai/painter/*.cpp")
 file(GLOB UTIL_SOURCES "src/siai/util/*.cpp")
@@ -35,8 +35,8 @@ target_link_libraries(siaimap wxbase30ud wxmsw30ud_core mysqlpp mysql user32)
 target_compile_options(siaimap PUBLIC -DBUILD_DLL)
 	
 #Map Editor
-add_executable(map-editor ${EDITOR_SOURCES} ${DATABASE_SOURCES} ${PAINTER_SOURCES} ${UTIL_SOURCES} ${ROOT_SOURCES})
+add_executable(manager ${MANAGER_SOURCES} ${DATABASE_SOURCES} ${PAINTER_SOURCES} ${UTIL_SOURCES} ${ROOT_SOURCES})
 
-target_link_libraries(map-editor siaimap wxbase30ud wxmsw30ud_core wxmsw30ud_adv mysqlpp mysql)
-target_link_options(map-editor PUBLIC -mwindows)
+target_link_libraries(manager siaimap wxbase30ud wxmsw30ud_core wxmsw30ud_adv mysqlpp mysql)
+target_link_options(manager PUBLIC -mwindows)
 

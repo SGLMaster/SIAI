@@ -1,22 +1,22 @@
 #pragma once
 
-#include <editor/forms/mapeditor.h>
+#include <manager/forms/manager.h>
 
 #include <exception>
 
-class MapEditorFrame;
+class ManagerFrame;
 
 class NewMapDialog : public Forms::NewMapDialog
 {
 private:
-    MapEditorFrame* m_parentFrame;
+    ManagerFrame* m_parentFrame;
 
     class InvalidNumberException : public std::exception
     {
     };
 
 public:
-    NewMapDialog(MapEditorFrame* parent);
+    NewMapDialog(ManagerFrame* parent);
 
 private:
     virtual void OnClose( wxCloseEvent& event ) override;

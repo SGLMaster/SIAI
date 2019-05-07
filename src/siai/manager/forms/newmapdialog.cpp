@@ -1,9 +1,9 @@
-#include "editor/forms/newmapdialog.hpp"
-#include "editor/forms/mapeditorframe.hpp"
+#include "manager/forms/newmapdialog.hpp"
+#include "manager/forms/managerframe.hpp"
 
 #include <wx/msgdlg.h>
 
-NewMapDialog::NewMapDialog(MapEditorFrame* parent) : Forms::NewMapDialog( (wxFrame *) NULL )
+NewMapDialog::NewMapDialog(ManagerFrame* parent) : Forms::NewMapDialog( (wxFrame *) NULL )
 {
     m_parentFrame = parent;
 }
