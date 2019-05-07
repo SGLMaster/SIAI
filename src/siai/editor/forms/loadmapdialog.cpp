@@ -1,7 +1,6 @@
 #include "editor/forms/loadmapdialog.hpp"
 #include "editor/forms/mapeditorframe.hpp"
 
-#include "database/database.hpp"
 #include "database/sqlquery.hpp"
 
 #include "util/string.hpp"
@@ -22,6 +21,14 @@ void LoadMapDialog::loadMapsListFromDb(DbConnector& connector)
     std::vector<DbRow> tablesList;
     connector.executeQueryAndStoreInVector(showTablesQuery, tablesList);
 
+    addMapsToChoice(tablesList);
+
+    if(m_choiceMapName->GetCount() > 0)
+        m_choiceMapName->SetSelection(0);
+}
+
+void LoadMapDialog::addMapsToChoice(const std::vector<DbRow>& tablesList)
+{
     std::string mapNamePrefix(SIAIGlobals::DB_CELLS_TABLE_PREFIX);
 
     for (const DbRow& row : tablesList) 
@@ -36,9 +43,6 @@ void LoadMapDialog::loadMapsListFromDb(DbConnector& connector)
             m_choiceMapName->Append(mapName);
         }
     }
-    
-    if(m_choiceMapName->GetCount() > 0)
-        m_choiceMapName->SetSelection(0);
 }
 
 void LoadMapDialog::OnClose(wxCloseEvent& event)
