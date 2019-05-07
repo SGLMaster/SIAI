@@ -95,6 +95,7 @@ void MapEditorFrame::OnSelectionLoadMap(wxCommandEvent& event)
 	}
 
 	LoadMapDialog* loadMapDialog = new LoadMapDialog(this);
+    loadMapDialog->loadMapsListFromDb(*m_dbConnector);
 	loadMapDialog->Show();
 	Disable();
 }

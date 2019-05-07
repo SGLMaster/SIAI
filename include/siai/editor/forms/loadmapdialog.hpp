@@ -4,6 +4,8 @@
 
 class MapEditorFrame;
 
+class DbConnector;
+
 class LoadMapDialog : public Forms::LoadMapDialog
 {
 private:
@@ -11,6 +13,8 @@ private:
 
 public:
     LoadMapDialog(MapEditorFrame* parent);
+
+    void loadMapsListFromDb(DbConnector& connector);
 
 private:
     virtual void OnClose(wxCloseEvent& event) override;
