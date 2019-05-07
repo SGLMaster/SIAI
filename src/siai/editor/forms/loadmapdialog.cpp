@@ -13,12 +13,12 @@ LoadMapDialog::LoadMapDialog(MapEditorFrame* parent) : Forms::LoadMapDialog( (wx
 
 void LoadMapDialog::loadMapsListFromDb(DbConnector& connector)
 {
-    SqlShowTablesQuery showQuery;
+    SqlShowTablesQuery showTablesQuery;
 
-    std::vector<DbRow> results;
-    connector.executeQueryAndStoreInVector(showQuery, results);
+    std::vector<DbRow> tablesList;
+    connector.executeQueryAndStoreInVector(showTablesQuery, tablesList);
 
-    for (const DbRow& row : results) 
+    for (const DbRow& row : tablesList) 
     {
         std::string tmp;
 
