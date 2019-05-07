@@ -31,7 +31,6 @@ class TcpConnector : public IConnector, public wxEvtHandler
         TcpConnector() = delete;
         virtual ~TcpConnector();
 
-        //IConnector virtual methods
         virtual void Open() override;
         virtual void Close() override;
         virtual bool IsConnected() override;
