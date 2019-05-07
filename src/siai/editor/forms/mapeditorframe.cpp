@@ -77,7 +77,7 @@ void MapEditorFrame::OnSelectionNewMap(wxCommandEvent& event)
 {
     if(!m_dbConnector)
 	{
-		Log::warning("Base de datos no conectada! No se puede guardar el mapa!");
+		Log::warning("Base de datos desconectada! No se puede guardar el mapa!");
 		return;
 	}
 
@@ -90,7 +90,7 @@ void MapEditorFrame::OnSelectionLoadMap(wxCommandEvent& event)
 {
     if(!m_dbConnector)
 	{
-		Log::warning("Base de datos no conectada! No se puede abrir ningún mapa!");
+		Log::warning("Base de datos desconectada! No se puede abrir ningún mapa!");
 		return;
 	}
 
