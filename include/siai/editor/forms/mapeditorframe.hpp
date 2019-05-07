@@ -113,6 +113,6 @@ class DbNotConnectedException : public std::exception
 public:
     virtual const char* what() const noexcept override
     {
-        return "No hay ninguna conexión con la base de datos";
+        return "Base de Datos desconectada.";
     }
 };
