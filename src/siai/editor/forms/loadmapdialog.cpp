@@ -4,6 +4,10 @@
 #include "database/database.hpp"
 #include "database/sqlquery.hpp"
 
+#include "util/string.hpp"
+
+#include "globals.hpp"
+
 #include <mysql++.h>
 
 LoadMapDialog::LoadMapDialog(MapEditorFrame* parent) : Forms::LoadMapDialog( (wxFrame *) NULL )
@@ -18,14 +22,23 @@ void LoadMapDialog::loadMapsListFromDb(DbConnector& connector)
     std::vector<DbRow> tablesList;
     connector.executeQueryAndStoreInVector(showTablesQuery, tablesList);
 
+    std::string mapNamePrefix(SIAIGlobals::DB_CELLS_TABLE_PREFIX);
+
     for (const DbRow& row : tablesList) 
     {
-        std::string tmp;
+        std::string mapName;
 
-        (row[0]).to_string(tmp);
+        row[0].to_string(mapName);
 
-        m_choiceMapName->Append(tmp);
+        if(Util::String::startsWith(mapName, mapNamePrefix))
+        {
+            mapName.replace(mapName.find(mapNamePrefix), mapNamePrefix.length(), "");
+            m_choiceMapName->Append(mapName);
+        }
     }
+    
+    if(m_choiceMapName->GetCount() > 0)
+        m_choiceMapName->SetSelection(0);
 }
 
 void LoadMapDialog::OnClose(wxCloseEvent& event)
