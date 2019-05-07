@@ -54,12 +54,6 @@ namespace Util
             return container;
         }
 
-        bool startsWith(const std::string& mainStr, const std::string& toMatch)
-        {
-            if(mainStr.find(toMatch) == 0)
-                return true;
-            
-            return false;
-        }
+        bool startsWith(const std::string& mainStr, const std::string& toMatch);
     }
 }
