@@ -10,9 +10,9 @@ protected:
 public:
     virtual ~IConnector() = default;
 
-    virtual void Open() = 0;
-    virtual void Close() = 0;
+    virtual void open() = 0;
+    virtual void close() = 0;
 
-    virtual bool IsConnected() = 0;
-    virtual void Write(const std::string& msg) = 0;
+    virtual bool isConnected() = 0;
+    virtual void write(const std::string& msg) = 0;
 };

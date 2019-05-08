@@ -26,10 +26,10 @@ public:
     TcpConnector() = delete;
     virtual ~TcpConnector();
 
-    virtual void Open() override;
-    virtual void Close() override;
-    virtual bool IsConnected() override;
-    virtual void Write(const std::string& msg) override;
+    virtual void open() override;
+    virtual void close() override;
+    virtual bool isConnected() override;
+    virtual void write(const std::string& msg) override;
 
 private:
     void OnServerEvent(wxSocketEvent& event);

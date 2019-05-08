@@ -13,22 +13,22 @@ TcpConnector::~TcpConnector()
     
 }
 
-void TcpConnector::Open()
+void TcpConnector::open()
 {
 
 }
 
-void TcpConnector::Close()
+void TcpConnector::close()
 {
 
 }
 
-bool TcpConnector::IsConnected()
+bool TcpConnector::isConnected()
 {
 
 }
 
-void TcpConnector::Write(const std::string& msg)
+void TcpConnector::write(const std::string& msg)
 {
 
 }
