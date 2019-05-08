@@ -69,7 +69,13 @@ void TcpConnector::close()
 
 bool TcpConnector::isConnected()
 {
+    if(m_server)
+    {
+        if(m_socket)
+            return m_socket->IsConnected();
+    }
 
+    return false;
 }
 
 void TcpConnector::write(const std::string& msg)
