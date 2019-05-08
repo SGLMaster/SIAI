@@ -4,16 +4,15 @@
 
 class IConnector
 {
-    protected:
-        IConnector() = default;
+protected:
+    IConnector() = default;
 
-    public:
-        virtual ~IConnector() = default;
+public:
+    virtual ~IConnector() = default;
 
-        virtual void Open() = 0;
-        virtual void Close() = 0;
+    virtual void Open() = 0;
+    virtual void Close() = 0;
 
-        virtual bool IsConnected() = 0;
-        virtual void Write(const std::string& msg) = 0;
-
+    virtual bool IsConnected() = 0;
+    virtual void Write(const std::string& msg) = 0;
 };

@@ -1,4 +1,4 @@
-#include <network/tcpconnector.hpp>
+#include "network/tcpconnector.hpp"
 
 TcpConnector::TcpConnector(int portNumber, IMapEntity* parent) : wxEvtHandler(), 
                                                                 m_portNumber{portNumber}, m_parent{parent}
