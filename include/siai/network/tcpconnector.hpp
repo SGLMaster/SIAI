@@ -13,7 +13,8 @@ class IMapEntity;
 class TcpConnector : public IConnector, public wxEvtHandler
 {
 private:
-    int m_portNumber;
+    int m_serverPort;
+    int m_socketPort;
 
     IMapEntity* m_parent;
 
@@ -21,7 +22,7 @@ private:
     std::unique_ptr<wxSocketBase> m_socket;
 
 public:
-    TcpConnector(int portNumber, IMapEntity* parent);
+    TcpConnector(int serverPort, int socketPort, IMapEntity* parent);
     TcpConnector() = delete;
     virtual ~TcpConnector();
 
