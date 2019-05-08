@@ -20,6 +20,10 @@ public:
 
     static Util::IdManager AgvsIdManager;
 
+private:
+    static constexpr int SERVER_PORT_OFFSET{20000};
+    static constexpr int SOCKET_PORT_OFFSET{30000};
+
 public:
     IAgv() = delete;
     IAgv(int id, const MapPosition& position);
