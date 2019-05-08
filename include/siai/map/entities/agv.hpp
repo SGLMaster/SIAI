@@ -20,7 +20,7 @@ public:
 
     static Util::IdManager AgvsIdManager;
 
-private:
+protected:
     static constexpr int SERVER_PORT_OFFSET{20000};
     static constexpr int SOCKET_PORT_OFFSET{30000};
 
