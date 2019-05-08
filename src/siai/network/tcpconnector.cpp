@@ -12,7 +12,7 @@ TcpConnector::TcpConnector(int serverPort, int socketPort, IMapEntity* parent) :
 
 TcpConnector::~TcpConnector()
 {
-    
+    close();
 }
 
 void TcpConnector::open()
@@ -55,7 +55,16 @@ void TcpConnector::open()
 
 void TcpConnector::close()
 {
-
+    if(m_socket)
+    {
+        m_socket->Destroy();
+        m_socket.release();
+    }
+    if(m_server)
+    {
+        m_server->Destroy();
+        m_server.release();
+    }
 }
 
 bool TcpConnector::isConnected()
