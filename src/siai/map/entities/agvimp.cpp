@@ -3,6 +3,8 @@
 #include "database/database.hpp"
 #include "database/sqlquery.hpp"
 
+#include "network/tcpconnector.hpp"
+
 #include "globals.hpp"
 
 AgvDefault::AgvDefault(int id, const MapPosition& position) : IAgv(id, position) {}
@@ -110,12 +112,16 @@ void AgvDefault::updateOnDatabase(DbConnector& connector, const std::string& tab
 
 void AgvDefault::openPort()
 {
-	;
+	m_tcpConnector = std::make_unique<TcpConnector>(SERVER_PORT_OFFSET + m_id, SOCKET_PORT_OFFSET + m_id, this);
+	m_tcpConnector->open();
 }
 
 bool AgvDefault::isPortOpen() const
 {
-	return false;
+	if(m_tcpConnector)
+        return m_tcpConnector->isConnected();
+
+    return false;
 }
 
 RegularAgv::RegularAgv(int id, const MapPosition& position) : AgvDefault(id, position){}
