@@ -13,21 +13,15 @@ class IMapEntity;
 class TcpConnector : public IConnector, public wxEvtHandler
 {
     private:
-        IMapEntity* m_parent;
+        int m_portNumber;
 
-        std::string m_lastMsg;
+        IMapEntity* m_parent;
 
         std::unique_ptr<wxSocketServer> m_server;
         std::unique_ptr<wxSocketBase> m_socket;
 
-        void OnServerEvent( wxSocketEvent& event );
-        void OnSocketEvent( wxSocketEvent& event );
-
-        static const int SERVER_ID_OFFSET{20000};
-        static const int SOCKET_ID_OFFSET{30000};
-
     public:
-        TcpConnector(IMapEntity* parent);
+        TcpConnector(int portNumber, IMapEntity* parent);
         TcpConnector() = delete;
         virtual ~TcpConnector();
 
@@ -35,4 +29,8 @@ class TcpConnector : public IConnector, public wxEvtHandler
         virtual void Close() override;
         virtual bool IsConnected() override;
         virtual void Write(const std::string& msg) override;
+
+    private:
+        void OnServerEvent(wxSocketEvent& event);
+        void OnSocketEvent(wxSocketEvent& event);
 };

@@ -1,6 +1,7 @@
 #include <network/tcpconnector.hpp>
 
-TcpConnector::TcpConnector(IMapEntity* parent) : wxEvtHandler(), m_parent{parent}
+TcpConnector::TcpConnector(int portNumber, IMapEntity* parent) : wxEvtHandler(), 
+                                                                m_portNumber{portNumber}, m_parent{parent}
 {
 
 }
@@ -20,6 +21,16 @@ void TcpConnector::Close()
 
 }
 
+bool TcpConnector::IsConnected()
+{
+
+}
+
+void TcpConnector::Write(const std::string& msg)
+{
+
+}
+
 void TcpConnector::OnServerEvent( wxSocketEvent& event )
 {
 
@@ -28,15 +39,5 @@ void TcpConnector::OnServerEvent( wxSocketEvent& event )
 void TcpConnector::OnSocketEvent( wxSocketEvent& event )
 {
 
-
-}
-
-bool TcpConnector::IsConnected()
-{
-
-}
-
-void TcpConnector::Write(const std::string& msg)
-{
 
 }
