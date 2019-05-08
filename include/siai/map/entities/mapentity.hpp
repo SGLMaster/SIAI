@@ -40,6 +40,13 @@ public:
 
 };
 
+class INetEntity
+{
+public:
+    virtual void openPort() = 0;
+    virtual bool isPortOpen() const = 0;
+};
+
 enum class MapDirection
 {
     RIGHT,
