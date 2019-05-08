@@ -32,7 +32,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
 #Map Library
 add_library(siaimap SHARED ${MAP_SOURCES} ${DATABASE_SOURCES} ${PAINTER_SOURCES} ${NETWORK_SOURCES} ${UTIL_SOURCES} ${ROOT_SOURCES})
 
-target_link_libraries(siaimap wxbase30ud wxmsw30ud_core mysqlpp mysql user32)
+target_link_libraries(siaimap wxbase30ud wxmsw30ud_core wxbase30ud_net mysqlpp mysql user32)
 target_compile_options(siaimap PUBLIC -DBUILD_DLL)
 	
 #Map Editor
