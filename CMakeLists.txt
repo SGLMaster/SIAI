@@ -21,6 +21,7 @@ file(GLOB DATABASE_SOURCES "src/siai/database/*.cpp")
 file(GLOB_RECURSE MANAGER_SOURCES "src/siai/manager/*.cpp")
 file(GLOB_RECURSE MAP_SOURCES "src/siai/map/*.cpp")
 file(GLOB PAINTER_SOURCES "src/siai/painter/*.cpp")
+file(GLOB NETWORK_SOURCES "src/siai/network/*.cpp")
 file(GLOB UTIL_SOURCES "src/siai/util/*.cpp")
 file(GLOB ROOT_SOURCES "src/siai/*.cpp")
 
@@ -29,7 +30,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
 
 #Map Library
-add_library(siaimap SHARED ${MAP_SOURCES} ${DATABASE_SOURCES} ${PAINTER_SOURCES} ${UTIL_SOURCES} ${ROOT_SOURCES})
+add_library(siaimap SHARED ${MAP_SOURCES} ${DATABASE_SOURCES} ${PAINTER_SOURCES} ${NETWORK_SOURCES} ${UTIL_SOURCES} ${ROOT_SOURCES})
 
 target_link_libraries(siaimap wxbase30ud wxmsw30ud_core mysqlpp mysql user32)
 target_compile_options(siaimap PUBLIC -DBUILD_DLL)
