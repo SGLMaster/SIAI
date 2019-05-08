@@ -58,6 +58,8 @@ public:
 
     virtual void uploadChanges(DbConnector& connector) override;
 
+    virtual void startServer() override;
+
 private:
     void updateDbTableNames();
 
