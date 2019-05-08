@@ -3,12 +3,18 @@
 #include "map/entities/agv.hpp"
 #include "painter/painter.hpp"
 
+#include <memory>
 #include <string>
+
+class IConnector;
 
 class PanelImage;
 
 class AgvDefault : public IAgv
 {
+private:
+    std::unique_ptr<IConnector> m_tcpConnector;
+
 protected:
     PanelPoint m_origin;
     PanelSize m_size;
