@@ -108,6 +108,16 @@ void AgvDefault::updateOnDatabase(DbConnector& connector, const std::string& tab
 	connector.executeQueryWithoutResults(updateQuery);
 }
 
+void AgvDefault::openPort()
+{
+	;
+}
+
+bool AgvDefault::isPortOpen() const
+{
+	return false;
+}
+
 RegularAgv::RegularAgv(int id, const MapPosition& position) : AgvDefault(id, position){}
 RegularAgv::~RegularAgv() = default;
 

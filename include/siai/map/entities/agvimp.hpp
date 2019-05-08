@@ -26,6 +26,9 @@ public:
     virtual void saveToDatabase(DbConnector& connector, const std::string& mapName) const override;
     virtual void loadFromDatabase(DbConnector& connector) override;
 
+    virtual void openPort() override;
+    virtual bool isPortOpen() const override;
+
 protected:
     void calculateDrawingData(int zoom);
     void calculateZoomedSize(int zoom);
