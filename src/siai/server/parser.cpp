@@ -1,0 +1,80 @@
+#include "server/parser.hpp"
+#include "server/input.hpp"
+
+#include "globals.hpp"
+
+#include <wx/intl.h>
+
+#include "database/database.hpp"
+
+#define CONSOLE_APP
+#include "map/siaimap.hpp"
+
+#include <string>
+
+void Parser::checkInput(wxCmdLineParser& parser, DbConnectorPtr& dbConnector, MapPtr& mapControl)
+{
+    switch(parser.Parse())
+    {
+        case -1:
+            //help was given, terminating
+            break;
+        case 0:
+            runOption(parser, dbConnector, mapControl);
+            break;
+        default:
+            break;
+    }
+}
+
+void Parser::runOption(wxCmdLineParser& parser, DbConnectorPtr& dbConnector, MapPtr& mapControl)
+{
+    if(parser.Found("c"))
+    {
+        wxPrintf(_("Bienvenido al Asistente para la configuracion del Servidor de Almacen SIAI.\n"));
+        wxPrintf(_("A continuacion ingrese los datos solicitados para conectar a la base de datos.\n\n"));
+
+        std::string host{CmdInput::getString("Host")};
+        unsigned int port = CmdInput::getUInt("Port");
+        std::string userName{CmdInput::getString("User")};
+        std::string password{CmdInput::getString("Password")};
+
+        DbConnectionOptions connOptions{SIAIGlobals::DB_NAME, host, port, userName, password};
+
+        tryToConnectDb(dbConnector, connOptions);
+
+        if(!dbConnector)
+            return;
+        else
+        {
+            if(!dbConnector->isConnected())
+                return;
+        }
+        
+        std::unique_ptr<SIAIMap> tmpMapControl(SIAIMap::createMap());
+
+        mapControl = std::move(tmpMapControl);
+
+        wxPrintf(_("\nA continuacion ingrese el nombre del mapa cargar.\n\n"));
+        std::string mapName{CmdInput::getString("")};
+
+        mapControl->setName(mapName);
+	    mapControl->loadFromDb(*dbConnector);
+    }
+}
+
+void Parser::tryToConnectDb(DbConnectorPtr& dbConnector, const DbConnectionOptions& options)
+{
+    try
+	{
+        auto tmpConnector = DbConnector::makeConnector(options);
+
+        dbConnector = std::move(tmpConnector);
+    }
+    catch(const DbConnectionException& e)
+    {
+        wxPrintf(_("Error al conectar a base de datos: %s\n"), e.what());
+
+        dbConnector.reset(nullptr);
+    }
+}

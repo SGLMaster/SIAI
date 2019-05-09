@@ -20,6 +20,7 @@ link_directories(${WXWIDGETS_HOME}/lib/gcc_dll ${MYSQLPP_HOME}/lib/Debug ${CONNE
 file(GLOB DATABASE_SOURCES "src/siai/database/*.cpp")
 file(GLOB_RECURSE MANAGER_SOURCES "src/siai/manager/*.cpp")
 file(GLOB_RECURSE MAP_SOURCES "src/siai/map/*.cpp")
+file(GLOB SERVER_SOURCES "src/siai/server/*.cpp")
 file(GLOB PAINTER_SOURCES "src/siai/painter/*.cpp")
 file(GLOB NETWORK_SOURCES "src/siai/network/*.cpp")
 file(GLOB UTIL_SOURCES "src/siai/util/*.cpp")
@@ -41,3 +42,7 @@ add_executable(manager ${MANAGER_SOURCES} ${DATABASE_SOURCES} ${PAINTER_SOURCES}
 target_link_libraries(manager siaimap wxbase30ud wxmsw30ud_core wxmsw30ud_adv mysqlpp mysql)
 target_link_options(manager PUBLIC -mwindows)
 
+#Server
+add_executable(server ${SERVER_SOURCES} ${DATABASE_SOURCES})
+
+target_link_libraries(server siaimap wxbase30ud mysqlpp mysql)

@@ -1,7 +1,9 @@
 #ifndef __SIAIMAP_H__
 #define __SIAIMAP_H__
 
-#include <windows.h>
+#ifndef CONSOLE_APP
+    #include <windows.h>
+#endif
 
 #ifdef BUILD_DLL
     #define DLL_EXPORT __declspec(dllexport)
@@ -52,7 +54,6 @@ public:
 
     virtual void startServer() = 0;
 
-protected:
     SIAIMap();
     virtual ~SIAIMap();
 };
