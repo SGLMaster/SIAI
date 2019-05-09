@@ -1,14 +1,15 @@
 #include "server/parser.hpp"
 #include "server/input.hpp"
 
-#include "globals.hpp"
-
 #include <wx/intl.h>
 
 #include "database/database.hpp"
 
 #define CONSOLE_APP
 #include "map/siaimap.hpp"
+
+#include "globals.hpp"
+#include "log.hpp"
 
 #include <string>
 
@@ -73,7 +74,7 @@ void Parser::tryToConnectDb(DbConnectorPtr& dbConnector, const DbConnectionOptio
     }
     catch(const DbConnectionException& e)
     {
-        wxPrintf(_("Error al conectar a base de datos: %s\n"), e.what());
+        Log::fatalError(std::string("Error al conectar a base de datos: ") + e.what(), true);
 
         dbConnector.reset(nullptr);
     }
