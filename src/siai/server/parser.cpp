@@ -84,7 +84,7 @@ void Parser::assertDbConnected(DbConnectorPtr& dbConnector)
     if(dbConnector)
     {
         if(dbConnector->isConnected())
-            Log::simpleMessage("Conectado correctamente a la base de datos.\n", true);
+            Log::simpleMessage("Conectado correctamente a la base de datos.", true);
         else
             exit(0);
     }
