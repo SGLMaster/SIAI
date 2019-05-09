@@ -43,20 +43,7 @@ void Parser::runOption(wxCmdLineParser& parser, DbConnectorPtr& dbConnector, Map
         DbConnectionOptions connOptions{SIAIGlobals::DB_NAME, host, port, userName, password};
 
         tryToConnectDb(dbConnector, connOptions);
-
-        //A message is only shown if the DB is connected, if it is not, the "tryToConnectDb" method will print
-        //the error messages.
-        if(dbConnector)
-        {
-            if(dbConnector->isConnected())
-                Log::simpleMessage("Conectado correctamente a la base de datos.");
-            else
-                return;
-        }
-        else
-        {
-            return;
-        }
+        assertDbConnected(dbConnector);
         
         std::unique_ptr<SIAIMap> tmpMapControl(SIAIMap::createMap(true));
 
@@ -83,5 +70,22 @@ void Parser::tryToConnectDb(DbConnectorPtr& dbConnector, const DbConnectionOptio
         Log::fatalError(std::string("Error al conectar a base de datos: ") + e.what(), true);
 
         dbConnector.reset(nullptr);
+    }
+}
+
+void Parser::assertDbConnected(DbConnectorPtr& dbConnector)
+{
+    //A message is only shown if the DB is connected, if it is not, the "tryToConnectDb" method will print
+    //the error messages.
+    if(dbConnector)
+    {
+        if(dbConnector->isConnected())
+            Log::simpleMessage("Conectado correctamente a la base de datos.", true);
+        else
+            exit(0);
+    }
+    else
+    {
+        exit(0);
     }
 }

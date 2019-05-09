@@ -24,4 +24,5 @@ namespace Parser
     void runOption(wxCmdLineParser& parser, DbConnectorPtr& dbConnector, MapPtr& mapControl);
 
     void tryToConnectDb(DbConnectorPtr& dbConnector, const DbConnectionOptions& options);
+    void assertDbConnected(DbConnectorPtr& dbConnector);
 }
