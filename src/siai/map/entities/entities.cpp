@@ -6,6 +6,8 @@
 #include "database/database.hpp"
 #include "database/sqlquery.hpp"
 
+#include "util/id.hpp"
+
 #include "globals.hpp"
 #include "log.hpp"
 
@@ -56,6 +58,7 @@ void Entities::loadCellsFromQueryRows(Container& entities, const std::vector<DbR
         MapPosition cellPosition{cellCol, cellRow};
 
         Entities::Pointer tmpCell = ICell::create(cellType, cellId, cellPosition);
+        ICell::CellsIdManager.retrieveId(cellId);
         tmpCell->setDirection(static_cast<MapDirection>(cellDirection));
 
         entities.push_back(std::move(tmpCell));
@@ -74,6 +77,7 @@ void Entities::loadAgvsFromQueryRows(Container& entities, const std::vector<DbRo
         MapPosition agvPosition{agvCol, agvRow};
 
         Entities::Pointer tmpAgv = IAgv::create("RegularAgv", agvId, agvPosition);
+        IAgv::AgvsIdManager.retrieveId(agvId);
         tmpAgv->setDirection(static_cast<MapDirection>(agvDirection));
 
         entities.push_back(std::move(tmpAgv));
