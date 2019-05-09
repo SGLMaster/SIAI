@@ -54,6 +54,10 @@ void Parser::runOption(wxCmdLineParser& parser, DbConnectorPtr& dbConnector, Map
 
         mapControl->setName(mapName);
 	    mapControl->loadFromDb(*dbConnector);
+
+        mapControl->startServer();
+
+        while(1);
     }
 }
 
