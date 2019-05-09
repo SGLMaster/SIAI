@@ -1,18 +1,27 @@
-#include "log.hpp"
-
 #include <wx/msgdlg.h>
 
-void Log::simpleMessage(const std::string& msg)
+#include "log.hpp"
+
+void Log::simpleMessage(const std::string& msg, bool logToCmd)
 {
-    wxMessageBox(_(msg), "Log");
+    if(logToCmd)
+        wxPrintf(_("Mensaje: %s"), _(msg));
+    else
+        wxMessageBox(_(msg), "Log");
 }
 
-void Log::warning(const std::string& msg)
+void Log::warning(const std::string& msg, bool logToCmd)
 {
-    wxMessageBox(_(msg), _("Advertencia"), wxICON_WARNING);
+    if(logToCmd)
+        wxPrintf(_("Advertencia: %s"), _(msg));
+    else
+        wxMessageBox(_(msg), _("Advertencia"), wxICON_WARNING);
 }
 
-void Log::fatalError(const std::string& msg)
+void Log::fatalError(const std::string& msg, bool logToCmd)
 {
-    wxMessageBox(_(msg), _("Error Fatal"), wxICON_ERROR);
+    if(logToCmd)
+        wxPrintf(_("Error Fatal: %s"), _(msg));
+    else
+        wxMessageBox(_(msg), _("Error Fatal"), wxICON_ERROR);
 }
