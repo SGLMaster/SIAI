@@ -4,7 +4,7 @@
 SIAIMap::SIAIMap() = default;
 SIAIMap::~SIAIMap() = default;
 
-SIAIMap* SIAIMap::createMap()
+SIAIMap* SIAIMap::createMap(bool forConsole)
 {
-    return new SIAIMapImp();
+    return new SIAIMapImp(forConsole);
 }

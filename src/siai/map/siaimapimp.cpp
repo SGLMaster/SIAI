@@ -17,7 +17,7 @@
 #include <algorithm>
 #include <vector>
 
-SIAIMapImp::SIAIMapImp() : m_commandStream{CommandStream::create()} {}
+SIAIMapImp::SIAIMapImp(bool forConsole) : m_createdForConsole{forConsole}, m_commandStream{CommandStream::create()} {}
 SIAIMapImp::~SIAIMapImp() = default;
 
 void SIAIMapImp::setName(const std::string& name)
@@ -266,7 +266,7 @@ void SIAIMapImp::tryQueryWithoutResults(DbConnector& connector, const DbQuery& c
 	}
 	catch(const std::exception& e)
 	{
-		Log::warning(std::string("Error al enviar comando a base de datos: ") + e.what());
+		Log::warning(std::string("Error al enviar comando a base de datos: ") + e.what(), m_createdForConsole);
 
 		reset(0, 0);
 	}
@@ -280,7 +280,7 @@ void SIAIMapImp::tryQueryAndStore(DbConnector& connector, const DbQuery& query, 
 	}
 	catch(const std::exception& e)
 	{
-		Log::warning(std::string("Error al enviar comando a base de datos: ") + e.what());
+		Log::warning(std::string("Error al enviar comando a base de datos: ") + e.what(), m_createdForConsole);
 
 		reset(0, 0);
 	}

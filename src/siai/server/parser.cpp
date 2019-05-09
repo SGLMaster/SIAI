@@ -44,15 +44,21 @@ void Parser::runOption(wxCmdLineParser& parser, DbConnectorPtr& dbConnector, Map
 
         tryToConnectDb(dbConnector, connOptions);
 
-        if(!dbConnector)
-            return;
-        else
+        //A message is only shown if the DB is connected, if it is not, the "tryToConnectDb" method will print
+        //the error messages.
+        if(dbConnector)
         {
-            if(!dbConnector->isConnected())
+            if(dbConnector->isConnected())
+                Log::simpleMessage("Conectado correctamente a la base de datos.");
+            else
                 return;
         }
+        else
+        {
+            return;
+        }
         
-        std::unique_ptr<SIAIMap> tmpMapControl(SIAIMap::createMap());
+        std::unique_ptr<SIAIMap> tmpMapControl(SIAIMap::createMap(true));
 
         mapControl = std::move(tmpMapControl);
 

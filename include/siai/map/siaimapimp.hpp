@@ -15,6 +15,8 @@ class DbQuery;
 class SIAIMapImp : public SIAIMap
 {
 private:
+    bool m_createdForConsole;
+
 	std::string m_name;
 
     std::string m_cellsDbTableName;
@@ -29,7 +31,7 @@ private:
     std::unique_ptr<CommandStream> m_commandStream;
 
 public:
-    SIAIMapImp();
+    SIAIMapImp(bool forConsole);
     virtual ~SIAIMapImp();
 
     virtual void executeCommand(const std::string& command, DbConnector& connector) override;

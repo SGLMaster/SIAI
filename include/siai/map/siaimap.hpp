@@ -23,7 +23,7 @@ class DbConnector;
 class DLL_EXPORT SIAIMap
 {
 public:
-    static SIAIMap* createMap();
+    static SIAIMap* createMap(bool forConsole=false);
 
     virtual void executeCommand(const std::string& command, DbConnector& connector) = 0;
     virtual void undo(DbConnector& connector) = 0;
