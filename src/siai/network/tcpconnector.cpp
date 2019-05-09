@@ -21,27 +21,27 @@ void TcpConnector::open()
     wxIPV4address address;
     address.Service(m_serverPort);
 
-    Log::simpleMessage( std::string("Creando servidor en ") + address.IPAddress().ToStdString() + ":" 
-                        + std::to_string(address.Service()) );
+    Log::simpleMessage(std::string("Creando servidor en ") + address.IPAddress().ToStdString() + ":" 
+                        + std::to_string(address.Service()), true);
 
     m_server = std::make_unique<wxSocketServer>(address);
 
     if(!m_server->IsOk())
     {
-        Log::warning("No se puede usar el puerto especificado!");
+        Log::warning("No se puede usar el puerto especificado!", true);
         return;
     }
 
     wxIPV4address realAddress;
     if ( !m_server->GetLocal(realAddress) )
     {
-        Log::warning("Error: No se pudo obtener la direccion!");
+        Log::warning("Error: No se pudo obtener la direccion!", true);
         return;
     }
     else
     {
-        Log::warning( std::string("Servidor escuchando en %s:%u") + realAddress.IPAddress().ToStdString() 
-                    + std::to_string(realAddress.Service()) );
+        Log::warning(std::string("Servidor escuchando en %s:%u") + realAddress.IPAddress().ToStdString() 
+                    + std::to_string(realAddress.Service()), true);
     }
 
     //Setup the event handler and subscribe to connection events
