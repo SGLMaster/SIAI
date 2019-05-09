@@ -83,9 +83,50 @@ void TcpConnector::write(const std::string& msg)
 
 }
 
-void TcpConnector::OnServerEvent( wxSocketEvent& event )
+void TcpConnector::OnServerEvent(wxSocketEvent& event)
 {
+    if(m_socket)
+    {
+        Log::fatalError("Puerto Ocupado", true);
+        m_server->SetNotify(wxSOCKET_CONNECTION_FLAG);
+        return;
+    }
 
+    std::unique_ptr<wxSocketBase> tmpUnique(m_server->Accept(false));
+    m_socket = std::move(tmpUnique);
+
+    if (m_socket)
+    {
+        wxIPV4address addr;
+        if ( !m_socket->GetPeer(addr) )
+        {
+            Log::fatalError("Cliente desconocido, cerrando conexion.", true);
+            m_socket->Destroy();
+            m_socket.release();
+            return;
+        }
+        else
+        {
+            //Setting the handler and the flags for the events
+            //The handler ID is set to the same number as the socket's port number
+            m_socket->SetEventHandler(*this, m_socketPort);
+            m_socket->SetNotify(wxSOCKET_INPUT_FLAG | wxSOCKET_LOST_FLAG);
+            m_socket->Notify(true);
+
+            //Connecting to the handler method
+            Bind(wxEVT_SOCKET, &TcpConnector::OnSocketEvent, this, m_socketPort);
+
+            //Success
+            Log::simpleMessage(std::string("Nueva conexion aceptada con cliente ") + addr.IPAddress().ToStdString() 
+                                            + ":" + std::to_string(addr.Service()), true);
+            Log::simpleMessage(std::string("Socket ID: ") + std::to_string(m_socketPort), true);
+
+        }
+    }
+    else
+    {
+        Log::fatalError("Error: no se pudo aceptar la conexion.", true);
+    }
 }
 
 void TcpConnector::OnSocketEvent( wxSocketEvent& event )
