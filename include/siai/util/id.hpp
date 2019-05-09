@@ -17,6 +17,7 @@ namespace Util
         ~IdManager();
 
         int getId();
+        void retrieveId(int idToRetrieveFromGenerator);
         void returnId(int idToReturnToGenerator);
 
         void reset();

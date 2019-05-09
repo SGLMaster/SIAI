@@ -26,6 +26,15 @@ int IdManager::getId()
     return idToDeliver;
 }
 
+void IdManager::retrieveId(int idToRetrieveFromGenerator)
+{
+    for(std::deque<int>::iterator iter = m_idsAvailable.begin(); iter != m_idsAvailable.end(); ++iter)
+    {
+        if((*iter) == idToRetrieveFromGenerator)
+            m_idsAvailable.erase(iter);
+    }
+}
+
 void IdManager::returnId(int idToReturnToGenerator)
 {
     m_idsAvailable.push_front(idToReturnToGenerator);
