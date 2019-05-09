@@ -40,7 +40,7 @@ void TcpConnector::open()
     }
     else
     {
-        Log::warning(std::string("Servidor escuchando en %s:%u") + realAddress.IPAddress().ToStdString() 
+        Log::simpleMessage(std::string("Servidor escuchando en ") + realAddress.IPAddress().ToStdString() + ":" 
                     + std::to_string(realAddress.Service()), true);
     }
 
