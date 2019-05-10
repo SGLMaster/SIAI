@@ -1,3 +1,3 @@
-bin\Release\server.exe -c
+bin\Release\server.exe -e
 
 pause
