@@ -1,4 +1,5 @@
 #include <wx/msgdlg.h>
+#include <wx/datetime.h>
 
 #include "log.hpp"
 
@@ -6,6 +7,19 @@ void Log::simpleMessage(const std::string& msg, bool logToCmd)
 {
     if(logToCmd)
         wxPrintf(_("%s\n"), _(msg));
+    else
+        wxMessageBox(_(msg), "Log");
+}
+
+void Log::timestampMessage(const std::string& msg, bool logToCmd)
+{
+    wxDateTime curTime = wxDateTime::GetTimeNow();
+    unsigned short curHour = curTime.GetHour();
+    unsigned short curMinute = curTime.GetMinute();
+    unsigned short curSecond = curTime.GetSecond();
+
+    if(logToCmd)
+        wxPrintf( wxT("[%.2u:%.2u:%.2u] %s\n"), curHour, curMinute, curSecond, _(msg) );
     else
         wxMessageBox(_(msg), "Log");
 }
