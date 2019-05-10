@@ -7,7 +7,7 @@
 #include "server/event.hpp"
 #include "server/eventworker.hpp"
 #include "server/control.hpp"
-#include "server/serverapp.hpp"
+#include "server/app.hpp"
 
 #include "log.hpp"
 

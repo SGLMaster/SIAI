@@ -6,7 +6,7 @@
 #include <wx/datetime.h>
 #include <wx/thread.h>
 
-#include "server/serverapp.hpp"
+#include "server/app.hpp"
 #include "server/eventworker.hpp"
 #include "server/control.hpp"
 
