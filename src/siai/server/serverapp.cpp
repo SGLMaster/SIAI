@@ -1,25 +1,3 @@
-/*
-#include "database/database.hpp"
-
-#define CONSOLE_APP
-#include "map/siaimap.hpp"
-
-bool ServerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
-{
-    if (pParser.Found(wxT("c")))
-    {
-        DbConnectorPtr mainDbConnectorPtr;
-        MapPtr mainMapPtr;
-
-        Server::configure(mainDbConnectorPtr, mainMapPtr);
-    }
-    else
-        noValidOptionMessage();
-
-    return wxApp::OnCmdLineParsed(pParser);
-};
-*/
-
 #include <wx/wx.h>
 #include <wx/socket.h>
 #include <wx/event.h>
