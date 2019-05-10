@@ -3,7 +3,7 @@
 
 #include "log.hpp"
 
-void Log::simpleMessage(const std::string& msg, bool logToCmd)
+void Log::simple(const std::string& msg, bool logToCmd)
 {
     if(logToCmd)
         wxPrintf(_("%s\n"), _(msg));
@@ -11,7 +11,7 @@ void Log::simpleMessage(const std::string& msg, bool logToCmd)
         wxMessageBox(_(msg), "Log");
 }
 
-void Log::timestampMessage(const std::string& msg, bool logToCmd)
+void Log::timestamp(const std::string& msg, bool logToCmd)
 {
     wxDateTime curTime = wxDateTime::GetTimeNow();
     unsigned short curHour = curTime.GetHour();
@@ -32,7 +32,7 @@ void Log::warning(const std::string& msg, bool logToCmd)
         wxMessageBox(_(msg), _("Advertencia"), wxICON_WARNING);
 }
 
-void Log::fatalError(const std::string& msg, bool logToCmd)
+void Log::error(const std::string& msg, bool logToCmd)
 {
     if(logToCmd)
         wxPrintf(_("Error Fatal: %s\n"), _(msg));

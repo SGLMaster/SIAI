@@ -40,7 +40,7 @@ void Entities::tryToCreateAndAddCell(Container& entities, int id, const MapPosit
     }
     catch(EntityException& e)
     {
-        Log::fatalError(e.what());
+        Log::error(e.what());
         exit(-1);
     }
 }

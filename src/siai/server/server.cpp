@@ -52,7 +52,7 @@ void Server::tryToConnectDb(DbConnectorPtr& dbConnector, const DbConnectionOptio
     }
     catch(const DbConnectionException& e)
     {
-        Log::fatalError(std::string("Error al conectar a base de datos: ") + e.what(), true);
+        Log::error(std::string("Error al conectar a base de datos: ") + e.what(), true);
 
         dbConnector.reset(nullptr);
     }
@@ -65,7 +65,7 @@ void Server::assertDbConnected(DbConnectorPtr& dbConnector)
     if(dbConnector)
     {
         if(dbConnector->isConnected())
-            Log::simpleMessage("Conectado correctamente a la base de datos.", true);
+            Log::simple("Conectado correctamente a la base de datos.", true);
         else
             exit(0);
     }

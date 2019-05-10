@@ -21,7 +21,7 @@ void TcpConnector::open()
     wxIPV4address address;
     address.Service(m_serverPort);
 
-    Log::simpleMessage(std::string("Creando servidor en ") + address.IPAddress().ToStdString() + ":" 
+    Log::simple(std::string("Creando servidor en ") + address.IPAddress().ToStdString() + ":" 
                         + std::to_string(address.Service()), true);
 
     m_server = std::make_unique<wxSocketServer>(address);
@@ -40,7 +40,7 @@ void TcpConnector::open()
     }
     else
     {
-        Log::simpleMessage(std::string("Servidor escuchando en ") + realAddress.IPAddress().ToStdString() + ":" 
+        Log::simple(std::string("Servidor escuchando en ") + realAddress.IPAddress().ToStdString() + ":" 
                     + std::to_string(realAddress.Service()), true);
     }
 
@@ -87,7 +87,7 @@ void TcpConnector::OnServerEvent(wxSocketEvent& event)
 {
     if(m_socket)
     {
-        Log::fatalError("Puerto Ocupado", true);
+        Log::error("Puerto Ocupado", true);
         m_server->SetNotify(wxSOCKET_CONNECTION_FLAG);
         return;
     }
@@ -100,7 +100,7 @@ void TcpConnector::OnServerEvent(wxSocketEvent& event)
         wxIPV4address addr;
         if ( !m_socket->GetPeer(addr) )
         {
-            Log::fatalError("Cliente desconocido, cerrando conexion.", true);
+            Log::error("Cliente desconocido, cerrando conexion.", true);
             m_socket->Destroy();
             m_socket.release();
             return;
@@ -117,15 +117,15 @@ void TcpConnector::OnServerEvent(wxSocketEvent& event)
             Bind(wxEVT_SOCKET, &TcpConnector::OnSocketEvent, this, m_socketPort);
 
             //Success
-            Log::simpleMessage(std::string("Nueva conexion aceptada con cliente ") + addr.IPAddress().ToStdString() 
+            Log::simple(std::string("Nueva conexion aceptada con cliente ") + addr.IPAddress().ToStdString() 
                                             + ":" + std::to_string(addr.Service()), true);
-            Log::simpleMessage(std::string("Socket ID: ") + std::to_string(m_socketPort), true);
+            Log::simple(std::string("Socket ID: ") + std::to_string(m_socketPort), true);
 
         }
     }
     else
     {
-        Log::fatalError("Error: no se pudo aceptar la conexion.", true);
+        Log::error("Error: no se pudo aceptar la conexion.", true);
     }
 }
 
