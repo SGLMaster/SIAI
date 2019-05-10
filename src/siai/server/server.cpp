@@ -14,7 +14,10 @@
 
 #include <string>
 
-void Server::configure(DbConnectorPtr& dbConnector, MapPtr& mapControl)
+ServerControl::ServerControl() = default;
+ServerControl::~ServerControl() = default;
+
+void ServerControl::configure()
 {
     wxPrintf("Bienvenido al Asistente para la configuracion del Servidor de Almacen SIAI.\n");
     wxPrintf("A continuacion ingrese los datos solicitados para conectar a la base de datos.\n\n");
@@ -26,43 +29,41 @@ void Server::configure(DbConnectorPtr& dbConnector, MapPtr& mapControl)
 
     DbConnectionOptions connOptions{SIAIGlobals::DB_NAME, host, port, userName, password};
 
-    tryToConnectDb(dbConnector, connOptions);
-    assertDbConnected(dbConnector);
+    tryToConnectDb(connOptions);
+    assertDbConnected();
         
     std::unique_ptr<SIAIMap> tmpMapControl(SIAIMap::createMap(true));
 
-    mapControl = std::move(tmpMapControl);
+    m_mapControl = std::move(tmpMapControl);
 
     wxPrintf(_("\nA continuacion ingrese el nombre del mapa cargar.\n\n"));
     std::string mapName{CmdInput::getString("")};
 
-    mapControl->setName(mapName);
-	mapControl->loadFromDb(*dbConnector);
+    m_mapControl->setName(mapName);
+	m_mapControl->loadFromDb(*m_dbConnector);
 }
 
-void Server::tryToConnectDb(DbConnectorPtr& dbConnector, const DbConnectionOptions& options)
+void ServerControl::tryToConnectDb(const DbConnectionOptions& options)
 {
     try
 	{
-        auto tmpConnector = DbConnector::makeConnector(options);
-
-        dbConnector = std::move(tmpConnector);
+        m_dbConnector = DbConnector::makeConnector(options);
     }
     catch(const DbConnectionException& e)
     {
         Log::error(std::string("Error al conectar a base de datos: ") + e.what(), true);
 
-        dbConnector.reset(nullptr);
+        m_dbConnector.reset(nullptr);
     }
 }
 
-void Server::assertDbConnected(DbConnectorPtr& dbConnector)
+void ServerControl::assertDbConnected()
 {
     //A message is only shown if the DB is connected, if it is not, the "tryToConnectDb" method will print
     //the error messages.
-    if(dbConnector)
+    if(m_dbConnector)
     {
-        if(dbConnector->isConnected())
+        if(m_dbConnector->isConnected())
             Log::simple("Conectado correctamente a la base de datos.", true);
         else
             exit(0);

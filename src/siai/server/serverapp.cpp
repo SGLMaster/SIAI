@@ -66,10 +66,7 @@ bool ServerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
 
     if (pParser.Found("c"))
     {
-        DbConnectorPtr mainDbConnectorPtr;
-        MapPtr mainMapPtr;
-
-        Server::configure(mainDbConnectorPtr, mainMapPtr);
+        m_serverControl->configure();
     }
 
     return wxApp::OnCmdLineParsed(pParser);
@@ -79,6 +76,8 @@ bool ServerApp::OnInit()
 {
     wxLog* logger = new wxLogStderr();
     wxLog::SetActiveTarget(logger);
+
+    m_serverControl = std::make_unique<ServerControl>();
 
     m_tcpPort = 3000;
 

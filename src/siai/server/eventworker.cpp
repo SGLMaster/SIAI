@@ -6,6 +6,7 @@
 
 #include "server/event.hpp"
 #include "server/eventworker.hpp"
+#include "server/server.hpp"
 #include "server/serverapp.hpp"
 
 #include "log.hpp"

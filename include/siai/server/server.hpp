@@ -9,10 +9,19 @@ class DbConnectionOptions;
 using DbConnectorPtr = std::unique_ptr<DbConnector>;
 using MapPtr = std::unique_ptr<SIAIMap>;
 
-namespace Server
+class ServerControl
 {
-    void configure(DbConnectorPtr& dbConnector, MapPtr& mapControl);
+private:
+    MapPtr m_mapControl;
+    DbConnectorPtr m_dbConnector;
 
-    void tryToConnectDb(DbConnectorPtr& dbConnector, const DbConnectionOptions& options);
-    void assertDbConnected(DbConnectorPtr& dbConnector);
-}
+public:
+    ServerControl();
+    virtual ~ServerControl();
+
+    void configure();
+
+private:
+    void tryToConnectDb(const DbConnectionOptions& options);
+    void assertDbConnected();
+};
