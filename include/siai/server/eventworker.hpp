@@ -9,13 +9,8 @@ public:
     virtual ~EventWorker();
 
 protected:
-    // outputs log message with IP and TCP port number prepended
-    void LogWorker(const wxString& msg, wxLogLevel level = wxLOG_Info)
-    {
-        wxLogGeneric(level,
-                     "%s:%d %s", m_peer.IPAddress(), m_peer.Service(), msg);
-    }
-
+    void LogWorker(const wxString& msg, wxLogLevel level = wxLOG_Info);
+    
     wxIPV4address m_peer;
 
 private:

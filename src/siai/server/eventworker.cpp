@@ -60,6 +60,40 @@ EventWorker::~EventWorker()
     m_socket->Destroy();
 }
 
+void EventWorker::LogWorker(const wxString& msg, wxLogLevel level)
+{
+    // outputs log message with IP and TCP port number prepended
+    wxLogGeneric(level, "%s:%d %s", m_peer.IPAddress(), m_peer.Service(), msg);
+}
+
+void EventWorker::OnSocketEvent(wxSocketEvent& pEvent)
+{
+    switch(pEvent.GetSocketEvent())
+    {
+        case wxSOCKET_INPUT:
+            DoRead();
+            break;
+
+        case wxSOCKET_OUTPUT:
+            if(m_outBuffer.length() > 0)
+                DoWrite();
+            break;
+
+        case wxSOCKET_CONNECTION:
+            LogWorker("Unexpected wxSOCKET_CONNECTION in EventWorker", wxLOG_Error);
+            break;
+
+        case wxSOCKET_LOST:
+            {
+                LogWorker("Connection lost");
+                WorkerEvent e(this);
+                e.m_workerFailed = m_written != m_size;
+                wxGetApp().AddPendingEvent(e);
+            }
+            break;
+    }
+}
+
 void EventWorker::DoRead()
 {
     m_inBuffer.clear();
@@ -90,36 +124,8 @@ void EventWorker::DoRead()
     //Discard every character after '\r' or '\n' we don't need them
     m_socket->Discard();
 
-    Log::timestamp(std::string("Mensaje en Socket: ") + m_inBuffer, true);
+    LogWorker(wxString::Format("Mensaje en Socket: %s", m_inBuffer));
 };
-
-void EventWorker::OnSocketEvent(wxSocketEvent& pEvent)
-{
-    switch(pEvent.GetSocketEvent())
-    {
-        case wxSOCKET_INPUT:
-            DoRead();
-            break;
-
-        case wxSOCKET_OUTPUT:
-            if(m_outBuffer.length() > 0)
-                DoWrite();
-            break;
-
-        case wxSOCKET_CONNECTION:
-            LogWorker("Unexpected wxSOCKET_CONNECTION in EventWorker", wxLOG_Error);
-            break;
-
-        case wxSOCKET_LOST:
-            {
-                LogWorker("Connection lost");
-                WorkerEvent e(this);
-                e.m_workerFailed = m_written != m_size;
-                wxGetApp().AddPendingEvent(e);
-            }
-            break;
-    }
-}
 
 void  EventWorker::DoWrite()
 {
