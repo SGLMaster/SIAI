@@ -55,8 +55,8 @@ bool ServerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
             return false;
         }
 
-        m_port = static_cast<unsigned short>(port);
-        wxLogMessage("Will listen on port %u", m_port);
+        m_tcpPort = static_cast<unsigned short>(port);
+        wxLogMessage("Will listen on port %u", m_tcpPort);
     }
 
     return wxApp::OnCmdLineParsed(pParser);
@@ -67,13 +67,13 @@ bool ServerApp::OnInit()
     wxLog* logger = new wxLogStderr();
     wxLog::SetActiveTarget(logger);
 
-    m_port = 3000;
+    m_tcpPort = 3000;
 
     if (!wxApp::OnInit())
         return false;
 
     wxIPV4address address;
-    address.Service(m_port);
+    address.Service(m_tcpPort);
 
     m_listeningSocket = new wxSocketServer(address, wxSOCKET_NOWAIT|wxSOCKET_REUSEADDR);
     m_listeningSocket->SetEventHandler(*this);
@@ -86,7 +86,7 @@ bool ServerApp::OnInit()
         return false;
     }
 
-    wxLogMessage("Server listening at port %u, waiting for connections", m_port);
+    wxLogMessage("Server listening at port %u, waiting for connections", m_tcpPort);
     return true;
 }
 

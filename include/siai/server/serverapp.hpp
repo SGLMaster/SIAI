@@ -27,7 +27,7 @@ private:
     EList m_eventWorkers;
     wxSocketServer* m_listeningSocket;
 
-    unsigned short m_port;
+    unsigned short m_tcpPort;
 };
 
 DECLARE_APP(ServerApp);
