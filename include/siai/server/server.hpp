@@ -1,10 +1,10 @@
 #pragma once
 
+#include "database/database.hpp"
+
 #include <memory>
 
 class SIAIMap;
-class DbConnector;
-class DbConnectionOptions;
 
 using DbConnectorPtr = std::unique_ptr<DbConnector>;
 using MapPtr = std::unique_ptr<SIAIMap>;
@@ -13,7 +13,9 @@ class ServerControl
 {
 private:
     MapPtr m_mapControl;
+
     DbConnectorPtr m_dbConnector;
+    DbConnectionOptions m_dbOptions;
 
 public:
     ServerControl();
@@ -22,6 +24,6 @@ public:
     void configure();
 
 private:
-    void tryToConnectDb(const DbConnectionOptions& options);
+    void tryToConnectDb();
     void assertDbConnected();
 };

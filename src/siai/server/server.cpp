@@ -4,8 +4,6 @@
 #include "server/server.hpp"
 #include "server/input.hpp"
 
-#include "database/database.hpp"
-
 #define CONSOLE_APP
 #include "map/siaimap.hpp"
 
@@ -27,9 +25,9 @@ void ServerControl::configure()
     std::string userName{CmdInput::getString("User")};
     std::string password{CmdInput::getString("Password")};
 
-    DbConnectionOptions connOptions{SIAIGlobals::DB_NAME, host, port, userName, password};
+    m_dbOptions = DbConnectionOptions{SIAIGlobals::DB_NAME, host, port, userName, password};
 
-    tryToConnectDb(connOptions);
+    tryToConnectDb();
     assertDbConnected();
         
     std::unique_ptr<SIAIMap> tmpMapControl(SIAIMap::createMap(true));
@@ -43,11 +41,11 @@ void ServerControl::configure()
 	m_mapControl->loadFromDb(*m_dbConnector);
 }
 
-void ServerControl::tryToConnectDb(const DbConnectionOptions& options)
+void ServerControl::tryToConnectDb()
 {
     try
 	{
-        m_dbConnector = DbConnector::makeConnector(options);
+        m_dbConnector = DbConnector::makeConnector(m_dbOptions);
     }
     catch(const DbConnectionException& e)
     {
