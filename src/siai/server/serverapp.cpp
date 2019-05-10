@@ -1,50 +1,60 @@
-#include <wx/wxprec.h>
-
 #include <wx/app.h>
 #include <wx/cmdline.h>
 
 #include "database/database.hpp"
 
-#include "server/parser.hpp"
-
 #define CONSOLE_APP
 #include "map/siaimap.hpp"
 
-#include <string>
+#include "server/serverapp.hpp"
 
-using DbConnectorPtr = std::unique_ptr<DbConnector>;
-using MapPtr = std::unique_ptr<SIAIMap>;
+#include "server/server.hpp"
 
-void noArgsMessage(int argc);
+IMPLEMENT_APP_CONSOLE(ServerApp);
 
-int main(int argc, char **argv)
+bool ServerApp::OnInit()
 {
-    wxApp::CheckBuildOptions(WX_BUILD_OPTIONS_SIGNATURE, "program");
+    if (!wxApp::OnInit())
+        return false;
 
-    wxInitializer initializer;
-    if(!initializer)
-    {
-        fprintf(stderr, "Failed to initialize the wxWidgets library, aborting.");
-        return -1;
-    }
+    return true;
+}
 
-    DbConnectorPtr mainDbConnectorPtr;
-    MapPtr mainMapPtr;
+int ServerApp::OnRun()
+{
+    return wxApp::OnRun();
+}
 
-    wxCmdLineParser parser(Parser::cmdLineDesc, argc, argv);
-    Parser::checkInput(parser, mainDbConnectorPtr, mainMapPtr);
-
-    noArgsMessage(argc);
-
+int ServerApp::OnExit()
+{
     return 0;
 }
 
-void noArgsMessage(int argc)
+void ServerApp::OnInitCmdLine(wxCmdLineParser& pParser)
 {
-    if(argc == 1)
+    wxApp::OnInitCmdLine(pParser);
+
+    pParser.AddSwitch(wxT("c"), wxT("configure"), _("Configure the server."), wxCMD_LINE_PARAM_OPTIONAL);
+}
+
+bool ServerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
+{
+    if (pParser.Found(wxT("c")))
     {
-        // Run a message if there were no arguments
-        wxPrintf("Welcome to the SIAI Server program!\n");
-        wxPrintf("For more information, run it again with the --help option\n");
+        DbConnectorPtr mainDbConnectorPtr;
+        MapPtr mainMapPtr;
+
+        Server::configure(mainDbConnectorPtr, mainMapPtr);
     }
+    else
+        noValidOptionMessage();
+
+    return wxApp::OnCmdLineParsed(pParser);
+};
+
+void ServerApp::noValidOptionMessage() const
+{
+    wxPrintf("You need to run the program with a valid option!\n");
+    wxPrintf("For more information, run it again with the --help option\n");
+    exit(0);
 }
