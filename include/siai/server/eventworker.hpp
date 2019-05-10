@@ -4,15 +4,6 @@
 //When part of data arrives this worker resends it as soon as possible.
 class EventWorker : public wxEvtHandler
 {
-public:
-    EventWorker(wxSocketBase* pSock);
-    virtual ~EventWorker();
-
-protected:
-    void LogWorker(const wxString& msg, wxLogLevel level = wxLOG_Info);
-    
-    wxIPV4address m_peer;
-
 private:
     wxSocketBase* m_socket;
 
@@ -22,6 +13,17 @@ private:
     std::string m_outBuffer;
     int m_written;
 
+protected:
+    wxIPV4address m_peer;
+
+public:
+    EventWorker(wxSocketBase* pSock);
+    virtual ~EventWorker();
+
+protected:
+    void LogWorker(const wxString& msg, wxLogLevel level = wxLOG_Info);
+
+private:
     void OnSocketEvent(wxSocketEvent& pEvent);
     void DoWrite();
     void DoRead();
