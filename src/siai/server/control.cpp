@@ -1,7 +1,7 @@
 #include <wx/cmdline.h>
 #include <wx/intl.h>
 
-#include "server/server.hpp"
+#include "server/control.hpp"
 #include "server/input.hpp"
 
 #define CONSOLE_APP

@@ -8,7 +8,7 @@
 
 #include "server/serverapp.hpp"
 #include "server/eventworker.hpp"
-#include "server/server.hpp"
+#include "server/control.hpp"
 
 IMPLEMENT_APP_CONSOLE(ServerApp)
 
