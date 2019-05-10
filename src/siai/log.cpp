@@ -5,7 +5,7 @@
 void Log::simpleMessage(const std::string& msg, bool logToCmd)
 {
     if(logToCmd)
-        wxPrintf(_("Mensaje: %s\n"), _(msg));
+        wxPrintf(_("%s\n"), _(msg));
     else
         wxMessageBox(_(msg), "Log");
 }
