@@ -29,6 +29,11 @@ void ServerApp::OnInitCmdLine(wxCmdLineParser& pParser)
 
 bool ServerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
 {
+    if (pParser.Found("c"))
+    {
+        m_serverControl->configure();
+    }
+
     long port;
     if (pParser.Found("p", &port))
     {
@@ -40,11 +45,6 @@ bool ServerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
 
         m_tcpPort = static_cast<unsigned short>(port);
         wxLogMessage("Will listen on port %u", m_tcpPort);
-    }
-
-    if (pParser.Found("c"))
-    {
-        m_serverControl->configure();
     }
 
     return wxApp::OnCmdLineParsed(pParser);
