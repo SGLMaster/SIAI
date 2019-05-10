@@ -6,14 +6,9 @@
 #include <wx/datetime.h>
 #include <wx/thread.h>
 
-#include "database/database.hpp"
-
 #include "server/serverapp.hpp"
 #include "server/eventworker.hpp"
 #include "server/server.hpp"
-
-#define CONSOLE_APP
-#include "map/siaimap.hpp"
 
 IMPLEMENT_APP_CONSOLE(ServerApp)
 
