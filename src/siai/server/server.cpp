@@ -1,8 +1,8 @@
-#include "server/server.hpp"
-#include "server/input.hpp"
-
 #include <wx/cmdline.h>
 #include <wx/intl.h>
+
+#include "server/server.hpp"
+#include "server/input.hpp"
 
 #include "database/database.hpp"
 
@@ -16,8 +16,8 @@
 
 void Server::configure(DbConnectorPtr& dbConnector, MapPtr& mapControl)
 {
-    wxPrintf(_("Bienvenido al Asistente para la configuracion del Servidor de Almacen SIAI.\n"));
-    wxPrintf(_("A continuacion ingrese los datos solicitados para conectar a la base de datos.\n\n"));
+    wxPrintf("Bienvenido al Asistente para la configuracion del Servidor de Almacen SIAI.\n");
+    wxPrintf("A continuacion ingrese los datos solicitados para conectar a la base de datos.\n\n");
 
     std::string host{CmdInput::getString("Host")};
     unsigned int port = CmdInput::getUInt("Port");
@@ -38,8 +38,6 @@ void Server::configure(DbConnectorPtr& dbConnector, MapPtr& mapControl)
 
     mapControl->setName(mapName);
 	mapControl->loadFromDb(*dbConnector);
-
-    mapControl->startServer();
 }
 
 void Server::tryToConnectDb(DbConnectorPtr& dbConnector, const DbConnectionOptions& options)

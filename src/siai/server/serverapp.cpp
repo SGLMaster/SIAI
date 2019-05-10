@@ -28,10 +28,14 @@ bool ServerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
 #include <wx/datetime.h>
 #include <wx/thread.h>
 
+#include "database/database.hpp"
+
 #include "server/serverapp.hpp"
 #include "server/eventworker.hpp"
+#include "server/server.hpp"
 
-#include "log.hpp"
+#define CONSOLE_APP
+#include "map/siaimap.hpp"
 
 IMPLEMENT_APP_CONSOLE(ServerApp)
 
@@ -41,6 +45,7 @@ WX_DEFINE_LIST(EList);
 void ServerApp::OnInitCmdLine(wxCmdLineParser& pParser)
 {
     wxApp::OnInitCmdLine(pParser);
+    pParser.AddSwitch("c", "configure", "Configure server.");
     pParser.AddOption("p", "port", "listen on given port (default 3000)", wxCMD_LINE_VAL_NUMBER);
 }
 
@@ -57,6 +62,14 @@ bool ServerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
 
         m_tcpPort = static_cast<unsigned short>(port);
         wxLogMessage("Will listen on port %u", m_tcpPort);
+    }
+
+    if (pParser.Found("c"))
+    {
+        DbConnectorPtr mainDbConnectorPtr;
+        MapPtr mainMapPtr;
+
+        Server::configure(mainDbConnectorPtr, mainMapPtr);
     }
 
     return wxApp::OnCmdLineParsed(pParser);

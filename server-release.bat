@@ -1,3 +1,3 @@
-bin\Release\server.exe -p 2001
+bin\Release\server.exe -p2001 -c
 
 pause
