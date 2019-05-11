@@ -43,6 +43,6 @@ target_link_libraries(manager siaimap wxbase30ud wxmsw30ud_core wxmsw30ud_adv my
 target_link_options(manager PUBLIC -mwindows)
 
 #Server
-add_executable(server ${SERVER_SOURCES} ${DATABASE_SOURCES} ${ROOT_SOURCES})
+add_executable(server ${SERVER_SOURCES} ${DATABASE_SOURCES} ${UTIL_SOURCES} ${ROOT_SOURCES})
 
 target_link_libraries(server siaimap wxbase30ud mysqlpp mysql)
