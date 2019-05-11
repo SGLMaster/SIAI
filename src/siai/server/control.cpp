@@ -8,6 +8,8 @@
 #define CONSOLE_APP
 #include "map/siaimap.hpp"
 
+#include "util/string.hpp"
+
 #include "globals.hpp"
 #include "log.hpp"
 
@@ -50,6 +52,8 @@ void ServerControl::configure()
 
 void ServerControl::run()
 {
+    loadDbOptions();
+
     Log::simple("Ejecutando el Servidor SIAI...", true);
     Log::simple("Ingrese la clave para conectar a la base de datos:", true);
 
@@ -72,6 +76,32 @@ void ServerControl::saveDbOptions() const
     iniFile.AddLine(wxString("username = ") + wxString(m_dbOptions.user));
 
     iniFile.Write();
+    iniFile.Close();
+}
+
+void ServerControl::loadDbOptions()
+{
+    wxTextFile iniFile(wxT("database.ini"));
+
+    iniFile.Open();
+
+    wxString curLine;
+    for(unsigned int i = 0; i < iniFile.GetLineCount(); ++i)
+    {
+        curLine = iniFile.GetLine(i);
+
+        if(curLine.StartsWith("host"))
+            m_dbOptions.host = Util::String::getOptValueAsStr(curLine.ToStdString());
+
+        else if(curLine.StartsWith("port"))
+        {
+            m_dbOptions.port = static_cast<unsigned int>(Util::String::getOptValueAsInt(curLine.ToStdString()));
+        }
+
+        else if(curLine.StartsWith("username"))
+            m_dbOptions.user = Util::String::getOptValueAsStr(curLine.ToStdString());
+    }
+
     iniFile.Close();
 }
 

@@ -26,6 +26,7 @@ public:
 
 private:
     void saveDbOptions() const;
+    void loadDbOptions();
 
     void tryToConnectDb();
     void assertDbConnected();
