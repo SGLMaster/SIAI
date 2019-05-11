@@ -55,5 +55,14 @@ namespace Util
         }
 
         bool startsWith(const std::string& mainStr, const std::string& toMatch);
+
+        //This methods allows us to extract the value of options read from lines of a text file
+        //The format of the lines must be "option = value"
+        std::string getOptValueAsStr(const std::string& line);
+        int getOptValueAsInt(const std::string& line);
+
+        std::string trim(const std::string& str);
+        std::string ltrim(const std::string& str);
+        std::string rtrim(const std::string& str);
     }
 }
