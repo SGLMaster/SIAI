@@ -19,6 +19,7 @@ void ServerApp::OnInitCmdLine(wxCmdLineParser& pParser)
 {
     wxApp::OnInitCmdLine(pParser);
     pParser.AddSwitch("c", "configure", "Configure server.");
+    pParser.AddSwitch("r", "run", "Runs the server with the set configuration.");
     pParser.AddOption("p", "port", "listen on given port (default 3000)", wxCMD_LINE_VAL_NUMBER);
 }
 
@@ -42,6 +43,30 @@ bool ServerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
         wxLogMessage("Will listen on port %u", m_tcpPort);
     }
 
+    if(pParser.Found("r"))
+    {
+        wxIPV4address address;
+        address.Service(m_tcpPort);
+
+        m_listeningSocket = new wxSocketServer(address, wxSOCKET_NOWAIT|wxSOCKET_REUSEADDR);
+        m_listeningSocket->SetEventHandler(*this);
+        m_listeningSocket->SetNotify(wxSOCKET_CONNECTION_FLAG);
+        m_listeningSocket->Notify(true);
+
+        if (!m_listeningSocket->IsOk())
+        {
+            wxLogError("Cannot bind listening socket");
+            return false;
+        }
+
+        wxLogMessage("Server listening at port %u, waiting for connections", m_tcpPort);
+    }
+    else
+    {
+        exit(0);
+    }
+    
+
     return wxApp::OnCmdLineParsed(pParser);
 }
 
@@ -57,21 +82,6 @@ bool ServerApp::OnInit()
     if (!wxApp::OnInit())
         return false;
 
-    wxIPV4address address;
-    address.Service(m_tcpPort);
-
-    m_listeningSocket = new wxSocketServer(address, wxSOCKET_NOWAIT|wxSOCKET_REUSEADDR);
-    m_listeningSocket->SetEventHandler(*this);
-    m_listeningSocket->SetNotify(wxSOCKET_CONNECTION_FLAG);
-    m_listeningSocket->Notify(true);
-
-    if (!m_listeningSocket->IsOk())
-    {
-        wxLogError("Cannot bind listening socket");
-        return false;
-    }
-
-    wxLogMessage("Server listening at port %u, waiting for connections", m_tcpPort);
     return true;
 }
 
