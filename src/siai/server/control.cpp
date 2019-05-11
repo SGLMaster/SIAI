@@ -18,25 +18,17 @@ ServerControl::~ServerControl() = default;
 
 void ServerControl::configure()
 {
-    wxPrintf("Bienvenido al Asistente para la configuracion del Servidor de Almacen SIAI.\n");
-    wxPrintf("A continuacion ingrese los datos solicitados para conectar a la base de datos.\n\n");
+    Log::simple("Bienvenido al Asistente para la configuracion del Servidor de Almacen SIAI.", true);
+    Log::simple("A continuacion ingrese los datos solicitados para conectar a la base de datos.", true);
 
     std::string host{CmdInput::getString("Host")};
     unsigned int port = CmdInput::getUInt("Port");
     std::string userName{CmdInput::getString("User")};
 
-    wxTextFile iniFile(wxT("server.ini"));
+    //All the data is registered except for the password which will be entered when the server is runned
+    m_dbOptions = DbConnectionOptions{SIAIGlobals::DB_NAME, host, port, userName, ""};
 
-    iniFile.Open();
-
-    iniFile.Clear();
-
-    iniFile.AddLine(wxString("host = ") + wxString(host));
-    iniFile.AddLine(wxString( "sql_port = ") + wxString(std::to_string(port)) );
-    iniFile.AddLine(wxString("username = ") + wxString(userName));
-
-    iniFile.Write();
-    iniFile.Close();
+    saveDbOptions();
 
     //std::string password{CmdInput::getString("Password")};
 
@@ -58,7 +50,29 @@ void ServerControl::configure()
 
 void ServerControl::run()
 {
+    Log::simple("Ejecutando el Servidor SIAI...", true);
+    Log::simple("Ingrese la clave para conectar a la base de datos:", true);
 
+    std::string password{CmdInput::getString("")};
+
+    tryToConnectDb();
+    assertDbConnected();
+}
+
+void ServerControl::saveDbOptions() const
+{
+    wxTextFile iniFile(wxT("server.ini"));
+
+    iniFile.Open();
+
+    iniFile.Clear();
+
+    iniFile.AddLine(wxString("host = ") + wxString(m_dbOptions.host));
+    iniFile.AddLine(wxString( "sql_port = ") + wxString(std::to_string(m_dbOptions.port)) );
+    iniFile.AddLine(wxString("username = ") + wxString(m_dbOptions.user));
+
+    iniFile.Write();
+    iniFile.Close();
 }
 
 void ServerControl::tryToConnectDb()
