@@ -53,7 +53,7 @@ void ServerControl::run()
     Log::simple("Ejecutando el Servidor SIAI...", true);
     Log::simple("Ingrese la clave para conectar a la base de datos:", true);
 
-    std::string password{CmdInput::getString("")};
+    m_dbOptions.password = CmdInput::getString("");
 
     tryToConnectDb();
     assertDbConnected();
