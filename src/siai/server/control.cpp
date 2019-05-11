@@ -61,14 +61,14 @@ void ServerControl::run()
 
 void ServerControl::saveDbOptions() const
 {
-    wxTextFile iniFile(wxT("server.ini"));
+    wxTextFile iniFile(wxT("database.ini"));
 
     iniFile.Open();
 
     iniFile.Clear();
 
     iniFile.AddLine(wxString("host = ") + wxString(m_dbOptions.host));
-    iniFile.AddLine(wxString( "sql_port = ") + wxString(std::to_string(m_dbOptions.port)) );
+    iniFile.AddLine(wxString("port = ") + wxString(std::to_string(m_dbOptions.port)) );
     iniFile.AddLine(wxString("username = ") + wxString(m_dbOptions.user));
 
     iniFile.Write();
