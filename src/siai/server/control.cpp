@@ -1,4 +1,5 @@
 #include <wx/cmdline.h>
+#include <wx/textfile.h>
 #include <wx/intl.h>
 
 #include "server/control.hpp"
@@ -23,22 +24,34 @@ void ServerControl::configure()
     std::string host{CmdInput::getString("Host")};
     unsigned int port = CmdInput::getUInt("Port");
     std::string userName{CmdInput::getString("User")};
-    std::string password{CmdInput::getString("Password")};
 
-    m_dbOptions = DbConnectionOptions{SIAIGlobals::DB_NAME, host, port, userName, password};
+    wxTextFile iniFile(wxT("server.ini"));
 
-    tryToConnectDb();
-    assertDbConnected();
+    iniFile.Open();
+
+    iniFile.AddLine(wxString("host = ") + wxString(host));
+    iniFile.AddLine(wxString( "port = ") + wxString(std::to_string(port)) );
+    iniFile.AddLine(wxString("username = ") + wxString(userName));
+
+    iniFile.Write();
+    iniFile.Close();
+
+    //std::string password{CmdInput::getString("Password")};
+
+    //m_dbOptions = DbConnectionOptions{SIAIGlobals::DB_NAME, host, port, userName, password};
+
+    //tryToConnectDb();
+    //assertDbConnected();
         
-    std::unique_ptr<SIAIMap> tmpMapControl(SIAIMap::createMap(true));
+    //std::unique_ptr<SIAIMap> tmpMapControl(SIAIMap::createMap(true));
 
-    m_mapControl = std::move(tmpMapControl);
+    //m_mapControl = std::move(tmpMapControl);
 
-    wxPrintf(_("\nA continuacion ingrese el nombre del mapa cargar.\n\n"));
-    std::string mapName{CmdInput::getString("")};
+    //wxPrintf(_("\nA continuacion ingrese el nombre del mapa cargar.\n\n"));
+    //std::string mapName{CmdInput::getString("")};
 
-    m_mapControl->setName(mapName);
-	m_mapControl->loadFromDb(*m_dbConnector);
+    //m_mapControl->setName(mapName);
+	//m_mapControl->loadFromDb(*m_dbConnector);
 }
 
 void ServerControl::tryToConnectDb()
