@@ -22,6 +22,7 @@ public:
     virtual ~ServerControl();
 
     void configure();
+    void run();
 
 private:
     void tryToConnectDb();

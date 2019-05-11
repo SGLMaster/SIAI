@@ -54,6 +54,11 @@ void ServerControl::configure()
 	//m_mapControl->loadFromDb(*m_dbConnector);
 }
 
+void ServerControl::run()
+{
+
+}
+
 void ServerControl::tryToConnectDb()
 {
     try
