@@ -52,8 +52,6 @@ public:
 
     virtual void uploadChanges(DbConnector& connector) = 0;
 
-    virtual void startServer() = 0;
-
     SIAIMap();
     virtual ~SIAIMap();
 };

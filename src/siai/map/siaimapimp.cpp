@@ -162,17 +162,6 @@ int SIAIMapImp::getSelectedId() const noexcept
     return lastSelectedId;
 }
 
-void SIAIMapImp::startServer()
-{
-    for(const auto& entity : m_entities)
-    {
-        auto agv = dynamic_cast<IAgv*>(entity.get());
-
-        if(agv)
-            agv->openPort();
-    }
-}
-
 void SIAIMapImp::updateDbTableNames()
 {
     m_cellsDbTableName = SIAIGlobals::DB_CELLS_TABLE_PREFIX + m_name;

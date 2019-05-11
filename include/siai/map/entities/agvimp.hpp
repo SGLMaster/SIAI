@@ -6,15 +6,10 @@
 #include <memory>
 #include <string>
 
-class IConnector;
-
 class PanelImage;
 
 class AgvDefault : public IAgv
 {
-private:
-    std::unique_ptr<IConnector> m_tcpConnector;
-
 protected:
     PanelPoint m_origin;
     PanelSize m_size;
@@ -31,9 +26,6 @@ public:
 
     virtual void saveToDatabase(DbConnector& connector, const std::string& mapName) const override;
     virtual void loadFromDatabase(DbConnector& connector) override;
-
-    virtual void openPort() override;
-    virtual bool isPortOpen() const override;
 
 protected:
     void calculateDrawingData(int zoom);

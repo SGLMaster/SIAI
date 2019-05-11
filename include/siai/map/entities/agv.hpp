@@ -8,7 +8,7 @@
 #include <vector>
 #include <string>
 
-class IAgv : public IMapEntity, public INetEntity
+class IAgv : public IMapEntity
 {
 public:
 	static const std::vector<std::string> dbColumnNames;
