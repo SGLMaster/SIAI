@@ -29,8 +29,10 @@ void ServerControl::configure()
 
     iniFile.Open();
 
+    iniFile.Clear();
+
     iniFile.AddLine(wxString("host = ") + wxString(host));
-    iniFile.AddLine(wxString( "port = ") + wxString(std::to_string(port)) );
+    iniFile.AddLine(wxString( "sql_port = ") + wxString(std::to_string(port)) );
     iniFile.AddLine(wxString("username = ") + wxString(userName));
 
     iniFile.Write();
