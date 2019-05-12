@@ -22,7 +22,7 @@ public:
     virtual ~ServerControl();
 
     void configure();
-    void run();
+    void init();
 
 private:
     void saveDbOptions() const;

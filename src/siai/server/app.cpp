@@ -45,7 +45,7 @@ bool ServerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
 
     if(pParser.Found("r"))
     {
-        m_serverControl->run();
+        m_serverControl->init();
 
         wxIPV4address address;
         address.Service(m_tcpPort);

@@ -33,7 +33,7 @@ void ServerControl::configure()
     saveDbOptions();
 }
 
-void ServerControl::run()
+void ServerControl::init()
 {
     m_dbOptions.schema = SIAIGlobals::DB_NAME;
     loadDbOptions();
