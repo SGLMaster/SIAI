@@ -25,8 +25,11 @@ protected:
 
 private:
     void OnSocketEvent(wxSocketEvent& pEvent);
-    void DoWrite();
+
     void DoRead();
+    void DoWrite();
+
+    void assertSocketError();
 
     wxDECLARE_EVENT_TABLE();
 };

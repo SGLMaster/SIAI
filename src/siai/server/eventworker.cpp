@@ -109,16 +109,7 @@ void EventWorker::DoRead()
             break;
         m_inBuffer += c;
 
-        if (m_socket->Error())
-        {
-            if (m_socket->LastError() != wxSOCKET_WOULDBLOCK)
-            {
-                LogWorker(wxString::Format("Read error (%d): %s", m_socket->LastError(), 
-                            GetSocketErrorMsg(m_socket->LastError())), wxLOG_Error);
-
-                m_socket->Close();
-            }
-        }
+        assertSocketError();
     }
     while(!m_socket->Error());
 
@@ -131,6 +122,20 @@ void EventWorker::DoRead()
 void  EventWorker::DoWrite()
 {
     
+}
+
+void EventWorker::assertSocketError()
+{
+    if (m_socket->Error())
+    {
+        if (m_socket->LastError() != wxSOCKET_WOULDBLOCK)
+        {
+            LogWorker(wxString::Format("Read error (%d): %s", m_socket->LastError(), 
+                            GetSocketErrorMsg(m_socket->LastError())), wxLOG_Error);
+
+            m_socket->Close();
+        }
+    }
 }
 
 wxBEGIN_EVENT_TABLE(EventWorker,wxEvtHandler)
