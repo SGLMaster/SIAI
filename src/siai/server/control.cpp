@@ -27,40 +27,34 @@ void ServerControl::configure()
     unsigned int port = CmdInput::getUInt("Port");
     std::string userName{CmdInput::getString("User")};
 
-    //All the data is registered except for the password which will be entered when the server is runned
-    m_dbOptions = DbConnectionOptions{SIAIGlobals::DB_NAME, host, port, userName, ""};
+    //The data is registered except for the password which will be entered when the server is runned
+    m_dbOptions = DbConnectionOptions{"", host, port, userName, ""};
 
     saveDbOptions();
-
-    //std::string password{CmdInput::getString("Password")};
-
-    //m_dbOptions = DbConnectionOptions{SIAIGlobals::DB_NAME, host, port, userName, password};
-
-    //tryToConnectDb();
-    //assertDbConnected();
-        
-    //std::unique_ptr<SIAIMap> tmpMapControl(SIAIMap::createMap(true));
-
-    //m_mapControl = std::move(tmpMapControl);
-
-    //wxPrintf(_("\nA continuacion ingrese el nombre del mapa cargar.\n\n"));
-    //std::string mapName{CmdInput::getString("")};
-
-    //m_mapControl->setName(mapName);
-	//m_mapControl->loadFromDb(*m_dbConnector);
 }
 
 void ServerControl::run()
 {
+    m_dbOptions.schema = SIAIGlobals::DB_NAME;
     loadDbOptions();
 
-    Log::simple("Ejecutando el Servidor SIAI...", true);
-    Log::simple("Ingrese la clave para conectar a la base de datos:", true);
+    Log::simple("\nEjecutando el Servidor SIAI...", true);
+    Log::simple(std::string("Ingrese la clave para conectar a la base de datos con el usuario \"") 
+                            + m_dbOptions.user + "\":", true);
 
     m_dbOptions.password = CmdInput::getString("");
 
     tryToConnectDb();
     assertDbConnected();
+
+    m_mapControl = MapPtr(SIAIMap::createMap(true));
+
+    Log::simple("\nIngrese el nombre del mapa que desea cargar:", true);
+
+    std::string mapName{CmdInput::getString("")};
+
+    m_mapControl->setName(mapName);
+	m_mapControl->loadFromDb(*m_dbConnector);
 }
 
 void ServerControl::saveDbOptions() const
