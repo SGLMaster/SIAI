@@ -26,9 +26,10 @@ void ServerControl::configure()
     std::string host{CmdInput::getString("Host")};
     unsigned int port = CmdInput::getUInt("Port");
     std::string userName{CmdInput::getString("User")};
+    std::string password{CmdInput::getString("Password")};
 
     //The data is registered except for the password which will be entered when the server is runned
-    m_dbOptions = DbConnectionOptions{"", host, port, userName, ""};
+    m_dbOptions = DbConnectionOptions{"", host, port, userName, password};
 
     saveDbOptions();
 }
@@ -39,11 +40,15 @@ void ServerControl::init()
     loadDbOptions();
 
     Log::simple("\nEjecutando el Servidor SIAI...", true);
-    Log::simple(std::string("Ingrese la clave para conectar a la base de datos con el usuario \"") 
+
+    //If the password wasn't set on the settings file or was left blank it can be entered here
+    if(m_dbOptions.password == "")
+    {
+        Log::simple(std::string("Ingrese la clave para conectar a la base de datos con el usuario \"") 
                             + m_dbOptions.user + "\":", true);
-
-    m_dbOptions.password = CmdInput::getString("");
-
+        m_dbOptions.password = CmdInput::getString("");
+    }
+    
     tryToConnectDb();
     assertDbConnected();
 
@@ -68,6 +73,7 @@ void ServerControl::saveDbOptions() const
     iniFile.AddLine(wxString("host = ") + wxString(m_dbOptions.host));
     iniFile.AddLine(wxString("port = ") + wxString(std::to_string(m_dbOptions.port)) );
     iniFile.AddLine(wxString("username = ") + wxString(m_dbOptions.user));
+    iniFile.AddLine(wxString("password = ") + wxString(m_dbOptions.password));
 
     iniFile.Write();
     iniFile.Close();
@@ -94,6 +100,9 @@ void ServerControl::loadDbOptions()
 
         else if(curLine.StartsWith("username"))
             m_dbOptions.user = Util::String::getOptValueAsStr(curLine.ToStdString());
+
+        else if(curLine.StartsWith("password"))
+            m_dbOptions.password = Util::String::getOptValueAsStr(curLine.ToStdString());
     }
 
     iniFile.Close();
