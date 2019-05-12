@@ -81,12 +81,12 @@ void EventWorker::OnSocketEvent(wxSocketEvent& pEvent)
             break;
 
         case wxSOCKET_CONNECTION:
-            LogWorker("Unexpected wxSOCKET_CONNECTION in EventWorker", wxLOG_Error);
+            LogWorker("Evento inesperado wxSOCKET_CONNECTION.", wxLOG_Error);
             break;
 
         case wxSOCKET_LOST:
             {
-                LogWorker("Connection lost");
+                LogWorker("Desconectado.");
                 WorkerEvent e(this);
                 e.m_workerFailed = m_written != m_size;
                 wxGetApp().AddPendingEvent(e);
@@ -130,7 +130,7 @@ void EventWorker::assertSocketError()
     {
         if (m_socket->LastError() != wxSOCKET_WOULDBLOCK)
         {
-            LogWorker(wxString::Format("Read error (%d): %s", m_socket->LastError(), 
+            LogWorker(wxString::Format("Error en Socket (%d): %s", m_socket->LastError(), 
                             GetSocketErrorMsg(m_socket->LastError())), wxLOG_Error);
 
             m_socket->Close();
