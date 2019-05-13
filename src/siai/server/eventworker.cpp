@@ -129,13 +129,13 @@ void  EventWorker::DoWrite()
         {
             if (m_socket->LastError() != wxSOCKET_WOULDBLOCK)
             {
-                LogWorker(wxString::Format( "Write error (%d): %s", m_socket->LastError(), 
+                LogWorker(wxString::Format( "Error de Escritura (%d): %s", m_socket->LastError(), 
                                             GetSocketErrorMsg(m_socket->LastError()) ) ,wxLOG_Error);
                 m_socket->Close();
             }
             else
             {
-                LogWorker("Write would block, waiting for OUTPUT event");
+                LogWorker("Escribir ahora bloquearia el servidor, esperando por evento OUTPUT...");
             }
         }
         else
@@ -151,10 +151,9 @@ void EventWorker::assertSocketError()
 {
     if (m_socket->Error())
     {
-        LogWorker(wxT("Hay un peo."));
         if (m_socket->LastError() != wxSOCKET_WOULDBLOCK)
         {
-            LogWorker(wxString::Format("Error en Socket (%d): %s", m_socket->LastError(), 
+            LogWorker(wxString::Format("Error en Lectura (%d): %s", m_socket->LastError(), 
                             GetSocketErrorMsg(m_socket->LastError())), wxLOG_Error);
 
             m_socket->Close();
