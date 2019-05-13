@@ -86,23 +86,26 @@ void ServerControl::loadDbOptions()
     iniFile.Open();
 
     wxString curLine;
+    std::string curLineStr;
     for(unsigned int i = 0; i < iniFile.GetLineCount(); ++i)
     {
         curLine = iniFile.GetLine(i);
+        curLineStr = curLine.ToStdString();
 
+        using namespace Util;
         if(curLine.StartsWith("host"))
-            m_dbOptions.host = Util::String::getOptValueAsStr(curLine.ToStdString());
+            m_dbOptions.host = String::getOptValueAsStr(curLineStr);
 
         else if(curLine.StartsWith("port"))
         {
-            m_dbOptions.port = static_cast<unsigned int>(Util::String::getOptValueAsInt(curLine.ToStdString()));
+            m_dbOptions.port = static_cast<unsigned int>(String::getOptValueAsInt(curLineStr));
         }
 
         else if(curLine.StartsWith("username"))
-            m_dbOptions.user = Util::String::getOptValueAsStr(curLine.ToStdString());
+            m_dbOptions.user = String::getOptValueAsStr(curLineStr);
 
         else if(curLine.StartsWith("password"))
-            m_dbOptions.password = Util::String::getOptValueAsStr(curLine.ToStdString());
+            m_dbOptions.password = String::getOptValueAsStr(curLineStr);
     }
 
     iniFile.Close();
