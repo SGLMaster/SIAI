@@ -3,6 +3,7 @@
 #include "database/database.hpp"
 
 #include <memory>
+#include <string>
 
 class SIAIMap;
 
@@ -12,6 +13,8 @@ using MapPtr = std::unique_ptr<SIAIMap>;
 class ServerControl
 {
 private:
+    static constexpr char CMD_VAL_SEPARATOR = ':';
+
     MapPtr m_mapControl;
 
     DbConnectorPtr m_dbConnector;
@@ -23,6 +26,8 @@ public:
 
     void configure();
     void init();
+
+    void processCommand(const std::string& command);
 
 private:
     void saveDbOptions() const;

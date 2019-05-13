@@ -62,6 +62,12 @@ void ServerControl::init()
 	m_mapControl->loadFromDb(*m_dbConnector);
 }
 
+void ServerControl::processCommand(const std::string& command)
+{
+    Log::simple(Util::String::getOptionName(command, CMD_VAL_SEPARATOR), true);
+    Log::simple(Util::String::getOptValueAsStr(command, CMD_VAL_SEPARATOR), true);
+}
+
 void ServerControl::saveDbOptions() const
 {
     wxTextFile iniFile(wxT("database.ini"));
