@@ -121,7 +121,7 @@ void ServerApp::OnSocketEvent(wxSocketEvent& pEvent)
                 wxLogMessage("Got connection from %s:%d",addr.IPAddress().c_str(), addr.Service());
             }
 
-            EventWorker* w = new EventWorker(sock);
+            EventWorker* w = new EventWorker(sock, m_serverControl.get());
             m_eventWorkers.Append(w);
         }
         break;

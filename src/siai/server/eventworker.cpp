@@ -47,7 +47,8 @@ const char *GetSocketErrorMsg(int pSockError)
     }
 }
 
-EventWorker::EventWorker(wxSocketBase* pSock) : m_socket(pSock)
+EventWorker::EventWorker(wxSocketBase* pSock, ServerControl* serverControl) : 
+            m_socket{pSock}, m_serverControl{serverControl}
 {
     m_socket->SetNotify(wxSOCKET_LOST_FLAG|wxSOCKET_INPUT_FLAG|wxSOCKET_OUTPUT_FLAG);
     m_socket->Notify(true);
@@ -99,24 +100,22 @@ void EventWorker::DoRead()
 {
     m_inBuffer.clear();
     char c;
-
+    
     do
     {
         m_socket->Read(&c, 1);
-        if(c == '\r')
-            break;
-        else if(c == '\n')
+        if(c == '\n')
             break;
         m_inBuffer += c;
 
         assertSocketError();
     }
     while(!m_socket->Error());
+    
+    //m_socket->Discard();
 
-    //Discard every character after '\r' or '\n' we don't need them
-    m_socket->Discard();
-
-    LogWorker(wxString::Format("Mensaje en Socket: %s", m_inBuffer));
+    LogWorker(wxString::Format("Mensaje en Socket: %s", std::string(m_inBuffer)));
+    m_serverControl->processCommand(m_inBuffer);
 };
 
 void  EventWorker::DoWrite()
@@ -128,6 +127,7 @@ void EventWorker::assertSocketError()
 {
     if (m_socket->Error())
     {
+        LogWorker(wxT("Hay un peo."));
         if (m_socket->LastError() != wxSOCKET_WOULDBLOCK)
         {
             LogWorker(wxString::Format("Error en Socket (%d): %s", m_socket->LastError(), 
