@@ -8,17 +8,17 @@ bool Util::String::startsWith(const std::string& mainStr, const std::string& toM
     return false;
 }
 
-int Util::String::getOptValueAsInt(const std::string& line)
+int Util::String::getOptValueAsInt(const std::string& line, const std::string& separator)
 {
-    std::string tmpStr = getOptValueAsStr(line);
+    std::string tmpStr = getOptValueAsStr(line, separator);
     long tmpValue = strtol(tmpStr.c_str(), NULL, 10);
 
     return static_cast<int>(tmpValue);
 }
 
-std::string Util::String::getOptValueAsStr(const std::string& line)
+std::string Util::String::getOptValueAsStr(const std::string& line, const std::string& separator)
 {
-    return trim(line.substr(line.find("=") + 1));
+    return trim(line.substr(line.find(separator) + 1));
 }
 
 std::string Util::String::trim(const std::string& str)
