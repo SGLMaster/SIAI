@@ -8,12 +8,12 @@ bool Util::String::startsWith(const std::string& mainStr, const std::string& toM
     return false;
 }
 
-std::string Util::String::getOptionName(const std::string& line, const std::string& separator)
+std::string Util::String::getOptionName(const std::string& line, char separator)
 {
     return trim(line.substr(0, line.find(separator) - 1));
 }
 
-int Util::String::getOptValueAsInt(const std::string& line, const std::string& separator)
+int Util::String::getOptValueAsInt(const std::string& line, char separator)
 {
     std::string tmpStr = getOptValueAsStr(line, separator);
     long tmpValue = strtol(tmpStr.c_str(), NULL, 10);
@@ -21,7 +21,7 @@ int Util::String::getOptValueAsInt(const std::string& line, const std::string& s
     return static_cast<int>(tmpValue);
 }
 
-std::string Util::String::getOptValueAsStr(const std::string& line, const std::string& separator)
+std::string Util::String::getOptValueAsStr(const std::string& line, char separator)
 {
     return trim(line.substr(line.find(separator) + 1));
 }
