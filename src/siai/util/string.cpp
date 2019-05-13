@@ -10,7 +10,9 @@ bool Util::String::startsWith(const std::string& mainStr, const std::string& toM
 
 std::string Util::String::getOptionName(const std::string& line, char separator)
 {
-    return trim(line.substr(0, line.find(separator) - 1));
+    size_t separatorPosition = line.find(separator);
+
+    return trim(line.substr(0, separatorPosition));
 }
 
 int Util::String::getOptValueAsInt(const std::string& line, char separator)
@@ -23,7 +25,9 @@ int Util::String::getOptValueAsInt(const std::string& line, char separator)
 
 std::string Util::String::getOptValueAsStr(const std::string& line, char separator)
 {
-    return trim(line.substr(line.find(separator) + 1));
+    size_t separatorPosition = line.find(separator);
+
+    return (separatorPosition == std::string::npos) ? "" : trim(line.substr(separatorPosition + 1));
 }
 
 std::string Util::String::trim(const std::string& str)
