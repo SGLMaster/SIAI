@@ -8,6 +8,11 @@ bool Util::String::startsWith(const std::string& mainStr, const std::string& toM
     return false;
 }
 
+std::string Util::String::getOptionName(const std::string& line, const std::string& separator)
+{
+    return trim(line.substr(0, line.find(separator) - 1));
+}
+
 int Util::String::getOptValueAsInt(const std::string& line, const std::string& separator)
 {
     std::string tmpStr = getOptValueAsStr(line, separator);
