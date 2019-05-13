@@ -27,7 +27,7 @@ public:
     void configure();
     void init();
 
-    void processCommand(const std::string& command);
+    std::string processCommand(const std::string& command);
 
 private:
     void saveDbOptions() const;

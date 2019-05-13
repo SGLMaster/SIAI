@@ -114,13 +114,37 @@ void EventWorker::DoRead()
     
     //m_socket->Discard();
 
-    LogWorker(wxString::Format("Mensaje en Socket: %s", std::string(m_inBuffer)));
-    m_serverControl->processCommand(m_inBuffer);
+    //LogWorker(wxString::Format("Mensaje en Socket: %s", std::string(m_inBuffer)));
+
+    m_outBuffer = m_serverControl->processCommand(m_inBuffer);
+    DoWrite();
 };
 
 void  EventWorker::DoWrite()
 {
-    
+    do
+    {
+        m_socket->Write(m_outBuffer.c_str(), m_outBuffer.size());
+        if (m_socket->Error())
+        {
+            if (m_socket->LastError() != wxSOCKET_WOULDBLOCK)
+            {
+                LogWorker(wxString::Format( "Write error (%d): %s", m_socket->LastError(), 
+                                            GetSocketErrorMsg(m_socket->LastError()) ) ,wxLOG_Error);
+                m_socket->Close();
+            }
+            else
+            {
+                LogWorker("Write would block, waiting for OUTPUT event");
+            }
+        }
+        else
+        {
+            m_outBuffer.clear();
+            break;
+        }
+    }
+    while (!m_socket->Error());
 }
 
 void EventWorker::assertSocketError()

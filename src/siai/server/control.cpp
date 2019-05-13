@@ -62,10 +62,16 @@ void ServerControl::init()
 	m_mapControl->loadFromDb(*m_dbConnector);
 }
 
-void ServerControl::processCommand(const std::string& command)
+std::string ServerControl::processCommand(const std::string& command)
 {
-    Log::simple(Util::String::getOptionName(command, CMD_VAL_SEPARATOR), true);
-    Log::simple(Util::String::getOptValueAsStr(command, CMD_VAL_SEPARATOR), true);
+    using namespace Util;
+    std::string option = String::getOptionName(command, CMD_VAL_SEPARATOR);
+    std::string value = String::getOptValueAsStr(command, CMD_VAL_SEPARATOR);
+
+    if(option == "AGV-POS")
+        return "AGV-POS:OK";
+
+    return "UNK";
 }
 
 void ServerControl::saveDbOptions() const
