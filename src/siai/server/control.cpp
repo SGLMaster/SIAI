@@ -65,11 +65,24 @@ void ServerControl::init()
 std::string ServerControl::processCommand(const std::string& command)
 {
     using namespace Util;
-    std::string option = String::getOptionName(command, CMD_VAL_SEPARATOR);
-    std::string value = String::getOptValueAsStr(command, CMD_VAL_SEPARATOR);
+    auto args = String::split<std::vector<std::string>>(command, CMD_VAL_SEPARATOR);
 
-    if(option == "AGV-POS")
-        return "AGV-POS:OK";
+    std::string entityType;
+    std::string entityId;
+    std::string commandName;
+
+    if(args.size() > 0)
+        entityType = String::trim(args[0]);
+    if(args.size() > 1)
+        entityId = String::trim(args[1]);
+    if(args.size() > 2)
+        commandName = String::trim(args[2]);
+
+    if(entityType == "AGV")
+    {
+        if(entityId != "")
+            return std::string("AGV ID ") + entityId + " OK";
+    }
 
     return "UNK";
 }
