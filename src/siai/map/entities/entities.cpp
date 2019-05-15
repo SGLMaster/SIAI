@@ -96,18 +96,10 @@ void Entities::updateAgvsFromQueryRows(Container& entities, const std::vector<Db
         MapDirection agvDirection = static_cast<MapDirection>(agvDirectionValue);
         MapPosition agvPosition{agvCol, agvRow};
         
-        auto findAgvWithId = [&agvId](const Entities::Pointer& entity)
-                                    {
-                                        bool entityIsAnAgv = dynamic_cast<IAgv*>(entity.get()) != nullptr;
+        auto agvFound = getAgvWithId(entities, agvId);
 
-                                        return entity->getId() == agvId
-                                                && entityIsAnAgv;
-                                    };
-
-        Entities::Iterator agvFound = std::find_if(entities.begin(), entities.end(), findAgvWithId);
-
-        (*agvFound)->setPosition(agvPosition);
-        (*agvFound)->setDirection(agvDirection);
+        agvFound->setPosition(agvPosition);
+        agvFound->setDirection(agvDirection);
     }
 }
 
@@ -204,6 +196,26 @@ void Entities::eraseAgvOnDbWithId(DbConnector& connector, const std::string& map
 	SqlDeleteRowQuery eraseAgvQuery(SIAIGlobals::DB_AGVS_TABLE_PREFIX + mapName, whereCondition.generateString());
 
 	connector.executeQueryWithoutResults(eraseAgvQuery);
+}
+
+Entities::Pointer& Entities::getAgvWithId(Entities::Container& entities, int id)
+{
+    auto findAgvWithId = [&id](const Entities::Pointer& entity)
+                                    {
+                                        bool entityIsAnAgv = dynamic_cast<IAgv*>(entity.get()) != nullptr;
+
+                                        return entity->getId() == id
+                                                && entityIsAnAgv;
+                                    };
+
+    auto agvFound = std::find_if(entities.begin(), entities.end(), findAgvWithId);
+
+    if(agvFound == entities.end())
+	{
+		throw EntityNotFound();
+	}
+
+    return *agvFound;
 }
 
 Entities::Pointer& Entities::getEntityByPosition(Entities::Container& entities, const MapPosition& position)
