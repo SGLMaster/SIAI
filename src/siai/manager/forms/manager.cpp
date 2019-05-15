@@ -86,6 +86,7 @@ ManagerFrame::ManagerFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->SetMenuBar( m_menubar );
 
 	m_statusBar = this->CreateStatusBar( 3, wxSTB_ELLIPSIZE_END|wxSTB_SIZEGRIP, wxID_ANY );
+	m_timerRefreshMap.SetOwner( this, wxID_ANY );
 
 	this->Centre( wxBOTH );
 
@@ -108,6 +109,7 @@ ManagerFrame::ManagerFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	m_menuMap->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ManagerFrame::OnSelectionNewMap ), this, m_menuItemNewMap->GetId());
 	m_menuMap->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ManagerFrame::OnSelectionLoadMap ), this, m_menuItemLoadMap->GetId());
 	m_menuDatabase->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ManagerFrame::OnSelectionDbSettings ), this, m_menuItemDbSettings->GetId());
+	this->Connect( wxID_ANY, wxEVT_TIMER, wxTimerEventHandler( ManagerFrame::OnTimerRefreshMap ) );
 }
 
 ManagerFrame::~ManagerFrame()
@@ -128,6 +130,7 @@ ManagerFrame::~ManagerFrame()
 	m_scrolledMapPanel->Disconnect( wxEVT_LEAVE_WINDOW, wxMouseEventHandler( ManagerFrame::OnLeaveMapPanel ), NULL, this );
 	m_scrolledMapPanel->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( ManagerFrame::OnLeftClickMapPanel ), NULL, this );
 	m_scrolledMapPanel->Disconnect( wxEVT_PAINT, wxPaintEventHandler( ManagerFrame::OnPaintMapPanel ), NULL, this );
+	this->Disconnect( wxID_ANY, wxEVT_TIMER, wxTimerEventHandler( ManagerFrame::OnTimerRefreshMap ) );
 
 }
 

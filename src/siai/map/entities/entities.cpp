@@ -84,6 +84,33 @@ void Entities::loadAgvsFromQueryRows(Container& entities, const std::vector<DbRo
     }
 }
 
+void Entities::updateAgvsFromQueryRows(Container& entities, const std::vector<DbRow>& rows)
+{
+    for (const DbRow& agvDataRow : rows) 
+    {
+        int agvId = agvDataRow[0];
+        int agvCol = agvDataRow[1];
+        int agvRow = agvDataRow[2];
+        int agvDirectionValue = agvDataRow[3];
+
+        MapDirection agvDirection = static_cast<MapDirection>(agvDirectionValue);
+        MapPosition agvPosition{agvCol, agvRow};
+        
+        auto findAgvWithId = [&agvId](const Entities::Pointer& entity)
+                                    {
+                                        bool entityIsAnAgv = dynamic_cast<IAgv*>(entity.get()) != nullptr;
+
+                                        return entity->getId() == agvId
+                                                && entityIsAnAgv;
+                                    };
+
+        Entities::Iterator agvFound = std::find_if(entities.begin(), entities.end(), findAgvWithId);
+
+        (*agvFound)->setPosition(agvPosition);
+        (*agvFound)->setDirection(agvDirection);
+    }
+}
+
 int Entities::getNumberOfMapColsFromDbRows(const std::vector<DbRow>& rows)
 {
     int numberOfCols = 0;

@@ -33,6 +33,7 @@ public:
     virtual std::string getName() = 0;
 
     virtual void loadFromDb(DbConnector& connector) = 0;
+    virtual void updateFromDb(DbConnector& connector) = 0;
 
     virtual void reset(int numberOfColumns, int numberOfRows) = 0;
     virtual void repaint(Painter& painter) = 0;

@@ -42,6 +42,7 @@ public:
     virtual std::string getName() override;
 
     virtual void loadFromDb(DbConnector& connector) override;
+    virtual void updateFromDb(DbConnector& connector) override;
 
     virtual void reset(int numberOfColumns, int numberOfRows) override;
     virtual void repaint(Painter& painter) override;
@@ -65,6 +66,8 @@ private:
 
     void loadCellsFromDb(DbConnector& connector);
     void loadAgvsFromDb(DbConnector& connector);
+
+    void updateAgvsFromDb(DbConnector& connector);
 
     void createCellsDbTable(DbConnector& connector);
     void fillCellsDbTable(DbConnector& connector);

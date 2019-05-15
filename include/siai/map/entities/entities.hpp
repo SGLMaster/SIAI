@@ -22,6 +22,8 @@ namespace Entities
     void loadCellsFromQueryRows(Container& entities, const std::vector<DbRow>& rows);
     void loadAgvsFromQueryRows(Container& entities, const std::vector<DbRow>& rows);
 
+    void updateAgvsFromQueryRows(Container& entities, const std::vector<DbRow>& rows);
+
     int getNumberOfMapColsFromDbRows(const std::vector<DbRow>& rows);
     int getNumberOfMapRowsFromDbRows(const std::vector<DbRow>& rows);
 

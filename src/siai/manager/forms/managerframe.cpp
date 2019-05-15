@@ -49,6 +49,8 @@ void ManagerFrame::loadMap(const std::string& mapName)
     m_mapControl->setName(mapName);
 	m_mapControl->loadFromDb(*m_dbConnector);
 
+    m_timerRefreshMap.Start();
+
     updateFrameTitle();
     repaintMapNow();
     updateScrollbarsSize();
@@ -185,6 +187,16 @@ void ManagerFrame::OnPaintMapPanel( wxPaintEvent& event )
 {
     wxPaintDC paintDC(m_scrolledMapPanel);
     prepareDCAndPaintMap(paintDC);
+}
+
+void ManagerFrame::OnTimerRefreshMap(wxTimerEvent& event)
+{
+    if(m_mapControl)
+    {
+        m_mapControl->updateFromDb(*m_dbConnector);
+
+        repaintMapNow();
+    }
 }
 
 void ManagerFrame::tryToConnectToDatabase()

@@ -86,6 +86,8 @@ private:
 
     virtual void OnPaintMapPanel(wxPaintEvent& event) override;
 
+    virtual void OnTimerRefreshMap(wxTimerEvent& event) override;
+
     void tryToConnectToDatabase();
     void assertDatabaseConnected();
 

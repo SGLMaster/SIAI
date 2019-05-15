@@ -25,6 +25,7 @@
 #include <wx/sizer.h>
 #include <wx/menu.h>
 #include <wx/statusbr.h>
+#include <wx/timer.h>
 #include <wx/frame.h>
 #include <wx/textctrl.h>
 #include <wx/button.h>
@@ -61,6 +62,7 @@ namespace Forms
 			wxMenu* m_menuMap;
 			wxMenu* m_menuDatabase;
 			wxStatusBar* m_statusBar;
+			wxTimer m_timerRefreshMap;
 
 			// Virtual event handlers, overide them in your derived class
 			virtual void OnToolSelect( wxCommandEvent& event ) = 0;
@@ -81,6 +83,7 @@ namespace Forms
 			virtual void OnSelectionNewMap( wxCommandEvent& event ) = 0;
 			virtual void OnSelectionLoadMap( wxCommandEvent& event ) = 0;
 			virtual void OnSelectionDbSettings( wxCommandEvent& event ) = 0;
+			virtual void OnTimerRefreshMap( wxTimerEvent& event ) = 0;
 
 
 		public:
