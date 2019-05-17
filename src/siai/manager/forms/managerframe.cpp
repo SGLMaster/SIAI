@@ -60,6 +60,8 @@ void ManagerFrame::initializeNewMap(int numberOfColumns, int numberOfRows, const
     m_mapControl->reset(numberOfColumns, numberOfRows);
     m_mapControl->createDatabaseTables(*m_dbConnector);
 
+    m_editingEnabled = true;
+
     updateFrameTitle();
     repaintMapNow();
     updateScrollbarsSize();
@@ -71,6 +73,8 @@ void ManagerFrame::loadMap(const std::string& mapName)
 	m_mapControl->loadFromDb(*m_dbConnector);
 
     m_timerRefreshMap.Start();
+
+    m_editingEnabled = false;
 
     updateFrameTitle();
     repaintMapNow();
@@ -186,6 +190,8 @@ void ManagerFrame::OnToolConnectDatabase(wxCommandEvent& event)
 
 void ManagerFrame::OnToolPlay(wxCommandEvent& event)
 {
+    m_toolAddAgv->Enable(false);
+
     if(isDbConnected() && m_mapControl->getName() != "")
     {
         createAndRunUpdateMapThread();

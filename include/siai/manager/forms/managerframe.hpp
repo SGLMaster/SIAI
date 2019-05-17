@@ -41,6 +41,7 @@ private:
 
     SIAIMap* m_mapControl;
 
+    bool m_editingEnabled{false};
     Tool m_currentTool{Tool::SELECT};
 
     int m_mapPanelZoom{1};
