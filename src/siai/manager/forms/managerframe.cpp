@@ -98,7 +98,7 @@ void ManagerFrame::OnLeftClickMapPanel(wxMouseEvent& event)
 
 void ManagerFrame::OnSelectionNewMap(wxCommandEvent& event)
 {
-    if(!assertDbConnected())
+    if(!isDbConnectedMessages())
         return;
 
     resetUpdateMapThread();
@@ -110,7 +110,7 @@ void ManagerFrame::OnSelectionNewMap(wxCommandEvent& event)
 
 void ManagerFrame::OnSelectionLoadMap(wxCommandEvent& event)
 {
-    if(!assertDbConnected())
+    if(!isDbConnectedMessages())
         return;
 
     resetUpdateMapThread();
@@ -263,7 +263,7 @@ void ManagerFrame::resetUpdateMapThread()
     }
 }
 
-bool ManagerFrame::assertDbConnected()
+bool ManagerFrame::isDbConnectedMessages()
 {
     std::string disconnectedMsg{"Base de datos desconectada!"};
 
