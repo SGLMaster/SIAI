@@ -93,6 +93,8 @@ private:
 
     void createAndRunUpdateMapThread();
 
+    bool assertDbConnected();
+
     void tryToConnectToDatabase();
     void assertDatabaseConnected();
 

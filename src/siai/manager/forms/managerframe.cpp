@@ -102,11 +102,8 @@ void ManagerFrame::OnLeftClickMapPanel(wxMouseEvent& event)
 
 void ManagerFrame::OnSelectionNewMap(wxCommandEvent& event)
 {
-    if(!m_dbConnector)
-	{
-		Log::warning("Base de datos desconectada! No se puede guardar el mapa!");
-		return;
-	}
+    if(!assertDbConnected())
+        return;
 
     NewMapDialog* newMapDialog = new NewMapDialog(this);
     newMapDialog->Show();
@@ -115,11 +112,8 @@ void ManagerFrame::OnSelectionNewMap(wxCommandEvent& event)
 
 void ManagerFrame::OnSelectionLoadMap(wxCommandEvent& event)
 {
-    if(!m_dbConnector)
-	{
-		Log::warning("Base de datos desconectada! No se puede abrir ningún mapa!");
-		return;
-	}
+    if(!assertDbConnected())
+        return;
 
     // If there's already one UpdateMapThread created running we destroy it and reset
     // the pointer so we can start a new one
@@ -254,6 +248,27 @@ void ManagerFrame::createAndRunUpdateMapThread()
             exit(-1);
         }
     }
+}
+
+bool ManagerFrame::assertDbConnected()
+{
+    std::string disconnectedMsg{"Base de datos desconectada!"};
+
+    if(!m_dbConnector)
+	{
+		Log::warning(disconnectedMsg);
+		return false;
+	}
+    else
+    {
+        if(!m_dbConnector->isConnected())
+        {
+            Log::warning(disconnectedMsg);
+		    return false;
+        }
+    }
+
+    return true;
 }
 
 void ManagerFrame::tryToConnectToDatabase()
