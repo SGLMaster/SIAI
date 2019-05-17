@@ -5,7 +5,7 @@
 
 IMPLEMENT_APP(ManagerApp)
 
-ManagerApp::ManagerApp() : m_shuttingDown{false} {}
+ManagerApp::ManagerApp() : m_updateMapThread{NULL}, m_shuttingDown{false} {}
 
 ManagerApp::~ManagerApp() = default;
 

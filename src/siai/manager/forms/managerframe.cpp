@@ -78,11 +78,14 @@ void ManagerFrame::loadMap(const std::string& mapName)
     repaintMapNow();
     updateScrollbarsSize();
 
-    ManagerThread* thread = createUpdateMapThread();
-
-    if(thread->Run() != wxTHREAD_NO_ERROR)
+    if(wxGetApp().m_updateMapThread == NULL)
     {
-        Log::error("No se puede iniciar el thread!");
+        ManagerThread* thread = createUpdateMapThread();
+
+        if(thread->Run() != wxTHREAD_NO_ERROR)
+        {
+            Log::error("No se puede iniciar el thread!");
+        }
     }
 }
 
@@ -125,6 +128,18 @@ void ManagerFrame::OnSelectionLoadMap(wxCommandEvent& event)
 		Log::warning("Base de datos desconectada! No se puede abrir ningún mapa!");
 		return;
 	}
+
+    // If there's already one UpdateMapThread created running we remove it from the list, destroy it and reset
+    // the pointer so we can start a new one
+    if(wxGetApp().m_updateMapThread != NULL)
+    {
+        wxArrayThread& threads = wxGetApp().m_threads;
+        threads.Remove(wxGetApp().m_updateMapThread);
+
+        wxGetApp().m_updateMapThread->Delete();
+
+        wxGetApp().m_updateMapThread = NULL;
+    }
 
 	LoadMapDialog* loadMapDialog = new LoadMapDialog(this);
     loadMapDialog->loadMapsListFromDb(*m_dbConnector);
