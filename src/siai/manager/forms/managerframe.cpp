@@ -63,8 +63,6 @@ void ManagerFrame::initializeNewMap(int numberOfColumns, int numberOfRows, const
     updateFrameTitle();
     repaintMapNow();
     updateScrollbarsSize();
-
-    createAndRunUpdateMapThread();
 }
 
 void ManagerFrame::loadMap(const std::string& mapName)
@@ -77,8 +75,6 @@ void ManagerFrame::loadMap(const std::string& mapName)
     updateFrameTitle();
     repaintMapNow();
     updateScrollbarsSize();
-
-    createAndRunUpdateMapThread();
 }
 
 void ManagerFrame::OnLeftClickMapPanel(wxMouseEvent& event)
@@ -186,6 +182,16 @@ void ManagerFrame::OnToolConnectDatabase(wxCommandEvent& event)
 	tryToConnectToDatabase();
 
     updateFrameTitle();
+}
+
+void ManagerFrame::OnToolPlay(wxCommandEvent& event)
+{
+    if(isDbConnected() && m_mapControl->getName() != "")
+    {
+        createAndRunUpdateMapThread();
+
+        m_toolPlay->Enable(false);
+    }
 }
 
 void ManagerFrame::OnSliderZoom(wxCommandEvent& event)
