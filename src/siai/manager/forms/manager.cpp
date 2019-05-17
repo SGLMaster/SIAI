@@ -26,7 +26,7 @@ ManagerFrame::ManagerFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 
 	m_toolBlockedCell = m_toolBar1->AddTool( wxID_ANY, _("Celda Bloqueada"), wxBitmap( wxT("resources/tools/blocked-cell.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, _("Celda Bloqueada"), _("Celda Bloqueada"), NULL );
 
-	m_toolParkingCell = m_toolBar1->AddTool( wxID_ANY, _("tool"), wxBitmap( wxT("resources/tools/parking-cell.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, wxEmptyString, wxEmptyString, NULL );
+	m_toolParkingCell = m_toolBar1->AddTool( wxID_ANY, _("Parking"), wxBitmap( wxT("resources/tools/parking-cell.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, _("Parking"), _("Parking"), NULL );
 
 	m_toolAddAgv = m_toolBar1->AddTool( wxID_ANY, _("Agregar Agv"), wxBitmap( wxT("resources/tools/regular-agv.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, _("Agregar Agv"), _("Agregar Agv"), NULL );
 

@@ -160,11 +160,11 @@
                             <property name="context_menu">0</property>
                             <property name="id">wxID_ANY</property>
                             <property name="kind">wxITEM_RADIO</property>
-                            <property name="label">tool</property>
+                            <property name="label">Parking</property>
                             <property name="name">m_toolParkingCell</property>
                             <property name="permission">protected</property>
-                            <property name="statusbar"></property>
-                            <property name="tooltip"></property>
+                            <property name="statusbar">Parking</property>
+                            <property name="tooltip">Parking</property>
                             <event name="OnToolClicked">OnToolParkingCell</event>
                         </object>
                         <object class="tool" expanded="0">
