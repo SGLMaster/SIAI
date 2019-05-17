@@ -22,6 +22,8 @@ public:
     virtual void undo(Entities::Container& entities, DbConnector& connector) override;
     virtual void redo(Entities::Container& entities, DbConnector& connector) override;
 
+    virtual void clear() override;
+
 private:
     void tryToExecuteAndLog(Entities::Container& entities, DbConnector& connector, std::deque<std::string>& arguments);
     void doExecuteAndLog(Entities::Container& entities, DbConnector& connector, std::deque<std::string>& arguments);

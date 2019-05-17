@@ -90,6 +90,8 @@ void SIAIMapImp::reset(int numberOfColumns, int numberOfRows)
 
     m_selectedEntities.resize(0);
     m_entities.resize(0);
+    
+    m_commandStream->clear();
 
     Entities::generateMapCells(m_entities, m_numberOfColumns, m_numberOfRows);
 }

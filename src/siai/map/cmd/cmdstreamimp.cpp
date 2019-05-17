@@ -39,6 +39,11 @@ void CommandStreamImp::redo(Entities::Container& entities, DbConnector& connecto
     }
 }
 
+void CommandStreamImp::clear()
+{
+	m_commands.resize(0);
+}
+
 void CommandStreamImp::tryToExecuteAndLog(Entities::Container& entities, DbConnector& connector,
 		std::deque<std::string>& arguments)
 {
