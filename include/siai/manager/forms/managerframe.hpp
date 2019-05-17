@@ -92,6 +92,7 @@ private:
     virtual void OnTimerRefreshMap(wxTimerEvent& event) override;
 
     void createAndRunUpdateMapThread();
+    void resetUpdateMapThread();
 
     bool assertDbConnected();
 

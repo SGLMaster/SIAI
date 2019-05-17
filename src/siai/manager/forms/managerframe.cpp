@@ -65,6 +65,9 @@ void ManagerFrame::initializeNewMap(int numberOfColumns, int numberOfRows, const
     updateFrameTitle();
     repaintMapNow();
     updateScrollbarsSize();
+
+    resetUpdateMapThread();
+    createAndRunUpdateMapThread();
 }
 
 void ManagerFrame::loadMap(const std::string& mapName)
@@ -78,6 +81,7 @@ void ManagerFrame::loadMap(const std::string& mapName)
     repaintMapNow();
     updateScrollbarsSize();
 
+    resetUpdateMapThread();
     createAndRunUpdateMapThread();
 }
 
@@ -114,15 +118,6 @@ void ManagerFrame::OnSelectionLoadMap(wxCommandEvent& event)
 {
     if(!assertDbConnected())
         return;
-
-    // If there's already one UpdateMapThread created running we destroy it and reset
-    // the pointer so we can start a new one
-    if(wxGetApp().m_updateMapThread != NULL)
-    {
-        wxGetApp().m_updateMapThread->Delete();
-
-        wxGetApp().m_updateMapThread = NULL;
-    }
 
 	LoadMapDialog* loadMapDialog = new LoadMapDialog(this);
     loadMapDialog->loadMapsListFromDb(*m_dbConnector);
@@ -247,6 +242,18 @@ void ManagerFrame::createAndRunUpdateMapThread()
             Log::error("No se puede iniciar el thread!");
             exit(-1);
         }
+    }
+}
+
+void ManagerFrame::resetUpdateMapThread()
+{
+    // If there's already one UpdateMapThread created running we destroy it and reset
+    // the pointer so we can start a new one
+    if(wxGetApp().m_updateMapThread != NULL)
+    {
+        wxGetApp().m_updateMapThread->Delete();
+
+        wxGetApp().m_updateMapThread = NULL;
     }
 }
 
