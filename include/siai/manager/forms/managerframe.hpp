@@ -91,7 +91,7 @@ private:
 
     virtual void OnTimerRefreshMap(wxTimerEvent& event) override;
 
-    ManagerThread* createUpdateMapThread();
+    void createAndRunUpdateMapThread();
 
     void tryToConnectToDatabase();
     void assertDatabaseConnected();

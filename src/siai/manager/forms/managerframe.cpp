@@ -78,15 +78,7 @@ void ManagerFrame::loadMap(const std::string& mapName)
     repaintMapNow();
     updateScrollbarsSize();
 
-    if(wxGetApp().m_updateMapThread == NULL)
-    {
-        ManagerThread* thread = createUpdateMapThread();
-
-        if(thread->Run() != wxTHREAD_NO_ERROR)
-        {
-            Log::error("No se puede iniciar el thread!");
-        }
-    }
+    createAndRunUpdateMapThread();
 }
 
 void ManagerFrame::OnLeftClickMapPanel(wxMouseEvent& event)
@@ -129,13 +121,10 @@ void ManagerFrame::OnSelectionLoadMap(wxCommandEvent& event)
 		return;
 	}
 
-    // If there's already one UpdateMapThread created running we remove it from the list, destroy it and reset
+    // If there's already one UpdateMapThread created running we destroy it and reset
     // the pointer so we can start a new one
     if(wxGetApp().m_updateMapThread != NULL)
     {
-        wxArrayThread& threads = wxGetApp().m_threads;
-        threads.Remove(wxGetApp().m_updateMapThread);
-
         wxGetApp().m_updateMapThread->Delete();
 
         wxGetApp().m_updateMapThread = NULL;
@@ -242,20 +231,29 @@ void ManagerFrame::OnTimerRefreshMap(wxTimerEvent& event)
     }
 }
 
-ManagerThread* ManagerFrame::createUpdateMapThread()
+void ManagerFrame::createAndRunUpdateMapThread()
 {
-    ManagerThread* thread = new UpdateMapThread(m_mapControl, m_dbConnector.get());
-
-    if (thread->Create() != wxTHREAD_NO_ERROR)
+    // If the thread doesn't exist already
+    if(wxGetApp().m_updateMapThread == NULL)
     {
-        Log::error("No se puede crear el thread!");
+        ManagerThread* thread = new UpdateMapThread(m_mapControl, m_dbConnector.get());
+
+        if (thread->Create() != wxTHREAD_NO_ERROR)
+        {
+            Log::error("No se puede crear el thread!");
+            exit(-1);
+        }
+
+        wxCriticalSectionLocker enter(wxGetApp().m_criticalSection);
+        wxGetApp().m_updateMapThread = thread;
+        wxGetApp().m_threads.Add(wxGetApp().m_updateMapThread);
+
+        if(thread->Run() != wxTHREAD_NO_ERROR)
+        {
+            Log::error("No se puede iniciar el thread!");
+            exit(-1);
+        }
     }
-
-    wxCriticalSectionLocker enter(wxGetApp().m_criticalSection);
-    wxGetApp().m_threads.Add(thread);
-    wxGetApp().m_updateMapThread = thread;
-
-    return thread;
 }
 
 void ManagerFrame::tryToConnectToDatabase()
