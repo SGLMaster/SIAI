@@ -95,6 +95,7 @@ private:
     void resetUpdateMapThread();
 
     bool assertDbConnected();
+    bool isDbConnected();
 
     void tryToConnectToDatabase();
     void assertDatabaseConnected();

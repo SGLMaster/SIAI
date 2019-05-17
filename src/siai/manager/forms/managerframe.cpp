@@ -261,18 +261,25 @@ bool ManagerFrame::assertDbConnected()
 {
     std::string disconnectedMsg{"Base de datos desconectada!"};
 
-    if(!m_dbConnector)
+    if(!isDbConnected())
 	{
 		Log::warning(disconnectedMsg);
+		return false;
+	}
+
+    return true;
+}
+
+bool ManagerFrame::isDbConnected()
+{
+    if(!m_dbConnector)
+	{
 		return false;
 	}
     else
     {
         if(!m_dbConnector->isConnected())
-        {
-            Log::warning(disconnectedMsg);
 		    return false;
-        }
     }
 
     return true;
@@ -425,7 +432,7 @@ void ManagerFrame::updateFrameTitle()
     else
          newFrameTitle = m_originalFrameTitle;
     
-    if(m_dbConnector)
+    if(isDbConnected())
         newFrameTitle += " [Conectado]";
     else
         newFrameTitle += " [Desconectado]";
