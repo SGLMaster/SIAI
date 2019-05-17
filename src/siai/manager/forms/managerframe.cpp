@@ -64,7 +64,6 @@ void ManagerFrame::initializeNewMap(int numberOfColumns, int numberOfRows, const
     repaintMapNow();
     updateScrollbarsSize();
 
-    resetUpdateMapThread();
     createAndRunUpdateMapThread();
 }
 
@@ -79,7 +78,6 @@ void ManagerFrame::loadMap(const std::string& mapName)
     repaintMapNow();
     updateScrollbarsSize();
 
-    resetUpdateMapThread();
     createAndRunUpdateMapThread();
 }
 
@@ -107,6 +105,8 @@ void ManagerFrame::OnSelectionNewMap(wxCommandEvent& event)
     if(!assertDbConnected())
         return;
 
+    resetUpdateMapThread();
+
     NewMapDialog* newMapDialog = new NewMapDialog(this);
     newMapDialog->Show();
     Disable();
@@ -116,6 +116,8 @@ void ManagerFrame::OnSelectionLoadMap(wxCommandEvent& event)
 {
     if(!assertDbConnected())
         return;
+
+    resetUpdateMapThread();
 
 	LoadMapDialog* loadMapDialog = new LoadMapDialog(this);
     loadMapDialog->loadMapsListFromDb(*m_dbConnector);
