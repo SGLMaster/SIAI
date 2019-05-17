@@ -4,6 +4,7 @@
 #include "manager/forms/newmapdialog.hpp"
 #include "manager/forms/loadmapdialog.hpp"
 #include "manager/forms/dbsettingsdialog.hpp"
+#include "manager/threads.hpp"
 
 #include "painter/painter.hpp"
 
@@ -14,6 +15,8 @@
 
 #include "globals.hpp"
 #include "log.hpp"
+
+#include "manager/managerapp.hpp"
 
 #include <wx/dcclient.h>
 #include <wx/utils.h>
@@ -32,6 +35,26 @@ ManagerFrame::ManagerFrame(wxWindow* parent) : Forms::ManagerFrame(parent),
 
     updateFrameTitle();
 }
+
+ ManagerFrame::~ManagerFrame()
+ {
+     {
+        wxCriticalSectionLocker locker(wxGetApp().m_criticalSection);
+
+        // check if we have any threads running first
+        const wxArrayThread& threads = wxGetApp().m_threads;
+        size_t count = threads.GetCount();
+
+        if ( !count )
+            return;
+
+        // set the flag indicating that all threads should exit
+        wxGetApp().m_shuttingDown = true;
+    }
+
+    // now wait for them to really terminate
+    wxGetApp().m_semaphoreAllDone.Wait();
+ }
 
 void ManagerFrame::initializeNewMap(int numberOfColumns, int numberOfRows, const std::string& mapName)
 {
@@ -54,6 +77,13 @@ void ManagerFrame::loadMap(const std::string& mapName)
     updateFrameTitle();
     repaintMapNow();
     updateScrollbarsSize();
+
+    ManagerThread* thread = createUpdateMapThread();
+
+    if(thread->Run() != wxTHREAD_NO_ERROR)
+    {
+        Log::error("No se puede iniciar el thread!");
+    }
 }
 
 void ManagerFrame::OnLeftClickMapPanel(wxMouseEvent& event)
@@ -193,10 +223,24 @@ void ManagerFrame::OnTimerRefreshMap(wxTimerEvent& event)
 {
     if(m_mapControl)
     {
-        m_mapControl->updateFromDb(*m_dbConnector);
-
         repaintMapNow();
     }
+}
+
+ManagerThread* ManagerFrame::createUpdateMapThread()
+{
+    ManagerThread* thread = new UpdateMapThread(m_mapControl, m_dbConnector.get());
+
+    if (thread->Create() != wxTHREAD_NO_ERROR)
+    {
+        Log::error("No se puede crear el thread!");
+    }
+
+    wxCriticalSectionLocker enter(wxGetApp().m_criticalSection);
+    wxGetApp().m_threads.Add(thread);
+    wxGetApp().m_updateMapThread = thread;
+
+    return thread;
 }
 
 void ManagerFrame::tryToConnectToDatabase()

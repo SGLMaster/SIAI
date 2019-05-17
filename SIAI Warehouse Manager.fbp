@@ -538,7 +538,7 @@
                 <property name="id">wxID_ANY</property>
                 <property name="name">m_timerRefreshMap</property>
                 <property name="oneshot">0</property>
-                <property name="period">2000</property>
+                <property name="period">1000</property>
                 <property name="permission">protected</property>
                 <event name="OnTimer">OnTimerRefreshMap</event>
             </object>

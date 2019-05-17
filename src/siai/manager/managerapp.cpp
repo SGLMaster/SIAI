@@ -5,8 +5,15 @@
 
 IMPLEMENT_APP(ManagerApp)
 
+ManagerApp::ManagerApp() : m_shuttingDown{false} {}
+
+ManagerApp::~ManagerApp() = default;
+
 bool ManagerApp::OnInit()
 {
+    if (!wxApp::OnInit())
+        return false;
+
     createAndShowSplashScreen();
     initializeFrame();
 

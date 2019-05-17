@@ -14,6 +14,8 @@ class PanelData;
 
 class wxDC;
 
+class ManagerThread;
+
 enum class Tool
 {
     SELECT,
@@ -49,6 +51,7 @@ private:
 
 public:
     ManagerFrame(wxWindow* parent);
+    virtual ~ManagerFrame();
 
     void initializeNewMap(int numberOfColumns, int numberOfRows, const std::string& mapName);
     void loadMap(const std::string& mapName);
@@ -87,6 +90,8 @@ private:
     virtual void OnPaintMapPanel(wxPaintEvent& event) override;
 
     virtual void OnTimerRefreshMap(wxTimerEvent& event) override;
+
+    ManagerThread* createUpdateMapThread();
 
     void tryToConnectToDatabase();
     void assertDatabaseConnected();
