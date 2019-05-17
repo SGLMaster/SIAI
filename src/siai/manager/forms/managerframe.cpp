@@ -38,21 +38,19 @@ ManagerFrame::ManagerFrame(wxWindow* parent) : Forms::ManagerFrame(parent),
 
  ManagerFrame::~ManagerFrame()
  {
-     {
+    {
         wxCriticalSectionLocker locker(wxGetApp().m_criticalSection);
 
-        // check if we have any threads running first
         const wxArrayThread& threads = wxGetApp().m_threads;
-        size_t count = threads.GetCount();
+        size_t numberOfThreadsRunning = threads.GetCount();
 
-        if ( !count )
+        if(numberOfThreadsRunning == 0)
             return;
 
-        // set the flag indicating that all threads should exit
         wxGetApp().m_shuttingDown = true;
     }
 
-    // now wait for them to really terminate
+    // We wait for the threads to terminate
     wxGetApp().m_semaphoreAllDone.Wait();
  }
 

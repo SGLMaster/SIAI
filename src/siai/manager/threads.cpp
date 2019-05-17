@@ -17,14 +17,13 @@ UpdateMapThread::~UpdateMapThread()
 
     wxArrayThread& threads = wxGetApp().m_threads;
     threads.Remove(this);
-    
+
     wxGetApp().m_updateMapThread = NULL;
 
-    if (threads.IsEmpty())
+    if(threads.IsEmpty())
     {
-        // signal the main thread that there are no more threads left if it is
-        // waiting for us
-        if (wxGetApp().m_shuttingDown)
+        // Signal the app that there are no more threads left if it is waiting for us
+        if(wxGetApp().m_shuttingDown)
         {
             wxGetApp().m_shuttingDown = false;
 
@@ -38,16 +37,15 @@ wxThread::ExitCode UpdateMapThread::Entry()
 {
     while(1)
     {
-        // check if the application is shutting down: in this case all threads
-        // should stop a.s.a.p.
+        // Check if the application is shutting down
         {
             wxCriticalSectionLocker locker(wxGetApp().m_criticalSection);
-            if (wxGetApp().m_shuttingDown)
+            if(wxGetApp().m_shuttingDown)
                 return NULL;
         }
 
-        // check if just this thread was asked to exit
-        if (TestDestroy())
+        // Check if just this thread was asked to exit
+        if(TestDestroy())
             break;
 
         // The important stuff
