@@ -116,6 +116,7 @@ private:
     PanelData calculatePainterData() const;
 
     void updateFrameTitle();
+    void updateToolbar();
     void updateScrollbarsSize();
     void updateStatusBar();
     void updateSelectedIdOnStatusBar();

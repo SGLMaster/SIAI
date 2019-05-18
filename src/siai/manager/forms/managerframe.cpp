@@ -63,6 +63,7 @@ void ManagerFrame::initializeNewMap(int numberOfColumns, int numberOfRows, const
     m_editingEnabled = true;
 
     updateFrameTitle();
+    updateToolbar();
     repaintMapNow();
     updateScrollbarsSize();
 }
@@ -77,6 +78,7 @@ void ManagerFrame::loadMap(const std::string& mapName)
     m_editingEnabled = false;
 
     updateFrameTitle();
+    updateToolbar();
     repaintMapNow();
     updateScrollbarsSize();
 }
@@ -190,8 +192,6 @@ void ManagerFrame::OnToolConnectDatabase(wxCommandEvent& event)
 
 void ManagerFrame::OnToolPlay(wxCommandEvent& event)
 {
-    m_toolAddAgv->Enable(false);
-
     if(isDbConnected() && m_mapControl->getName() != "")
     {
         createAndRunUpdateMapThread();
@@ -450,6 +450,32 @@ void ManagerFrame::updateFrameTitle()
         newFrameTitle += " [Desconectado]";
 
     SetTitle(newFrameTitle);
+}
+
+void ManagerFrame::updateToolbar()
+{
+    if(m_editingEnabled)
+    {
+        m_toolBar1->EnableTool(m_toolRegularCell->GetId(), true);
+        m_toolBar1->EnableTool(m_toolBlockedCell->GetId(), true);
+        m_toolBar1->EnableTool(m_toolParkingCell->GetId(), true);
+        m_toolBar1->EnableTool(m_toolAddAgv->GetId(), true);
+        m_toolBar1->EnableTool(m_toolTurnLeft->GetId(), true);
+        m_toolBar1->EnableTool(m_toolTurnRight->GetId(), true);
+        m_toolBar1->EnableTool(m_toolUndo->GetId(), true);
+        m_toolBar1->EnableTool(m_toolRedo->GetId(), true);
+    }
+    else
+    {
+        m_toolBar1->EnableTool(m_toolRegularCell->GetId(), false);
+        m_toolBar1->EnableTool(m_toolBlockedCell->GetId(), false);
+        m_toolBar1->EnableTool(m_toolParkingCell->GetId(), false);
+        m_toolBar1->EnableTool(m_toolAddAgv->GetId(), false);
+        m_toolBar1->EnableTool(m_toolTurnLeft->GetId(), false);
+        m_toolBar1->EnableTool(m_toolTurnRight->GetId(), false);
+        m_toolBar1->EnableTool(m_toolUndo->GetId(), false);
+        m_toolBar1->EnableTool(m_toolRedo->GetId(), false);
+    }
 }
 
 void ManagerFrame::updateStatusBar()
