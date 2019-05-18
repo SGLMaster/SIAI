@@ -15,6 +15,8 @@
 
 #include <string>
 
+static constexpr char INI_FILENAME[] = "server.ini";
+
 ServerControl::ServerControl() = default;
 ServerControl::~ServerControl() = default;
 
@@ -89,7 +91,7 @@ std::string ServerControl::processCommand(const std::string& command)
 
 void ServerControl::saveDbOptions() const
 {
-    wxTextFile iniFile(wxT("database.ini"));
+    wxTextFile iniFile(INI_FILENAME);
 
     iniFile.Open();
 
@@ -106,7 +108,7 @@ void ServerControl::saveDbOptions() const
 
 void ServerControl::loadDbOptions()
 {
-    wxTextFile iniFile(wxT("database.ini"));
+    wxTextFile iniFile(INI_FILENAME);
 
     iniFile.Open();
 
