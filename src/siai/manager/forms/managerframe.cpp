@@ -21,12 +21,10 @@
 #include <wx/dcclient.h>
 #include <wx/utils.h>
 
-ManagerFrame::ManagerFrame(wxWindow* parent) : Forms::ManagerFrame(parent), 
+ManagerFrame::ManagerFrame(wxWindow* parent) : Forms::ManagerFrame(parent), m_mapControl{NULL}, 
                                                     m_dbConnectionOptions{SIAIGlobals::DB_NAME, "localhost", 3306, 
                                                                           "test_user", "easypass" }
 {
-    m_mapControl = SIAIMap::createMap();
-
     m_scrolledMapPanel->SetDoubleBuffered(true);
 
     wxImage::AddHandler(new wxPNGHandler);
@@ -57,6 +55,9 @@ ManagerFrame::ManagerFrame(wxWindow* parent) : Forms::ManagerFrame(parent),
 
 void ManagerFrame::initializeNewMap(int numberOfColumns, int numberOfRows, const std::string& mapName)
 {
+    if(!m_mapControl)
+        m_mapControl = SIAIMap::createMap();
+
     m_mapControl->setName(mapName);
     m_mapControl->reset(numberOfColumns, numberOfRows);
     m_mapControl->createDatabaseTables(*m_dbConnector);
@@ -71,6 +72,9 @@ void ManagerFrame::initializeNewMap(int numberOfColumns, int numberOfRows, const
 
 void ManagerFrame::loadMap(const std::string& mapName)
 {
+    if(!m_mapControl)
+        m_mapControl = SIAIMap::createMap();
+
     m_mapControl->setName(mapName);
 	m_mapControl->loadFromDb(*m_dbConnector);
 
@@ -193,7 +197,7 @@ void ManagerFrame::OnToolConnectDatabase(wxCommandEvent& event)
 
 void ManagerFrame::OnToolPlay(wxCommandEvent& event)
 {
-    if(isDbConnected() && m_mapControl->getName() != "")
+    if(isDbConnected() && m_mapControl)
     {
         createAndRunUpdateMapThread();
 
@@ -431,7 +435,9 @@ void ManagerFrame::prepareDCAndPaintMap(wxDC &dc)
     m_scrolledMapPanel->DoPrepareDC(dc);
 
     auto painter = Painter::createWxPainter(dc, calculatePainterData());
-    m_mapControl->repaint(*painter);
+
+    if(m_mapControl)
+        m_mapControl->repaint(*painter);
 }
 
 PanelData ManagerFrame::calculatePainterData() const
@@ -449,11 +455,16 @@ void ManagerFrame::updateFrameTitle()
 {
     std::string newFrameTitle;
 
-    if(m_mapControl->getName() != "")
-        newFrameTitle += m_mapControl->getName() + " - " + m_originalFrameTitle;
+    if(m_mapControl)
+    {   
+        if(m_mapControl->getName() != "")
+            newFrameTitle += m_mapControl->getName() + " - " + m_originalFrameTitle;
+        else
+            newFrameTitle = m_originalFrameTitle;
+    }
     else
-         newFrameTitle = m_originalFrameTitle;
-    
+        newFrameTitle = m_originalFrameTitle;
+
     if(isDbConnected())
         newFrameTitle += " [Conectado]";
     else
@@ -487,15 +498,20 @@ void ManagerFrame::updateToolbar()
         m_toolBar1->EnableTool(m_toolRedo->GetId(), false);
     }
 
-    if(wxGetApp().m_updateMapThread == NULL)
+    if(wxGetApp().m_updateMapThread == NULL && isDbConnected() && m_mapControl)
     {
         m_toolBar1->EnableTool(m_toolPlay->GetId(), true);
         m_toolBar1->EnableTool(m_toolStop->GetId(), false);
     }
-    else
+    else if(wxGetApp().m_updateMapThread != NULL)
     {
         m_toolBar1->EnableTool(m_toolPlay->GetId(), false);
         m_toolBar1->EnableTool(m_toolStop->GetId(), true);
+    }
+    else
+    {
+        m_toolBar1->EnableTool(m_toolPlay->GetId(), false);
+        m_toolBar1->EnableTool(m_toolStop->GetId(), false);
     }
 }
 
@@ -528,8 +544,14 @@ void ManagerFrame::updateSelectedPositionOnStatusBar()
 
 void ManagerFrame::updateScrollbarsSize()
 {
-    int numberOfColsInMap = m_mapControl->getNumberOfColumns();
-    int numberOfRowsInMap = m_mapControl->getNumberOfRows();
+    int numberOfColsInMap = 0;
+    int numberOfRowsInMap = 0;
+
+    if(m_mapControl)
+    {
+        numberOfColsInMap = m_mapControl->getNumberOfColumns();
+        numberOfRowsInMap = m_mapControl->getNumberOfRows();
+    }
 
     int mapCellsWidth = SIAIGlobals::CELLS_DEFAULT_WIDTH_PX;
 
