@@ -84,6 +84,7 @@ private:
     virtual void OnToolConnectDatabase(wxCommandEvent& event) override;
 
     virtual void OnToolPlay(wxCommandEvent& event) override;
+    virtual void OnToolStop(wxCommandEvent& event) override;
 
 	virtual void OnSliderZoom(wxCommandEvent& event) override;
 

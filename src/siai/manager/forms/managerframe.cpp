@@ -196,8 +196,17 @@ void ManagerFrame::OnToolPlay(wxCommandEvent& event)
     {
         createAndRunUpdateMapThread();
 
-        m_toolPlay->Enable(false);
+        m_toolBar1->EnableTool(m_toolStop->GetId(), true);
+        m_toolBar1->EnableTool(m_toolPlay->GetId(), false);
     }
+}
+
+void ManagerFrame::OnToolStop(wxCommandEvent& event)
+{
+    resetUpdateMapThread();
+
+    m_toolBar1->EnableTool(m_toolPlay->GetId(), true);
+    m_toolBar1->EnableTool(m_toolStop->GetId(), false);
 }
 
 void ManagerFrame::OnSliderZoom(wxCommandEvent& event)

@@ -48,6 +48,8 @@ ManagerFrame::ManagerFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 
 	m_toolPlay = m_toolBar1->AddTool( wxID_ANY, _("Play"), wxBitmap( wxT("resources/tools/play.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, _("Play"), _("Play"), NULL );
 
+	m_toolStop = m_toolBar1->AddTool( wxID_ANY, _("Stop"), wxBitmap( wxT("resources/tools/stop.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, _("Stop"), _("Stop"), NULL );
+
 	m_toolBar1->AddSeparator();
 
 	m_staticTextZoom = new wxStaticText( m_toolBar1, wxID_ANY, _("Zoom:"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -106,6 +108,7 @@ ManagerFrame::ManagerFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->Connect( m_toolRedo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolRedo ) );
 	this->Connect( m_toolConnectDatabase->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolConnectDatabase ) );
 	this->Connect( m_toolPlay->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolPlay ) );
+	this->Connect( m_toolStop->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolStop ) );
 	m_sliderZoom->Connect( wxEVT_SLIDER, wxCommandEventHandler( ManagerFrame::OnSliderZoom ), NULL, this );
 	m_scrolledMapPanel->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( ManagerFrame::OnEnterMapPanel ), NULL, this );
 	m_scrolledMapPanel->Connect( wxEVT_LEAVE_WINDOW, wxMouseEventHandler( ManagerFrame::OnLeaveMapPanel ), NULL, this );
@@ -131,6 +134,7 @@ ManagerFrame::~ManagerFrame()
 	this->Disconnect( m_toolRedo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolRedo ) );
 	this->Disconnect( m_toolConnectDatabase->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolConnectDatabase ) );
 	this->Disconnect( m_toolPlay->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolPlay ) );
+	this->Disconnect( m_toolStop->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolStop ) );
 	m_sliderZoom->Disconnect( wxEVT_SLIDER, wxCommandEventHandler( ManagerFrame::OnSliderZoom ), NULL, this );
 	m_scrolledMapPanel->Disconnect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( ManagerFrame::OnEnterMapPanel ), NULL, this );
 	m_scrolledMapPanel->Disconnect( wxEVT_LEAVE_WINDOW, wxMouseEventHandler( ManagerFrame::OnLeaveMapPanel ), NULL, this );
