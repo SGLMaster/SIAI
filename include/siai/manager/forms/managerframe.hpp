@@ -96,6 +96,9 @@ private:
 
     virtual void OnTimerRefreshMap(wxTimerEvent& event) override;
 
+    bool isUpdateMapThreadRunning();
+    bool isUpdateMapThreadRunningMessages();
+
     void createAndRunUpdateMapThread();
     void resetUpdateMapThread();
 

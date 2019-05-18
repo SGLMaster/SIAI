@@ -109,10 +109,11 @@ void ManagerFrame::OnLeftClickMapPanel(wxMouseEvent& event)
 
 void ManagerFrame::OnSelectionNewMap(wxCommandEvent& event)
 {
+    if(isUpdateMapThreadRunningMessages())
+		return;
+
     if(!isDbConnectedMessages())
         return;
-
-    resetUpdateMapThread();
 
     NewMapDialog* newMapDialog = new NewMapDialog(this);
     newMapDialog->Show();
@@ -121,6 +122,9 @@ void ManagerFrame::OnSelectionNewMap(wxCommandEvent& event)
 
 void ManagerFrame::OnSelectionLoadMap(wxCommandEvent& event)
 {
+    if(isUpdateMapThreadRunningMessages())
+		return;
+
     if(!isDbConnectedMessages())
         return;
 
@@ -198,6 +202,8 @@ void ManagerFrame::OnToolConnectDb(wxCommandEvent& event)
 
 void ManagerFrame::OnToolDisconnectDb(wxCommandEvent& event)
 {
+    resetUpdateMapThread();
+
     m_dbConnector.reset();
 
     updateToolbar();
@@ -253,6 +259,27 @@ void ManagerFrame::OnTimerRefreshMap(wxTimerEvent& event)
     {
         repaintMapNow();
     }
+}
+
+bool ManagerFrame::isUpdateMapThreadRunningMessages()
+{
+    std::string isRunningMsg{"Debes detener la supervision para poder usar esta opcion!"};
+
+    if(isUpdateMapThreadRunning())
+	{
+		Log::warning(isRunningMsg);
+		return true;
+	}
+
+    return false;
+}
+
+bool ManagerFrame::isUpdateMapThreadRunning()
+{
+    if(wxGetApp().m_updateMapThread == NULL)
+        return false;
+
+    return true;
 }
 
 void ManagerFrame::createAndRunUpdateMapThread()
