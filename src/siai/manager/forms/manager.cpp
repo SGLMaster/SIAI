@@ -168,7 +168,7 @@ NewMapDialog::NewMapDialog( wxWindow* parent, wxWindowID id, const wxString& tit
 
 	bSizer14->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_textCtrlMapName = new wxTextCtrl( this, wxID_ANY, _("mapa_por_defecto"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_textCtrlMapName = new wxTextCtrl( this, wxID_ANY, _("nuevo_mapa"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer14->Add( m_textCtrlMapName, 0, wxALL, 5 );
 
 
