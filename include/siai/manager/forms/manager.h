@@ -54,7 +54,8 @@ namespace Forms
 			wxToolBarToolBase* m_toolTurnRight;
 			wxToolBarToolBase* m_toolUndo;
 			wxToolBarToolBase* m_toolRedo;
-			wxToolBarToolBase* m_toolConnectDatabase;
+			wxToolBarToolBase* m_toolConnectDb;
+			wxToolBarToolBase* m_toolDisconnectDb;
 			wxToolBarToolBase* m_toolPlay;
 			wxToolBarToolBase* m_toolStop;
 			wxStaticText* m_staticTextZoom;
@@ -76,7 +77,8 @@ namespace Forms
 			virtual void OnToolTurnRight( wxCommandEvent& event ) = 0;
 			virtual void OnToolUndo( wxCommandEvent& event ) = 0;
 			virtual void OnToolRedo( wxCommandEvent& event ) = 0;
-			virtual void OnToolConnectDatabase( wxCommandEvent& event ) = 0;
+			virtual void OnToolConnectDb( wxCommandEvent& event ) = 0;
+			virtual void OnToolDisconnectDb( wxCommandEvent& event ) = 0;
 			virtual void OnToolPlay( wxCommandEvent& event ) = 0;
 			virtual void OnToolStop( wxCommandEvent& event ) = 0;
 			virtual void OnSliderZoom( wxCommandEvent& event ) = 0;

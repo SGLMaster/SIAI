@@ -234,16 +234,28 @@
                             <property name="permission">protected</property>
                         </object>
                         <object class="tool" expanded="0">
-                            <property name="bitmap">Load From File; resources/tools/upload-changes.bmp</property>
+                            <property name="bitmap">Load From File; resources/tools/connect-database.bmp</property>
                             <property name="context_menu">0</property>
                             <property name="id">wxID_ANY</property>
                             <property name="kind">wxITEM_NORMAL</property>
                             <property name="label">Conectar a Base de Datos</property>
-                            <property name="name">m_toolConnectDatabase</property>
+                            <property name="name">m_toolConnectDb</property>
                             <property name="permission">protected</property>
                             <property name="statusbar">Conectar a Base de Datos</property>
                             <property name="tooltip">Conectar a Base de Datos</property>
-                            <event name="OnToolClicked">OnToolConnectDatabase</event>
+                            <event name="OnToolClicked">OnToolConnectDb</event>
+                        </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap">Load From File; resources/tools/disconnect-database.bmp</property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_NORMAL</property>
+                            <property name="label">Desconectar Base de Datos</property>
+                            <property name="name">m_toolDisconnectDb</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar">Desconectar Base de Datos</property>
+                            <property name="tooltip">Desconectar Base de Datos</property>
+                            <event name="OnToolClicked">OnToolDisconnectDb</event>
                         </object>
                         <object class="toolSeparator" expanded="0">
                             <property name="permission">protected</property>

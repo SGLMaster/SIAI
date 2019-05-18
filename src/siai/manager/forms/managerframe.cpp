@@ -188,10 +188,19 @@ void ManagerFrame::OnToolRedo(wxCommandEvent& event)
     repaintMapNow();
 }
 
-void ManagerFrame::OnToolConnectDatabase(wxCommandEvent& event)
+void ManagerFrame::OnToolConnectDb(wxCommandEvent& event)
 {
 	tryToConnectToDatabase();
 
+    updateToolbar();
+    updateFrameTitle();
+}
+
+void ManagerFrame::OnToolDisconnectDb(wxCommandEvent& event)
+{
+    m_dbConnector.reset();
+
+    updateToolbar();
     updateFrameTitle();
 }
 
@@ -512,6 +521,17 @@ void ManagerFrame::updateToolbar()
     {
         m_toolBar1->EnableTool(m_toolPlay->GetId(), false);
         m_toolBar1->EnableTool(m_toolStop->GetId(), false);
+    }
+
+    if(isDbConnected())
+    {
+        m_toolBar1->EnableTool(m_toolConnectDb->GetId(), false);
+        m_toolBar1->EnableTool(m_toolDisconnectDb->GetId(), true);
+    }
+    else
+    {
+        m_toolBar1->EnableTool(m_toolConnectDb->GetId(), true);
+        m_toolBar1->EnableTool(m_toolDisconnectDb->GetId(), false);
     }
 }
 

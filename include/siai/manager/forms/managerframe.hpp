@@ -81,7 +81,8 @@ private:
     virtual void OnToolUndo(wxCommandEvent& event) override;
 	virtual void OnToolRedo(wxCommandEvent& event) override;
 
-    virtual void OnToolConnectDatabase(wxCommandEvent& event) override;
+    virtual void OnToolConnectDb(wxCommandEvent& event) override;
+    virtual void OnToolDisconnectDb(wxCommandEvent& event) override;
 
     virtual void OnToolPlay(wxCommandEvent& event) override;
     virtual void OnToolStop(wxCommandEvent& event) override;

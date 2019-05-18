@@ -42,7 +42,9 @@ ManagerFrame::ManagerFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 
 	m_toolBar1->AddSeparator();
 
-	m_toolConnectDatabase = m_toolBar1->AddTool( wxID_ANY, _("Conectar a Base de Datos"), wxBitmap( wxT("resources/tools/upload-changes.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, _("Conectar a Base de Datos"), _("Conectar a Base de Datos"), NULL );
+	m_toolConnectDb = m_toolBar1->AddTool( wxID_ANY, _("Conectar a Base de Datos"), wxBitmap( wxT("resources/tools/connect-database.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, _("Conectar a Base de Datos"), _("Conectar a Base de Datos"), NULL );
+
+	m_toolDisconnectDb = m_toolBar1->AddTool( wxID_ANY, _("Desconectar Base de Datos"), wxBitmap( wxT("resources/tools/disconnect-database.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, _("Desconectar Base de Datos"), _("Desconectar Base de Datos"), NULL );
 
 	m_toolBar1->AddSeparator();
 
@@ -106,7 +108,8 @@ ManagerFrame::ManagerFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->Connect( m_toolTurnRight->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolTurnRight ) );
 	this->Connect( m_toolUndo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolUndo ) );
 	this->Connect( m_toolRedo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolRedo ) );
-	this->Connect( m_toolConnectDatabase->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolConnectDatabase ) );
+	this->Connect( m_toolConnectDb->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolConnectDb ) );
+	this->Connect( m_toolDisconnectDb->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolDisconnectDb ) );
 	this->Connect( m_toolPlay->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolPlay ) );
 	this->Connect( m_toolStop->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolStop ) );
 	m_sliderZoom->Connect( wxEVT_SLIDER, wxCommandEventHandler( ManagerFrame::OnSliderZoom ), NULL, this );
@@ -132,7 +135,8 @@ ManagerFrame::~ManagerFrame()
 	this->Disconnect( m_toolTurnRight->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolTurnRight ) );
 	this->Disconnect( m_toolUndo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolUndo ) );
 	this->Disconnect( m_toolRedo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolRedo ) );
-	this->Disconnect( m_toolConnectDatabase->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolConnectDatabase ) );
+	this->Disconnect( m_toolConnectDb->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolConnectDb ) );
+	this->Disconnect( m_toolDisconnectDb->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolDisconnectDb ) );
 	this->Disconnect( m_toolPlay->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolPlay ) );
 	this->Disconnect( m_toolStop->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolStop ) );
 	m_sliderZoom->Disconnect( wxEVT_SLIDER, wxCommandEventHandler( ManagerFrame::OnSliderZoom ), NULL, this );
