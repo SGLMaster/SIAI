@@ -8,6 +8,7 @@
 #define CONSOLE_APP
 #include "map/siaimap.hpp"
 
+#include "util/database.hpp"
 #include "util/string.hpp"
 
 #include "globals.hpp"
@@ -33,13 +34,13 @@ void ServerControl::configure()
     //The data is registered except for the password which will be entered when the server is runned
     m_dbOptions = DbConnectionOptions{"", host, port, userName, password};
 
-    saveDbOptions();
+    Util::Db::saveDbOptionsToFile(m_dbOptions, INI_FILENAME);
 }
 
 void ServerControl::init()
 {
+    m_dbOptions = Util::Db::loadDbOptionsFromFile(INI_FILENAME);
     m_dbOptions.schema = SIAIGlobals::DB_NAME;
-    loadDbOptions();
 
     Log::simple("\nEjecutando el Servidor SIAI...", true);
 
@@ -87,55 +88,6 @@ std::string ServerControl::processCommand(const std::string& command)
     }
 
     return "UNK";
-}
-
-void ServerControl::saveDbOptions() const
-{
-    wxTextFile iniFile(INI_FILENAME);
-
-    iniFile.Open();
-
-    iniFile.Clear();
-
-    iniFile.AddLine(wxString("host = ") + wxString(m_dbOptions.host));
-    iniFile.AddLine(wxString("port = ") + wxString(std::to_string(m_dbOptions.port)) );
-    iniFile.AddLine(wxString("username = ") + wxString(m_dbOptions.user));
-    iniFile.AddLine(wxString("password = ") + wxString(m_dbOptions.password));
-
-    iniFile.Write();
-    iniFile.Close();
-}
-
-void ServerControl::loadDbOptions()
-{
-    wxTextFile iniFile(INI_FILENAME);
-
-    iniFile.Open();
-
-    wxString curLine;
-    std::string curLineStr;
-    for(unsigned int i = 0; i < iniFile.GetLineCount(); ++i)
-    {
-        curLine = iniFile.GetLine(i);
-        curLineStr = curLine.ToStdString();
-
-        using namespace Util;
-        if(curLine.StartsWith("host"))
-            m_dbOptions.host = String::getOptValueAsStr(curLineStr);
-
-        else if(curLine.StartsWith("port"))
-        {
-            m_dbOptions.port = static_cast<unsigned int>(String::getOptValueAsInt(curLineStr));
-        }
-
-        else if(curLine.StartsWith("username"))
-            m_dbOptions.user = String::getOptValueAsStr(curLineStr);
-
-        else if(curLine.StartsWith("password"))
-            m_dbOptions.password = String::getOptValueAsStr(curLineStr);
-    }
-
-    iniFile.Close();
 }
 
 void ServerControl::tryToConnectDb()

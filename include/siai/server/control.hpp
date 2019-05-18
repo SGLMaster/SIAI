@@ -30,9 +30,6 @@ public:
     std::string processCommand(const std::string& command);
 
 private:
-    void saveDbOptions() const;
-    void loadDbOptions();
-
     void tryToConnectDb();
     void assertDbConnected();
 };
