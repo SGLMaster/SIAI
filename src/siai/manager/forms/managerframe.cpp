@@ -34,6 +34,7 @@ ManagerFrame::ManagerFrame(wxWindow* parent) : Forms::ManagerFrame(parent),
     m_originalFrameTitle = GetTitle();
 
     updateFrameTitle();
+    updateToolbar();
 }
 
  ManagerFrame::~ManagerFrame()
@@ -75,7 +76,7 @@ void ManagerFrame::loadMap(const std::string& mapName)
 
     m_timerRefreshMap.Start();
 
-    m_editingEnabled = false;
+    m_editingEnabled = true;
 
     updateFrameTitle();
     updateToolbar();
@@ -196,8 +197,8 @@ void ManagerFrame::OnToolPlay(wxCommandEvent& event)
     {
         createAndRunUpdateMapThread();
 
-        m_toolBar1->EnableTool(m_toolStop->GetId(), true);
-        m_toolBar1->EnableTool(m_toolPlay->GetId(), false);
+        m_editingEnabled = false;
+        updateToolbar();
     }
 }
 
@@ -205,8 +206,8 @@ void ManagerFrame::OnToolStop(wxCommandEvent& event)
 {
     resetUpdateMapThread();
 
-    m_toolBar1->EnableTool(m_toolPlay->GetId(), true);
-    m_toolBar1->EnableTool(m_toolStop->GetId(), false);
+    m_editingEnabled = true;
+    updateToolbar();
 }
 
 void ManagerFrame::OnSliderZoom(wxCommandEvent& event)
@@ -484,6 +485,17 @@ void ManagerFrame::updateToolbar()
         m_toolBar1->EnableTool(m_toolTurnRight->GetId(), false);
         m_toolBar1->EnableTool(m_toolUndo->GetId(), false);
         m_toolBar1->EnableTool(m_toolRedo->GetId(), false);
+    }
+
+    if(wxGetApp().m_updateMapThread == NULL)
+    {
+        m_toolBar1->EnableTool(m_toolPlay->GetId(), true);
+        m_toolBar1->EnableTool(m_toolStop->GetId(), false);
+    }
+    else
+    {
+        m_toolBar1->EnableTool(m_toolPlay->GetId(), false);
+        m_toolBar1->EnableTool(m_toolStop->GetId(), true);
     }
 }
 
