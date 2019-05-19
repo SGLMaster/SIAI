@@ -69,20 +69,31 @@ std::string ServerControl::processCommand(const std::string& command)
     auto args = String::split<std::vector<std::string>>(command, CMD_VAL_SEPARATOR);
 
     std::string entityType;
-    std::string entityId;
+    int entityId;
     std::string commandName;
+    std::string commandValue;
 
     if(args.size() > 0)
         entityType = String::trim(args[0]);
     if(args.size() > 1)
-        entityId = String::trim(args[1]);
+        entityId = static_cast<int>( strtol( String::trim(args[1]).c_str(), NULL, 10 ) );
     if(args.size() > 2)
         commandName = String::trim(args[2]);
+    if(args.size() > 3)
+        commandValue = String::trim(args[3]);
 
     if(entityType == "AGV")
     {
-        if(entityId != "")
-            return std::string("AGV ID ") + entityId + " OK";
+        if(commandName == "RFID")
+        {
+            bool cmdSuccess = m_mapControl->moveAgvToCellWithId(*m_dbConnector, entityId, 
+                                                static_cast<int>(strtol(commandValue.c_str(), NULL, 10)) );
+
+            if(cmdSuccess)
+                return "OK";
+            else
+                return "ERROR";
+        }
     }
 
     return "UNK";
