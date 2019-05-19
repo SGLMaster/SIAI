@@ -69,25 +69,33 @@ std::string ServerControl::processCommand(const std::string& command)
     auto args = String::split<std::vector<std::string>>(command, CMD_VAL_SEPARATOR);
 
     std::string entityType;
-    int entityId;
+    std::string entityIdStr;
     std::string commandName;
-    std::string commandValue;
+    std::string commandValueStr;
+
+    int entityId = 0;
+    int commandValue = 0;
 
     if(args.size() > 0)
         entityType = String::trim(args[0]);
     if(args.size() > 1)
-        entityId = static_cast<int>( strtol( String::trim(args[1]).c_str(), NULL, 10 ) );
+        entityIdStr = String::trim(args[1]);
     if(args.size() > 2)
         commandName = String::trim(args[2]);
     if(args.size() > 3)
-        commandValue = String::trim(args[3]);
+        commandValueStr = String::trim(args[3]);
+
+    if(entityIdStr != "")
+        entityId = static_cast<int>(strtol(entityIdStr.c_str(), NULL, 10));
+
+    if(commandValueStr != "")
+        commandValue = static_cast<int>(strtol(commandValueStr.c_str(), NULL, 10));    
 
     if(entityType == "AGV")
     {
         if(commandName == "RFID")
         {
-            bool cmdSuccess = m_mapControl->moveAgvToCellWithId(*m_dbConnector, entityId, 
-                                                static_cast<int>(strtol(commandValue.c_str(), NULL, 10)) );
+            bool cmdSuccess = m_mapControl->moveAgvToCellWithId(*m_dbConnector, entityId, commandValue);
 
             if(cmdSuccess)
                 return "OK";
