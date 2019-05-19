@@ -3,11 +3,20 @@
 #include "manager/forms/dbsettingsdialog.hpp"
 #include "manager/forms/managerframe.hpp"
 
+#include "util/database.hpp"
+
 #include "globals.hpp"
 
 DbSettingsDialog::DbSettingsDialog(ManagerFrame* parent) : Forms::DbSettingsDialog( (wxFrame *) NULL )
 {
     m_parentFrame = parent;
+
+	DbConnectionOptions tmpOptions = Util::Db::loadDbOptionsFromFile(SIAIGlobals::DB_CONFIG_FILENAME);
+
+	m_textCtrlPort->SetValue(std::to_string(tmpOptions.port));
+	m_textCtrlHost->SetValue(tmpOptions.host);
+	m_textCtrlUser->SetValue(tmpOptions.user);
+	m_textCtrlPassword->SetValue(tmpOptions.password);
 }
 
 void DbSettingsDialog::OnClose(wxCloseEvent& event)
@@ -24,7 +33,7 @@ void DbSettingsDialog::OnButtonClickAccept( wxCommandEvent& event )
 
 	DbConnectionOptions options{SIAIGlobals::DB_NAME, hostName, portNumber, userName, password};
 
-	m_parentFrame->setDbConnectionOptions(options);
+	Util::Db::saveDbOptionsToFile(options, SIAIGlobals::DB_CONFIG_FILENAME);
 
 	enableMainFrameAndCloseDialog();
 }

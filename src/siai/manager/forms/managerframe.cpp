@@ -8,6 +8,7 @@
 
 #include "painter/painter.hpp"
 
+#include "util/database.hpp"
 #include "util/string.hpp"
 #include "util/map.hpp"
 
@@ -21,9 +22,7 @@
 #include <wx/dcclient.h>
 #include <wx/utils.h>
 
-ManagerFrame::ManagerFrame(wxWindow* parent) : Forms::ManagerFrame(parent), m_mapControl{NULL}, 
-                                                    m_dbConnectionOptions{SIAIGlobals::DB_NAME, "localhost", 3306, 
-                                                                          "test_user", "easypass" }
+ManagerFrame::ManagerFrame(wxWindow* parent) : Forms::ManagerFrame(parent), m_mapControl{NULL}
 {
     m_scrolledMapPanel->SetDoubleBuffered(true);
 
@@ -194,6 +193,9 @@ void ManagerFrame::OnToolRedo(wxCommandEvent& event)
 
 void ManagerFrame::OnToolConnectDb(wxCommandEvent& event)
 {
+    m_dbConnectionOptions = Util::Db::loadDbOptionsFromFile(SIAIGlobals::DB_CONFIG_FILENAME);
+    m_dbConnectionOptions.schema = SIAIGlobals::DB_NAME;
+
 	tryToConnectToDatabase();
 
     updateToolbar();

@@ -279,7 +279,7 @@ DbSettingsDialog::DbSettingsDialog( wxWindow* parent, wxWindowID id, const wxStr
 
 	bSizer7->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_textCtrlHost = new wxTextCtrl( this, wxID_ANY, _("localhost"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_textCtrlHost = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer7->Add( m_textCtrlHost, 0, wxALL, 5 );
 
 
@@ -295,7 +295,7 @@ DbSettingsDialog::DbSettingsDialog( wxWindow* parent, wxWindowID id, const wxStr
 
 	bSizer10->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_textCtrlPort = new wxTextCtrl( this, wxID_ANY, _("3306"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_textCtrlPort = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer10->Add( m_textCtrlPort, 0, wxALL, 5 );
 
 
@@ -311,7 +311,7 @@ DbSettingsDialog::DbSettingsDialog( wxWindow* parent, wxWindowID id, const wxStr
 
 	bSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_textCtrlUser = new wxTextCtrl( this, wxID_ANY, _("test_user"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_textCtrlUser = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer8->Add( m_textCtrlUser, 0, wxALL, 5 );
 
 
@@ -327,7 +327,7 @@ DbSettingsDialog::DbSettingsDialog( wxWindow* parent, wxWindowID id, const wxStr
 
 	bSizer9->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_textCtrlPassword = new wxTextCtrl( this, wxID_ANY, _("easypass"), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+	m_textCtrlPassword = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
 	bSizer9->Add( m_textCtrlPassword, 0, wxALL, 5 );
 
 
