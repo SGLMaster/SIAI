@@ -16,8 +16,6 @@
 
 #include <string>
 
-static constexpr char INI_FILENAME[] = "server.ini";
-
 ServerControl::ServerControl() = default;
 ServerControl::~ServerControl() = default;
 
@@ -34,12 +32,12 @@ void ServerControl::configure()
     //The data is registered except for the password which will be entered when the server is runned
     m_dbOptions = DbConnectionOptions{"", host, port, userName, password};
 
-    Util::Db::saveDbOptionsToFile(m_dbOptions, INI_FILENAME);
+    Util::Db::saveDbOptionsToFile(m_dbOptions, SIAIGlobals::DB_CONFIG_FILENAME);
 }
 
 void ServerControl::init()
 {
-    m_dbOptions = Util::Db::loadDbOptionsFromFile(INI_FILENAME);
+    m_dbOptions = Util::Db::loadDbOptionsFromFile(SIAIGlobals::DB_CONFIG_FILENAME);
     m_dbOptions.schema = SIAIGlobals::DB_NAME;
 
     Log::simple("\nEjecutando el Servidor SIAI...", true);
