@@ -1,6 +1,6 @@
 #include "database/database.hpp"
 
-#include "manager/managerapp.hpp"
+#include "manager/app.hpp"
 #include "manager/threads.hpp"
 
 #include "map/siaimap.hpp"

@@ -1,7 +1,7 @@
 #include "database/database.hpp"
 
 #include "manager/forms/dbsettingsdialog.hpp"
-#include "manager/forms/managerframe.hpp"
+#include "manager/forms/frame.hpp"
 
 #include "util/database.hpp"
 

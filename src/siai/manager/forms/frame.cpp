@@ -1,6 +1,6 @@
 #include "database/database.hpp"
 
-#include "manager/forms/managerframe.hpp"
+#include "manager/forms/frame.hpp"
 #include "manager/forms/newmapdialog.hpp"
 #include "manager/forms/loadmapdialog.hpp"
 #include "manager/forms/dbsettingsdialog.hpp"
@@ -17,7 +17,7 @@
 #include "globals.hpp"
 #include "log.hpp"
 
-#include "manager/managerapp.hpp"
+#include "manager/app.hpp"
 
 #include <wx/dcclient.h>
 #include <wx/utils.h>

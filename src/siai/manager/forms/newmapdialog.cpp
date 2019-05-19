@@ -1,5 +1,5 @@
 #include "manager/forms/newmapdialog.hpp"
-#include "manager/forms/managerframe.hpp"
+#include "manager/forms/frame.hpp"
 
 #include <wx/msgdlg.h>
 

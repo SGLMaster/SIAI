@@ -1,7 +1,7 @@
 #include <wx/splash.h>
 
-#include "manager/managerapp.hpp"
-#include "manager/forms/managerframe.hpp"
+#include "manager/app.hpp"
+#include "manager/forms/frame.hpp"
 
 IMPLEMENT_APP(ManagerApp)
 

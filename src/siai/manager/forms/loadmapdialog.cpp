@@ -1,5 +1,5 @@
 #include "manager/forms/loadmapdialog.hpp"
-#include "manager/forms/managerframe.hpp"
+#include "manager/forms/frame.hpp"
 
 #include "database/sqlquery.hpp"
 
