@@ -18,9 +18,9 @@ WX_DEFINE_LIST(EList);
 void ServerApp::OnInitCmdLine(wxCmdLineParser& pParser)
 {
     wxApp::OnInitCmdLine(pParser);
-    pParser.AddSwitch("c", "configure", "Configure server.");
-    pParser.AddSwitch("r", "run", "Runs the server with the set configuration.");
-    pParser.AddOption("p", "port", "listen on given port (default 3000)", wxCMD_LINE_VAL_NUMBER);
+    pParser.AddSwitch("c", "configure", "Configurar las opciones necesarias para correr el servidor.");
+    pParser.AddSwitch("r", "run", "Iniciar el servidor con la configuracion guardada.");
+    pParser.AddOption("p", "port", "Utilizar un puerto en especifico (por defecto 3000).", wxCMD_LINE_VAL_NUMBER);
 }
 
 bool ServerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
@@ -35,12 +35,12 @@ bool ServerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
     {
         if ( port <= 0 || port > USHRT_MAX )
         {
-            wxLogError("Invalid port number %ld, must be in 0..%u range.", port, USHRT_MAX);
+            wxLogError("Numero de puerto invalido: %ld, debe estar dentro del rango 0..%u.", port, USHRT_MAX);
             return false;
         }
 
         m_tcpPort = static_cast<unsigned short>(port);
-        wxLogMessage("Will listen on port %u", m_tcpPort);
+        wxLogMessage("Puerto a utilizar: %u", m_tcpPort);
     }
 
     if(pParser.Found("r"))
@@ -57,17 +57,16 @@ bool ServerApp::OnCmdLineParsed(wxCmdLineParser& pParser)
 
         if (!m_listeningSocket->IsOk())
         {
-            wxLogError("Cannot bind listening socket");
+            wxLogError("No se pudo crear el socket!");
             return false;
         }
 
-        wxLogMessage("Server listening at port %u, waiting for connections", m_tcpPort);
+        wxLogMessage("Servidor escuchando en puerto %u, esperando conexiones...", m_tcpPort);
     }
     else
     {
         exit(0);
     }
-    
 
     return wxApp::OnCmdLineParsed(pParser);
 }
@@ -105,10 +104,10 @@ void ServerApp::OnSocketEvent(wxSocketEvent& pEvent)
     switch(pEvent.GetSocketEvent())
     {
         case wxSOCKET_INPUT:
-            wxLogError("Unexpected wxSOCKET_INPUT in wxSocketServer");
+            wxLogError("Evento inesperado wxSOCKET_INPUT en wxSocketServer");
             break;
         case wxSOCKET_OUTPUT:
-            wxLogError("Unexpected wxSOCKET_OUTPUT in wxSocketServer");
+            wxLogError("Evento inesperado wxSOCKET_OUTPUT en wxSocketServer");
         break;
         case wxSOCKET_CONNECTION:
         {
@@ -116,9 +115,9 @@ void ServerApp::OnSocketEvent(wxSocketEvent& pEvent)
             wxIPV4address addr;
             if (!sock->GetPeer(addr))
             {
-                wxLogError("Server: cannot get peer info");
+                wxLogError("Servidor: no se puede obtener información del host remoto");
             } else {
-                wxLogMessage("Got connection from %s:%d",addr.IPAddress().c_str(), addr.Service());
+                wxLogMessage("Conexion establecida con %s:%d",addr.IPAddress().c_str(), addr.Service());
             }
 
             EventWorker* w = new EventWorker(sock, m_serverControl.get());
@@ -126,7 +125,7 @@ void ServerApp::OnSocketEvent(wxSocketEvent& pEvent)
         }
         break;
         case wxSOCKET_LOST:
-            wxLogError("Unexpected wxSOCKET_LOST in wxSocketServer");
+            wxLogError("Evento inesperado wxSOCKET_LOST en wxSocketServer");
         break;
     }
 }
@@ -137,7 +136,6 @@ void ServerApp::OnWorkerEvent(WorkerEvent& pEvent)
     {
         if (it2->GetData() == pEvent.m_sender)
         {
-            wxLogVerbose("Deleting event worker(%lu left)", static_cast<unsigned long>( m_eventWorkers.GetCount() ));
             delete it2->GetData();
             m_eventWorkers.DeleteNode(it2);
             break;
