@@ -53,6 +53,8 @@ public:
 
     virtual void uploadChanges(DbConnector& connector) = 0;
 
+    virtual bool moveAgvToCellWithId(DbConnector& connector, int idAgv, int idCell) = 0;
+
     SIAIMap();
     virtual ~SIAIMap();
 };

@@ -4,6 +4,8 @@
 #include "map/entities/agv.hpp"
 #include "map/cmd/cmdstream.hpp"
 
+#include "map/exception.hpp"
+
 #include "util/reversion.hpp"
 
 #include "database/database.hpp"
@@ -189,6 +191,27 @@ void SIAIMapImp::uploadChanges(DbConnector& connector)
 	{
 		entity->saveToDatabase(connector, m_name);
 	}
+}
+
+bool SIAIMapImp::moveAgvToCellWithId(DbConnector& connector, int idAgv, int idCell)
+{
+    Entities::Pointer agv;
+    Entities::Pointer cell;
+
+    try
+    {
+        agv = Entities::getAgvWithId(m_entities, idAgv);
+        cell = Entities::getCellWithId(m_entities, idCell);
+    }
+    catch(const std::exception& e)
+    {
+        return false;
+    }
+
+    agv->setPosition(cell->getPosition());
+    agv->saveToDatabase(connector, m_name);
+
+    return true;
 }
 
 void  SIAIMapImp::loadCellsFromDb(DbConnector& connector)

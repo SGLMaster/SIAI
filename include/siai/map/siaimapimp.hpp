@@ -61,6 +61,8 @@ public:
 
     virtual void uploadChanges(DbConnector& connector) override;
 
+    virtual bool moveAgvToCellWithId(DbConnector& connector, int idAgv, int idCell) override;
+
 private:
     void updateDbTableNames();
 
