@@ -35,6 +35,7 @@ namespace Entities
     void eraseAgvOnDbWithId(DbConnector& connector, const std::string& mapName, int id);
 
     Pointer& getAgvWithId(Entities::Container& entities, int id);
+    Pointer& getCellWithId(Entities::Container& entities, int id);
 
     Pointer& getEntityByPosition(Entities::Container& entities, const MapPosition& position);
     Pointer& getCellByPosition(Entities::Container& entities, const MapPosition& position);

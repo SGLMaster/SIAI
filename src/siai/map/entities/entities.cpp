@@ -218,6 +218,26 @@ Entities::Pointer& Entities::getAgvWithId(Entities::Container& entities, int id)
     return *agvFound;
 }
 
+Entities::Pointer& Entities::getCellWithId(Entities::Container& entities, int id)
+{
+    auto findCellWithId = [&id](const Entities::Pointer& entity)
+                                    {
+                                        bool entityIsACell = dynamic_cast<ICell*>(entity.get()) != nullptr;
+
+                                        return entity->getId() == id
+                                                && entityIsACell;
+                                    };
+
+    auto cellFound = std::find_if(entities.begin(), entities.end(), findCellWithId);
+
+    if(cellFound == entities.end())
+	{
+		throw EntityNotFound();
+	}
+
+    return *cellFound;
+}
+
 Entities::Pointer& Entities::getEntityByPosition(Entities::Container& entities, const MapPosition& position)
 {
 	auto findFirstEntityInPosition = [&position](Entities::Pointer& entity)
