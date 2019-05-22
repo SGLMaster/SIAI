@@ -27,6 +27,9 @@ void WxPainter::setBrush(PanelColor color)
     case PanelColor::RED:
         m_dc.SetBrush(*wxRED_BRUSH);
         break;
+    case PanelColor::BLUE:
+        m_dc.SetBrush(*wxBLUE_BRUSH);
+        break;
     default:
         m_dc.SetBrush(*wxWHITE_BRUSH);
         break;
@@ -45,6 +48,9 @@ void WxPainter::setPen(PanelColor color)
         break;
     case PanelColor::RED:
         m_dc.SetPen(*wxRED_PEN);
+        break;
+    case PanelColor::BLUE:
+        m_dc.SetPen(*wxBLUE_PEN);
         break;
     case PanelColor::SELECTED:
         m_dc.SetPen(*wxRED_PEN);

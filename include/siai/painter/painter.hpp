@@ -27,6 +27,7 @@ enum class PanelColor
     WHITE,
     BLACK,
     RED,
+    BLUE,
     SELECTED
 };
 
