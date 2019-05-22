@@ -61,6 +61,32 @@ public:
     virtual void undo(Entities::Container& entities, DbConnector& connector) override;
 };
 
+class AddRackCommand : public MapCommand
+{
+private:
+    enum Args
+    {
+        RACK_TYPE,
+		MAP_NAME,
+        COLUMN,
+        ROW,
+        NUMBER_OF_ARGUMENTS
+    };
+
+    std::string m_rackType;
+    std::string m_mapName;
+
+    MapPosition m_position;
+
+public:
+    AddRackCommand() = delete;
+    AddRackCommand(const MapCommand::Container& arguments);
+    virtual ~AddRackCommand();
+
+    virtual void execute(Entities::Container& entities, DbConnector& connector) override;
+    virtual void undo(Entities::Container& entities, DbConnector& connector) override;
+};
+
 class TurnEntityCommand : public MapCommand
 {
 private:

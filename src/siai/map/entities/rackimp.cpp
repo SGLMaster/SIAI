@@ -2,7 +2,7 @@
 
 #include "globals.hpp"
 
-RegularRack::RegularRack(const MapPosition& position) : IRack(position){}
+RegularRack::RegularRack(int id, const MapPosition& position) : IRack(id, position){}
 RegularRack::~RegularRack() = default;
 
 void RegularRack::draw(Painter& painter)

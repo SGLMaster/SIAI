@@ -16,7 +16,7 @@ private:
 
 public:
 	RegularRack() = delete;
-	RegularRack(const MapPosition& position);
+	RegularRack(int id, const MapPosition& position);
     virtual ~RegularRack();
 
     virtual std::string getEntityName() const noexcept override

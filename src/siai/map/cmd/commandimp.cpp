@@ -1,5 +1,6 @@
 #include "map/cmd/commandimp.hpp"
 #include "map/entities/agv.hpp"
+#include "map/entities/rack.hpp"
 #include "map/entities/cell.hpp"
 #include "map/entities/entities.hpp"
 
@@ -110,6 +111,53 @@ void AddAgvCommand::undo(Entities::Container& entities, DbConnector& connector)
 	Entities::eraseAgvOnDbWithId(connector, m_mapName, (*agvToErase)->getId());
 
 	entities.erase(agvToErase);
+}
+
+AddRackCommand::AddRackCommand(const MapCommand::Container& arguments)
+{
+    if(arguments.size() != NUMBER_OF_ARGUMENTS)
+    {
+        throw InvalidNumberOfArguments();
+    }
+
+    m_rackType = arguments[RACK_TYPE];
+    m_mapName = arguments[MAP_NAME];
+
+    int column = std::stoi(arguments[COLUMN]);
+    int row = std::stoi(arguments[ROW]);
+
+    m_position = MapPosition{column, row};
+}
+
+AddRackCommand::~AddRackCommand() = default;
+
+void AddRackCommand::execute(Entities::Container& entities, DbConnector& connector)
+{
+	Entities::assertPositionInsideMap(entities, m_position);
+	//Entities::assertIsParkingCell(entities, m_position);
+	Entities::assertCellOccupied(entities, m_position);
+
+	try
+	{
+		Entities::Pointer rack = IRack::create(m_rackType, IRack::RacksIdManager.getId(), m_position);
+
+		//rack->saveToDatabase(connector, m_mapName);
+
+		entities.push_back(std::move(rack));
+	}
+	catch(EntityException& e)
+	{
+		Log::warning(e.what());
+	}
+}
+
+void AddRackCommand::undo(Entities::Container& entities, DbConnector& connector)
+{
+	//Entities::Iterator agvToErase = Entities::findAgvIteratorWithPosition(entities, m_position);
+
+	//Entities::eraseAgvOnDbWithId(connector, m_mapName, (*agvToErase)->getId());
+
+	//entities.erase(agvToErase);
 }
 
 TurnEntityCommand::TurnEntityCommand(const MapCommand::Container& arguments)
