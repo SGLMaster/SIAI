@@ -60,6 +60,11 @@ void WxPainter::drawRectangle(const PanelPoint& origin, const PanelSize& size)
     m_dc.DrawRectangle(origin.x, origin.y, size.width, size.height);
 }
 
+void WxPainter::drawCircle(const PanelPoint& origin, int radio)
+{
+    m_dc.DrawCircle(origin.x, origin.y, radio);
+}
+
 void WxPainter::drawImage(PanelImage& panelImage, const PanelPoint& origin, const PanelSize& size)
 {
     WxPanelImage& castedPanelImage = dynamic_cast<WxPanelImage&>(panelImage);

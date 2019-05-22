@@ -57,5 +57,6 @@ public:
     virtual void setPen(PanelColor color) = 0;
 
     virtual void drawRectangle(const PanelPoint& origin, const PanelSize& size) = 0;
+    virtual void drawCircle(const PanelPoint& origin, int radio) = 0;
     virtual void drawImage(PanelImage& panelImage, const PanelPoint& origin, const PanelSize& size) = 0;
 };

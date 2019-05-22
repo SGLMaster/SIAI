@@ -49,6 +49,7 @@ public:
     virtual void setPen(PanelColor color) override;
 
     virtual void drawRectangle(const PanelPoint& origin, const PanelSize& size) override;
+    virtual void drawCircle(const PanelPoint& origin, int radio) override;
     virtual void drawImage(PanelImage& panelImage, const PanelPoint& origin, const PanelSize& size) override;
 
 private:
