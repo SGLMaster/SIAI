@@ -134,7 +134,7 @@ AddRackCommand::~AddRackCommand() = default;
 void AddRackCommand::execute(Entities::Container& entities, DbConnector& connector)
 {
 	Entities::assertPositionInsideMap(entities, m_position);
-	//Entities::assertIsParkingCell(entities, m_position);
+	Entities::assertIsStorageCell(entities, m_position);
 	Entities::assertCellOccupied(entities, m_position);
 
 	try

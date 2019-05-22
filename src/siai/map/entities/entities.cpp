@@ -357,6 +357,27 @@ bool Entities::isParkingCell(Container& entities, const MapPosition& position)
     return false;
 }
 
+void Entities::assertIsStorageCell(Container& entities, const MapPosition& position)
+{
+    bool cellFoundIsStorage = isStorageCell(entities, position);
+
+    if(!cellFoundIsStorage)
+    {
+        throw NotStorageCellException();
+    }
+}
+
+bool Entities::isStorageCell(Container& entities, const MapPosition& position)
+{
+    Pointer cellToAssert = getCellByPosition(entities, position);
+
+    if(cellToAssert->getEntityName() == std::string("Storage"))
+    {
+        return true;
+    }
+    return false;
+}
+
 bool Entities::selectOrDiselectIfHasPointInside(IMapEntity& entity, const PanelPoint& point) noexcept
 {
     constexpr bool someEntityChanged{true};

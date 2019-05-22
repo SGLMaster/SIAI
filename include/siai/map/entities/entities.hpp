@@ -49,6 +49,9 @@ namespace Entities
     void assertIsParkingCell(Entities::Container& entities, const MapPosition& position);
     bool isParkingCell(Container& entities, const MapPosition& position);
 
+    void assertIsStorageCell(Entities::Container& entities, const MapPosition& position);
+    bool isStorageCell(Container& entities, const MapPosition& position);
+
     bool selectOrDiselectIfHasPointInside(IMapEntity& entity, const PanelPoint& point) noexcept;
 
     void sortEntitiesByDrawOrder(Container& entities);

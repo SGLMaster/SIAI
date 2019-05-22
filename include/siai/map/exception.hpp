@@ -49,6 +49,15 @@ public:
     }
 };
 
+class NotStorageCellException : public CommandException
+{
+public:
+    virtual const char* what() const noexcept override
+    {
+        return "Esta celda no es para estantes.";
+    }
+};
+
 class EntityException : public std::exception{};
 
 class InvalidEntityType : public EntityException
