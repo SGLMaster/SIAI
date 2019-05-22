@@ -7,28 +7,13 @@
 
 class PanelImage;
 
-class RackDefault : public IRack
+class RegularRack : public IRack
 {
-protected:
-    PanelPoint m_origin;
-    PanelSize m_size;
+private:
+    PanelPoint m_cellOrigin;
+    PanelPoint m_center;
+    int m_radio;
 
-public:
-    RackDefault() = delete;
-    RackDefault(const MapPosition& position);
-    virtual ~RackDefault();
-
-    virtual void draw(Painter& painter) override;
-
-    virtual bool isVisibleOnScreen(const PanelPoint& panelOrigin, const PanelSize& panelSize) const noexcept override;
-    virtual bool hasPointInside(const PanelPoint& point) const noexcept override;
-
-    virtual void saveToDatabase(DbConnector& connector, const std::string& mapName)  const override;
-    virtual void loadFromDatabase(DbConnector& connector) override;
-};
-
-class RegularRack : public RackDefault
-{
 public:
 	RegularRack() = delete;
 	RegularRack(const MapPosition& position);
@@ -40,4 +25,19 @@ public:
     }
 
     virtual void draw(Painter& painter) override;
+
+    virtual bool isVisibleOnScreen(const PanelPoint& panelOrigin, const PanelSize& panelSize) const noexcept override;
+    virtual bool hasPointInside(const PanelPoint& point) const noexcept override;
+
+    virtual void saveToDatabase(DbConnector& connector, const std::string& mapName)  const override;
+    virtual void loadFromDatabase(DbConnector& connector) override;
+
+private:
+    void calculateDrawingData(int zoom);
+    void calculateZoomedRadio(int zoom);
+    void calculateCellOrigin(int zoom);
+    void calculateCenter(int zoom);
+
+    void drawNormalImage(Painter& painter);
+    void drawSelectedImage(Painter& painter);
 };
