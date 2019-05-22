@@ -17,11 +17,11 @@ IRack::~IRack()
 
 std::unique_ptr<IRack> IRack::create(std::string type, const MapPosition& position)
 {
-    if(type == "CircularRack")
+    if(type == "Regular")
     {
     	try
     	{
-    		auto agv = std::make_unique<CircularRack>(position);
+    		auto agv = std::make_unique<RegularRack>(position);
 
         	return agv;
     	}

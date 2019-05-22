@@ -27,16 +27,16 @@ public:
     virtual void loadFromDatabase(DbConnector& connector) override;
 };
 
-class CircularRack : public RackDefault
+class RegularRack : public RackDefault
 {
 public:
-	CircularRack() = delete;
-	CircularRack(const MapPosition& position);
-    virtual ~CircularRack();
+	RegularRack() = delete;
+	RegularRack(const MapPosition& position);
+    virtual ~RegularRack();
 
     virtual std::string getEntityName() const noexcept override
     {
-        return "CircularRack";
+        return "RegularRack";
     }
 
     virtual void draw(Painter& painter) override;

@@ -30,10 +30,10 @@ void RackDefault::loadFromDatabase(DbConnector& connector)
 
 }
 
-CircularRack::CircularRack(const MapPosition& position) : RackDefault(position){}
-CircularRack::~CircularRack() = default;
+RegularRack::RegularRack(const MapPosition& position) : RackDefault(position){}
+RegularRack::~RegularRack() = default;
 
-void CircularRack::draw(Painter& painter)
+void RegularRack::draw(Painter& painter)
 {
 
 }
