@@ -157,6 +157,11 @@ void ManagerFrame::OnToolBlockedCell(wxCommandEvent& event)
     m_currentTool = Tool::BLOCKED_CELL;
 }
 
+void ManagerFrame::OnToolStorageCell(wxCommandEvent& event)
+{
+    m_currentTool = Tool::STORAGE_CELL;
+}
+
 void ManagerFrame::OnToolParkingCell(wxCommandEvent& event)
 {
     m_currentTool = Tool::PARKING_CELL;
@@ -399,6 +404,9 @@ void ManagerFrame::callCurrentToolAction()
         break;
     case Tool::BLOCKED_CELL:
         actionToolReplaceCell("Blocked", columnToPerformAction, rowToPerformAction);
+        break;
+    case Tool::STORAGE_CELL:
+        actionToolReplaceCell("Storage", columnToPerformAction, rowToPerformAction);
         break;
     case Tool::PARKING_CELL:
         actionToolReplaceCell("Parking", columnToPerformAction, rowToPerformAction);

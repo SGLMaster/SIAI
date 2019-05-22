@@ -76,3 +76,18 @@ public:
 
     virtual void draw(Painter& painter) override;
 };
+
+class StorageCell : public CellDefault
+{
+public:
+    StorageCell() = delete;
+    StorageCell(int id, const MapPosition& position);
+    virtual ~StorageCell();
+
+    virtual std::string getEntityName() const noexcept override
+    {
+        return "Storage";
+    }
+
+    virtual void draw(Painter& painter) override;
+};

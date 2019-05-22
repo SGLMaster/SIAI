@@ -26,6 +26,8 @@ ManagerFrame::ManagerFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 
 	m_toolBlockedCell = m_toolBar1->AddTool( wxID_ANY, _("Celda Bloqueada"), wxBitmap( wxT("resources/tools/blocked-cell.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, _("Celda Bloqueada"), _("Celda Bloqueada"), NULL );
 
+	m_toolStorageCell = m_toolBar1->AddTool( wxID_ANY, _("Celda para Estante"), wxBitmap( wxT("resources/tools/storage-cell.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, _("Celda para Estante"), _("Celda para Estante"), NULL );
+
 	m_toolParkingCell = m_toolBar1->AddTool( wxID_ANY, _("Parking"), wxBitmap( wxT("resources/tools/parking-cell.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, _("Parking"), _("Parking"), NULL );
 
 	m_toolAddAgv = m_toolBar1->AddTool( wxID_ANY, _("Agregar Agv"), wxBitmap( wxT("resources/tools/regular-agv.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, _("Agregar Agv"), _("Agregar Agv"), NULL );
@@ -102,6 +104,7 @@ ManagerFrame::ManagerFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->Connect( m_toolSelect->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolSelect ) );
 	this->Connect( m_toolRegularCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolRegularCell ) );
 	this->Connect( m_toolBlockedCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolBlockedCell ) );
+	this->Connect( m_toolStorageCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolStorageCell ) );
 	this->Connect( m_toolParkingCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolParkingCell ) );
 	this->Connect( m_toolAddAgv->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolAddAgv ) );
 	this->Connect( m_toolTurnLeft->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolTurnLeft ) );
@@ -129,6 +132,7 @@ ManagerFrame::~ManagerFrame()
 	this->Disconnect( m_toolSelect->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolSelect ) );
 	this->Disconnect( m_toolRegularCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolRegularCell ) );
 	this->Disconnect( m_toolBlockedCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolBlockedCell ) );
+	this->Disconnect( m_toolStorageCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolStorageCell ) );
 	this->Disconnect( m_toolParkingCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolParkingCell ) );
 	this->Disconnect( m_toolAddAgv->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolAddAgv ) );
 	this->Disconnect( m_toolTurnLeft->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolTurnLeft ) );
