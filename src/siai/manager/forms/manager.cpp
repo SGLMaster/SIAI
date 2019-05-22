@@ -32,6 +32,8 @@ ManagerFrame::ManagerFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 
 	m_toolAddAgv = m_toolBar1->AddTool( wxID_ANY, _("Agregar Agv"), wxBitmap( wxT("resources/tools/regular-agv.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, _("Agregar Agv"), _("Agregar Agv"), NULL );
 
+	m_toolAddRack = m_toolBar1->AddTool( wxID_ANY, _("Agregar Estante"), wxBitmap( wxT("resources/tools/regular-rack.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, _("Agregar Estante"), _("Agregar Estante"), NULL );
+
 	m_toolTurnLeft = m_toolBar1->AddTool( wxID_ANY, _("Girar a la izquierda"), wxBitmap( wxT("resources/tools/turn-left.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, _("Girar a la izquierda"), _("Girar a la izquierda"), NULL );
 
 	m_toolTurnRight = m_toolBar1->AddTool( wxID_ANY, _("Girar a la derecha"), wxBitmap( wxT("resources/tools/turn-right.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_RADIO, _("Girar a la derecha"), _("Girar a la derecha"), NULL );
@@ -107,6 +109,7 @@ ManagerFrame::ManagerFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->Connect( m_toolStorageCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolStorageCell ) );
 	this->Connect( m_toolParkingCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolParkingCell ) );
 	this->Connect( m_toolAddAgv->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolAddAgv ) );
+	this->Connect( m_toolAddRack->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolAddRack ) );
 	this->Connect( m_toolTurnLeft->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolTurnLeft ) );
 	this->Connect( m_toolTurnRight->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolTurnRight ) );
 	this->Connect( m_toolUndo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolUndo ) );
@@ -135,6 +138,7 @@ ManagerFrame::~ManagerFrame()
 	this->Disconnect( m_toolStorageCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolStorageCell ) );
 	this->Disconnect( m_toolParkingCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolParkingCell ) );
 	this->Disconnect( m_toolAddAgv->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolAddAgv ) );
+	this->Disconnect( m_toolAddRack->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolAddRack ) );
 	this->Disconnect( m_toolTurnLeft->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolTurnLeft ) );
 	this->Disconnect( m_toolTurnRight->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolTurnRight ) );
 	this->Disconnect( m_toolUndo->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolUndo ) );

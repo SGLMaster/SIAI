@@ -172,6 +172,12 @@ void ManagerFrame::OnToolAddAgv(wxCommandEvent& event)
     m_currentTool = Tool::ADD_AGV;
 }
 
+void ManagerFrame::OnToolAddRack(wxCommandEvent& event)
+{
+    m_currentTool = Tool::ADD_RACK;
+}
+
+
 void ManagerFrame::OnToolTurnLeft(wxCommandEvent& event)
 {
     m_currentTool = Tool::TURN_ENTITY_LEFT;
@@ -414,6 +420,9 @@ void ManagerFrame::callCurrentToolAction()
     case Tool::ADD_AGV:
         actionToolAddAgv("RegularAgv", columnToPerformAction, rowToPerformAction);
         break;
+    case Tool::ADD_RACK:
+        actionToolAddRack("RegularRack", columnToPerformAction, rowToPerformAction);
+        break;
     case Tool::TURN_ENTITY_LEFT:
     	actionToolTurn("left", columnToPerformAction, rowToPerformAction);
     	break;
@@ -457,9 +466,18 @@ void ManagerFrame::actionToolReplaceCell(const std::string& cellType, int column
 
 void ManagerFrame::actionToolAddAgv(const std::string& agvType, int column, int row)
 {
-    std::string commandAddAgv = Util::String::generateCommand("add-agv", agvType, m_mapControl->getName(), column, row);
+    std::string commandAddAgv = Util::String::generateCommand("add-agv", agvType, m_mapControl->getName(), 
+                                                                column, row);
 
     m_mapControl->executeCommand(commandAddAgv, *m_dbConnector);
+}
+
+void ManagerFrame::actionToolAddRack(const std::string& rackType, int column, int row)
+{
+    std::string commandAddRack = Util::String::generateCommand("add-rack", rackType, m_mapControl->getName(), 
+                                                                column, row);
+
+    m_mapControl->executeCommand(commandAddRack, *m_dbConnector);
 }
 
 void ManagerFrame::actionToolTurn(const std::string& direction, int column, int row)
@@ -527,6 +545,7 @@ void ManagerFrame::updateToolbar()
         m_toolBar1->EnableTool(m_toolBlockedCell->GetId(), true);
         m_toolBar1->EnableTool(m_toolParkingCell->GetId(), true);
         m_toolBar1->EnableTool(m_toolAddAgv->GetId(), true);
+        m_toolBar1->EnableTool(m_toolAddRack->GetId(), true);
         m_toolBar1->EnableTool(m_toolTurnLeft->GetId(), true);
         m_toolBar1->EnableTool(m_toolTurnRight->GetId(), true);
         m_toolBar1->EnableTool(m_toolUndo->GetId(), true);
@@ -538,6 +557,7 @@ void ManagerFrame::updateToolbar()
         m_toolBar1->EnableTool(m_toolBlockedCell->GetId(), false);
         m_toolBar1->EnableTool(m_toolParkingCell->GetId(), false);
         m_toolBar1->EnableTool(m_toolAddAgv->GetId(), false);
+        m_toolBar1->EnableTool(m_toolAddRack->GetId(), false);
         m_toolBar1->EnableTool(m_toolTurnLeft->GetId(), false);
         m_toolBar1->EnableTool(m_toolTurnRight->GetId(), false);
         m_toolBar1->EnableTool(m_toolUndo->GetId(), false);

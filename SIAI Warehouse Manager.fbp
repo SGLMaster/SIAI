@@ -191,6 +191,18 @@
                             <property name="tooltip">Agregar Agv</property>
                             <event name="OnToolClicked">OnToolAddAgv</event>
                         </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap">Load From File; resources/tools/regular-rack.bmp</property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_RADIO</property>
+                            <property name="label">Agregar Estante</property>
+                            <property name="name">m_toolAddRack</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar">Agregar Estante</property>
+                            <property name="tooltip">Agregar Estante</property>
+                            <event name="OnToolClicked">OnToolAddRack</event>
+                        </object>
                         <object class="tool" expanded="0">
                             <property name="bitmap">Load From File; resources/tools/turn-left.bmp</property>
                             <property name="context_menu">0</property>

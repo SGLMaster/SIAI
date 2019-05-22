@@ -24,6 +24,7 @@ enum class Tool
     STORAGE_CELL,
     PARKING_CELL,
     ADD_AGV,
+    ADD_RACK,
 	TURN_ENTITY_LEFT,
 	TURN_ENTITY_RIGHT
 };
@@ -75,7 +76,9 @@ private:
 	virtual void OnToolBlockedCell(wxCommandEvent& event) override;
     virtual void OnToolStorageCell(wxCommandEvent& event) override;
     virtual void OnToolParkingCell(wxCommandEvent& event) override;
+
 	virtual void OnToolAddAgv(wxCommandEvent& event) override;
+    virtual void OnToolAddRack(wxCommandEvent& event) override;
     
 	virtual void OnToolTurnLeft(wxCommandEvent& event) override;
     virtual void OnToolTurnRight(wxCommandEvent& event) override;
@@ -116,6 +119,7 @@ private:
     void actionToolSelect(PanelPoint& mousePosition);
     void actionToolReplaceCell(const std::string& cellType, int column, int row);
     void actionToolAddAgv(const std::string& agvType, int column, int row);
+    void actionToolAddRack(const std::string& rackType, int column, int row);
     void actionToolTurn(const std::string& direction, int column, int row);
 
     void repaintMapNow();
