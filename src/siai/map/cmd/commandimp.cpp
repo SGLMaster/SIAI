@@ -153,11 +153,11 @@ void AddRackCommand::execute(Entities::Container& entities, DbConnector& connect
 
 void AddRackCommand::undo(Entities::Container& entities, DbConnector& connector)
 {
-	//Entities::Iterator agvToErase = Entities::findAgvIteratorWithPosition(entities, m_position);
+	Entities::Iterator rackToErase = Entities::findRackIteratorWithPosition(entities, m_position);
 
-	//Entities::eraseAgvOnDbWithId(connector, m_mapName, (*agvToErase)->getId());
+	Entities::eraseRackOnDbWithId(connector, m_mapName, (*rackToErase)->getId());
 
-	//entities.erase(agvToErase);
+	entities.erase(rackToErase);
 }
 
 TurnEntityCommand::TurnEntityCommand(const MapCommand::Container& arguments)

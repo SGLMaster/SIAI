@@ -210,12 +210,41 @@ Entities::Iterator Entities::findAgvIteratorWithPosition(Container& entities, co
     return agvFound;
 }
 
+Entities::Iterator Entities::findRackIteratorWithPosition(Container& entities, const MapPosition& position)
+{
+    auto findRackInPosition = [rackPosition = position](const Entities::Pointer& entity)
+                                    {
+                                        bool entityIsARack = dynamic_cast<IRack*>(entity.get()) != nullptr;
+
+                                        return entity->getPosition().column == rackPosition.column
+                                                && entity->getPosition().row == rackPosition.row
+                                                && entityIsARack;
+                                    };
+
+    Entities::Iterator rackFound = std::find_if(entities.begin(), entities.end(), findRackInPosition);
+
+    if(rackFound == entities.end())
+    {
+        throw EntityNotFound();
+    }
+
+    return rackFound;
+}
+
 void Entities::eraseAgvOnDbWithId(DbConnector& connector, const std::string& mapName, int id)
 {
 	SqlWhereCondition whereCondition( SqlQueryData{"", {IAgv::primaryKeyName}, {std::to_string(id)} } );
 	SqlDeleteRowQuery eraseAgvQuery(SIAIGlobals::DB_AGVS_TABLE_PREFIX + mapName, whereCondition.generateString());
 
 	connector.executeQueryWithoutResults(eraseAgvQuery);
+}
+
+void Entities::eraseRackOnDbWithId(DbConnector& connector, const std::string& mapName, int id)
+{
+	SqlWhereCondition whereCondition( SqlQueryData{"", {IRack::primaryKeyName}, {std::to_string(id)} } );
+	SqlDeleteRowQuery eraseRackQuery(SIAIGlobals::DB_RACKS_TABLE_PREFIX + mapName, whereCondition.generateString());
+
+	connector.executeQueryWithoutResults(eraseRackQuery);
 }
 
 Entities::Pointer& Entities::getAgvWithId(Entities::Container& entities, int id)

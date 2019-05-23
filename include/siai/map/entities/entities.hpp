@@ -32,8 +32,10 @@ namespace Entities
 
     Iterator findCellIteratorWithPosition(Container& entities, const MapPosition& position);
     Iterator findAgvIteratorWithPosition(Container& entities, const MapPosition& position);
+    Iterator findRackIteratorWithPosition(Container& entities, const MapPosition& position);
 
     void eraseAgvOnDbWithId(DbConnector& connector, const std::string& mapName, int id);
+    void eraseRackOnDbWithId(DbConnector& connector, const std::string& mapName, int id);
 
     Pointer& getAgvWithId(Entities::Container& entities, int id);
     Pointer& getCellWithId(Entities::Container& entities, int id);
