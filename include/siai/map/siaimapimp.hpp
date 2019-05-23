@@ -69,6 +69,7 @@ private:
 
     void loadCellsFromDb(DbConnector& connector);
     void loadAgvsFromDb(DbConnector& connector);
+    void loadRacksFromDb(DbConnector& connector);
 
     void updateAgvsFromDb(DbConnector& connector);
 

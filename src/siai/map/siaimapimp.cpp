@@ -79,6 +79,7 @@ void SIAIMapImp::loadFromDb(DbConnector& connector)
 
     loadCellsFromDb(connector);
     loadAgvsFromDb(connector);
+    loadRacksFromDb(connector);
 }
 
 void SIAIMapImp::updateFromDb(DbConnector& connector)
@@ -242,6 +243,18 @@ void SIAIMapImp::loadAgvsFromDb(DbConnector& connector)
     tryQueryAndStore(connector, selectAgvsQuery, agvsRows);
 
     Entities::loadAgvsFromQueryRows(m_entities, agvsRows);
+}
+
+void SIAIMapImp::loadRacksFromDb(DbConnector& connector)
+{
+    SqlQueryData dataToSelectFromRacks{m_racksDbTableName, IRack::dbColumnNames};
+
+    SqlSelectQuery selectRacksQuery(dataToSelectFromRacks);
+
+    std::vector<DbRow> racksRows;
+    tryQueryAndStore(connector, selectRacksQuery, racksRows);
+
+    Entities::loadRacksFromQueryRows(m_entities, racksRows);
 }
 
 void SIAIMapImp::updateAgvsFromDb(DbConnector& connector)

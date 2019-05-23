@@ -1,6 +1,7 @@
 #include "map/entities/entities.hpp"
 #include "map/entities/cell.hpp"
 #include "map/entities/agv.hpp"
+#include "map/entities/rack.hpp"
 #include "map/exception.hpp"
 
 #include "database/database.hpp"
@@ -81,6 +82,25 @@ void Entities::loadAgvsFromQueryRows(Container& entities, const std::vector<DbRo
         tmpAgv->setDirection(static_cast<MapDirection>(agvDirection));
 
         entities.push_back(std::move(tmpAgv));
+    }
+}
+
+void Entities::loadRacksFromQueryRows(Container& entities, const std::vector<DbRow>& rows)
+{
+    for (const DbRow& rackDataRow : rows) 
+    {
+        int rackId = rackDataRow[0];
+        int rackCol = rackDataRow[1];
+        int rackRow = rackDataRow[2];
+        int rackDirection = rackDataRow[3];
+
+        MapPosition rackPosition{rackCol, rackRow};
+
+        Entities::Pointer tmpRack = IRack::create("RegularRack", rackId, rackPosition);
+        IRack::RacksIdManager.retrieveId(rackId);
+        tmpRack->setDirection(static_cast<MapDirection>(rackDirection));
+
+        entities.push_back(std::move(tmpRack));
     }
 }
 
