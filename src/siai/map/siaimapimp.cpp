@@ -2,6 +2,7 @@
 #include "map/entities/mapentity.hpp"
 #include "map/entities/cell.hpp"
 #include "map/entities/agv.hpp"
+#include "map/entities/rack.hpp"
 #include "map/cmd/cmdstream.hpp"
 
 #include "map/exception.hpp"
@@ -175,6 +176,7 @@ void SIAIMapImp::updateDbTableNames()
 {
     m_cellsDbTableName = SIAIGlobals::DB_CELLS_TABLE_PREFIX + m_name;
     m_agvsDbTableName = SIAIGlobals::DB_AGVS_TABLE_PREFIX + m_name;
+    m_racksDbTableName = SIAIGlobals::DB_RACKS_TABLE_PREFIX + m_name;
 }
 
 void SIAIMapImp::createDatabaseTables(DbConnector& connector)
@@ -183,6 +185,7 @@ void SIAIMapImp::createDatabaseTables(DbConnector& connector)
 	fillCellsDbTable(connector);
 
 	createAgvsDbTable(connector);
+    createRacksDbTable(connector);
 }
 
 void SIAIMapImp::uploadChanges(DbConnector& connector)
@@ -287,6 +290,14 @@ void SIAIMapImp::createAgvsDbTable(DbConnector& connector)
 	SqlCreateTableQuery createAgvsTableQuery(dataForAgvsTable, IAgv::primaryKeyName);
 
 	tryQueryWithoutResults(connector, createAgvsTableQuery);
+}
+
+void SIAIMapImp::createRacksDbTable(DbConnector& connector)
+{
+	SqlQueryData dataForRacksTable{m_racksDbTableName, IRack::dbColumnNames, IRack::dbColumnTypes};
+	SqlCreateTableQuery createRacksTableQuery(dataForRacksTable, IRack::primaryKeyName);
+
+	tryQueryWithoutResults(connector, createRacksTableQuery);
 }
 
 void SIAIMapImp::tryQueryWithoutResults(DbConnector& connector, const DbQuery& createQuery)
