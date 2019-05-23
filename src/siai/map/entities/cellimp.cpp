@@ -63,7 +63,12 @@ void CellDefault::setDifferentPenIfSelected(Painter& painter)
     }
 }
 
-void CellDefault::saveToDatabase(DbConnector& connector, const std::string& mapName) const
+void CellDefault::insertToDatabase(DbConnector& connector, const std::string& mapName) const
+{
+	;
+}
+
+void CellDefault::updateInDatabase(DbConnector& connector, const std::string& mapName) const
 {
 	int direction = static_cast<int>(m_direction);
 

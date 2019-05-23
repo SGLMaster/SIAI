@@ -24,19 +24,14 @@ public:
     virtual bool isVisibleOnScreen(const PanelPoint& panelOrigin, const PanelSize& panelSize) const noexcept override;
     virtual bool hasPointInside(const PanelPoint& point) const noexcept override;
 
-    virtual void saveToDatabase(DbConnector& connector, const std::string& mapName) const override;
+    virtual void insertToDatabase(DbConnector& connector, const std::string& mapName) const override;
+    virtual void updateInDatabase(DbConnector& connector, const std::string& mapName) const override;
     virtual void loadFromDatabase(DbConnector& connector) override;
 
 protected:
     void calculateDrawingData(int zoom);
     void calculateZoomedSize(int zoom);
     void calculateOrigin(int zoom);
-
-private:
-    void tryToInsertToDb(DbConnector& connector, const std::string& tableName,
-    		const std::vector<std::string>& valuesToInsert) const;
-    void updateOnDatabase(DbConnector& connector, const std::string& tableName,
-    		const std::vector<std::string>& valuesToUpdate) const;
 };
 
 class RegularAgv : public AgvDefault

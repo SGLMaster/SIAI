@@ -65,47 +65,40 @@ void AgvDefault::calculateOrigin(int zoom)
     m_origin = PanelPoint{originX, originY};
 }
 
-void AgvDefault::saveToDatabase(DbConnector& connector, const std::string& mapName) const
+void AgvDefault::insertToDatabase(DbConnector& connector, const std::string& mapName) const
 {
 	int direction = static_cast<int>(m_direction);
 
-	std::vector<std::string> valuesToSave{std::to_string(m_id), std::to_string(m_position.column),
+	std::vector<std::string> valuesToInsert{std::to_string(m_id), std::to_string(m_position.column),
 		std::to_string(m_position.row), std::to_string(direction)};
 
 	std::string tableName = SIAIGlobals::DB_AGVS_TABLE_PREFIX + mapName;
 
-	tryToInsertToDb(connector, tableName, valuesToSave);
+	SqlInsertQuery insertCellQuery(SqlQueryData{tableName, IAgv::dbColumnNames, valuesToInsert});
+
+	connector.executeQueryWithoutResults(insertCellQuery);
+}
+
+void AgvDefault::updateInDatabase(DbConnector& connector, const std::string& mapName) const
+{
+	int direction = static_cast<int>(m_direction);
+
+	std::vector<std::string> valuesToUpdate{std::to_string(m_id), std::to_string(m_position.column),
+		std::to_string(m_position.row), std::to_string(direction)};
+
+	std::string tableName = SIAIGlobals::DB_AGVS_TABLE_PREFIX + mapName;
+
+	SqlQueryData dataToUpdate{tableName, IAgv::dbColumnNames, valuesToUpdate};
+	SqlWhereCondition whereCondition( SqlQueryData{tableName, {"id"}, {std::to_string(m_id)} } );
+
+	SqlUpdateQuery updateQuery(dataToUpdate, whereCondition.generateString());
+
+	connector.executeQueryWithoutResults(updateQuery);
 }
 
 void AgvDefault::loadFromDatabase(DbConnector& connector)
 {
-
-}
-
-void AgvDefault::tryToInsertToDb(DbConnector& connector, const std::string& tableName,
-		const std::vector<std::string>& valuesToInsert) const
-{
-	SqlInsertQuery insertCellQuery(SqlQueryData{tableName, IAgv::dbColumnNames, valuesToInsert});
-
-	try
-	{
-		connector.executeQueryWithoutResults(insertCellQuery);
-	}
-	catch(const std::exception& e)
-	{
-		updateOnDatabase(connector, tableName, valuesToInsert);
-	}
-}
-
-void AgvDefault::updateOnDatabase(DbConnector& connector, const std::string& tableName,
-		const std::vector<std::string>& valuesToUpdate) const
-{
-	SqlQueryData dataForUpdate{tableName, IAgv::dbColumnNames, valuesToUpdate};
-	SqlWhereCondition whereCondition( SqlQueryData{tableName, {"id"}, {std::to_string(m_id)} } );
-
-	SqlUpdateQuery updateQuery(dataForUpdate, whereCondition.generateString());
-
-	connector.executeQueryWithoutResults(updateQuery);
+	;
 }
 
 RegularAgv::RegularAgv(int id, const MapPosition& position) : AgvDefault(id, position){}

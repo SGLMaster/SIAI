@@ -193,7 +193,7 @@ void SIAIMapImp::uploadChanges(DbConnector& connector)
 {
 	for(const auto& entity : m_entities)
 	{
-		entity->saveToDatabase(connector, m_name);
+		entity->updateInDatabase(connector, m_name);
 	}
 }
 
@@ -213,7 +213,7 @@ bool SIAIMapImp::moveAgvToCellWithId(DbConnector& connector, int idAgv, int idCe
     }
 
     agv->setPosition(cell->getPosition());
-    agv->saveToDatabase(connector, m_name);
+    agv->updateInDatabase(connector, m_name);
 
     return true;
 }

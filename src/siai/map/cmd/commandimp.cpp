@@ -58,7 +58,7 @@ void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, DbConnecto
     MapPosition newPosition = (*originalCellIterator)->getPosition();
 
     auto newCell = ICell::create(cellTypeToCreate, newId, newPosition);
-    newCell->saveToDatabase(connector, m_mapName);
+    newCell->updateInDatabase(connector, m_mapName);
 
     entities.push_back(std::move(newCell));
     entities.erase(originalCellIterator);
@@ -94,7 +94,7 @@ void AddAgvCommand::execute(Entities::Container& entities, DbConnector& connecto
 	{
 		Entities::Pointer agv = IAgv::create(m_agvType, IAgv::AgvsIdManager.getId(), m_position);
 
-		agv->saveToDatabase(connector, m_mapName);
+		agv->insertToDatabase(connector, m_mapName);
 
 		entities.push_back(std::move(agv));
 	}
@@ -141,7 +141,7 @@ void AddRackCommand::execute(Entities::Container& entities, DbConnector& connect
 	{
 		Entities::Pointer rack = IRack::create(m_rackType, IRack::RacksIdManager.getId(), m_position);
 
-		rack->saveToDatabase(connector, m_mapName);
+		rack->insertToDatabase(connector, m_mapName);
 
 		entities.push_back(std::move(rack));
 	}
@@ -191,7 +191,7 @@ void TurnEntityCommand::execute(Entities::Container& entities, DbConnector& conn
 		entityToTurn->turnLeft();
 	}
 
-	entityToTurn->saveToDatabase(connector, m_mapName);
+	entityToTurn->updateInDatabase(connector, m_mapName);
 }
 
 void TurnEntityCommand::undo(Entities::Container& entities, DbConnector& connector)
@@ -207,5 +207,5 @@ void TurnEntityCommand::undo(Entities::Container& entities, DbConnector& connect
 		entityToTurn->turnRight();
 	}
 
-	entityToTurn->saveToDatabase(connector, m_mapName);
+	entityToTurn->updateInDatabase(connector, m_mapName);
 }
