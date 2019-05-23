@@ -141,7 +141,7 @@ void AddRackCommand::execute(Entities::Container& entities, DbConnector& connect
 	{
 		Entities::Pointer rack = IRack::create(m_rackType, IRack::RacksIdManager.getId(), m_position);
 
-		//rack->saveToDatabase(connector, m_mapName);
+		rack->saveToDatabase(connector, m_mapName);
 
 		entities.push_back(std::move(rack));
 	}

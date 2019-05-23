@@ -1,5 +1,8 @@
 #include "map/entities/rackimp.hpp"
 
+#include "database/database.hpp"
+#include "database/sqlquery.hpp"
+
 #include "globals.hpp"
 
 RegularRack::RegularRack(int id, const MapPosition& position) : IRack(id, position){}
@@ -44,12 +47,45 @@ bool RegularRack::hasPointInside(const PanelPoint& point) const noexcept
 
 void RegularRack::saveToDatabase(DbConnector& connector, const std::string& mapName) const
 {
-	;
+	int direction = static_cast<int>(m_direction);
+
+	std::vector<std::string> valuesToSave{std::to_string(m_id), std::to_string(m_position.column),
+											std::to_string(m_position.row), std::to_string(direction)};
+
+	std::string tableName = SIAIGlobals::DB_RACKS_TABLE_PREFIX + mapName;
+
+	tryToInsertToDb(connector, tableName, valuesToSave);
 }
 
 void RegularRack::loadFromDatabase(DbConnector& connector)
 {
 	;
+}
+
+void RegularRack::tryToInsertToDb(DbConnector& connector, const std::string& tableName,
+									const std::vector<std::string>& valuesToInsert) const
+{
+	SqlInsertQuery insertRackQuery(SqlQueryData{tableName, IRack::dbColumnNames, valuesToInsert});
+
+	try
+	{
+		connector.executeQueryWithoutResults(insertRackQuery);
+	}
+	catch(const std::exception& e)
+	{
+		updateOnDatabase(connector, tableName, valuesToInsert);
+	}
+}
+
+void RegularRack::updateOnDatabase(DbConnector& connector, const std::string& tableName,
+		const std::vector<std::string>& valuesToUpdate) const
+{
+	SqlQueryData dataForUpdate{tableName, IRack::dbColumnNames, valuesToUpdate};
+	SqlWhereCondition whereCondition( SqlQueryData{tableName, {"id"}, {std::to_string(m_id)} } );
+
+	SqlUpdateQuery updateQuery(dataForUpdate, whereCondition.generateString());
+
+	connector.executeQueryWithoutResults(updateQuery);
 }
 
 void RegularRack::calculateDrawingData(int zoom)
