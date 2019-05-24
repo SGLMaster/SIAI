@@ -35,7 +35,7 @@ void Entities::tryToCreateAndAddCell(Stock& entities, int id, const MapPosition&
 {
     try
     {
-        Entities::Pointer tmpCell = ICell::create("Regular", id, position);
+        Entities::CellPtr tmpCell = ICell::create("Regular", id, position);
 
         entities.all.push_back(tmpCell);
         entities.cells.push_back(tmpCell);
@@ -59,7 +59,7 @@ void Entities::loadCellsFromQueryRows(Stock& entities, const std::vector<DbRow>&
 
         MapPosition cellPosition{cellCol, cellRow};
 
-        Entities::Pointer tmpCell = ICell::create(cellType, cellId, cellPosition);
+        Entities::CellPtr tmpCell = ICell::create(cellType, cellId, cellPosition);
         ICell::CellsIdManager.retrieveId(cellId);
         tmpCell->setDirection(static_cast<MapDirection>(cellDirection));
 
@@ -79,7 +79,7 @@ void Entities::loadAgvsFromQueryRows(Stock& entities, const std::vector<DbRow>& 
 
         MapPosition agvPosition{agvCol, agvRow};
 
-        Entities::Pointer tmpAgv = IAgv::create("RegularAgv", agvId, agvPosition);
+        Entities::AgvPtr tmpAgv = IAgv::create("RegularAgv", agvId, agvPosition);
         IAgv::AgvsIdManager.retrieveId(agvId);
         tmpAgv->setDirection(static_cast<MapDirection>(agvDirection));
 
@@ -99,7 +99,7 @@ void Entities::loadRacksFromQueryRows(Stock& entities, const std::vector<DbRow>&
 
         MapPosition rackPosition{rackCol, rackRow};
 
-        Entities::Pointer tmpRack = IRack::create("RegularRack", rackId, rackPosition);
+        Entities::RackPtr tmpRack = IRack::create("RegularRack", rackId, rackPosition);
         IRack::RacksIdManager.retrieveId(rackId);
         tmpRack->setDirection(static_cast<MapDirection>(rackDirection));
 
@@ -202,9 +202,9 @@ void Entities::eraseCellInAll(Container& all, int id)
     all.erase(itInAll);
 }
 
-void Entities::eraseCellInCells(Container& cells, int id)
+void Entities::eraseCellInCells(Cells& cells, int id)
 {
-    auto findInCells = [&id](const Entities::Pointer& cell){ return cell->getId() == id; };
+    auto findInCells = [&id](const Entities::CellPtr& cell){ return cell->getId() == id; };
 
     auto itInCells = std::find_if(cells.begin(), cells.end(), findInCells);
 
@@ -246,9 +246,9 @@ void Entities::eraseAgvInAll(Container& all, int id)
     all.erase(itInAll);
 }
 
-void Entities::eraseAgvInAgvs(Container& agvs, int id)
+void Entities::eraseAgvInAgvs(Agvs& agvs, int id)
 {
-    auto findInAgvs = [&id](const Entities::Pointer& agv){ return agv->getId() == id; };
+    auto findInAgvs = [&id](const Entities::AgvPtr& agv){ return agv->getId() == id; };
 
     auto itInAgvs = std::find_if(agvs.begin(), agvs.end(), findInAgvs);
 
@@ -291,9 +291,9 @@ void Entities::eraseAgvInAll(Container& all, const MapPosition& position)
     all.erase(itInAll);
 }
 
-void Entities::eraseAgvInAgvs(Container& agvs, const MapPosition& position)
+void Entities::eraseAgvInAgvs(Agvs& agvs, const MapPosition& position)
 {
-    auto findInAgvs = [&position](const Entities::Pointer& agv)
+    auto findInAgvs = [&position](const Entities::AgvPtr& agv)
                                 { 
                                     return (agv->getPosition().column == position.column 
                                     && agv->getPosition().row == position.row); 
@@ -339,9 +339,9 @@ void Entities::eraseRackInAll(Container& all, int id)
     all.erase(itInAll);
 }
 
-void Entities::eraseRackInRacks(Container& racks, int id)
+void Entities::eraseRackInRacks(Racks& racks, int id)
 {
-    auto findInRacks = [&id](const Entities::Pointer& rack){ return rack->getId() == id; };
+    auto findInRacks = [&id](const Entities::RackPtr& rack){ return rack->getId() == id; };
 
     auto itInRacks = std::find_if(racks.begin(), racks.end(), findInRacks);
 
@@ -384,9 +384,9 @@ void Entities::eraseRackInAll(Container& all, const MapPosition& position)
     all.erase(itInAll);
 }
 
-void Entities::eraseRackInRacks(Container& racks, const MapPosition& position)
+void Entities::eraseRackInRacks(Racks& racks, const MapPosition& position)
 {
-    auto findInRacks = [&position](const Entities::Pointer& rack)
+    auto findInRacks = [&position](const Entities::RackPtr& rack)
                             { 
                                 return (rack->getPosition().column == position.column 
                                     && rack->getPosition().row == position.row); 
@@ -436,9 +436,9 @@ void Entities::eraseRackOnDb(DbConnector& connector, const std::string& mapName,
 	connector.executeQueryWithoutResults(eraseRackQuery);
 }
 
-Entities::Pointer& Entities::getCellWithId(Entities::Container& cells, int id)
+Entities::CellPtr& Entities::getCellWithId(Entities::Cells& cells, int id)
 {
-    auto findCellWithId = [&id](const Entities::Pointer& cell){ return cell->getId() == id; };
+    auto findCellWithId = [&id](const Entities::CellPtr& cell){ return cell->getId() == id; };
 
     auto cellFound = std::find_if(cells.begin(), cells.end(), findCellWithId);
 
@@ -450,9 +450,9 @@ Entities::Pointer& Entities::getCellWithId(Entities::Container& cells, int id)
     return *cellFound;
 }
 
-Entities::Pointer& Entities::getAgvWithId(Entities::Container& agvs, int id)
+Entities::AgvPtr& Entities::getAgvWithId(Entities::Agvs& agvs, int id)
 {
-    auto findAgvWithId = [&id](const Entities::Pointer& agv){ return agv->getId() == id; };
+    auto findAgvWithId = [&id](const Entities::AgvPtr& agv){ return agv->getId() == id; };
 
     auto agvFound = std::find_if(agvs.begin(), agvs.end(), findAgvWithId);
 
@@ -482,9 +482,9 @@ Entities::Pointer& Entities::getEntityByPosition(Entities::Stock& entities, cons
 	return *entityFound;
 }
 
-Entities::Pointer& Entities::getCellByPosition(Entities::Container& cells, const MapPosition& position)
+Entities::CellPtr& Entities::getCellByPosition(Entities::Cells& cells, const MapPosition& position)
 {
-	auto findCellInPosition = [&position](Entities::Pointer& cell)
+	auto findCellInPosition = [&position](Entities::CellPtr& cell)
                                         {
 	                                        return (cell->getPosition().column == position.column
 	                                                && cell->getPosition().row == position.row);
