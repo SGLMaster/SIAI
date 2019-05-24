@@ -220,6 +220,9 @@ bool SIAIMapImp::moveAgvToCellWithId(DbConnector& connector, Entities::AgvPtr& a
     Entities::CellPtr cell;
     cell = Entities::getCellWithId(m_entities.cells, idCell);
 
+    if(!cell)
+        return false;
+
     agv->setPosition(cell->getPosition());
     agv->updateInDatabase(connector, m_name);
 

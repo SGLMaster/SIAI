@@ -9,6 +9,8 @@
 #include "server/control.hpp"
 #include "server/app.hpp"
 
+#include "map/entities/agv.hpp"
+
 #include "log.hpp"
 
 const char *GetSocketErrorMsg(int pSockError)
@@ -121,12 +123,16 @@ void EventWorker::DoRead()
         m_agv = m_serverControl->processConnection(m_inBuffer);
 
         if(m_agv)
-            LogWorker(wxT("Conexion con AGV Correcta"));
+        {
+            LogWorker(wxString::Format("Conexion relacionada con AGV#%d", m_agv->getId()));
+            m_outBuffer = "OK";
+        }
     }
     else
     {
         m_outBuffer = m_serverControl->processCommand(m_agv, m_inBuffer);
     }
+
     DoWrite();
 };
 
