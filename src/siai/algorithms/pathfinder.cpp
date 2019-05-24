@@ -10,8 +10,8 @@
 
 using CellData = std::pair< double, std::pair<int, int> >; 
 
-PathFinder::PathFinder(int numberOfRows, int numberOfCols) : m_numberOfRows{numberOfRows}, 
-                                                            m_numberOfCols{numberOfCols} {}
+PathFinder::PathFinder(int numberOfColumns, int numberOfRows) : m_numberOfColumns{numberOfColumns}, 
+                                                                m_numberOfRows{numberOfRows} {}
 
 PathFinder::~PathFinder(){}
 
@@ -20,21 +20,21 @@ PathFinder::~PathFinder(){}
 bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const MapPosition& destination) 
 {
     // If either the source or destination is out of range
-    if(!isValid(source.row, source.column) || !isValid(destination.row, destination.column))
+    if(!isValid(source.column, source.row) || !isValid(destination.column, destination.row))
         return false;
 
     // Either the source or the destination is blocked 
-    if(isBlocked(mapGrid, source.row, source.column) || isBlocked(mapGrid, destination.row, destination.column))
+    if(isBlocked(mapGrid, source.column, source.row) || isBlocked(mapGrid, destination.column, destination.row))
         return false;
 
     // If the destination cell is the same as source cell 
-    if(isDestination(source.row, source.column, destination)) 
+    if(isDestination(source.column, source.row, destination)) 
         return false; 
 
     // Create a closed list and initialise it to false which means 
     // that no cell has been included yet 
     // This closed list is implemented as a boolean 2D array 
-    bool closedList[m_numberOfRows][m_numberOfCols]; 
+    bool closedList[m_numberOfColumns][m_numberOfRows]; 
     std::memset(closedList, false, sizeof (closedList)); 
 
     // Declare a 2D array of structure to hold the details 
@@ -43,34 +43,34 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
     //Cell cells[m_numberOfRows][m_numberOfCols];
 
     std::vector<std::vector<Cell>> cells;
-    cells.resize(m_numberOfRows);
+    cells.resize(m_numberOfColumns);
 
-    for(auto& row : cells)
+    for(auto& column : cells)
     {
-        row.resize(m_numberOfCols);
+        column.resize(m_numberOfRows);
     }
   
-    int row, column; 
+    int column, row; 
   
-    for (row=0; row<m_numberOfRows; row++) 
+    for (column=0; column<m_numberOfColumns; column++) 
     { 
-        for (column=0; column<m_numberOfCols; column++) 
+        for (row=0; row<m_numberOfRows; row++) 
         { 
-            cells[row][column].f = FLT_MAX; 
-            cells[row][column].g = FLT_MAX; 
-            cells[row][column].h = FLT_MAX; 
-            cells[row][column].parentRow = -1; 
-            cells[row][column].parentColumn = -1; 
+            cells[column][row].f = FLT_MAX; 
+            cells[column][row].g = FLT_MAX; 
+            cells[column][row].h = FLT_MAX; 
+            cells[column][row].parentColumn = -1;
+            cells[column][row].parentRow = -1;  
         } 
     } 
 
     // Initialising the parameters of the starting node 
-    row = source.row, column = source.column; 
-    cells[row][column].f = 0.0; 
-    cells[row][column].g = 0.0; 
-    cells[row][column].h = 0.0; 
-    cells[row][column].parentRow = row; 
-    cells[row][column].parentColumn = column;
+    column = source.column, row = source.row; 
+    cells[column][row].f = 0.0; 
+    cells[column][row].g = 0.0; 
+    cells[column][row].h = 0.0; 
+    cells[column][row].parentColumn = column;
+    cells[column][row].parentRow = row; 
 
     /* 
      Create an open list having information as <f, <i, j>> 
@@ -80,7 +80,7 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
     std::set<CellData> openList; 
 
     // Put the starting cell on the open list and set its 'f' as 0 
-    openList.insert( std::make_pair(0.0, std::make_pair (row, column)) );
+    openList.insert( std::make_pair(0.0, std::make_pair (column, row)) );
 
     while(!openList.empty()) 
     {
@@ -89,10 +89,10 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
         // Remove this vertex from the open list 
         openList.erase(openList.begin()); 
 
-        // Add this vertex to the closed list 
-        row = curVertex.second.first; 
-        column = curVertex.second.second; 
-        closedList[row][column] = true; 
+        // Add this vertex to the closed list  
+        column = curVertex.second.first; 
+        row = curVertex.second.second;
+        closedList[column][row] = true; 
 
         /* 
         Generating all the 4 successor of this cell 
@@ -118,23 +118,23 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
         //----------- 1st Successor (East) ------------ 
   
         // Only process this cell if this is a valid one 
-        if(isValid(row, column+1)) 
+        if(isValid(column+1, row)) 
         { 
             // If the destination cell is the same as the current successor 
-            if(isDestination(row, column+1, destination)) 
+            if(isDestination(column+1, row, destination)) 
             { 
                 // Set the Parent of the destination cell 
-                cells[row][column+1].parentRow = row; 
-                cells[row][column+1].parentColumn = column; 
+                cells[column+1][row].parentColumn = column; 
+                cells[column+1][row].parentRow = row; 
                 tracePath(cells, destination);
                 return true; 
             } 
             // If the successor is already on the closed list or if it is blocked, then ignore it. 
             // Else do the following 
-            else if(!closedList[row][column+1] && !isBlocked(mapGrid, row, column+1))
+            else if(!closedList[column+1][row] && !isBlocked(mapGrid, column+1, row))
             { 
-                gNew = cells[row][column].g + 1.0; 
-                hNew = calculateHValue(row, column+1, destination); 
+                gNew = cells[column][row].g + 1.0; 
+                hNew = calculateHValue(column+1, row, destination); 
                 fNew = gNew + hNew; 
   
                 // If it isn�t on the open list, add it to the open list. Make the current square 
@@ -142,16 +142,16 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
                 //                OR 
                 // If it is on the open list already, check to see if this path to that square is better, 
                 // using 'f' cost as the measure. 
-                if (cells[row][column+1].f == FLT_MAX || cells[row][column+1].f > fNew) 
+                if (cells[column+1][row].f == FLT_MAX || cells[column+1][row].f > fNew) 
                 { 
-                    openList.insert(std::make_pair(fNew, std::make_pair (row, column+1))); 
+                    openList.insert(std::make_pair( fNew, std::make_pair(column+1, row) )); 
   
                     // Update the details of this cell 
-                    cells[row][column+1].f = fNew; 
-                    cells[row][column+1].g = gNew; 
-                    cells[row][column+1].h = hNew; 
-                    cells[row][column+1].parentRow = row; 
-                    cells[row][column+1].parentColumn = column; 
+                    cells[column+1][row].f = fNew; 
+                    cells[column+1][row].g = gNew; 
+                    cells[column+1][row].h = hNew; 
+                    cells[column+1][row].parentColumn = column; 
+                    cells[column+1][row].parentRow = row; 
                 } 
             } 
         } 
@@ -159,23 +159,23 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
         //----------- 2nd Successor (South) ------------ 
   
         // Only process this cell if this is a valid one 
-        if(isValid(row+1, column)) 
+        if(isValid(column, row+1)) 
         { 
             // If the destination cell is the same as the current successor 
-            if(isDestination(row+1, column, destination)) 
+            if(isDestination(column, row+1, destination)) 
             { 
                 // Set the Parent of the destination cell 
-                cells[row+1][column].parentRow = row; 
-                cells[row+1][column].parentColumn = column; 
+                cells[column][row+1].parentColumn = column;
+                cells[column][row+1].parentRow = row;  
                 tracePath(cells, destination);
                 return true; 
             } 
             // If the successor is already on the closed list or if it is blocked, then ignore it. 
             // Else do the following 
-            else if(!closedList[row+1][column] && !isBlocked(mapGrid, row+1, column))
+            else if(!closedList[column][row+1] && !isBlocked(mapGrid, column, row+1))
             { 
-                gNew = cells[row][column].g + 1.0; 
-                hNew = calculateHValue(row+1, column, destination); 
+                gNew = cells[column][row].g + 1.0; 
+                hNew = calculateHValue(column, row+1, destination); 
                 fNew = gNew + hNew; 
   
                 // If it isn�t on the open list, add it to the open list. Make the current square 
@@ -183,16 +183,16 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
                 //                OR 
                 // If it is on the open list already, check to see if this path to that square is better, 
                 // using 'f' cost as the measure. 
-                if (cells[row+1][column].f == FLT_MAX || cells[row+1][column].f > fNew) 
+                if (cells[column][row+1].f == FLT_MAX || cells[column][row+1].f > fNew) 
                 { 
-                    openList.insert(std::make_pair(fNew, std::make_pair (row+1, column))); 
+                    openList.insert(std::make_pair( fNew, std::make_pair(column, row+1) )); 
   
                     // Update the details of this cell 
-                    cells[row+1][column].f = fNew; 
-                    cells[row+1][column].g = gNew; 
-                    cells[row+1][column].h = hNew; 
-                    cells[row+1][column].parentRow = row; 
-                    cells[row+1][column].parentColumn = column; 
+                    cells[column][row+1].f = fNew; 
+                    cells[column][row+1].g = gNew; 
+                    cells[column][row+1].h = hNew; 
+                    cells[column][row+1].parentColumn = column; 
+                    cells[column][row+1].parentRow = row; 
                 } 
             } 
         }
@@ -200,23 +200,23 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
         //----------- 3rd Successor (West) ------------ 
   
         // Only process this cell if this is a valid one 
-        if(isValid(row, column-1)) 
+        if(isValid(column-1, row)) 
         { 
             // If the destination cell is the same as the current successor 
-            if(isDestination(row, column-1, destination)) 
+            if(isDestination(column-1, row, destination)) 
             { 
                 // Set the Parent of the destination cell 
-                cells[row][column-1].parentRow = row; 
-                cells[row][column-1].parentColumn = column; 
+                cells[column-1][row].parentColumn = column; 
+                cells[column-1][row].parentRow = row; 
                 tracePath(cells, destination);
                 return true; 
             } 
             // If the successor is already on the closed list or if it is blocked, then ignore it. 
             // Else do the following 
-            else if(!closedList[row][column-1] && !isBlocked(mapGrid, row, column-1))
+            else if(!closedList[column-1][row] && !isBlocked(mapGrid, column-1, row))
             { 
-                gNew = cells[row][column].g + 1.0; 
-                hNew = calculateHValue(row, column-1, destination); 
+                gNew = cells[column][row].g + 1.0; 
+                hNew = calculateHValue(column-1, row, destination); 
                 fNew = gNew + hNew; 
   
                 // If it isn�t on the open list, add it to the open list. Make the current square 
@@ -224,16 +224,16 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
                 //                OR 
                 // If it is on the open list already, check to see if this path to that square is better, 
                 // using 'f' cost as the measure. 
-                if (cells[row][column-1].f == FLT_MAX || cells[row][column-1].f > fNew) 
+                if (cells[column-1][row].f == FLT_MAX || cells[column-1][row].f > fNew) 
                 { 
-                    openList.insert(std::make_pair(fNew, std::make_pair (row, column-1))); 
+                    openList.insert(std::make_pair( fNew, std::make_pair(column-1, row) )); 
   
                     // Update the details of this cell 
-                    cells[row][column-1].f = fNew; 
-                    cells[row][column-1].g = gNew; 
-                    cells[row][column-1].h = hNew; 
-                    cells[row][column-1].parentRow = row; 
-                    cells[row][column-1].parentColumn = column; 
+                    cells[column-1][row].f = fNew; 
+                    cells[column-1][row].g = gNew; 
+                    cells[column-1][row].h = hNew; 
+                    cells[column-1][row].parentColumn = column; 
+                    cells[column-1][row].parentRow = row; 
                 } 
             } 
         } 
@@ -241,23 +241,23 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
         //----------- 4th Successor (North) ------------ 
   
         // Only process this cell if this is a valid one 
-        if(isValid(row-1, column)) 
+        if(isValid(column, row-1)) 
         { 
             // If the destination cell is the same as the current successor 
-            if(isDestination(row-1, column, destination)) 
+            if(isDestination(column, row-1, destination)) 
             { 
                 // Set the Parent of the destination cell 
-                cells[row-1][column].parentRow = row; 
-                cells[row-1][column].parentColumn = column; 
+                cells[column][row-1].parentColumn = column;
+                cells[column][row-1].parentRow = row;  
                 tracePath(cells, destination);
                 return true; 
             } 
             // If the successor is already on the closed list or if it is blocked, then ignore it. 
             // Else do the following 
-            else if(!closedList[row-1][column] && !isBlocked(mapGrid, row-1, column))
+            else if(!closedList[column][row-1] && !isBlocked(mapGrid, column, row-1))
             { 
-                gNew = cells[row][column].g + 1.0; 
-                hNew = calculateHValue(row-1, column, destination); 
+                gNew = cells[column][row].g + 1.0; 
+                hNew = calculateHValue(column, row-1, destination); 
                 fNew = gNew + hNew; 
   
                 // If it isn�t on the open list, add it to the open list. Make the current square 
@@ -265,16 +265,16 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
                 //                OR 
                 // If it is on the open list already, check to see if this path to that square is better, 
                 // using 'f' cost as the measure. 
-                if (cells[row-1][column].f == FLT_MAX || cells[row-1][column].f > fNew) 
+                if (cells[column][row-1].f == FLT_MAX || cells[column][row-1].f > fNew) 
                 { 
-                    openList.insert(std::make_pair(fNew, std::make_pair (row-1, column))); 
+                    openList.insert(std::make_pair( fNew, std::make_pair(column, row-1) )); 
   
                     // Update the details of this cell 
-                    cells[row-1][column].f = fNew; 
-                    cells[row-1][column].g = gNew; 
-                    cells[row-1][column].h = hNew; 
-                    cells[row-1][column].parentRow = row; 
-                    cells[row-1][column].parentColumn = column; 
+                    cells[column][row-1].f = fNew; 
+                    cells[column][row-1].g = gNew; 
+                    cells[column][row-1].h = hNew; 
+                    cells[column][row-1].parentColumn = column; 
+                    cells[column][row-1].parentRow = row; 
                 } 
             } 
         }
@@ -285,57 +285,57 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
 }
 
 // A Utility Function to check whether given position is a valid cell inside the map or not. 
-bool PathFinder::isValid(int row, int column) const noexcept
+bool PathFinder::isValid(int column, int row) const noexcept
 {
     // Returns true if row number and column number is in range 
-    return (row >= 0) && (row < m_numberOfRows) && (column >= 0) && (column < m_numberOfCols); 
+    return (column >= 0) && (column < m_numberOfColumns) && (row >= 0) && (row < m_numberOfRows); 
 }
 
 // A Utility Function to check whether the given cell is blocked or not 
-bool PathFinder::isBlocked(const MapGrid& mapGrid, int row, int column) const noexcept
+bool PathFinder::isBlocked(const MapGrid& mapGrid, int column, int row) const noexcept
 {
     // Returns false if the cell is blocked else true 
-    if(mapGrid[row][column] == -1) 
+    if(mapGrid[column][row] == -1) 
         return true; 
 
     return false; 
 }
 
 // A Utility Function to check whether destination cell has been reached or not 
-bool PathFinder::isDestination(int row, int column, const MapPosition& destination) const noexcept
+bool PathFinder::isDestination(int column, int row, const MapPosition& destination) const noexcept
 { 
-    if (row == destination.row && column == destination.column) 
+    if (column == destination.column && row == destination.row) 
         return true; 
 
     return false; 
 } 
 
 // A Utility Function to calculate the 'h' heuristics. 
-double PathFinder::calculateHValue(int row, int column, const MapPosition& destination) const noexcept
+double PathFinder::calculateHValue(int column, int row, const MapPosition& destination) const noexcept
 { 
     // Return using the distance formula 
-    return ((double) abs( row-destination.row ) + abs(column-destination.column) ); 
+    return ((double) abs(column-destination.column) + abs( row-destination.row ) ); 
 } 
 
 // A Utility Function to trace the path from the source 
 // to destination 
 void PathFinder::tracePath(const std::vector<std::vector<Cell>>& cells, const MapPosition& destination) const noexcept 
 {  
-    int row = destination.row; 
-    int column = destination.column; 
+    int column = destination.column;
+    int row = destination.row;  
   
     std::stack<std::pair<int, int>> Path; 
   
-    while (!(cells[row][column].parentRow == row && cells[row][column].parentColumn == column )) 
+    while( !(cells[column][row].parentColumn == column && cells[column][row].parentRow == row) ) 
     { 
-        Path.push(std::make_pair(row, column)); 
-        int temp_row = cells[row][column].parentRow; 
-        int temp_column = cells[row][column].parentColumn; 
-        row = temp_row; 
-        column = temp_column; 
+        Path.push(std::make_pair(column, row)); 
+        int tmpColumn = cells[column][row].parentColumn; 
+        int tmpRow = cells[column][row].parentRow; 
+        column = tmpColumn;
+        row = tmpRow;  
     } 
   
-    Path.push(std::make_pair(row, column)); 
+    Path.push(std::make_pair(column, row)); 
     while(!Path.empty())
     {
         std::pair<int, int> curCell = Path.top();
@@ -348,21 +348,21 @@ int main()
 {
     PathFinder myFinder(5, 5);
 
-    std::vector<int> firstRow  { 0,  0,  0,  0,  0};
-    std::vector<int> secondRow {-1, -1, -1,  1, -1};
-    std::vector<int> thirdRow  { 3, -1, -1,  1, -1};
-    std::vector<int> fourthRow { 3, -1, -1,  1, -1};
-    std::vector<int> fifthRow  { 2,  2,  2,  1, -1};
+    std::vector<int> fifthCol  { 2,  2,  2,  1, -1};
+    std::vector<int> fourthCol { 3, -1, -1,  1, -1};
+    std::vector<int> thirdCol  { 3, -1, -1,  1, -1};
+    std::vector<int> secondCol {-1, -1, -1,  1, -1};
+    std::vector<int> firstCol  { 0,  0,  0,  0,  0};
 
     MapGrid grid;
-    grid.push_back(firstRow);
-    grid.push_back(secondRow);
-    grid.push_back(thirdRow);
-    grid.push_back(fourthRow);
-    grid.push_back(fifthRow);
+    grid.push_back(firstCol);
+    grid.push_back(secondCol);
+    grid.push_back(thirdCol);
+    grid.push_back(fourthCol);
+    grid.push_back(fifthCol);
 
     MapPosition source{0, 0};
-    MapPosition destination{0, 2};
+    MapPosition destination{2, 0};
 
     bool pathFound = myFinder.find(grid, source, destination);
 
