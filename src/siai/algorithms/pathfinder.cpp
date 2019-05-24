@@ -1,7 +1,5 @@
 #include "algorithms/pathfinder.hpp"
 
-#include "map/entities/mapentity.hpp"
-
 #include <set>
 #include <stack>
 
@@ -97,25 +95,25 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
         /* 
         Generating all the 4 successor of this cell 
   
-                   N       
+                   U       
                    |     
                    |    
-            W----Cell----E 
+            L----Cell----R 
                    |   
                    |    
-                   S  
+                   D  
   
         Cell-->Popped Cell (i, j) 
-        N -->  North       (i-1, j) 
-        S -->  South       (i+1, j) 
-        E -->  East        (i, j+1) 
-        W -->  West           (i, j-1) 
+        U -->  Up          (i-1, j) 
+        D -->  Down        (i+1, j) 
+        R -->  Right       (i, j+1) 
+        L -->  Left        (i, j-1) 
         */
   
         // To store the 'g', 'h' and 'f' of the 4 successors 
         double gNew, hNew, fNew; 
 
-        //----------- 1st Successor (East) ------------ 
+        //----------- 1st Successor (Right) ------------ 
   
         // Only process this cell if this is a valid one 
         if(isValid(column+1, row)) 
@@ -131,7 +129,8 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
             } 
             // If the successor is already on the closed list or if it is blocked, then ignore it. 
             // Else do the following 
-            else if(!closedList[column+1][row] && !isBlocked(mapGrid, column+1, row))
+            else if(!closedList[column+1][row] && !isBlocked(mapGrid, column+1, row) 
+                    && !isOpposite(mapGrid, MapDirection::RIGHT, column+1, row))
             { 
                 gNew = cells[column][row].g + 1.0; 
                 hNew = calculateHValue(column+1, row, destination); 
@@ -156,7 +155,7 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
             } 
         } 
 
-        //----------- 2nd Successor (South) ------------ 
+        //----------- 2nd Successor (Down) ------------ 
   
         // Only process this cell if this is a valid one 
         if(isValid(column, row+1)) 
@@ -172,7 +171,8 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
             } 
             // If the successor is already on the closed list or if it is blocked, then ignore it. 
             // Else do the following 
-            else if(!closedList[column][row+1] && !isBlocked(mapGrid, column, row+1))
+            else if(!closedList[column][row+1] && !isBlocked(mapGrid, column, row+1)
+                    && !isOpposite(mapGrid, MapDirection::DOWN, column, row+1))
             { 
                 gNew = cells[column][row].g + 1.0; 
                 hNew = calculateHValue(column, row+1, destination); 
@@ -197,7 +197,7 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
             } 
         }
 
-        //----------- 3rd Successor (West) ------------ 
+        //----------- 3rd Successor (Left) ------------ 
   
         // Only process this cell if this is a valid one 
         if(isValid(column-1, row)) 
@@ -213,7 +213,8 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
             } 
             // If the successor is already on the closed list or if it is blocked, then ignore it. 
             // Else do the following 
-            else if(!closedList[column-1][row] && !isBlocked(mapGrid, column-1, row))
+            else if(!closedList[column-1][row] && !isBlocked(mapGrid, column-1, row) 
+                    && !isOpposite(mapGrid, MapDirection::LEFT, column-1, row))
             { 
                 gNew = cells[column][row].g + 1.0; 
                 hNew = calculateHValue(column-1, row, destination); 
@@ -238,7 +239,7 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
             } 
         } 
 
-        //----------- 4th Successor (North) ------------ 
+        //----------- 4th Successor (Up) ------------ 
   
         // Only process this cell if this is a valid one 
         if(isValid(column, row-1)) 
@@ -254,7 +255,8 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
             } 
             // If the successor is already on the closed list or if it is blocked, then ignore it. 
             // Else do the following 
-            else if(!closedList[column][row-1] && !isBlocked(mapGrid, column, row-1))
+            else if(!closedList[column][row-1] && !isBlocked(mapGrid, column, row-1) 
+                    && !isOpposite(mapGrid, MapDirection::UP, column, row-1))
             { 
                 gNew = cells[column][row].g + 1.0; 
                 hNew = calculateHValue(column, row-1, destination); 
@@ -294,8 +296,24 @@ bool PathFinder::isValid(int column, int row) const noexcept
 // A Utility Function to check whether the given cell is blocked or not 
 bool PathFinder::isBlocked(const MapGrid& mapGrid, int column, int row) const noexcept
 {
-    // Returns false if the cell is blocked else true 
+    // Returns true if the cell is blocked else false 
     if(mapGrid[column][row] == -1) 
+        return true; 
+
+    return false; 
+}
+
+// A Utility Function to check whether the given cell has an opposite direction to the movement or not
+bool PathFinder::isOpposite(const MapGrid& mapGrid, const MapDirection& direction, int column, int row) const noexcept
+{
+    // Returns false if the cell is faced in opposite direction to the PathFinder movement else true 
+    if(mapGrid[column][row] == 0 && direction == MapDirection::LEFT) 
+        return true; 
+    if(mapGrid[column][row] == 1 && direction == MapDirection::UP) 
+        return true; 
+    if(mapGrid[column][row] == 2 && direction == MapDirection::RIGHT) 
+        return true; 
+    if(mapGrid[column][row] == 3 && direction == MapDirection::DOWN) 
         return true; 
 
     return false; 
@@ -346,13 +364,13 @@ void PathFinder::tracePath(const std::vector<std::vector<Cell>>& cells, const Ma
 
 int main() 
 {
-    PathFinder myFinder(5, 5);
+    PathFinder myFinder(5, 6);
 
-    std::vector<int> fifthCol  { 2,  2,  2,  1, -1};
-    std::vector<int> fourthCol { 3, -1, -1,  1, -1};
-    std::vector<int> thirdCol  { 3, -1, -1,  1, -1};
-    std::vector<int> secondCol {-1, -1, -1,  1, -1};
-    std::vector<int> firstCol  { 0,  0,  0,  0,  0};
+    std::vector<int> fifthCol  { 0,  1,  1,  1,  1,  2};
+    std::vector<int> fourthCol { 0,  2,  0,  2,  0,  2};
+    std::vector<int> thirdCol  { 0,  2,  0,  2,  0,  2};
+    std::vector<int> secondCol { 0,  2,  0,  2,  0,  2};
+    std::vector<int> firstCol  { 0,  3,  3,  3,  3,  2};
 
     MapGrid grid;
     grid.push_back(firstCol);
@@ -362,7 +380,7 @@ int main()
     grid.push_back(fifthCol);
 
     MapPosition source{0, 0};
-    MapPosition destination{2, 0};
+    MapPosition destination{2, 3};
 
     bool pathFound = myFinder.find(grid, source, destination);
 

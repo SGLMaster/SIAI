@@ -1,8 +1,8 @@
 #pragma once
 
-#include <vector>
+#include "map/entities/mapentity.hpp"
 
-class MapPosition;
+#include <vector>
 
 using MapGrid = std::vector<std::vector<int>>;
 
@@ -31,6 +31,7 @@ public:
 private:
     bool isValid(int column, int row) const noexcept;
     bool isBlocked(const MapGrid& mapGrid, int column, int row) const noexcept;
+    bool isOpposite(const MapGrid& mapGrid, const MapDirection& direction, int column, int row) const noexcept;
     bool isDestination(int column, int row, const MapPosition& destination) const noexcept;
 
     double calculateHValue(int column, int row, const MapPosition& destination) const noexcept;
