@@ -54,6 +54,8 @@ public:
     virtual void selectEntity(const PanelPoint& point) override;
     virtual void diselectAll() override;
 
+    virtual Entities::AgvPtr getAgvPtr(int id) override;
+
     virtual int getSelectedEntityColumn() const noexcept override;
     virtual int getSelectedEntityRow() const noexcept override;
     virtual int getSelectedId() const noexcept;

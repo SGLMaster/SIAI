@@ -145,6 +145,11 @@ void SIAIMapImp::diselectAll()
     m_selectedEntities.resize(0);
 }
 
+Entities::AgvPtr SIAIMapImp::getAgvPtr(int id)
+{
+    return Entities::getAgvWithId(m_entities.agvs, id);
+}
+
 int SIAIMapImp::getSelectedEntityColumn() const noexcept
 {
     MapPosition lastSelectedPosition{0, 0};

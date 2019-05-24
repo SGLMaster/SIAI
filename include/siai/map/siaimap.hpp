@@ -11,6 +11,8 @@
     #define DLL_EXPORT __declspec(dllimport)
 #endif
 
+#include "map/entities/entities.hpp"
+
 #include <string>
 
 class Painter;
@@ -44,9 +46,10 @@ public:
     virtual void selectEntity(const PanelPoint& point) = 0;
     virtual void diselectAll() = 0;
 
+    virtual Entities::AgvPtr getAgvPtr(int id) = 0;
+
     virtual int getSelectedEntityColumn() const noexcept = 0;
     virtual int getSelectedEntityRow() const noexcept = 0;
-
     virtual int getSelectedId() const noexcept = 0;
 
     virtual void createDatabaseTables(DbConnector& connector) = 0;
