@@ -17,6 +17,7 @@ include_directories(${WXWIDGETS_HOME}/include ${WXWIDGETS_HOME}/lib/gcc_dll/mswu
 
 link_directories(${WXWIDGETS_HOME}/lib/gcc_dll ${MYSQLPP_HOME}/lib/Debug ${CONNECTOR_C_HOME}/lib)
 
+#file(GLOB ALGORITHMS_SOURCES "src/siai/algorithms/*.cpp")
 file(GLOB DATABASE_SOURCES "src/siai/database/*.cpp")
 file(GLOB_RECURSE MANAGER_SOURCES "src/siai/manager/*.cpp")
 file(GLOB_RECURSE MAP_SOURCES "src/siai/map/*.cpp")
@@ -45,3 +46,6 @@ target_link_options(manager PUBLIC -mwindows)
 add_executable(server ${SERVER_SOURCES} ${DATABASE_SOURCES} ${UTIL_SOURCES} ${ROOT_SOURCES})
 
 target_link_libraries(server siaimap wxbase30ud mysqlpp mysql)
+
+#PathFinder Test
+add_executable(pathfinder "src/siai/algorithms/pathfinder.cpp")
