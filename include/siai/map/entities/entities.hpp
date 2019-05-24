@@ -52,6 +52,9 @@ namespace Entities
     void eraseAgvOnDb(DbConnector& connector, const std::string& mapName, int id);
     void eraseRackOnDb(DbConnector& connector, const std::string& mapName, int id);
 
+    void eraseAgvOnDb(DbConnector& connector, const std::string& mapName, const MapPosition& position);
+    void eraseRackOnDb(DbConnector& connector, const std::string& mapName, const MapPosition& position);
+
     Pointer& getCellWithId(Container& cells, int id);
     Pointer& getAgvWithId(Container& agvs, int id);
 

@@ -436,6 +436,24 @@ void Entities::eraseRackOnDb(DbConnector& connector, const std::string& mapName,
 	connector.executeQueryWithoutResults(eraseRackQuery);
 }
 
+void Entities::eraseAgvOnDb(DbConnector& connector, const std::string& mapName, const MapPosition& position)
+{
+	SqlWhereCondition whereCondition( SqlQueryData{"", {"column", "row"}, {std::to_string(position.column), 
+                                                                            std::to_string(position.row)} } );
+	SqlDeleteRowQuery eraseAgvQuery(SIAIGlobals::DB_AGVS_TABLE_PREFIX + mapName, whereCondition.generateString());
+
+	connector.executeQueryWithoutResults(eraseAgvQuery);
+}
+
+void Entities::eraseRackOnDb(DbConnector& connector, const std::string& mapName, const MapPosition& position)
+{
+	SqlWhereCondition whereCondition( SqlQueryData{"", {"column", "row"}, {std::to_string(position.column), 
+                                                                            std::to_string(position.row)} } );
+	SqlDeleteRowQuery eraseRackQuery(SIAIGlobals::DB_RACKS_TABLE_PREFIX + mapName, whereCondition.generateString());
+
+	connector.executeQueryWithoutResults(eraseRackQuery);
+}
+
 Entities::Pointer& Entities::getCellWithId(Entities::Container& cells, int id)
 {
     auto findCellWithId = [&id](const Entities::Pointer& cell){ return cell->getId() == id; };

@@ -107,9 +107,7 @@ void AddAgvCommand::execute(Entities::Stock& entities, DbConnector& connector)
 
 void AddAgvCommand::undo(Entities::Stock& entities, DbConnector& connector)
 {
-	Entities::Iterator agvToErase = Entities::findAgvIteratorWithPosition(entities, m_position);
-
-	Entities::eraseAgvOnDb(connector, m_mapName, (*agvToErase)->getId());
+	Entities::eraseAgvOnDb(connector, m_mapName, m_position);
 	Entities::eraseAgv(entities, m_position);
 }
 
@@ -154,9 +152,7 @@ void AddRackCommand::execute(Entities::Stock& entities, DbConnector& connector)
 
 void AddRackCommand::undo(Entities::Stock& entities, DbConnector& connector)
 {
-	Entities::Iterator rackToErase = Entities::findRackIteratorWithPosition(entities, m_position);
-
-	Entities::eraseRackOnDb(connector, m_mapName, (*rackToErase)->getId());
+	Entities::eraseRackOnDb(connector, m_mapName, m_position);
 	Entities::eraseRack(entities, m_position);
 }
 
