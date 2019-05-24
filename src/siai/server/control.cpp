@@ -63,6 +63,33 @@ void ServerControl::init()
 	m_mapControl->loadFromDb(*m_dbConnector);
 }
 
+Entities::AgvPtr ServerControl::processConnection(const std::string& command)
+{
+    using namespace Util;
+    auto args = String::split<std::vector<std::string>>(command, CMD_VAL_SEPARATOR);
+
+    std::string entityType;
+    std::string entityIdStr;
+
+    int entityId = 0;
+
+    if(args.size() > 0)
+        entityType = String::trim(args[0]);
+    if(args.size() > 1)
+        entityIdStr = String::trim(args[1]);
+
+    if(entityType == "AGV")
+    {
+        if(entityIdStr != "")
+            entityId = static_cast<int>(strtol(entityIdStr.c_str(), NULL, 10));
+
+        if(entityId != 0)
+            return m_mapControl->getAgvPtr(entityId);
+    }
+
+    return NULL;
+}
+
 std::string ServerControl::processCommand(const std::string& command)
 {
     using namespace Util;

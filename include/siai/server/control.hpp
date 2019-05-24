@@ -1,5 +1,7 @@
 #pragma once
 
+#include "map/entities/entities.hpp"
+
 #include "database/database.hpp"
 
 #include <memory>
@@ -27,6 +29,7 @@ public:
     void configure();
     void init();
 
+    Entities::AgvPtr processConnection(const std::string& command);
     std::string processCommand(const std::string& command);
 
 private:
