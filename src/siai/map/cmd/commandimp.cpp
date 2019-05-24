@@ -26,19 +26,19 @@ ReplaceCellCommand::ReplaceCellCommand(const MapCommand::Container& arguments)
 
 ReplaceCellCommand::~ReplaceCellCommand() = default;
 
-void ReplaceCellCommand::execute(Entities::Container& entities, DbConnector& connector)
+void ReplaceCellCommand::execute(Entities::Stock& entities, DbConnector& connector)
 {
 	doReplaceCell(entities, connector, false);
 }
 
-void ReplaceCellCommand::undo(Entities::Container& entities, DbConnector& connector)
+void ReplaceCellCommand::undo(Entities::Stock& entities, DbConnector& connector)
 {
 	doReplaceCell(entities, connector, true);
 }
 
-void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, DbConnector& connector, bool undoing)
+void ReplaceCellCommand::doReplaceCell(Entities::Stock& entities, DbConnector& connector, bool undoing)
 {
-    Entities::Iterator originalCellIterator = Entities::findCellIteratorWithPosition(entities, m_position);
+    auto originalCell = Entities::getCellByPosition(entities.cells, m_position);
 
     Entities::assertCellOccupied(entities, m_position);
 
@@ -46,7 +46,7 @@ void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, DbConnecto
 
     if(!undoing)
     {
-        m_originalCellType = (*originalCellIterator)->getEntityName();
+        m_originalCellType = originalCell->getEntityName();
         cellTypeToCreate = m_newCellType;
     }
     else
@@ -54,16 +54,16 @@ void ReplaceCellCommand::doReplaceCell(Entities::Container& entities, DbConnecto
     	cellTypeToCreate = m_originalCellType;
     }
 
-    int newId = (*originalCellIterator)->getId();
-    MapPosition newPosition = (*originalCellIterator)->getPosition();
+    int newId = originalCell->getId();
+    MapPosition newPosition = originalCell->getPosition();
 
-    auto newCell = ICell::create(cellTypeToCreate, newId, newPosition);
+    Entities::Pointer newCell = ICell::create(cellTypeToCreate, newId, newPosition);
     newCell->updateInDatabase(connector, m_mapName);
 
-    entities.push_back(std::move(newCell));
-    entities.erase(originalCellIterator);
+    entities.all.push_back(newCell);
+	entities.cells.push_back(newCell);
 
-    Entities::sortEntitiesByDrawOrder(entities);
+    Entities::eraseCell(entities, originalCell->getId());
 }
 
 AddAgvCommand::AddAgvCommand(const MapCommand::Container& arguments)
@@ -84,7 +84,7 @@ AddAgvCommand::AddAgvCommand(const MapCommand::Container& arguments)
 
 AddAgvCommand::~AddAgvCommand() = default;
 
-void AddAgvCommand::execute(Entities::Container& entities, DbConnector& connector)
+void AddAgvCommand::execute(Entities::Stock& entities, DbConnector& connector)
 {
 	Entities::assertPositionInsideMap(entities, m_position);
 	Entities::assertIsParkingCell(entities, m_position);
@@ -96,7 +96,8 @@ void AddAgvCommand::execute(Entities::Container& entities, DbConnector& connecto
 
 		agv->insertToDatabase(connector, m_mapName);
 
-		entities.push_back(std::move(agv));
+		entities.all.push_back(agv);
+		entities.agvs.push_back(agv);
 	}
 	catch(EntityException& e)
 	{
@@ -104,13 +105,12 @@ void AddAgvCommand::execute(Entities::Container& entities, DbConnector& connecto
 	}
 }
 
-void AddAgvCommand::undo(Entities::Container& entities, DbConnector& connector)
+void AddAgvCommand::undo(Entities::Stock& entities, DbConnector& connector)
 {
 	Entities::Iterator agvToErase = Entities::findAgvIteratorWithPosition(entities, m_position);
 
-	Entities::eraseAgvOnDbWithId(connector, m_mapName, (*agvToErase)->getId());
-
-	entities.erase(agvToErase);
+	Entities::eraseAgvOnDb(connector, m_mapName, (*agvToErase)->getId());
+	Entities::eraseAgv(entities, m_position);
 }
 
 AddRackCommand::AddRackCommand(const MapCommand::Container& arguments)
@@ -131,7 +131,7 @@ AddRackCommand::AddRackCommand(const MapCommand::Container& arguments)
 
 AddRackCommand::~AddRackCommand() = default;
 
-void AddRackCommand::execute(Entities::Container& entities, DbConnector& connector)
+void AddRackCommand::execute(Entities::Stock& entities, DbConnector& connector)
 {
 	Entities::assertPositionInsideMap(entities, m_position);
 	Entities::assertIsStorageCell(entities, m_position);
@@ -143,7 +143,8 @@ void AddRackCommand::execute(Entities::Container& entities, DbConnector& connect
 
 		rack->insertToDatabase(connector, m_mapName);
 
-		entities.push_back(std::move(rack));
+		entities.all.push_back(rack);
+		entities.racks.push_back(rack);
 	}
 	catch(EntityException& e)
 	{
@@ -151,13 +152,12 @@ void AddRackCommand::execute(Entities::Container& entities, DbConnector& connect
 	}
 }
 
-void AddRackCommand::undo(Entities::Container& entities, DbConnector& connector)
+void AddRackCommand::undo(Entities::Stock& entities, DbConnector& connector)
 {
 	Entities::Iterator rackToErase = Entities::findRackIteratorWithPosition(entities, m_position);
 
-	Entities::eraseRackOnDbWithId(connector, m_mapName, (*rackToErase)->getId());
-
-	entities.erase(rackToErase);
+	Entities::eraseRackOnDb(connector, m_mapName, (*rackToErase)->getId());
+	Entities::eraseRack(entities, m_position);
 }
 
 TurnEntityCommand::TurnEntityCommand(const MapCommand::Container& arguments)
@@ -178,7 +178,7 @@ TurnEntityCommand::TurnEntityCommand(const MapCommand::Container& arguments)
 
 TurnEntityCommand::~TurnEntityCommand() = default;
 
-void TurnEntityCommand::execute(Entities::Container& entities, DbConnector& connector)
+void TurnEntityCommand::execute(Entities::Stock& entities, DbConnector& connector)
 {
 	auto entityToTurn = Entities::getEntityByPosition(entities, m_position);
 
@@ -194,7 +194,7 @@ void TurnEntityCommand::execute(Entities::Container& entities, DbConnector& conn
 	entityToTurn->updateInDatabase(connector, m_mapName);
 }
 
-void TurnEntityCommand::undo(Entities::Container& entities, DbConnector& connector)
+void TurnEntityCommand::undo(Entities::Stock& entities, DbConnector& connector)
 {
 	auto entityToTurn = Entities::getEntityByPosition(entities, m_position);
 

@@ -9,7 +9,7 @@
 CommandStreamImp::CommandStreamImp() = default;
 CommandStreamImp::~CommandStreamImp() = default;
 
-void CommandStreamImp::executeAndLog(Entities::Container& entities, DbConnector& connector, const std::string& command)
+void CommandStreamImp::executeAndLog(Entities::Stock& entities, DbConnector& connector, const std::string& command)
 {
 	std::deque<std::string> arguments;
 	    Util::String::splitIntoContainer(command, arguments, ' ');
@@ -17,7 +17,7 @@ void CommandStreamImp::executeAndLog(Entities::Container& entities, DbConnector&
 	tryToExecuteAndLog(entities, connector, arguments);
 }
 
-void CommandStreamImp::undo(Entities::Container& entities, DbConnector& connector)
+void CommandStreamImp::undo(Entities::Stock& entities, DbConnector& connector)
 {
     if(m_iterator != m_commands.begin() && m_commands.size() > 0)
     {
@@ -28,7 +28,7 @@ void CommandStreamImp::undo(Entities::Container& entities, DbConnector& connecto
     }
 }
 
-void CommandStreamImp::redo(Entities::Container& entities, DbConnector& connector)
+void CommandStreamImp::redo(Entities::Stock& entities, DbConnector& connector)
 {
     if(m_iterator != m_commands.end() && m_commands.size() > 0)
     {
@@ -44,7 +44,7 @@ void CommandStreamImp::clear()
 	m_commands.resize(0);
 }
 
-void CommandStreamImp::tryToExecuteAndLog(Entities::Container& entities, DbConnector& connector,
+void CommandStreamImp::tryToExecuteAndLog(Entities::Stock& entities, DbConnector& connector,
 		std::deque<std::string>& arguments)
 {
 	try
@@ -61,7 +61,7 @@ void CommandStreamImp::tryToExecuteAndLog(Entities::Container& entities, DbConne
 	}
 }
 
-void CommandStreamImp::doExecuteAndLog(Entities::Container& entities, DbConnector& connector,
+void CommandStreamImp::doExecuteAndLog(Entities::Stock& entities, DbConnector& connector,
 		std::deque<std::string>& arguments)
 {
 	std::string commandName = arguments.front();

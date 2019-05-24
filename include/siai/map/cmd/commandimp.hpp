@@ -29,10 +29,10 @@ public:
     ReplaceCellCommand(const MapCommand::Container& arguments);
     virtual ~ReplaceCellCommand();
 
-    virtual void execute(Entities::Container& entities, DbConnector& connector) override;
-    virtual void undo(Entities::Container& entities, DbConnector& connector) override;
+    virtual void execute(Entities::Stock& entities, DbConnector& connector) override;
+    virtual void undo(Entities::Stock& entities, DbConnector& connector) override;
 private:
-    void doReplaceCell(Entities::Container& entities, DbConnector& connector, bool undoing);
+    void doReplaceCell(Entities::Stock& entities, DbConnector& connector, bool undoing);
 };
 
 class AddAgvCommand : public MapCommand
@@ -57,8 +57,8 @@ public:
     AddAgvCommand(const MapCommand::Container& arguments);
     virtual ~AddAgvCommand();
 
-    virtual void execute(Entities::Container& entities, DbConnector& connector) override;
-    virtual void undo(Entities::Container& entities, DbConnector& connector) override;
+    virtual void execute(Entities::Stock& entities, DbConnector& connector) override;
+    virtual void undo(Entities::Stock& entities, DbConnector& connector) override;
 };
 
 class AddRackCommand : public MapCommand
@@ -83,8 +83,8 @@ public:
     AddRackCommand(const MapCommand::Container& arguments);
     virtual ~AddRackCommand();
 
-    virtual void execute(Entities::Container& entities, DbConnector& connector) override;
-    virtual void undo(Entities::Container& entities, DbConnector& connector) override;
+    virtual void execute(Entities::Stock& entities, DbConnector& connector) override;
+    virtual void undo(Entities::Stock& entities, DbConnector& connector) override;
 };
 
 class TurnEntityCommand : public MapCommand
@@ -109,6 +109,6 @@ public:
     TurnEntityCommand(const MapCommand::Container& arguments);
     virtual ~TurnEntityCommand();
 
-    virtual void execute(Entities::Container& entities, DbConnector& connector) override;
-    virtual void undo(Entities::Container& entities, DbConnector& connector) override;
+    virtual void execute(Entities::Stock& entities, DbConnector& connector) override;
+    virtual void undo(Entities::Stock& entities, DbConnector& connector) override;
 };

@@ -93,7 +93,10 @@ void SIAIMapImp::reset(int numberOfColumns, int numberOfRows)
     m_numberOfRows = numberOfRows;
 
     m_selectedEntities.resize(0);
-    m_entities.resize(0);
+    m_entities.all.resize(0);
+    m_entities.cells.resize(0);
+    m_entities.agvs.resize(0);
+    m_entities.racks.resize(0);
     
     m_commandStream->clear();
 
@@ -102,15 +105,25 @@ void SIAIMapImp::reset(int numberOfColumns, int numberOfRows)
 
 void SIAIMapImp::repaint(Painter& painter)
 {
-    for(const auto& entity : m_entities)
+    for(const auto& cell : m_entities.cells)
     {
-        entity->draw(painter);
+        cell->draw(painter);
+    }
+
+    for(const auto& agv : m_entities.agvs)
+    {
+        agv->draw(painter);
+    }
+
+    for(const auto& rack : m_entities.racks)
+    {
+        rack->draw(painter);
     }
 }
 
 void SIAIMapImp::selectEntity(const PanelPoint& point)
 {
-    for(const auto& entity : Util::reverse(m_entities))
+    for(const auto& entity : Util::reverse(m_entities.all))
     {
         bool someEntityChanged = Entities::selectOrDiselectIfHasPointInside(*entity, point);
 
@@ -191,7 +204,7 @@ void SIAIMapImp::createDatabaseTables(DbConnector& connector)
 
 void SIAIMapImp::uploadChanges(DbConnector& connector)
 {
-	for(const auto& entity : m_entities)
+	for(const auto& entity : m_entities.all)
 	{
 		entity->updateInDatabase(connector, m_name);
 	}
@@ -204,8 +217,8 @@ bool SIAIMapImp::moveAgvToCellWithId(DbConnector& connector, int idAgv, int idCe
 
     try
     {
-        agv = Entities::getAgvWithId(m_entities, idAgv);
-        cell = Entities::getCellWithId(m_entities, idCell);
+        agv = Entities::getAgvWithId(m_entities.agvs, idAgv);
+        cell = Entities::getCellWithId(m_entities.cells, idCell);
     }
     catch(const std::exception& e)
     {
@@ -281,7 +294,7 @@ void SIAIMapImp::fillCellsDbTable(DbConnector& connector)
 {
 	std::vector<std::vector<std::string>> cellsValues;
 
-	for(const auto& cell : m_entities)
+	for(const auto& cell : m_entities.cells)
 	{
 		int direction = static_cast<int>(cell->getDirection());
 

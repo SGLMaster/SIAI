@@ -16,46 +16,61 @@ namespace Entities
     using Container = std::vector<Pointer>;
     using Iterator = std::vector<Pointer>::iterator;
 
-    void generateMapCells(Container& entities, int numberOfColumns, int numberOfRows);
-    void tryToCreateAndAddCell(Container& entities, int id, const MapPosition& position);
+    struct Stock
+    {
+        Entities::Container all;
+        Entities::Container cells;
+        Entities::Container agvs;
+        Entities::Container racks;
+    };
 
-    void loadCellsFromQueryRows(Container& entities, const std::vector<DbRow>& rows);
-    void loadAgvsFromQueryRows(Container& entities, const std::vector<DbRow>& rows);
-    void loadRacksFromQueryRows(Container& entities, const std::vector<DbRow>& rows);
+    void generateMapCells(Stock& entities, int numberOfColumns, int numberOfRows);
+    void tryToCreateAndAddCell(Stock& entities, int id, const MapPosition& position);
 
-    void updateAgvsFromQueryRows(Container& entities, const std::vector<DbRow>& rows);
+    void loadCellsFromQueryRows(Stock& entities, const std::vector<DbRow>& rows);
+    void loadAgvsFromQueryRows(Stock& entities, const std::vector<DbRow>& rows);
+    void loadRacksFromQueryRows(Stock& entities, const std::vector<DbRow>& rows);
+
+    void updateAgvsFromQueryRows(Stock& entities, const std::vector<DbRow>& rows);
 
     int getNumberOfMapColsFromDbRows(const std::vector<DbRow>& rows);
     int getNumberOfMapRowsFromDbRows(const std::vector<DbRow>& rows);
 
-    MapPosition findPositionWithPoint(Container& entities, const PanelPoint& point);
+    MapPosition findPositionWithPoint(Stock& entities, const PanelPoint& point);
 
-    Iterator findCellIteratorWithPosition(Container& entities, const MapPosition& position);
-    Iterator findAgvIteratorWithPosition(Container& entities, const MapPosition& position);
-    Iterator findRackIteratorWithPosition(Container& entities, const MapPosition& position);
+    Iterator findCellIteratorWithPosition(Stock& entities, const MapPosition& position);
+    Iterator findAgvIteratorWithPosition(Stock& entities, const MapPosition& position);
+    Iterator findRackIteratorWithPosition(Stock& entities, const MapPosition& position);
 
-    void eraseAgvOnDbWithId(DbConnector& connector, const std::string& mapName, int id);
-    void eraseRackOnDbWithId(DbConnector& connector, const std::string& mapName, int id);
+    void eraseCell(Stock& entities, int id);
+    void eraseAgv(Stock& entities, int id);
+    void eraseRack(Stock& entities, int id);
 
-    Pointer& getAgvWithId(Entities::Container& entities, int id);
-    Pointer& getCellWithId(Entities::Container& entities, int id);
+    void eraseAgv(Stock& entities, const MapPosition& position);
+    void eraseRack(Stock& entities, const MapPosition& position);
 
-    Pointer& getEntityByPosition(Entities::Container& entities, const MapPosition& position);
-    Pointer& getCellByPosition(Entities::Container& entities, const MapPosition& position);
+    void eraseAgvOnDb(DbConnector& connector, const std::string& mapName, int id);
+    void eraseRackOnDb(DbConnector& connector, const std::string& mapName, int id);
 
-    void assertPositionInsideMap(const Entities::Container& entities, const MapPosition& position);
-    bool isPositionInsideMap(const Entities::Container& entities, const MapPosition& position);
+    Pointer& getCellWithId(Container& cells, int id);
+    Pointer& getAgvWithId(Container& agvs, int id);
 
-    void assertCellOccupied(const Entities::Container& entities, const MapPosition& position);
-    bool isCellOccupied(const Container& entities, const MapPosition& position);
+    Pointer& getEntityByPosition(Stock& entities, const MapPosition& position);
+    Pointer& getCellByPosition(Container& cells, const MapPosition& position);
 
-    void assertIsParkingCell(Entities::Container& entities, const MapPosition& position);
-    bool isParkingCell(Container& entities, const MapPosition& position);
+    void assertPositionInsideMap(const Stock& entities, const MapPosition& position);
+    bool isPositionInsideMap(const Stock& entities, const MapPosition& position);
 
-    void assertIsStorageCell(Entities::Container& entities, const MapPosition& position);
-    bool isStorageCell(Container& entities, const MapPosition& position);
+    void assertCellOccupied(const Stock& entities, const MapPosition& position);
+    bool isCellOccupied(const Stock& entities, const MapPosition& position);
+
+    void assertIsParkingCell(Stock& entities, const MapPosition& position);
+    bool isParkingCell(Stock& entities, const MapPosition& position);
+
+    void assertIsStorageCell(Stock& entities, const MapPosition& position);
+    bool isStorageCell(Stock& entities, const MapPosition& position);
 
     bool selectOrDiselectIfHasPointInside(IMapEntity& entity, const PanelPoint& point) noexcept;
 
-    void sortEntitiesByDrawOrder(Container& entities);
+    void sortEntitiesByDrawOrder(Stock& entities);
 }

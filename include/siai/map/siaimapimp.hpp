@@ -26,7 +26,7 @@ private:
     int m_numberOfColumns{0};
     int m_numberOfRows{0};
 
-    Entities::Container m_entities;
+    Entities::Stock m_entities;
     Entities::Container m_selectedEntities;
 
     std::unique_ptr<CommandStream> m_commandStream;
