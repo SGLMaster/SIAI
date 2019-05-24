@@ -112,7 +112,7 @@ void EventWorker::DoRead()
     }
     while(!m_socket->Error());
     
-    //m_socket->Discard();
+    m_socket->Discard();
 
     //LogWorker(wxString::Format("Mensaje en Socket: %s", std::string(m_inBuffer)));
 
