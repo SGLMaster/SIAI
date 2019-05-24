@@ -80,12 +80,12 @@ namespace Entities
     void eraseRackOnDb(DbConnector& connector, const std::string& mapName, int id);
     void eraseRackOnDb(DbConnector& connector, const std::string& mapName, const MapPosition& position);
 
-    // Getting references to the entities
-    CellPtr& getCellWithId(Cells& cells, int id);
-    AgvPtr& getAgvWithId(Agvs& agvs, int id);
+    // Getting pointers to the entities
+    CellPtr getCellWithId(Cells& cells, int id);
+    AgvPtr getAgvWithId(Agvs& agvs, int id);
 
-    Pointer& getEntityByPosition(Stock& entities, const MapPosition& position);
-    CellPtr& getCellByPosition(Cells& cells, const MapPosition& position);
+    Pointer getEntityByPosition(Stock& entities, const MapPosition& position);
+    CellPtr getCellByPosition(Cells& cells, const MapPosition& position);
 
     // Asserts
     void assertPositionInsideMap(const Stock& entities, const MapPosition& position);

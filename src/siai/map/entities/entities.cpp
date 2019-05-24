@@ -436,7 +436,7 @@ void Entities::eraseRackOnDb(DbConnector& connector, const std::string& mapName,
 	connector.executeQueryWithoutResults(eraseRackQuery);
 }
 
-Entities::CellPtr& Entities::getCellWithId(Entities::Cells& cells, int id)
+Entities::CellPtr Entities::getCellWithId(Entities::Cells& cells, int id)
 {
     auto findCellWithId = [&id](const Entities::CellPtr& cell){ return cell->getId() == id; };
 
@@ -444,13 +444,13 @@ Entities::CellPtr& Entities::getCellWithId(Entities::Cells& cells, int id)
 
     if(cellFound == cells.end())
 	{
-		throw EntityNotFound();
+		return nullptr;
 	}
 
     return *cellFound;
 }
 
-Entities::AgvPtr& Entities::getAgvWithId(Entities::Agvs& agvs, int id)
+Entities::AgvPtr Entities::getAgvWithId(Entities::Agvs& agvs, int id)
 {
     auto findAgvWithId = [&id](const Entities::AgvPtr& agv){ return agv->getId() == id; };
 
@@ -458,13 +458,13 @@ Entities::AgvPtr& Entities::getAgvWithId(Entities::Agvs& agvs, int id)
 
     if(agvFound == agvs.end())
 	{
-		throw EntityNotFound();
+		return nullptr;
 	}
 
     return *agvFound;
 }
 
-Entities::Pointer& Entities::getEntityByPosition(Entities::Stock& entities, const MapPosition& position)
+Entities::Pointer Entities::getEntityByPosition(Entities::Stock& entities, const MapPosition& position)
 {
 	auto findFirstEntityInPosition = [&position](Entities::Pointer& entity)
 	                                    {
@@ -476,13 +476,13 @@ Entities::Pointer& Entities::getEntityByPosition(Entities::Stock& entities, cons
 
 	if(entityFound == entities.all.rend())
 	{
-		throw EntityNotFound();
+		return nullptr;
 	}
 
 	return *entityFound;
 }
 
-Entities::CellPtr& Entities::getCellByPosition(Entities::Cells& cells, const MapPosition& position)
+Entities::CellPtr Entities::getCellByPosition(Entities::Cells& cells, const MapPosition& position)
 {
 	auto findCellInPosition = [&position](Entities::CellPtr& cell)
                                         {
@@ -494,7 +494,7 @@ Entities::CellPtr& Entities::getCellByPosition(Entities::Cells& cells, const Map
 
 	if(cellFound == cells.rend())
 	{
-		throw EntityNotFound();
+		return nullptr;
 	}
 
 	return *cellFound;
