@@ -1,5 +1,7 @@
 #pragma once
 
+#include "map/entities/entities.hpp"
+
 class ServerControl;
 
 //event based worker reads signature and creates buffer for incoming data.
@@ -15,6 +17,8 @@ private:
     int m_size;
     std::string m_outBuffer;
     int m_written;
+
+    Entities::AgvPtr m_agv;
 
 protected:
     wxIPV4address m_peer;

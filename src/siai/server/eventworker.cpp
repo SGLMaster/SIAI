@@ -116,7 +116,17 @@ void EventWorker::DoRead()
 
     //LogWorker(wxString::Format("Mensaje en Socket: %s", std::string(m_inBuffer)));
 
-    m_outBuffer = m_serverControl->processCommand(m_inBuffer);
+    if(!m_agv)
+    {
+        m_agv = m_serverControl->processConnection(m_inBuffer);
+
+        if(m_agv)
+            LogWorker(wxT("Conexion con AGV Correcta"));
+    }
+    else
+    {
+        m_outBuffer = m_serverControl->processCommand(m_agv, m_inBuffer);
+    }
     DoWrite();
 };
 
