@@ -8,6 +8,8 @@
 #define CONSOLE_APP
 #include "map/siaimap.hpp"
 
+#include "map/entities/agv.hpp"
+
 #include "util/database.hpp"
 #include "util/string.hpp"
 
@@ -90,45 +92,32 @@ Entities::AgvPtr ServerControl::processConnection(const std::string& command)
     return NULL;
 }
 
-std::string ServerControl::processCommand(const std::string& command)
+std::string ServerControl::processCommand(Entities::AgvPtr& agv, const std::string& command)
 {
     using namespace Util;
     auto args = String::split<std::vector<std::string>>(command, CMD_VAL_SEPARATOR);
 
-    std::string entityType;
-    std::string entityIdStr;
     std::string commandName;
     std::string commandValueStr;
 
-    int entityId = 0;
     int commandValue = 0;
 
     if(args.size() > 0)
-        entityType = String::trim(args[0]);
+        commandName = String::trim(args[0]);
     if(args.size() > 1)
-        entityIdStr = String::trim(args[1]);
-    if(args.size() > 2)
-        commandName = String::trim(args[2]);
-    if(args.size() > 3)
-        commandValueStr = String::trim(args[3]);
-
-    if(entityIdStr != "")
-        entityId = static_cast<int>(strtol(entityIdStr.c_str(), NULL, 10));
+        commandValueStr = String::trim(args[1]);
 
     if(commandValueStr != "")
         commandValue = static_cast<int>(strtol(commandValueStr.c_str(), NULL, 10));    
 
-    if(entityType == "AGV")
+    if(commandName == "RFID")
     {
-        if(commandName == "RFID")
-        {
-            bool cmdSuccess = m_mapControl->moveAgvToCellWithId(*m_dbConnector, entityId, commandValue);
+        bool cmdSuccess = m_mapControl->moveAgvToCellWithId(*m_dbConnector, agv, commandValue);
 
-            if(cmdSuccess)
-                return "OK";
-            else
-                return "ERROR";
-        }
+        if(cmdSuccess)
+            return "OK";
+        else
+            return "ERROR";
     }
 
     return "UNK";

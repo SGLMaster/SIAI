@@ -30,7 +30,7 @@ public:
     void init();
 
     Entities::AgvPtr processConnection(const std::string& command);
-    std::string processCommand(const std::string& command);
+    std::string processCommand(Entities::AgvPtr& agv, const std::string& command);
 
 private:
     void tryToConnectDb();
