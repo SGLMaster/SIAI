@@ -155,27 +155,6 @@ int Entities::getNumberOfMapRowsFromDbRows(const std::vector<DbRow>& rows)
     return ++numberOfRows; //Since the rows are numbered starting from 0, we must sum 1 to get the total of rows
 }
 
-Entities::Iterator Entities::findCellIteratorWithPosition(Stock& entities, const MapPosition& position)
-{
-    auto findCellInPosition = [&position](const Entities::Pointer& entity)
-                                    {
-                                        bool entityIsACell = dynamic_cast<ICell*>(entity.get()) != nullptr;
-
-                                        return (entity->getPosition().column == position.column
-                                                && entity->getPosition().row == position.row
-                                                && entityIsACell);
-                                    };
-
-    Entities::Iterator cellFound = std::find_if(entities.all.begin(), entities.all.end(), findCellInPosition);
-
-    if(cellFound == entities.all.end())
-    {
-        throw EntityNotFound();
-    }
-
-    return cellFound;
-}
-
 MapPosition Entities::findPositionWithPoint(Stock& entities, const PanelPoint& point)
 {
     auto findEntityWithPointInside = [&point](const Entities::Pointer& entity)
@@ -193,49 +172,13 @@ MapPosition Entities::findPositionWithPoint(Stock& entities, const PanelPoint& p
     return (*entityFound)->getPosition();
 }
 
-Entities::Iterator Entities::findAgvIteratorWithPosition(Stock& entities, const MapPosition& position)
-{
-    auto findAgvInPosition = [agvPosition = position](const Entities::Pointer& entity)
-                                    {
-                                        bool entityIsAnAgv = dynamic_cast<IAgv*>(entity.get()) != nullptr;
-
-                                        return entity->getPosition().column == agvPosition.column
-                                                && entity->getPosition().row == agvPosition.row
-                                                && entityIsAnAgv;
-                                    };
-
-    Entities::Iterator agvFound = std::find_if(entities.all.begin(), entities.all.end(), findAgvInPosition);
-
-    if(agvFound == entities.all.end())
-    {
-        throw EntityNotFound();
-    }
-
-    return agvFound;
-}
-
-Entities::Iterator Entities::findRackIteratorWithPosition(Stock& entities, const MapPosition& position)
-{
-    auto findRackInPosition = [rackPosition = position](const Entities::Pointer& entity)
-                                    {
-                                        bool entityIsARack = dynamic_cast<IRack*>(entity.get()) != nullptr;
-
-                                        return entity->getPosition().column == rackPosition.column
-                                                && entity->getPosition().row == rackPosition.row
-                                                && entityIsARack;
-                                    };
-
-    Entities::Iterator rackFound = std::find_if(entities.all.begin(), entities.all.end(), findRackInPosition);
-
-    if(rackFound == entities.all.end())
-    {
-        throw EntityNotFound();
-    }
-
-    return rackFound;
-}
-
 void Entities::eraseCell(Stock& entities, int id)
+{
+    eraseCellInAll(entities.all, id);
+    eraseCellInCells(entities.cells, id);
+}
+
+void Entities::eraseCellInAll(Container& all, int id)
 {
     auto findInAll = [&id](const Entities::Pointer& entity)
                         {
@@ -249,28 +192,37 @@ void Entities::eraseCell(Stock& entities, int id)
                             return false;
                         };
 
-    auto itInAll = std::find_if(entities.all.begin(), entities.all.end(), findInAll);
+    auto itInAll = std::find_if(all.begin(), all.end(), findInAll);
 
-    if(itInAll == entities.all.end())
+    if(itInAll == all.end())
 	{
 		throw EntityNotFound();
 	}
 
-    entities.all.erase(itInAll);
+    all.erase(itInAll);
+}
 
+void Entities::eraseCellInCells(Container& cells, int id)
+{
     auto findInCells = [&id](const Entities::Pointer& cell){ return cell->getId() == id; };
 
-    auto itInCells = std::find_if(entities.cells.begin(), entities.cells.end(), findInCells);
+    auto itInCells = std::find_if(cells.begin(), cells.end(), findInCells);
 
-    if(itInCells == entities.cells.end())
+    if(itInCells == cells.end())
 	{
 		throw EntityNotFound();
 	}
 
-    entities.cells.erase(itInCells);
+    cells.erase(itInCells);
 }
 
 void Entities::eraseAgv(Stock& entities, int id)
+{
+    eraseAgvInAll(entities.all, id);
+    eraseAgvInAgvs(entities.agvs, id);
+}
+
+void Entities::eraseAgvInAll(Container& all, int id)
 {
     auto findInAll = [&id](const Entities::Pointer& entity)
                         {
@@ -284,63 +236,37 @@ void Entities::eraseAgv(Stock& entities, int id)
                             return false;
                         };
 
-    auto itInAll = std::find_if(entities.all.begin(), entities.all.end(), findInAll);
+    auto itInAll = std::find_if(all.begin(), all.end(), findInAll);
 
-    if(itInAll == entities.all.end())
+    if(itInAll == all.end())
 	{
 		throw EntityNotFound();
 	}
 
-    entities.all.erase(itInAll);
-
-    auto findInAgvs = [&id](const Entities::Pointer& agv){ return agv->getId() == id; };
-
-    auto itInAgvs = std::find_if(entities.agvs.begin(), entities.agvs.end(), findInAgvs);
-
-    if(itInAgvs == entities.agvs.end())
-	{
-		throw EntityNotFound();
-	}
-
-    entities.agvs.erase(itInAgvs);
+    all.erase(itInAll);
 }
 
-void Entities::eraseRack(Stock& entities, int id)
+void Entities::eraseAgvInAgvs(Container& agvs, int id)
 {
-    auto findInAll = [&id](const Entities::Pointer& entity)
-                        {
-                            if(entity->getId() == id)
-                            {
-                                bool entityIsRack = dynamic_cast<IRack*>(entity.get()) != nullptr;
-                                if(entityIsRack)
-                                    return true;
-                            }
-                                    
-                            return false;
-                        };
+    auto findInAgvs = [&id](const Entities::Pointer& agv){ return agv->getId() == id; };
 
-    auto itInAll = std::find_if(entities.all.begin(), entities.all.end(), findInAll);
+    auto itInAgvs = std::find_if(agvs.begin(), agvs.end(), findInAgvs);
 
-    if(itInAll == entities.all.end())
+    if(itInAgvs == agvs.end())
 	{
 		throw EntityNotFound();
 	}
 
-    entities.all.erase(itInAll);
-
-    auto findInRacks = [&id](const Entities::Pointer& rack){ return rack->getId() == id; };
-
-    auto itInRacks = std::find_if(entities.racks.begin(), entities.racks.end(), findInRacks);
-
-    if(itInRacks == entities.racks.end())
-	{
-		throw EntityNotFound();
-	}
-
-    entities.racks.erase(itInRacks);
+    agvs.erase(itInAgvs);
 }
 
 void Entities::eraseAgv(Stock& entities, const MapPosition& position)
+{
+    eraseAgvInAll(entities.all, position);
+    eraseAgvInAgvs(entities.agvs, position);
+}
+
+void Entities::eraseAgvInAll(Container& all, const MapPosition& position)
 {
     auto findInAll = [&position](const Entities::Pointer& entity)
                         {
@@ -355,32 +281,85 @@ void Entities::eraseAgv(Stock& entities, const MapPosition& position)
                             return false;
                         };
 
-    auto itInAll = std::find_if(entities.all.begin(), entities.all.end(), findInAll);
+    auto itInAll = std::find_if(all.begin(), all.end(), findInAll);
 
-    if(itInAll == entities.all.end())
+    if(itInAll == all.end())
 	{
 		throw EntityNotFound();
 	}
 
-    entities.all.erase(itInAll);
+    all.erase(itInAll);
+}
 
+void Entities::eraseAgvInAgvs(Container& agvs, const MapPosition& position)
+{
     auto findInAgvs = [&position](const Entities::Pointer& agv)
                                 { 
                                     return (agv->getPosition().column == position.column 
                                     && agv->getPosition().row == position.row); 
                                 };
 
-    auto itInAgvs = std::find_if(entities.agvs.begin(), entities.agvs.end(), findInAgvs);
+    auto itInAgvs = std::find_if(agvs.begin(), agvs.end(), findInAgvs);
 
-    if(itInAgvs == entities.agvs.end())
+    if(itInAgvs == agvs.end())
 	{
 		throw EntityNotFound();
 	}
 
-    entities.agvs.erase(itInAgvs);
+    agvs.erase(itInAgvs);
+}
+
+void Entities::eraseRack(Stock& entities, int id)
+{
+    eraseRackInAll(entities.all, id);
+    eraseRackInRacks(entities.racks, id);    
+}
+
+void Entities::eraseRackInAll(Container& all, int id)
+{
+    auto findInAll = [&id](const Entities::Pointer& entity)
+                        {
+                            if(entity->getId() == id)
+                            {
+                                bool entityIsRack = dynamic_cast<IRack*>(entity.get()) != nullptr;
+                                if(entityIsRack)
+                                    return true;
+                            }
+                                    
+                            return false;
+                        };
+
+    auto itInAll = std::find_if(all.begin(), all.end(), findInAll);
+
+    if(itInAll == all.end())
+	{
+		throw EntityNotFound();
+	}
+
+    all.erase(itInAll);
+}
+
+void Entities::eraseRackInRacks(Container& racks, int id)
+{
+    auto findInRacks = [&id](const Entities::Pointer& rack){ return rack->getId() == id; };
+
+    auto itInRacks = std::find_if(racks.begin(), racks.end(), findInRacks);
+
+    if(itInRacks == racks.end())
+	{
+		throw EntityNotFound();
+	}
+
+    racks.erase(itInRacks);
 }
 
 void Entities::eraseRack(Stock& entities, const MapPosition& position)
+{
+    eraseRackInAll(entities.all, position);
+    eraseRackInRacks(entities.racks, position);
+}
+
+void Entities::eraseRackInAll(Container& all, const MapPosition& position)
 {
     auto findInAll = [&position](const Entities::Pointer& entity)
                         {
@@ -395,34 +374,46 @@ void Entities::eraseRack(Stock& entities, const MapPosition& position)
                             return false;
                         };
 
-    auto itInAll = std::find_if(entities.all.begin(), entities.all.end(), findInAll);
+    auto itInAll = std::find_if(all.begin(), all.end(), findInAll);
 
-    if(itInAll == entities.all.end())
+    if(itInAll == all.end())
 	{
 		throw EntityNotFound();
 	}
 
-    entities.all.erase(itInAll);
+    all.erase(itInAll);
+}
 
+void Entities::eraseRackInRacks(Container& racks, const MapPosition& position)
+{
     auto findInRacks = [&position](const Entities::Pointer& rack)
                             { 
                                 return (rack->getPosition().column == position.column 
                                     && rack->getPosition().row == position.row); 
                             };
 
-    auto itInRacks = std::find_if(entities.racks.begin(), entities.racks.end(), findInRacks);
+    auto itInRacks = std::find_if(racks.begin(), racks.end(), findInRacks);
 
-    if(itInRacks == entities.racks.end())
+    if(itInRacks == racks.end())
 	{
 		throw EntityNotFound();
 	}
 
-    entities.racks.erase(itInRacks);
+    racks.erase(itInRacks);
 }
 
 void Entities::eraseAgvOnDb(DbConnector& connector, const std::string& mapName, int id)
 {
 	SqlWhereCondition whereCondition( SqlQueryData{"", {IAgv::primaryKeyName}, {std::to_string(id)} } );
+	SqlDeleteRowQuery eraseAgvQuery(SIAIGlobals::DB_AGVS_TABLE_PREFIX + mapName, whereCondition.generateString());
+
+	connector.executeQueryWithoutResults(eraseAgvQuery);
+}
+
+void Entities::eraseAgvOnDb(DbConnector& connector, const std::string& mapName, const MapPosition& position)
+{
+	SqlWhereCondition whereCondition( SqlQueryData{"", {"column", "row"}, {std::to_string(position.column), 
+                                                                            std::to_string(position.row)} } );
 	SqlDeleteRowQuery eraseAgvQuery(SIAIGlobals::DB_AGVS_TABLE_PREFIX + mapName, whereCondition.generateString());
 
 	connector.executeQueryWithoutResults(eraseAgvQuery);
@@ -434,15 +425,6 @@ void Entities::eraseRackOnDb(DbConnector& connector, const std::string& mapName,
 	SqlDeleteRowQuery eraseRackQuery(SIAIGlobals::DB_RACKS_TABLE_PREFIX + mapName, whereCondition.generateString());
 
 	connector.executeQueryWithoutResults(eraseRackQuery);
-}
-
-void Entities::eraseAgvOnDb(DbConnector& connector, const std::string& mapName, const MapPosition& position)
-{
-	SqlWhereCondition whereCondition( SqlQueryData{"", {"column", "row"}, {std::to_string(position.column), 
-                                                                            std::to_string(position.row)} } );
-	SqlDeleteRowQuery eraseAgvQuery(SIAIGlobals::DB_AGVS_TABLE_PREFIX + mapName, whereCondition.generateString());
-
-	connector.executeQueryWithoutResults(eraseAgvQuery);
 }
 
 void Entities::eraseRackOnDb(DbConnector& connector, const std::string& mapName, const MapPosition& position)
@@ -634,14 +616,4 @@ bool Entities::selectOrDiselectIfHasPointInside(IMapEntity& entity, const PanelP
     }
 
     return noEntityChanged;
-}
-
-void Entities::sortEntitiesByDrawOrder(Stock& entities)
-{
-    auto drawOrderSorting = [](const Entities::Pointer& entityLhs, const Entities::Pointer& entityRhs)
-                            {
-                                    return (entityLhs->getDrawOrder() < entityRhs->getDrawOrder());
-                            };
-
-    std::stable_sort(entities.all.begin(), entities.all.end(), drawOrderSorting);
 }
