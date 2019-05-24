@@ -215,20 +215,10 @@ void SIAIMapImp::uploadChanges(DbConnector& connector)
 	}
 }
 
-bool SIAIMapImp::moveAgvToCellWithId(DbConnector& connector, int idAgv, int idCell)
+bool SIAIMapImp::moveAgvToCellWithId(DbConnector& connector, Entities::AgvPtr& agv, int idCell)
 {
-    Entities::Pointer agv;
-    Entities::Pointer cell;
-
-    try
-    {
-        agv = Entities::getAgvWithId(m_entities.agvs, idAgv);
-        cell = Entities::getCellWithId(m_entities.cells, idCell);
-    }
-    catch(const std::exception& e)
-    {
-        return false;
-    }
+    Entities::CellPtr cell;
+    cell = Entities::getCellWithId(m_entities.cells, idCell);
 
     agv->setPosition(cell->getPosition());
     agv->updateInDatabase(connector, m_name);
