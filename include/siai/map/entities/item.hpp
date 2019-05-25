@@ -22,10 +22,12 @@ protected:
     int m_id;
     int m_rackId;
 
+    std::string m_name;
+
 public:
     AItem() = delete;
-    AItem(int id, int rackId);
+    AItem(int id, int rackId, const std::string& name);
     virtual ~AItem();
 
-    static std::unique_ptr<AItem> create(std::string type, int id, int rackId);
+    static std::unique_ptr<AItem> create(std::string type, int id, int rackId, const std::string& name);
 };

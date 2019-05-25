@@ -7,24 +7,24 @@
 
 Util::IdManager AItem::IdManager = Util::IdManager{MIN_ID, MAX_ID};
 
-const std::vector<std::string> AItem::dbColumnNames{"id", "rackid"};
-const std::vector<std::string> AItem::dbColumnTypes{"INT NOT NULL", "INT NOT NULL"};
+const std::vector<std::string> AItem::dbColumnNames{"id", "rackid", "name"};
+const std::vector<std::string> AItem::dbColumnTypes{"INT NOT NULL", "INT NOT NULL", "TINYTEXT NULL"};
 const std::string AItem::primaryKeyName{"id"};
 
-AItem::AItem(int id, int rackId) : m_id{id}, m_rackId{rackId} {}
+AItem::AItem(int id, int rackId, const std::string& name) : m_id{id}, m_rackId{rackId}, m_name{name} {}
 
 AItem::~AItem()
 {
     IdManager.returnId(m_id);
 }
 
-std::unique_ptr<AItem> AItem::create(std::string type, int id, int rackId)
+std::unique_ptr<AItem> AItem::create(std::string type, int id, int rackId, const std::string& name)
 {
     if(type == "RegularItem")
     {
     	try
     	{
-    		auto item = std::make_unique<RegularItem>(id, rackId);
+    		auto item = std::make_unique<RegularItem>(id, rackId, name);
 
         	return item;
     	}
