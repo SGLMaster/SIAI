@@ -18,16 +18,24 @@ public:
 	static const std::vector<std::string> dbColumnTypes;
 	static const std::string primaryKeyName;
 
-protected:
-    int m_id;
-    int m_rackId;
+    struct Data
+    {
+        int id;
+        int rackId;
 
-    std::string m_name;
+        std::string name;
+        std::string code;
+
+        int weight;
+    };
+
+protected:
+    Data m_data;
 
 public:
     AItem() = delete;
-    AItem(int id, int rackId, const std::string& name);
+    AItem(const Data& data);
     virtual ~AItem();
 
-    static std::unique_ptr<AItem> create(std::string type, int id, int rackId, const std::string& name);
+    static std::unique_ptr<AItem> create(std::string type, const Data& data);
 };

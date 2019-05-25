@@ -8,7 +8,7 @@ class RegularItem : public AItem, public DbObject
 {
 public:
     RegularItem() = delete;
-    RegularItem(int id, int rackId, const std::string& name);
+    RegularItem(const AItem::Data& data);
     virtual ~RegularItem();
 
     virtual void insertToDatabase(DbConnector& connector, const std::string& mapName) const override;
