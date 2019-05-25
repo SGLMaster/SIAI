@@ -30,9 +30,4 @@ public:
     virtual ~IAgv();
 
     static std::unique_ptr<IAgv> create(std::string type, int id, const MapPosition& position);
-
-    virtual int getDrawOrder() const noexcept
-    {
-        return 1;
-    }
 };
