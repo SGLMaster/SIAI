@@ -92,7 +92,7 @@ void AddAgvCommand::execute(Entities::Stock& entities, DbConnector& connector)
 
 	try
 	{
-		Entities::AgvPtr agv = IAgv::create(m_agvType, IAgv::AgvsIdManager.getId(), m_position);
+		Entities::AgvPtr agv = IAgv::create(m_agvType, IAgv::IdManager.getId(), m_position);
 
 		agv->insertToDatabase(connector, m_mapName);
 
@@ -137,7 +137,7 @@ void AddRackCommand::execute(Entities::Stock& entities, DbConnector& connector)
 
 	try
 	{
-		Entities::RackPtr rack = IRack::create(m_rackType, IRack::RacksIdManager.getId(), m_position);
+		Entities::RackPtr rack = IRack::create(m_rackType, IRack::IdManager.getId(), m_position);
 
 		rack->insertToDatabase(connector, m_mapName);
 

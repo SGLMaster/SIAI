@@ -5,7 +5,7 @@
 
 #include "log.hpp"
 
-Util::IdManager IRack::RacksIdManager = Util::IdManager{MIN_RACK_ID, MAX_RACK_ID};
+Util::IdManager IRack::IdManager = Util::IdManager{MIN_ID, MAX_ID};
 
 const std::vector<std::string> IRack::dbColumnNames{ "id", "column", "row", "direction" };
 const std::vector<std::string> IRack::dbColumnTypes{ "INT NOT NULL", "INT NOT NULL", "INT NOT NULL", "INT NOT NULL" };
@@ -15,7 +15,7 @@ IRack::IRack(int id, const MapPosition& position) : IMapEntity(id, position) {}
 
 IRack::~IRack()
 {
-    RacksIdManager.returnId(m_id);
+    IdManager.returnId(m_id);
 }
 
 std::unique_ptr<IRack> IRack::create(std::string type, int id, const MapPosition& position)

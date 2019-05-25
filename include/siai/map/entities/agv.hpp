@@ -11,18 +11,14 @@
 class IAgv : public IMapEntity
 {
 public:
-	static const std::vector<std::string> dbColumnNames;
+    static constexpr int MIN_ID{1};
+    static constexpr int MAX_ID{9999};
+
+    static Util::IdManager IdManager;
+
+    static const std::vector<std::string> dbColumnNames;
 	static const std::vector<std::string> dbColumnTypes;
 	static const std::string primaryKeyName;
-
-    static constexpr int MIN_AGV_ID{1};
-    static constexpr int MAX_AGV_ID{9999};
-
-    static Util::IdManager AgvsIdManager;
-
-protected:
-    static constexpr int SERVER_PORT_OFFSET{20000};
-    static constexpr int SOCKET_PORT_OFFSET{30000};
 
 public:
     IAgv() = delete;

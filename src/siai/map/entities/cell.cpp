@@ -3,11 +3,11 @@
 
 #include "map/exception.hpp"
 
-Util::IdManager ICell::CellsIdManager = Util::IdManager{MIN_CELL_ID, MAX_CELL_ID};
+Util::IdManager ICell::IdManager = Util::IdManager{MIN_ID, MAX_ID};
 
 const std::vector<std::string> ICell::dbColumnNames{ "id", "column", "row", "direction", "type" };
 const std::vector<std::string> ICell::dbColumnTypes{ "INT NOT NULL", "INT NOT NULL", "INT NOT NULL", "INT NOT NULL",
-	"VARCHAR(45) NOT NULL"};
+	"TINYTEXT NULL"};
 const std::string ICell::primaryKeyName{"id"};
 
 ICell::ICell(int id, const MapPosition& position) : IMapEntity(id, position) {}
