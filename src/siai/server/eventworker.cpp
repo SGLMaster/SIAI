@@ -127,6 +127,8 @@ void EventWorker::DoRead()
             LogWorker(wxString::Format("Conexion relacionada con AGV#%d", m_agv->getId()));
             m_outBuffer = "OK";
         }
+        else
+            m_outBuffer = "ERROR";
     }
     else
     {
