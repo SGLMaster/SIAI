@@ -7,6 +7,10 @@
 
 Util::IdManager AItem::IdManager = Util::IdManager{MIN_ID, MAX_ID};
 
+const std::vector<std::string> AItem::dbColumnNames{"id", "rackid"};
+const std::vector<std::string> AItem::dbColumnTypes{"INT NOT NULL", "INT NOT NULL"};
+const std::string AItem::primaryKeyName{"id"};
+
 AItem::AItem(int id, int rackId) : m_id{id}, m_rackId{rackId} {}
 
 AItem::~AItem()

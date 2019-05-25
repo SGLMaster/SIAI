@@ -3,6 +3,7 @@
 #include "util/id.hpp"
 
 #include <memory>
+#include <vector>
 #include <string>
 
 class AItem
@@ -12,6 +13,10 @@ public:
     static constexpr int MAX_ID{2000000000};
 
     static Util::IdManager IdManager;
+
+    static const std::vector<std::string> dbColumnNames;
+	static const std::vector<std::string> dbColumnTypes;
+	static const std::string primaryKeyName;
 
 protected:
     int m_id;
