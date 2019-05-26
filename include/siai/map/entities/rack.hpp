@@ -25,9 +25,4 @@ public:
     virtual ~IRack();
 
     static std::unique_ptr<IRack> create(std::string type, int id, const MapPosition& position);
-
-    virtual int getDrawOrder() const noexcept
-    {
-        return 2;
-    }
 };

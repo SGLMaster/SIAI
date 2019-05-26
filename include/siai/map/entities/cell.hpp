@@ -25,9 +25,4 @@ public:
     virtual ~ICell();
 
     static std::unique_ptr<ICell> create(std::string type, int id, const MapPosition& position);
-
-    virtual int getDrawOrder() const noexcept
-    {
-        return 0;
-    }
 };

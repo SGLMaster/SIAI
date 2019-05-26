@@ -19,8 +19,6 @@ protected:
 public:
     virtual void draw(Painter& painter) = 0;
 
-    virtual int getDrawOrder() const noexcept = 0;
-
     virtual bool isVisibleOnScreen(const PanelPoint& panelOrigin, const PanelSize& panelSize) const noexcept = 0;
     virtual bool hasPointInside(const PanelPoint& point) const noexcept = 0;
 
