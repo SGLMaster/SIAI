@@ -87,6 +87,14 @@ void ManagerFrame::loadMap(const std::string& mapName)
     updateScrollbarsSize();
 }
 
+void ManagerFrame::OnClosing(wxCloseEvent& event)
+{
+    //We stop the timer that repaints the map so the app can stop
+    m_timerRefreshMap.Stop();
+	    
+    Forms::ManagerFrame::Close();
+}
+
 void ManagerFrame::OnLeftClickMapPanel(wxMouseEvent& event)
 {
 	try
@@ -268,7 +276,7 @@ void ManagerFrame::OnPaintMapPanel( wxPaintEvent& event )
 
 void ManagerFrame::OnTimerRefreshMap(wxTimerEvent& event)
 {
-    if(m_mapControl)
+    if(m_mapControl && isDbConnected())
     {
         repaintMapNow();
     }

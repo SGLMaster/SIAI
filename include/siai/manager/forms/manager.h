@@ -70,6 +70,7 @@ namespace Forms
 			wxTimer m_timerRefreshMap;
 
 			// Virtual event handlers, overide them in your derived class
+			virtual void OnClosing( wxCloseEvent& event ) = 0;
 			virtual void OnToolSelect( wxCommandEvent& event ) = 0;
 			virtual void OnToolRegularCell( wxCommandEvent& event ) = 0;
 			virtual void OnToolBlockedCell( wxCommandEvent& event ) = 0;

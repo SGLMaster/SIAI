@@ -103,6 +103,7 @@ ManagerFrame::ManagerFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->Centre( wxBOTH );
 
 	// Connect Events
+	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( ManagerFrame::OnClosing ) );
 	this->Connect( m_toolSelect->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolSelect ) );
 	this->Connect( m_toolRegularCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolRegularCell ) );
 	this->Connect( m_toolBlockedCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolBlockedCell ) );
@@ -132,6 +133,7 @@ ManagerFrame::ManagerFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 ManagerFrame::~ManagerFrame()
 {
 	// Disconnect Events
+	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( ManagerFrame::OnClosing ) );
 	this->Disconnect( m_toolSelect->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolSelect ) );
 	this->Disconnect( m_toolRegularCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolRegularCell ) );
 	this->Disconnect( m_toolBlockedCell->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ManagerFrame::OnToolBlockedCell ) );
