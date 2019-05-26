@@ -1,8 +1,11 @@
 #include "map/siaimapimp.hpp"
+
 #include "map/entities/mapentity.hpp"
 #include "map/entities/cell.hpp"
 #include "map/entities/agv.hpp"
 #include "map/entities/rack.hpp"
+#include "map/entities/item.hpp"
+
 #include "map/cmd/cmdstream.hpp"
 
 #include "map/exception.hpp"
@@ -196,6 +199,7 @@ void SIAIMapImp::updateDbTableNames()
     m_cellsDbTableName = SIAIGlobals::DB_CELLS_TABLE_PREFIX + m_name;
     m_agvsDbTableName = SIAIGlobals::DB_AGVS_TABLE_PREFIX + m_name;
     m_racksDbTableName = SIAIGlobals::DB_RACKS_TABLE_PREFIX + m_name;
+    m_itemsDbTableName = SIAIGlobals::DB_ITEMS_TABLE_PREFIX + m_name;
 }
 
 void SIAIMapImp::createDatabaseTables(DbConnector& connector)
@@ -205,6 +209,7 @@ void SIAIMapImp::createDatabaseTables(DbConnector& connector)
 
 	createAgvsDbTable(connector);
     createRacksDbTable(connector);
+    createItemsDbTable(connector);
 }
 
 void SIAIMapImp::uploadChanges(DbConnector& connector)
@@ -322,6 +327,14 @@ void SIAIMapImp::createRacksDbTable(DbConnector& connector)
 	SqlCreateTableQuery createRacksTableQuery(dataForRacksTable, IRack::primaryKeyName);
 
 	tryQueryWithoutResults(connector, createRacksTableQuery);
+}
+
+void SIAIMapImp::createItemsDbTable(DbConnector& connector)
+{
+	SqlQueryData dataForTable{m_itemsDbTableName, AItem::dbColumnNames, AItem::dbColumnTypes};
+	SqlCreateTableQuery createTableQuery(dataForTable, AItem::primaryKeyName);
+
+	tryQueryWithoutResults(connector, createTableQuery);
 }
 
 void SIAIMapImp::tryQueryWithoutResults(DbConnector& connector, const DbQuery& createQuery)
