@@ -18,7 +18,7 @@
 
 void Entities::generateMapCells(Stock& entities, int numberOfColumns, int numberOfRows)
 {
-    ICell::CellsIdManager.reset();
+    ICell::IdManager.reset();
 
     for(int column = 0; column < numberOfColumns; ++column)
     {
@@ -26,7 +26,7 @@ void Entities::generateMapCells(Stock& entities, int numberOfColumns, int number
         {
             MapPosition position{column, row};
 
-            tryToCreateAndAddCell(entities, ICell::CellsIdManager.getId(), position);
+            tryToCreateAndAddCell(entities, ICell::IdManager.getId(), position);
         }
     }
 }
@@ -60,7 +60,7 @@ void Entities::loadCellsFromQueryRows(Stock& entities, const std::vector<DbRow>&
         MapPosition cellPosition{cellCol, cellRow};
 
         Entities::CellPtr tmpCell = ICell::create(cellType, cellId, cellPosition);
-        ICell::CellsIdManager.retrieveId(cellId);
+        ICell::IdManager.retrieveId(cellId);
         tmpCell->setDirection(static_cast<MapDirection>(cellDirection));
 
         entities.all.push_back(tmpCell);
@@ -80,7 +80,7 @@ void Entities::loadAgvsFromQueryRows(Stock& entities, const std::vector<DbRow>& 
         MapPosition agvPosition{agvCol, agvRow};
 
         Entities::AgvPtr tmpAgv = IAgv::create("RegularAgv", agvId, agvPosition);
-        IAgv::AgvsIdManager.retrieveId(agvId);
+        IAgv::IdManager.retrieveId(agvId);
         tmpAgv->setDirection(static_cast<MapDirection>(agvDirection));
 
         entities.all.push_back(tmpAgv);
@@ -100,7 +100,7 @@ void Entities::loadRacksFromQueryRows(Stock& entities, const std::vector<DbRow>&
         MapPosition rackPosition{rackCol, rackRow};
 
         Entities::RackPtr tmpRack = IRack::create("RegularRack", rackId, rackPosition);
-        IRack::RacksIdManager.retrieveId(rackId);
+        IRack::IdManager.retrieveId(rackId);
         tmpRack->setDirection(static_cast<MapDirection>(rackDirection));
 
         entities.all.push_back(tmpRack);
