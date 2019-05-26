@@ -65,6 +65,8 @@ public:
     }
 
 private:
+    virtual void OnClosing(wxCloseEvent& event) override;
+
     virtual void OnLeftClickMapPanel(wxMouseEvent& event) override;
 
     virtual void OnSelectionNewMap(wxCommandEvent& event) override;
