@@ -8,7 +8,7 @@
 const std::vector<std::string> AItem::dbColumnNames{"id", "code", "name", "rackid", "weight"};
 const std::vector<std::string> AItem::dbColumnTypes
 {
-    "INT NOT NULL",
+    "INT NOT NULL AUTO_INCREMENT",
     "TINYTEXT NULL",
     "TINYTEXT NULL", 
     "INT NOT NULL",
