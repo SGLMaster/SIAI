@@ -5,13 +5,13 @@
 
 #include "log.hpp"
 
-const std::vector<std::string> AItem::dbColumnNames{"id", "rackid", "name", "code", "weight"};
+const std::vector<std::string> AItem::dbColumnNames{"id", "code", "name", "rackid", "weight"};
 const std::vector<std::string> AItem::dbColumnTypes
 {
-    "INT NOT NULL", 
-    "INT NOT NULL", 
+    "INT NOT NULL",
     "TINYTEXT NULL",
-    "TINYTEXT NULL",
+    "TINYTEXT NULL", 
+    "INT NOT NULL",
     "INT NOT NULL"
 };
 const std::string AItem::primaryKeyName{"id"};
