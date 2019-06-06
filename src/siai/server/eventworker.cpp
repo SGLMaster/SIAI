@@ -93,6 +93,8 @@ void EventWorker::OnSocketEvent(wxSocketEvent& pEvent)
                 WorkerEvent e(this);
                 e.m_workerFailed = m_written != m_size;
                 wxGetApp().AddPendingEvent(e);
+
+                m_agv.reset();
             }
             break;
     }
