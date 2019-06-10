@@ -27,6 +27,7 @@ public:
     ~PathFinder();
 
     bool find(const MapGrid& mapGrid, const MapPosition& source, const MapPosition& destination);
+    MapPosition findNextStep(const MapGrid& mapGrid, const MapPosition& source, const MapPosition& destination);
 
 private:
     bool isValid(int column, int row) const noexcept;

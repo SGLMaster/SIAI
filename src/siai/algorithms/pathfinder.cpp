@@ -119,7 +119,8 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
         if(isValid(column+1, row)) 
         { 
             // If the destination cell is the same as the current successor 
-            if(isDestination(column+1, row, destination)) 
+            if(isDestination(column+1, row, destination)
+                && !isOpposite(mapGrid, MapDirection::RIGHT, column+1, row)) 
             { 
                 // Set the Parent of the destination cell 
                 cells[column+1][row].parentColumn = column; 
@@ -161,7 +162,8 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
         if(isValid(column, row+1)) 
         { 
             // If the destination cell is the same as the current successor 
-            if(isDestination(column, row+1, destination)) 
+            if(isDestination(column, row+1, destination)
+                && !isOpposite(mapGrid, MapDirection::DOWN, column, row+1)) 
             { 
                 // Set the Parent of the destination cell 
                 cells[column][row+1].parentColumn = column;
@@ -203,7 +205,8 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
         if(isValid(column-1, row)) 
         { 
             // If the destination cell is the same as the current successor 
-            if(isDestination(column-1, row, destination)) 
+            if(isDestination(column-1, row, destination)
+                && !isOpposite(mapGrid, MapDirection::LEFT, column-1, row)) 
             { 
                 // Set the Parent of the destination cell 
                 cells[column-1][row].parentColumn = column; 
@@ -245,7 +248,8 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
         if(isValid(column, row-1)) 
         { 
             // If the destination cell is the same as the current successor 
-            if(isDestination(column, row-1, destination)) 
+            if(isDestination(column, row-1, destination)
+                && !isOpposite(mapGrid, MapDirection::UP, column, row-1)) 
             { 
                 // Set the Parent of the destination cell 
                 cells[column][row-1].parentColumn = column;
@@ -286,6 +290,29 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
     return false;
 }
 
+// A Function to find the shortest path between a given source cell to a destination cell according to 
+// A* Search Algorithm 
+MapPosition PathFinder::findNextStep(const MapGrid& mapGrid, const MapPosition& source, const MapPosition& destination) 
+{
+    MapPosition nullPosition{-1, -1};
+
+    // If either the source or destination is out of range
+    if(!isValid(source.column, source.row) || !isValid(destination.column, destination.row))
+        return nullPosition;
+
+    // Either the source or the destination is blocked 
+    if(isBlocked(mapGrid, source.column, source.row) || isBlocked(mapGrid, destination.column, destination.row))
+        return nullPosition;
+
+    // If the destination cell is the same as source cell 
+    if(isDestination(source.column, source.row, destination)) 
+        return nullPosition; 
+
+    MapPosition nextStep{-1, -1};
+
+    return nextStep;
+}
+
 // A Utility Function to check whether given position is a valid cell inside the map or not. 
 bool PathFinder::isValid(int column, int row) const noexcept
 {
@@ -307,13 +334,13 @@ bool PathFinder::isBlocked(const MapGrid& mapGrid, int column, int row) const no
 bool PathFinder::isOpposite(const MapGrid& mapGrid, const MapDirection& direction, int column, int row) const noexcept
 {
     // Returns false if the cell is faced in opposite direction to the PathFinder movement else true 
-    if(mapGrid[column][row] == 0 && direction == MapDirection::LEFT) 
+    if(mapGrid[column][row] == static_cast<int>(MapDirection::RIGHT) && direction == MapDirection::LEFT) 
         return true; 
-    if(mapGrid[column][row] == 1 && direction == MapDirection::UP) 
+    if(mapGrid[column][row] == static_cast<int>(MapDirection::DOWN) && direction == MapDirection::UP) 
         return true; 
-    if(mapGrid[column][row] == 2 && direction == MapDirection::RIGHT) 
+    if(mapGrid[column][row] == static_cast<int>(MapDirection::LEFT) && direction == MapDirection::RIGHT) 
         return true; 
-    if(mapGrid[column][row] == 3 && direction == MapDirection::DOWN) 
+    if(mapGrid[column][row] == static_cast<int>(MapDirection::UP) && direction == MapDirection::DOWN) 
         return true; 
 
     return false; 
@@ -386,6 +413,9 @@ int main()
 
     MapPosition source{0, 0};
     MapPosition destination{2, 3};
+
+    MapPosition nextStep = myFinder.findNextStep(grid, MapPosition{1, 1}, destination);
+    printf("Next Step: (%u, %u)\n", nextStep.column, nextStep.row);
 
     bool pathFound = myFinder.find(grid, source, destination);
 
