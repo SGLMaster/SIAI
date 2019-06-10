@@ -85,7 +85,7 @@ bool IngressFrame::isDbConnected()
 
 void IngressFrame::loadTasksFromDb()
 {
-    SqlQueryData dataToSelect{SIAIGlobals::DB_INGRESS_TABLE_PREFIX + m_mapName, {"id", "name", "code"}};
+    SqlQueryData dataToSelect{SIAIGlobals::DB_INGRESS_TABLE_PREFIX + m_mapName, {"id", "name", "code", "rackid"}};
     SqlSelectQuery selectQuery(dataToSelect);
 
     std::vector<DbRow> ingressRows;
@@ -114,10 +114,12 @@ void IngressFrame::fillCheckList(std::vector<DbRow>& tasks)
         int taskId = row[0];
         std::string taskProductName(row[1]);
         std::string taskProductCode(row[2]);
+        std::string taskRackId(row[3]);
 
-        std::string option = std::to_string(taskId) + " - " + taskProductName + " #" + taskProductCode;
+        std::string task = std::to_string(taskId) + " - '" + taskProductName + "' #" + taskProductCode 
+                                + " - Estante: " + taskRackId;
 
-        m_checkListTasks->Append(wxString(option));
+        m_checkListTasks->Append(wxString(task));
     }
 }
 
