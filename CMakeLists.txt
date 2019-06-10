@@ -21,6 +21,7 @@ link_directories(${WXWIDGETS_HOME}/lib/gcc_dll ${MYSQLPP_HOME}/lib/Debug ${CONNE
 file(GLOB DATABASE_SOURCES "src/siai/database/*.cpp")
 file(GLOB_RECURSE MANAGER_SOURCES "src/siai/manager/*.cpp")
 file(GLOB_RECURSE MAP_SOURCES "src/siai/map/*.cpp")
+file(GLOB INGRESS_SOURCES "src/siai/ingress/*.cpp")
 file(GLOB SERVER_SOURCES "src/siai/server/*.cpp")
 file(GLOB PAINTER_SOURCES "src/siai/painter/*.cpp")
 file(GLOB UTIL_SOURCES "src/siai/util/*.cpp")
@@ -36,7 +37,7 @@ add_library(siaimap SHARED ${MAP_SOURCES} ${DATABASE_SOURCES} ${PAINTER_SOURCES}
 target_link_libraries(siaimap wxbase30ud wxmsw30ud_core wxbase30ud_net mysqlpp mysql user32)
 target_compile_options(siaimap PUBLIC -DBUILD_DLL)
 	
-#Map Editor
+#Manager
 add_executable(manager ${MANAGER_SOURCES} ${DATABASE_SOURCES} ${PAINTER_SOURCES} ${UTIL_SOURCES} ${ROOT_SOURCES})
 
 target_link_libraries(manager siaimap wxbase30ud wxmsw30ud_core wxmsw30ud_adv mysqlpp mysql)
@@ -46,6 +47,12 @@ target_link_options(manager PUBLIC -mwindows)
 add_executable(server ${SERVER_SOURCES} ${DATABASE_SOURCES} ${UTIL_SOURCES} ${ROOT_SOURCES})
 
 target_link_libraries(server siaimap wxbase30ud mysqlpp mysql)
+
+#Ingress Assistant
+add_executable(ingress ${INGRESS_SOURCES})
+
+target_link_libraries(ingress wxbase30ud wxmsw30ud_core)
+target_link_options(ingress PUBLIC -mwindows)
 
 #PathFinder Test
 add_executable(pathfinder "src/siai/algorithms/pathfinder.cpp")

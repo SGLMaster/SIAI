@@ -8,6 +8,16 @@ cd scripts
 
 fix-manager-include.py
 
+cd ../
+
+if exist "ingress.cpp" (move "ingress.cpp" "src/siai/ingress")
+
+if exist "ingress.h" (move "ingress.h" "include/siai/ingress")
+
+cd scripts
+
+fix-ingress-include.py
+
 echo "Done"
 
 pause
