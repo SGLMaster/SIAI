@@ -7,12 +7,23 @@
 #include <memory>
 #include <vector>
 
+struct IngressTask
+{
+    int id;
+    std::string code;
+    std::string name;
+    int rackId;
+    int weight;
+};
+
 class IngressFrame : public Forms::IngressFrame
 {
 private:
     std::string m_originalFrameTitle;
 
     std::string m_mapName;
+
+    std::vector<IngressTask> m_tasksList;
 
     DbConnectionOptions m_dbConnectionOptions;
 
