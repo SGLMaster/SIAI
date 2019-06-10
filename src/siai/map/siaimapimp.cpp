@@ -200,6 +200,7 @@ void SIAIMapImp::updateDbTableNames()
     m_agvsDbTableName = SIAIGlobals::DB_AGVS_TABLE_PREFIX + m_name;
     m_racksDbTableName = SIAIGlobals::DB_RACKS_TABLE_PREFIX + m_name;
     m_itemsDbTableName = SIAIGlobals::DB_ITEMS_TABLE_PREFIX + m_name;
+    m_ingressDbTableName = SIAIGlobals::DB_INGRESS_TABLE_PREFIX + m_name;
 }
 
 void SIAIMapImp::createDatabaseTables(DbConnector& connector)
@@ -210,6 +211,7 @@ void SIAIMapImp::createDatabaseTables(DbConnector& connector)
 	createAgvsDbTable(connector);
     createRacksDbTable(connector);
     createItemsDbTable(connector);
+    createIngressDbTable(connector);
 }
 
 void SIAIMapImp::uploadChanges(DbConnector& connector)
@@ -332,6 +334,15 @@ void SIAIMapImp::createRacksDbTable(DbConnector& connector)
 void SIAIMapImp::createItemsDbTable(DbConnector& connector)
 {
 	SqlQueryData dataForTable{m_itemsDbTableName, AItem::dbColumnNames, AItem::dbColumnTypes};
+	SqlCreateTableQuery createTableQuery(dataForTable, AItem::primaryKeyName);
+
+	tryQueryWithoutResults(connector, createTableQuery);
+}
+
+void SIAIMapImp::createIngressDbTable(DbConnector& connector)
+{
+    // As of this version, the "Ingress" table has the exact same structure as the "Items" table.
+    SqlQueryData dataForTable{m_ingressDbTableName, AItem::dbColumnNames, AItem::dbColumnTypes};
 	SqlCreateTableQuery createTableQuery(dataForTable, AItem::primaryKeyName);
 
 	tryQueryWithoutResults(connector, createTableQuery);

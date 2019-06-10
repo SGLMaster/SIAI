@@ -23,6 +23,7 @@ private:
     std::string m_agvsDbTableName;
     std::string m_racksDbTableName;
     std::string m_itemsDbTableName;
+    std::string m_ingressDbTableName;
 
     int m_numberOfColumns{0};
     int m_numberOfRows{0};
@@ -82,6 +83,7 @@ private:
     void createAgvsDbTable(DbConnector& connector);
     void createRacksDbTable(DbConnector& connector);
     void createItemsDbTable(DbConnector& connector);
+    void createIngressDbTable(DbConnector& connector);
 
     void tryQueryWithoutResults(DbConnector& connector, const DbQuery& query);
     void tryQueryAndStore(DbConnector& connector, const DbQuery& query, std::vector<DbRow>& vector);

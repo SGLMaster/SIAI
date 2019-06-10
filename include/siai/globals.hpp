@@ -14,4 +14,5 @@ namespace SIAIGlobals
     constexpr char DB_AGVS_TABLE_PREFIX[] = "siaimap_agvs_";
     constexpr char DB_RACKS_TABLE_PREFIX[] = "siaimap_racks_";
     constexpr char DB_ITEMS_TABLE_PREFIX[] = "siaimap_items_";
+    constexpr char DB_INGRESS_TABLE_PREFIX[] = "siaimap_ingress_";
 }
