@@ -32,9 +32,17 @@ void IngressFrame::OnSelectionConnect(wxCommandEvent& event)
     m_dbConnectionOptions.schema = SIAIGlobals::DB_NAME;
 
     tryToConnectDb();
-    updateFrameTitle();
-
     loadTasksFromDb();
+
+    updateFrame();
+}
+
+void IngressFrame::OnSelectionDisconnect(wxCommandEvent& event)
+{
+    m_checkListTasks->Clear();
+    m_dbConnector.reset();
+
+    updateFrame();
 }
 
 void IngressFrame::tryToConnectDb()
@@ -104,6 +112,22 @@ void IngressFrame::fillCheckList(std::vector<DbRow>& tasks)
 
         m_checkListTasks->Append(wxString(option));
     }
+}
+
+void IngressFrame::updateFrame()
+{
+    if(isDbConnected())
+    {
+        m_menuConnection->GetMenuItems()[0]->Enable(false); // We disable the "Connect" option.
+        m_menuConnection->GetMenuItems()[1]->Enable(true);  // And enable "Disconnect".
+    }
+    else
+    {
+        m_menuConnection->GetMenuItems()[0]->Enable(true); // We enable the "Connect" option.
+        m_menuConnection->GetMenuItems()[1]->Enable(false);  // And disable "Disconnect".
+    }
+
+    updateFrameTitle();
 }
 
 void IngressFrame::updateFrameTitle()

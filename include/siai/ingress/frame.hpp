@@ -22,6 +22,7 @@ public:
 
 private:
     virtual void OnSelectionConnect(wxCommandEvent& event) override;
+    virtual void OnSelectionDisconnect(wxCommandEvent& event) override;
 
     void tryToConnectDb();
     bool isDbConnected();
@@ -30,5 +31,6 @@ private:
     void tryQueryAndStore(const DbQuery& query, std::vector<DbRow>& vector);
     void fillCheckList(std::vector<DbRow>& tasks);
 
+    void updateFrame();
     void updateFrameTitle();
 };

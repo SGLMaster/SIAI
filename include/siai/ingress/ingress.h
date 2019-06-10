@@ -53,6 +53,7 @@ namespace Forms
 
 			// Virtual event handlers, overide them in your derived class
 			virtual void OnSelectionConnect( wxCommandEvent& event ) = 0;
+			virtual void OnSelectionDisconnect( wxCommandEvent& event ) = 0;
 
 
 		public:

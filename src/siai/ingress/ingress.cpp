@@ -95,6 +95,11 @@ IngressFrame::IngressFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	m_menuItemConnect = new wxMenuItem( m_menuConnection, wxID_ANY, wxString( _("Conectar") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menuConnection->Append( m_menuItemConnect );
 
+	wxMenuItem* m_menuItemDisconnect;
+	m_menuItemDisconnect = new wxMenuItem( m_menuConnection, wxID_ANY, wxString( _("Desconectar") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuConnection->Append( m_menuItemDisconnect );
+	m_menuItemDisconnect->Enable( false );
+
 	m_menubar1->Append( m_menuConnection, _("Conexion") );
 
 	this->SetMenuBar( m_menubar1 );
@@ -104,6 +109,7 @@ IngressFrame::IngressFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 
 	// Connect Events
 	m_menuConnection->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( IngressFrame::OnSelectionConnect ), this, m_menuItemConnect->GetId());
+	m_menuConnection->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( IngressFrame::OnSelectionDisconnect ), this, m_menuItemDisconnect->GetId());
 }
 
 IngressFrame::~IngressFrame()
