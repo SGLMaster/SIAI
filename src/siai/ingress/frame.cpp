@@ -31,8 +31,9 @@ void IngressFrame::OnSelectionConnect(wxCommandEvent& event)
     m_dbConnectionOptions = Util::Db::loadDbOptionsFromFile(SIAIGlobals::DB_CONFIG_FILENAME);
     m_dbConnectionOptions.schema = SIAIGlobals::DB_NAME;
 
+    m_mapName = wxGetTextFromUser(_("Nombre del mapa:"), _("Conectar..."), _("nuevo_mapa")).ToStdString();
+
     tryToConnectDb();
-    loadTasksFromDb();
 
     updateFrame();
 }
@@ -43,6 +44,12 @@ void IngressFrame::OnSelectionDisconnect(wxCommandEvent& event)
     m_dbConnector.reset();
 
     updateFrame();
+}
+
+void IngressFrame::OnToolUpdateTasks(wxCommandEvent& event)
+{
+    if(isDbConnected())
+        loadTasksFromDb();
 }
 
 void IngressFrame::tryToConnectDb()
@@ -78,9 +85,7 @@ bool IngressFrame::isDbConnected()
 
 void IngressFrame::loadTasksFromDb()
 {
-    std::string mapName = wxGetTextFromUser(_("Nombre del mapa:"), _("Conectar..."), _("nuevo_mapa")).ToStdString();
-
-    SqlQueryData dataToSelect{SIAIGlobals::DB_INGRESS_TABLE_PREFIX + mapName, {"id", "name", "code"}};
+    SqlQueryData dataToSelect{SIAIGlobals::DB_INGRESS_TABLE_PREFIX + m_mapName, {"id", "name", "code"}};
     SqlSelectQuery selectQuery(dataToSelect);
 
     std::vector<DbRow> ingressRows;
@@ -102,6 +107,8 @@ void IngressFrame::tryQueryAndStore(const DbQuery& query, std::vector<DbRow>& ve
 
 void IngressFrame::fillCheckList(std::vector<DbRow>& tasks)
 {
+    m_checkListTasks->Clear();
+
     for(DbRow& row : tasks)
     {
         int taskId = row[0];

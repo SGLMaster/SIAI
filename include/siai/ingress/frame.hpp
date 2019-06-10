@@ -12,6 +12,8 @@ class IngressFrame : public Forms::IngressFrame
 private:
     std::string m_originalFrameTitle;
 
+    std::string m_mapName;
+
     DbConnectionOptions m_dbConnectionOptions;
 
     std::unique_ptr<DbConnector> m_dbConnector;
@@ -23,6 +25,8 @@ public:
 private:
     virtual void OnSelectionConnect(wxCommandEvent& event) override;
     virtual void OnSelectionDisconnect(wxCommandEvent& event) override;
+
+    virtual void OnToolUpdateTasks(wxCommandEvent& event) override;
 
     void tryToConnectDb();
     bool isDbConnected();

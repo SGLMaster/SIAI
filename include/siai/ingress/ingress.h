@@ -22,6 +22,7 @@
 #include <wx/image.h>
 #include <wx/icon.h>
 #include <wx/button.h>
+#include <wx/toolbar.h>
 #include <wx/checklst.h>
 #include <wx/menu.h>
 #include <wx/frame.h>
@@ -47,18 +48,21 @@ namespace Forms
 			wxTextCtrl* m_textRack;
 			wxTextCtrl* m_textWeight;
 			wxButton* m_buttonAdd;
+			wxToolBar* m_toolBar;
+			wxToolBarToolBase* m_toolUpdateTasks;
 			wxCheckListBox* m_checkListTasks;
 			wxMenuBar* m_menubar1;
 			wxMenu* m_menuConnection;
 
 			// Virtual event handlers, overide them in your derived class
+			virtual void OnToolUpdateTasks( wxCommandEvent& event ) = 0;
 			virtual void OnSelectionConnect( wxCommandEvent& event ) = 0;
 			virtual void OnSelectionDisconnect( wxCommandEvent& event ) = 0;
 
 
 		public:
 
-			IngressFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Asistente de Ingreso SIAI"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,262 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+			IngressFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Asistente de Ingreso SIAI"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,272 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
 			~IngressFrame();
 

@@ -79,6 +79,13 @@ IngressFrame::IngressFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 
 	bSizer1->Add( bSizer5, 1, wxEXPAND, 5 );
 
+	m_toolBar = new wxToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL );
+	m_toolUpdateTasks = m_toolBar->AddTool( wxID_ANY, _("Actualizar Tareas..."), wxBitmap( wxT("resources/tools/redo.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, _("Actualizar Tareas..."), _("Actualizar Tareas..."), NULL );
+
+	m_toolBar->Realize();
+
+	bSizer1->Add( m_toolBar, 0, wxEXPAND, 5 );
+
 	wxArrayString m_checkListTasksChoices;
 	m_checkListTasks = new wxCheckListBox( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_checkListTasksChoices, 0 );
 	m_checkListTasks->SetMinSize( wxSize( -1,72 ) );
@@ -108,6 +115,7 @@ IngressFrame::IngressFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->Centre( wxBOTH );
 
 	// Connect Events
+	this->Connect( m_toolUpdateTasks->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( IngressFrame::OnToolUpdateTasks ) );
 	m_menuConnection->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( IngressFrame::OnSelectionConnect ), this, m_menuItemConnect->GetId());
 	m_menuConnection->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( IngressFrame::OnSelectionDisconnect ), this, m_menuItemDisconnect->GetId());
 }
@@ -115,5 +123,6 @@ IngressFrame::IngressFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 IngressFrame::~IngressFrame()
 {
 	// Disconnect Events
+	this->Disconnect( m_toolUpdateTasks->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( IngressFrame::OnToolUpdateTasks ) );
 
 }
