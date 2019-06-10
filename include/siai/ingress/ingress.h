@@ -51,6 +51,10 @@ namespace Forms
 			wxMenuBar* m_menubar1;
 			wxMenu* m_menuConnection;
 
+			// Virtual event handlers, overide them in your derived class
+			virtual void OnSelectionConnect( wxCommandEvent& event ) = 0;
+
+
 		public:
 
 			IngressFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Asistente de Ingreso SIAI"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,262 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );

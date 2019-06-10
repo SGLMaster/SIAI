@@ -101,8 +101,13 @@ IngressFrame::IngressFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 
 
 	this->Centre( wxBOTH );
+
+	// Connect Events
+	m_menuConnection->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( IngressFrame::OnSelectionConnect ), this, m_menuItemConnect->GetId());
 }
 
 IngressFrame::~IngressFrame()
 {
+	// Disconnect Events
+
 }

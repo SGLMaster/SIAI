@@ -49,9 +49,9 @@ add_executable(server ${SERVER_SOURCES} ${DATABASE_SOURCES} ${UTIL_SOURCES} ${RO
 target_link_libraries(server siaimap wxbase30ud mysqlpp mysql)
 
 #Ingress Assistant
-add_executable(ingress ${INGRESS_SOURCES})
+add_executable(ingress ${INGRESS_SOURCES} ${DATABASE_SOURCES} ${UTIL_SOURCES} ${ROOT_SOURCES})
 
-target_link_libraries(ingress wxbase30ud wxmsw30ud_core)
+target_link_libraries(ingress wxbase30ud wxmsw30ud_core mysqlpp mysql)
 target_link_options(ingress PUBLIC -mwindows)
 
 #PathFinder Test
