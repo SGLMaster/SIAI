@@ -342,23 +342,23 @@ void PathFinder::tracePath(const std::vector<std::vector<Cell>>& cells, const Ma
     int column = destination.column;
     int row = destination.row;  
   
-    std::stack<std::pair<int, int>> Path; 
+    std::stack<MapPosition> Path; 
   
     while( !(cells[column][row].parentColumn == column && cells[column][row].parentRow == row) ) 
     { 
-        Path.push(std::make_pair(column, row)); 
+        Path.push(MapPosition{column, row}); 
         int tmpColumn = cells[column][row].parentColumn; 
         int tmpRow = cells[column][row].parentRow; 
         column = tmpColumn;
         row = tmpRow;  
     } 
   
-    Path.push(std::make_pair(column, row)); 
+    Path.push(MapPosition{column, row}); 
     while(!Path.empty())
     {
-        std::pair<int, int> curCell = Path.top();
+        MapPosition curCell = Path.top();
         Path.pop();
-        printf(" -> (%d, %d) ", curCell.first, curCell.second);
+        printf(" -> (%d, %d) ", curCell.column, curCell.row);
     }
 } 
 
