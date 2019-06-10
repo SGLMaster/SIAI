@@ -5,6 +5,7 @@
 #include "database/database.hpp"
 
 #include <memory>
+#include <vector>
 
 class IngressFrame : public Forms::IngressFrame
 {
@@ -24,6 +25,10 @@ private:
 
     void tryToConnectDb();
     bool isDbConnected();
+
+    void loadTasksFromDb();
+    void tryQueryAndStore(const DbQuery& query, std::vector<DbRow>& vector);
+    void fillCheckList(std::vector<DbRow>& tasks);
 
     void updateFrameTitle();
 };
