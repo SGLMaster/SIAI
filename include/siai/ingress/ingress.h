@@ -62,7 +62,7 @@ namespace Forms
 
 		public:
 
-			IngressFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Asistente de Ingreso SIAI"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,272 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+			IngressFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Asistente de Ingreso SIAI"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,605 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
 			~IngressFrame();
 

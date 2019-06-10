@@ -73,7 +73,7 @@ IngressFrame::IngressFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 
 	bSizer5->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_buttonAdd = new wxButton( this, wxID_ANY, _("Agregar"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_buttonAdd = new wxButton( this, wxID_ANY, _("Agregar Tarea"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer5->Add( m_buttonAdd, 0, wxALL, 5 );
 
 
@@ -88,8 +88,8 @@ IngressFrame::IngressFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 
 	wxArrayString m_checkListTasksChoices;
 	m_checkListTasks = new wxCheckListBox( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_checkListTasksChoices, 0 );
-	m_checkListTasks->SetMinSize( wxSize( -1,72 ) );
-	m_checkListTasks->SetMaxSize( wxSize( -1,72 ) );
+	m_checkListTasks->SetMinSize( wxSize( -1,400 ) );
+	m_checkListTasks->SetMaxSize( wxSize( -1,400 ) );
 
 	bSizer1->Add( m_checkListTasks, 0, wxALL|wxEXPAND, 5 );
 
