@@ -46,10 +46,26 @@ void IngressFrame::OnSelectionDisconnect(wxCommandEvent& event)
     updateFrame();
 }
 
+void IngressFrame::OnClickAddTask(wxCommandEvent& event)
+{
+    if(isDbConnected())
+    {
+        addTask();
+
+        loadTasksFromDb();
+    }
+    else
+    {
+        Log::warning("Base de datos desconectada!");
+    }
+}
+
 void IngressFrame::OnToolUpdateTasks(wxCommandEvent& event)
 {
     if(isDbConnected())
         loadTasksFromDb();
+    else
+        Log::warning("Base de datos desconectada!");
 }
 
 void IngressFrame::tryToConnectDb()
@@ -93,18 +109,6 @@ void IngressFrame::loadTasksFromDb()
     fillCheckList(ingressRows);
 }
 
-void IngressFrame::tryQueryAndStore(const DbQuery& query, std::vector<DbRow>& vector)
-{
-    try
-	{
-		m_dbConnector->executeQueryAndStoreInVector(query, vector);
-	}
-	catch(const std::exception& e)
-	{
-		Log::warning(std::string("Error al enviar comando a base de datos: ") + e.what());
-	}
-}
-
 void IngressFrame::fillCheckList(std::vector<DbRow>& tasks)
 {
     m_checkListTasks->Clear();
@@ -121,6 +125,46 @@ void IngressFrame::fillCheckList(std::vector<DbRow>& tasks)
 
         m_checkListTasks->Append(wxString(task));
     }
+}
+
+void IngressFrame::addTask()
+{
+    std::string taskCode = m_textCode->GetValue().ToStdString();
+    std::string taskName = m_textName->GetValue().ToStdString();
+    std::string taskRackId = m_textRack->GetValue().ToStdString();
+    std::string taskWeight = m_textWeight->GetValue().ToStdString();
+
+	std::vector<std::string> valuesToInsert{taskCode, taskName, taskRackId, taskWeight};
+
+	std::string tableName = SIAIGlobals::DB_INGRESS_TABLE_PREFIX + m_mapName;
+
+	SqlInsertQuery insertQuery(SqlQueryData{tableName, {"code", "name", "rackid", "weight"}, valuesToInsert});
+
+	tryQueryWithoutResults(insertQuery);
+}
+
+void IngressFrame::tryQueryAndStore(const DbQuery& query, std::vector<DbRow>& vector)
+{
+    try
+	{
+		m_dbConnector->executeQueryAndStoreInVector(query, vector);
+	}
+	catch(const std::exception& e)
+	{
+		Log::warning(std::string("Error al enviar comando a base de datos: ") + e.what());
+	}
+}
+
+void IngressFrame::tryQueryWithoutResults(const DbQuery& query)
+{
+    try
+	{
+		m_dbConnector->executeQueryWithoutResults(query);
+	}
+	catch(const std::exception& e)
+	{
+		Log::warning(std::string("Error al enviar comando a base de datos: ") + e.what());
+	}
 }
 
 void IngressFrame::updateFrame()

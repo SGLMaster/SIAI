@@ -26,14 +26,20 @@ private:
     virtual void OnSelectionConnect(wxCommandEvent& event) override;
     virtual void OnSelectionDisconnect(wxCommandEvent& event) override;
 
+    virtual void OnClickAddTask(wxCommandEvent& event) override;
+
     virtual void OnToolUpdateTasks(wxCommandEvent& event) override;
 
     void tryToConnectDb();
     bool isDbConnected();
 
     void loadTasksFromDb();
-    void tryQueryAndStore(const DbQuery& query, std::vector<DbRow>& vector);
     void fillCheckList(std::vector<DbRow>& tasks);
+
+    void addTask();
+
+    void tryQueryAndStore(const DbQuery& query, std::vector<DbRow>& vector);
+    void tryQueryWithoutResults(const DbQuery& query);
 
     void updateFrame();
     void updateFrameTitle();

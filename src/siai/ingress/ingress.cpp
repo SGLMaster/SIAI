@@ -73,8 +73,8 @@ IngressFrame::IngressFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 
 	bSizer5->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_buttonAdd = new wxButton( this, wxID_ANY, _("Agregar Tarea"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer5->Add( m_buttonAdd, 0, wxALL, 5 );
+	m_buttonAddTask = new wxButton( this, wxID_ANY, _("Agregar Tarea"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer5->Add( m_buttonAddTask, 0, wxALL, 5 );
 
 
 	bSizer1->Add( bSizer5, 1, wxEXPAND, 5 );
@@ -115,6 +115,7 @@ IngressFrame::IngressFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->Centre( wxBOTH );
 
 	// Connect Events
+	m_buttonAddTask->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IngressFrame::OnClickAddTask ), NULL, this );
 	this->Connect( m_toolUpdateTasks->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( IngressFrame::OnToolUpdateTasks ) );
 	m_menuConnection->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( IngressFrame::OnSelectionConnect ), this, m_menuItemConnect->GetId());
 	m_menuConnection->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( IngressFrame::OnSelectionDisconnect ), this, m_menuItemDisconnect->GetId());
@@ -123,6 +124,7 @@ IngressFrame::IngressFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 IngressFrame::~IngressFrame()
 {
 	// Disconnect Events
+	m_buttonAddTask->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IngressFrame::OnClickAddTask ), NULL, this );
 	this->Disconnect( m_toolUpdateTasks->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( IngressFrame::OnToolUpdateTasks ) );
 
 }
