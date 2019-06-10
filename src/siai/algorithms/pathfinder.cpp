@@ -364,13 +364,18 @@ void PathFinder::tracePath(const std::vector<std::vector<Cell>>& cells, const Ma
 
 int main() 
 {
+    constexpr int RIGHT = static_cast<int>(MapDirection::RIGHT);
+    constexpr int DOWN = static_cast<int>(MapDirection::DOWN);
+    constexpr int LEFT = static_cast<int>(MapDirection::LEFT);
+    constexpr int UP = static_cast<int>(MapDirection::UP);
+
     PathFinder myFinder(5, 6);
 
-    std::vector<int> fifthCol  { 0,  1,  1,  1,  1,  2};
-    std::vector<int> fourthCol { 0,  2,  0,  2,  0,  2};
-    std::vector<int> thirdCol  { 0,  2,  0,  2,  0,  2};
-    std::vector<int> secondCol { 0,  2,  0,  2,  0,  2};
-    std::vector<int> firstCol  { 0,  3,  3,  3,  3,  2};
+    std::vector<int> fifthCol  { RIGHT,  DOWN,  DOWN,   DOWN,  DOWN,   LEFT};
+    std::vector<int> fourthCol { RIGHT,  LEFT,  RIGHT,  LEFT,  RIGHT,  LEFT};
+    std::vector<int> thirdCol  { RIGHT,  LEFT,  RIGHT,  LEFT,  RIGHT,  LEFT};
+    std::vector<int> secondCol { RIGHT,  LEFT,  RIGHT,  LEFT,  RIGHT,  LEFT};
+    std::vector<int> firstCol  { RIGHT,  UP,    UP,     UP,    UP,     LEFT};
 
     MapGrid grid;
     grid.push_back(firstCol);
