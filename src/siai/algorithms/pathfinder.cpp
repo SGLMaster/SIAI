@@ -1,7 +1,6 @@
 #include "algorithms/pathfinder.hpp"
 
 #include <set>
-#include <stack>
 
 #include <cstring>
 #include <cfloat>
@@ -15,19 +14,21 @@ PathFinder::~PathFinder(){}
 
 // A Function to find the shortest path between a given source cell to a destination cell according to 
 // A* Search Algorithm 
-bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const MapPosition& destination) 
+MapPath PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const MapPosition& destination) 
 {
+    MapPath emptyPath;
+
     // If either the source or destination is out of range
     if(!isValid(source.column, source.row) || !isValid(destination.column, destination.row))
-        return false;
+        return emptyPath;
 
     // Either the source or the destination is blocked 
     if(isBlocked(mapGrid, source.column, source.row) || isBlocked(mapGrid, destination.column, destination.row))
-        return false;
+        return emptyPath;
 
     // If the destination cell is the same as source cell 
     if(isDestination(source.column, source.row, destination)) 
-        return false; 
+        return emptyPath; 
 
     // Create a closed list and initialise it to false which means 
     // that no cell has been included yet 
@@ -125,8 +126,7 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
                 // Set the Parent of the destination cell 
                 cells[column+1][row].parentColumn = column; 
                 cells[column+1][row].parentRow = row; 
-                tracePath(cells, destination);
-                return true; 
+                return trace(cells, destination); 
             } 
             // If the successor is already on the closed list or if it is blocked, then ignore it. 
             // Else do the following 
@@ -168,8 +168,7 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
                 // Set the Parent of the destination cell 
                 cells[column][row+1].parentColumn = column;
                 cells[column][row+1].parentRow = row;  
-                tracePath(cells, destination);
-                return true; 
+                return trace(cells, destination); 
             } 
             // If the successor is already on the closed list or if it is blocked, then ignore it. 
             // Else do the following 
@@ -211,8 +210,7 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
                 // Set the Parent of the destination cell 
                 cells[column-1][row].parentColumn = column; 
                 cells[column-1][row].parentRow = row; 
-                tracePath(cells, destination);
-                return true; 
+                return trace(cells, destination); 
             } 
             // If the successor is already on the closed list or if it is blocked, then ignore it. 
             // Else do the following 
@@ -254,8 +252,7 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
                 // Set the Parent of the destination cell 
                 cells[column][row-1].parentColumn = column;
                 cells[column][row-1].parentRow = row;  
-                tracePath(cells, destination);
-                return true; 
+                return trace(cells, destination); 
             } 
             // If the successor is already on the closed list or if it is blocked, then ignore it. 
             // Else do the following 
@@ -287,7 +284,7 @@ bool PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const M
 
     }
 
-    return false;
+    return emptyPath;
 }
 
 // A Function to find the shortest path between a given source cell to a destination cell according to 
@@ -364,29 +361,25 @@ double PathFinder::calculateHValue(int column, int row, const MapPosition& desti
 
 // A Utility Function to trace the path from the source 
 // to destination 
-void PathFinder::tracePath(const std::vector<std::vector<Cell>>& cells, const MapPosition& destination) const noexcept 
+MapPath PathFinder::trace(const std::vector<std::vector<Cell>>& cells, const MapPosition& destination) const noexcept 
 {  
     int column = destination.column;
     int row = destination.row;  
   
-    std::stack<MapPosition> Path; 
+    MapPath path; 
   
     while( !(cells[column][row].parentColumn == column && cells[column][row].parentRow == row) ) 
     { 
-        Path.push(MapPosition{column, row}); 
+        path.push(MapPosition{column, row}); 
         int tmpColumn = cells[column][row].parentColumn; 
         int tmpRow = cells[column][row].parentRow; 
         column = tmpColumn;
         row = tmpRow;  
     } 
   
-    Path.push(MapPosition{column, row}); 
-    while(!Path.empty())
-    {
-        MapPosition curCell = Path.top();
-        Path.pop();
-        printf(" -> (%d, %d) ", curCell.column, curCell.row);
-    }
+    path.push(MapPosition{column, row}); 
+
+    return path;
 } 
 
 int main() 
@@ -411,18 +404,27 @@ int main()
     grid.push_back(fourthCol);
     grid.push_back(fifthCol);
 
-    MapPosition source{0, 0};
+    MapPosition source{-1, 0};
     MapPosition destination{2, 3};
 
     MapPosition nextStep = myFinder.findNextStep(grid, MapPosition{1, 1}, destination);
     printf("Next Step: (%u, %u)\n", nextStep.column, nextStep.row);
 
-    bool pathFound = myFinder.find(grid, source, destination);
+    //myFinder.find(grid, source, destination);
 
-    if(pathFound)
-        printf("Found it! :)");
+    MapPath pathFound = myFinder.find(grid, source, destination);
+
+    if(pathFound.empty())
+        printf("I'm lost! :(\n");
     else
-        printf("I'm lost! :(");
+        printf("Found it! :)\n");
+
+    while(!pathFound.empty())
+    {
+        MapPosition curCell = pathFound.top();
+        pathFound.pop();
+        printf(" -> (%d, %d) ", curCell.column, curCell.row);
+    }
 
     return 0; 
 }

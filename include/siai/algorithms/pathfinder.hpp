@@ -3,8 +3,10 @@
 #include "map/entities/mapentity.hpp"
 
 #include <vector>
+#include <stack>
 
 using MapGrid = std::vector<std::vector<int>>;
+using MapPath = std::stack<MapPosition>;
 
 class PathFinder
 {
@@ -26,7 +28,7 @@ public:
     PathFinder(int numberOfColumns, int numberOfRows);
     ~PathFinder();
 
-    bool find(const MapGrid& mapGrid, const MapPosition& source, const MapPosition& destination);
+    MapPath find(const MapGrid& mapGrid, const MapPosition& source, const MapPosition& destination);
     MapPosition findNextStep(const MapGrid& mapGrid, const MapPosition& source, const MapPosition& destination);
 
 private:
@@ -37,5 +39,5 @@ private:
 
     double calculateHValue(int column, int row, const MapPosition& destination) const noexcept;
 
-    void tracePath(const std::vector<std::vector<Cell>>& cells, const MapPosition& destination) const noexcept;
+    MapPath trace(const std::vector<std::vector<Cell>>& cells, const MapPosition& destination) const noexcept;
 };
