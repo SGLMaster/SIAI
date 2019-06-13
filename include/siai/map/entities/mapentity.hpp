@@ -1,5 +1,7 @@
 #pragma once
 
+#include "map/common.hpp"
+
 #include "database/dbobject.hpp"
 
 #include <string>
@@ -36,27 +38,6 @@ public:
         m_selected = false;
     }
 
-};
-
-enum class MapDirection
-{
-    RIGHT,
-    DOWN,
-    LEFT,
-    UP,
-    INVALID
-};
-
-struct MapPosition
-{
-    int column;
-    int row;
-};
-
-enum class MapEntityType
-{
-    CELL,
-    AGV
 };
 
 class IMapEntity : public IDrawable, public DbObject

@@ -1,12 +1,8 @@
 #pragma once
 
-#include "map/entities/mapentity.hpp"
+#include "map/common.hpp"
 
 #include <vector>
-#include <deque>
-
-using MapGrid = std::vector<std::vector<int>>;
-using MapPath = std::deque<MapPosition>;
 
 class PathFinder
 {

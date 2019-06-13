@@ -2,6 +2,8 @@
 
 #include <set>
 
+#include <cstdio>
+#include <cmath>
 #include <cstring>
 #include <cfloat>
 
