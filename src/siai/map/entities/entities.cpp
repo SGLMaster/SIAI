@@ -47,26 +47,40 @@ void Entities::tryToCreateAndAddCell(Stock& entities, int id, const MapPosition&
     }
 }
 
-MapGrid Entities::generateMapGrid(Stock& entities, const MapPosition& currentPosition, const MapPosition& destination)
+// Map grid generation to be used by the PathFinder algorithm
+MapGrid Entities::generateMapGrid(Stock& entities, const MapPosition& source, const MapPosition& destination)
 {
     MapGrid mapGrid;
     mapGrid.reserve(entities.cells.size());
-
-    mapGrid.push_back(std::vector<int>());
+    mapGrid.push_back(std::vector<int>());  // Pushing back the first column before entering the loop
 
     int iterColumn = 0;
     for(const auto& cell : entities.cells)
     {
         int cellColumn = cell->getPosition().column;
 
+        // If the column numbers are different it means we need to add a new one to the map grid
         if(iterColumn != cellColumn)
         {
             mapGrid.push_back(std::vector<int>());
             iterColumn = cellColumn;
         }
 
-        int cellDirection = static_cast<int>(cell->getDirection());
-        mapGrid[iterColumn].push_back(cellDirection);            
+        MapPosition cellPosition = cell->getPosition();
+        std::string cellType = cell->getEntityName();
+        MapDirection cellDirection = cell->getDirection();
+
+        bool thisIsTheSource = (cellPosition.column == source.column) && (cellPosition.row == source.row);
+        bool thisIsTheDestination = (cellPosition.column == destination.column) 
+                                    && (cellPosition.row == destination.row);
+
+        if(cellType == "Blocked")
+            cellDirection = MapDirection::INVALID;
+        else if( (cellType == "Parking" || cellType == "Storage") && !thisIsTheSource && !thisIsTheDestination)
+            cellDirection = MapDirection::INVALID;
+        
+        int cellValue = static_cast<int>(cellDirection);
+        mapGrid[iterColumn].push_back(cellValue);            
     }
 
     return mapGrid;
