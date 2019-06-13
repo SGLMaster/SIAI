@@ -30,6 +30,7 @@ public:
 
     MapPath find(const MapGrid& mapGrid, const MapPosition& source, const MapPosition& destination);
     MapPosition getNextStep(const MapPath& path, const MapPosition& currentPosition);
+    MapDirection getNextDirection(const MapPosition& currentPosition, const MapPosition& nextPosition);
 
 private:
     bool isValid(int column, int row) const noexcept;

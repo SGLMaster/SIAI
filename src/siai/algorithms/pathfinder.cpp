@@ -305,6 +305,26 @@ MapPosition PathFinder::getNextStep(const MapPath& path, const MapPosition& curr
     return nullPosition;
 }
 
+MapDirection PathFinder::getNextDirection(const MapPosition& currentPosition, const MapPosition& nextPosition)
+{
+    if(currentPosition.column == nextPosition.column)
+    {
+        if( (currentPosition.row - nextPosition.row) < 0)
+            return MapDirection::DOWN;
+        else if( (currentPosition.row - nextPosition.row) > 0)
+            return MapDirection::UP;
+    }
+    else if(currentPosition.row == nextPosition.row)
+    {
+        if( (currentPosition.column - nextPosition.column) < 0)
+            return MapDirection::RIGHT;
+        else if( (currentPosition.column - nextPosition.column) > 0)
+            return MapDirection::LEFT;
+    }
+
+    return MapDirection::INVALID;
+}
+
 // A Utility Function to check whether given position is a valid cell inside the map or not. 
 bool PathFinder::isValid(int column, int row) const noexcept
 {
@@ -415,11 +435,14 @@ int main()
         printf(" -> (%d, %d) ", curCell.column, curCell.row);
     }
 
-    MapPosition currentPosition = MapPosition{0, 0};
+    MapPosition currentPosition = MapPosition{2, 4};
     printf("\nCurrent Position: (%d, %d)\n", currentPosition.column, currentPosition.row);
 
     MapPosition nextStep = myFinder.getNextStep(pathFound, currentPosition);
     printf("Next Step: (%d, %d)\n", nextStep.column, nextStep.row);
+
+    MapDirection nextDirection = myFinder.getNextDirection(currentPosition, nextStep);
+    printf("Direction: %d\n", static_cast<int>(nextDirection));
 
     return 0; 
 }
