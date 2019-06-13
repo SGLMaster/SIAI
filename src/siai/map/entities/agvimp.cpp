@@ -151,6 +151,8 @@ void RegularAgv::drawNormalImage(Painter& painter)
 		painter.drawImage(*normalImage, m_origin, m_size);
 		break;
 	}
+	case MapDirection::INVALID:
+		break;
 	}
 }
 
@@ -182,5 +184,7 @@ void RegularAgv::drawSelectedImage(Painter& painter)
 		painter.drawImage(*selectedImage, m_origin, m_size);
 		break;
 	}
+	case MapDirection::INVALID:
+		break;
 	}
 }

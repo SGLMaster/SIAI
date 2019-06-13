@@ -43,7 +43,8 @@ enum class MapDirection
     RIGHT,
     DOWN,
     LEFT,
-    UP
+    UP,
+    INVALID
 };
 
 struct MapPosition
@@ -120,6 +121,9 @@ public:
     	case MapDirection::UP:
     		m_direction = MapDirection::RIGHT;
     		break;
+        case MapDirection::INVALID:
+    		m_direction = MapDirection::INVALID;
+    		break;
     	}
     }
 
@@ -138,6 +142,9 @@ public:
     		break;
     	case MapDirection::UP:
     		m_direction = MapDirection::LEFT;
+    		break;
+        case MapDirection::INVALID:
+    		m_direction = MapDirection::INVALID;
     		break;
     	}
     }

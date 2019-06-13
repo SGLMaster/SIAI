@@ -140,6 +140,8 @@ void RegularRack::drawNormalImage(Painter& painter)
 		painter.drawImage(*normalImage, m_cellOrigin, rackSize);
 		break;
 	}
+	case MapDirection::INVALID:
+		break;
 	}
 }
 
@@ -173,5 +175,7 @@ void RegularRack::drawSelectedImage(Painter& painter)
 		painter.drawImage(*selectedImage, m_cellOrigin, rackSize);
 		break;
 	}
+	case MapDirection::INVALID:
+		break;
 	}
 }
