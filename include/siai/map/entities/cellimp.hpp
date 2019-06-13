@@ -92,3 +92,18 @@ public:
 
     virtual void draw(Painter& painter) override;
 };
+
+class IngressCell : public CellDefault
+{
+public:
+    IngressCell() = delete;
+    IngressCell(int id, const MapPosition& position);
+    virtual ~IngressCell();
+
+    virtual std::string getEntityName() const noexcept override
+    {
+        return "Ingress";
+    }
+
+    virtual void draw(Painter& painter) override;
+};

@@ -36,6 +36,11 @@ std::unique_ptr<ICell> ICell::create(std::string type, int id, const MapPosition
     	return std::make_unique<StorageCell>(id, position);
     }
 
+    else if(type == "Ingress")
+    {
+    	return std::make_unique<IngressCell>(id, position);
+    }
+
     else if(type == "Parking")
     {
     	return std::make_unique<ParkingCell>(id, position);

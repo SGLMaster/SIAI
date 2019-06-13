@@ -170,6 +170,11 @@ void ManagerFrame::OnToolStorageCell(wxCommandEvent& event)
     m_currentTool = Tool::STORAGE_CELL;
 }
 
+void ManagerFrame::OnToolIngressCell(wxCommandEvent& event)
+{
+    m_currentTool = Tool::INGRESS_CELL;
+}
+
 void ManagerFrame::OnToolParkingCell(wxCommandEvent& event)
 {
     m_currentTool = Tool::PARKING_CELL;
@@ -422,6 +427,9 @@ void ManagerFrame::callCurrentToolAction()
     case Tool::STORAGE_CELL:
         actionToolReplaceCell("Storage", columnToPerformAction, rowToPerformAction);
         break;
+    case Tool::INGRESS_CELL:
+        actionToolReplaceCell("Ingress", columnToPerformAction, rowToPerformAction);
+        break;
     case Tool::PARKING_CELL:
         actionToolReplaceCell("Parking", columnToPerformAction, rowToPerformAction);
         break;
@@ -551,6 +559,8 @@ void ManagerFrame::updateToolbar()
     {
         m_toolBar1->EnableTool(m_toolRegularCell->GetId(), true);
         m_toolBar1->EnableTool(m_toolBlockedCell->GetId(), true);
+        m_toolBar1->EnableTool(m_toolStorageCell->GetId(), true);
+        m_toolBar1->EnableTool(m_toolIngressCell->GetId(), true);
         m_toolBar1->EnableTool(m_toolParkingCell->GetId(), true);
         m_toolBar1->EnableTool(m_toolAddAgv->GetId(), true);
         m_toolBar1->EnableTool(m_toolAddRack->GetId(), true);
@@ -563,6 +573,8 @@ void ManagerFrame::updateToolbar()
     {
         m_toolBar1->EnableTool(m_toolRegularCell->GetId(), false);
         m_toolBar1->EnableTool(m_toolBlockedCell->GetId(), false);
+        m_toolBar1->EnableTool(m_toolStorageCell->GetId(), false);
+        m_toolBar1->EnableTool(m_toolIngressCell->GetId(), false);
         m_toolBar1->EnableTool(m_toolParkingCell->GetId(), false);
         m_toolBar1->EnableTool(m_toolAddAgv->GetId(), false);
         m_toolBar1->EnableTool(m_toolAddRack->GetId(), false);

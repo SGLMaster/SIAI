@@ -168,6 +168,18 @@
                             <property name="tooltip">Celda para Estante</property>
                             <event name="OnToolClicked">OnToolStorageCell</event>
                         </object>
+                        <object class="tool" expanded="1">
+                            <property name="bitmap">Load From File; resources/tools/ingress-cell.bmp</property>
+                            <property name="context_menu">0</property>
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_RADIO</property>
+                            <property name="label">Celda para Ingreso</property>
+                            <property name="name">m_toolIngressCell</property>
+                            <property name="permission">protected</property>
+                            <property name="statusbar">Celda para Ingreso</property>
+                            <property name="tooltip">Celda para Ingreso</property>
+                            <event name="OnToolClicked">OnToolIngressCell</event>
+                        </object>
                         <object class="tool" expanded="0">
                             <property name="bitmap">Load From File; resources/tools/parking-cell.bmp</property>
                             <property name="context_menu">0</property>
