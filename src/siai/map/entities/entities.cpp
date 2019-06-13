@@ -55,35 +55,42 @@ MapGrid Entities::generateMapGrid(Stock& entities, const MapPosition& source, co
     mapGrid.push_back(std::vector<int>());  // Pushing back the first column before entering the loop
 
     int iterColumn = 0;
-    for(const auto& cell : entities.cells)
+    for(const CellPtr& cell : entities.cells)
     {
         int cellColumn = cell->getPosition().column;
 
         // If the column numbers are different it means we need to add a new one to the map grid
-        if(iterColumn != cellColumn)
+        if (iterColumn != cellColumn)
         {
             mapGrid.push_back(std::vector<int>());
             iterColumn = cellColumn;
         }
 
-        MapPosition cellPosition = cell->getPosition();
-        std::string cellType = cell->getEntityName();
-        MapDirection cellDirection = cell->getDirection();
-
-        bool thisIsTheSource = (cellPosition.column == source.column) && (cellPosition.row == source.row);
-        bool thisIsTheDestination = (cellPosition.column == destination.column) 
-                                    && (cellPosition.row == destination.row);
-
-        if(cellType == "Blocked")
-            cellDirection = MapDirection::INVALID;
-        else if( (cellType == "Parking" || cellType == "Storage") && !thisIsTheSource && !thisIsTheDestination)
-            cellDirection = MapDirection::INVALID;
-        
+        MapDirection cellDirection = processCellForGrid(cell, source, destination);
         int cellValue = static_cast<int>(cellDirection);
+
         mapGrid[iterColumn].push_back(cellValue);            
     }
 
     return mapGrid;
+}
+
+MapDirection Entities::processCellForGrid(const CellPtr& cell, const MapPosition& source, 
+                                            const MapPosition& destination)
+{
+    MapPosition cellPosition = cell->getPosition();
+    std::string cellType = cell->getEntityName();
+    MapDirection cellDirection = cell->getDirection();
+
+    bool thisIsTheSource = (cellPosition.column == source.column) && (cellPosition.row == source.row);
+    bool thisIsTheDestination = (cellPosition.column == destination.column) && (cellPosition.row == destination.row);
+
+    if(cellType == "Blocked")
+        cellDirection = MapDirection::INVALID;
+    else if( (cellType == "Parking" || cellType == "Storage") && !thisIsTheSource && !thisIsTheDestination)
+        cellDirection = MapDirection::INVALID;
+
+    return cellDirection;
 }
 
 void Entities::loadCellsFromQueryRows(Stock& entities, const std::vector<DbRow>& rows)

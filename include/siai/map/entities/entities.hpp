@@ -43,6 +43,7 @@ namespace Entities
     void tryToCreateAndAddCell(Stock& entities, int id, const MapPosition& position);
 
     MapGrid generateMapGrid(Stock& entities, const MapPosition& source, const MapPosition& destination);
+    MapDirection processCellForGrid(const CellPtr& cell, const MapPosition& source, const MapPosition& destination);
 
     // Loading of entities
     void loadCellsFromQueryRows(Stock& entities, const std::vector<DbRow>& rows);
