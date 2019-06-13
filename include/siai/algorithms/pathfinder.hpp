@@ -3,10 +3,10 @@
 #include "map/entities/mapentity.hpp"
 
 #include <vector>
-#include <stack>
+#include <deque>
 
 using MapGrid = std::vector<std::vector<int>>;
-using MapPath = std::stack<MapPosition>;
+using MapPath = std::deque<MapPosition>;
 
 class PathFinder
 {
@@ -29,7 +29,7 @@ public:
     ~PathFinder();
 
     MapPath find(const MapGrid& mapGrid, const MapPosition& source, const MapPosition& destination);
-    MapPosition findNextStep(const MapGrid& mapGrid, const MapPosition& source, const MapPosition& destination);
+    MapPosition getNextStep(const MapPath& path, const MapPosition& currentPosition);
 
 private:
     bool isValid(int column, int row) const noexcept;

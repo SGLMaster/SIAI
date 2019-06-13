@@ -287,27 +287,22 @@ MapPath PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, cons
     return emptyPath;
 }
 
-// A Function to find the shortest path between a given source cell to a destination cell according to 
-// A* Search Algorithm 
-MapPosition PathFinder::findNextStep(const MapGrid& mapGrid, const MapPosition& source, const MapPosition& destination) 
+// A Function to find the next step in a path previously calculated 
+MapPosition PathFinder::getNextStep(const MapPath& path, const MapPosition& currentPosition) 
 {
+    bool returnNextOne = false;
+
+    for(auto& position : path)
+    {
+        if(returnNextOne)
+            return position;
+
+        if(position.column == currentPosition.column && position.row == currentPosition.row)
+            returnNextOne = true;
+    }
+
     MapPosition nullPosition{-1, -1};
-
-    // If either the source or destination is out of range
-    if(!isValid(source.column, source.row) || !isValid(destination.column, destination.row))
-        return nullPosition;
-
-    // Either the source or the destination is blocked 
-    if(isBlocked(mapGrid, source.column, source.row) || isBlocked(mapGrid, destination.column, destination.row))
-        return nullPosition;
-
-    // If the destination cell is the same as source cell 
-    if(isDestination(source.column, source.row, destination)) 
-        return nullPosition; 
-
-    MapPosition nextStep{-1, -1};
-
-    return nextStep;
+    return nullPosition;
 }
 
 // A Utility Function to check whether given position is a valid cell inside the map or not. 
@@ -370,32 +365,33 @@ MapPath PathFinder::trace(const std::vector<std::vector<Cell>>& cells, const Map
   
     while( !(cells[column][row].parentColumn == column && cells[column][row].parentRow == row) ) 
     { 
-        path.push(MapPosition{column, row}); 
+        path.push_front(MapPosition{column, row}); 
         int tmpColumn = cells[column][row].parentColumn; 
         int tmpRow = cells[column][row].parentRow; 
         column = tmpColumn;
         row = tmpRow;  
     } 
   
-    path.push(MapPosition{column, row}); 
+    path.push_front(MapPosition{column, row}); 
 
     return path;
 } 
 
 int main() 
 {
+    constexpr int BLKD = -1;
     constexpr int RIGHT = static_cast<int>(MapDirection::RIGHT);
     constexpr int DOWN = static_cast<int>(MapDirection::DOWN);
     constexpr int LEFT = static_cast<int>(MapDirection::LEFT);
     constexpr int UP = static_cast<int>(MapDirection::UP);
 
-    PathFinder myFinder(5, 6);
+    PathFinder myFinder(5, 7);
 
-    std::vector<int> fifthCol  { RIGHT,  DOWN,  DOWN,   DOWN,  DOWN,   LEFT};
-    std::vector<int> fourthCol { RIGHT,  LEFT,  RIGHT,  LEFT,  RIGHT,  LEFT};
-    std::vector<int> thirdCol  { RIGHT,  LEFT,  RIGHT,  LEFT,  RIGHT,  LEFT};
-    std::vector<int> secondCol { RIGHT,  LEFT,  RIGHT,  LEFT,  RIGHT,  LEFT};
-    std::vector<int> firstCol  { RIGHT,  UP,    UP,     UP,    UP,     LEFT};
+    std::vector<int> fifthCol  { RIGHT,  DOWN,  DOWN,   DOWN,  DOWN,   DOWN,  LEFT };
+    std::vector<int> fourthCol { RIGHT,  BLKD,  LEFT,   BLKD,  RIGHT,  BLKD,  LEFT };
+    std::vector<int> thirdCol  { RIGHT,  BLKD,  LEFT,   BLKD,  RIGHT,  BLKD,  LEFT };
+    std::vector<int> secondCol { RIGHT,  BLKD,  LEFT,   BLKD,  RIGHT,  BLKD,  LEFT };
+    std::vector<int> firstCol  { RIGHT,  UP,    UP,     UP,    UP,     UP,    LEFT };
 
     MapGrid grid;
     grid.push_back(firstCol);
@@ -404,13 +400,8 @@ int main()
     grid.push_back(fourthCol);
     grid.push_back(fifthCol);
 
-    MapPosition source{-1, 0};
-    MapPosition destination{2, 3};
-
-    MapPosition nextStep = myFinder.findNextStep(grid, MapPosition{1, 1}, destination);
-    printf("Next Step: (%u, %u)\n", nextStep.column, nextStep.row);
-
-    //myFinder.find(grid, source, destination);
+    MapPosition source{0, 0};
+    MapPosition destination{2, 4};
 
     MapPath pathFound = myFinder.find(grid, source, destination);
 
@@ -419,12 +410,16 @@ int main()
     else
         printf("Found it! :)\n");
 
-    while(!pathFound.empty())
+    for(const auto& curCell : pathFound)
     {
-        MapPosition curCell = pathFound.top();
-        pathFound.pop();
         printf(" -> (%d, %d) ", curCell.column, curCell.row);
     }
+
+    MapPosition currentPosition = MapPosition{0, 0};
+    printf("\nCurrent Position: (%d, %d)\n", currentPosition.column, currentPosition.row);
+
+    MapPosition nextStep = myFinder.getNextStep(pathFound, currentPosition);
+    printf("Next Step: (%d, %d)\n", nextStep.column, nextStep.row);
 
     return 0; 
 }
