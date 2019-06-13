@@ -174,3 +174,28 @@ void StorageCell::draw(Painter& painter)
 		}
 	}
 }
+
+IngressCell::IngressCell(int id, const MapPosition& position) : CellDefault(id, position) {}
+IngressCell::~IngressCell() = default;
+
+void IngressCell::draw(Painter& painter)
+{
+	calculateZoomedSideLength(painter.getZoom());
+	calculateOrigin();
+
+	bool isVisible = isVisibleOnScreen(painter.getOrigin(), painter.getSize());
+
+	if(isVisible)
+	{
+		if(!m_selected)
+		{
+			static auto normalImage = PanelImage::create("resources/map/ingress-cell.png");
+			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
+		}
+		else
+		{
+			static auto normalImage = PanelImage::create("resources/map/ingress-cell-selected.png");
+			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
+		}
+	}
+}
