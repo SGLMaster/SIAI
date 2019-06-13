@@ -22,6 +22,7 @@ enum class Tool
     REGULAR_CELL,
     BLOCKED_CELL,
     STORAGE_CELL,
+    INGRESS_CELL,
     PARKING_CELL,
     ADD_AGV,
     ADD_RACK,
@@ -77,6 +78,7 @@ private:
     virtual void OnToolRegularCell(wxCommandEvent& event) override;
 	virtual void OnToolBlockedCell(wxCommandEvent& event) override;
     virtual void OnToolStorageCell(wxCommandEvent& event) override;
+    virtual void OnToolIngressCell(wxCommandEvent& event) override;
     virtual void OnToolParkingCell(wxCommandEvent& event) override;
 
 	virtual void OnToolAddAgv(wxCommandEvent& event) override;

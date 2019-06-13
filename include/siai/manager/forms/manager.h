@@ -49,6 +49,7 @@ namespace Forms
 			wxToolBarToolBase* m_toolRegularCell;
 			wxToolBarToolBase* m_toolBlockedCell;
 			wxToolBarToolBase* m_toolStorageCell;
+			wxToolBarToolBase* m_toolIngressCell;
 			wxToolBarToolBase* m_toolParkingCell;
 			wxToolBarToolBase* m_toolAddAgv;
 			wxToolBarToolBase* m_toolAddRack;
@@ -75,6 +76,7 @@ namespace Forms
 			virtual void OnToolRegularCell( wxCommandEvent& event ) = 0;
 			virtual void OnToolBlockedCell( wxCommandEvent& event ) = 0;
 			virtual void OnToolStorageCell( wxCommandEvent& event ) = 0;
+			virtual void OnToolIngressCell( wxCommandEvent& event ) = 0;
 			virtual void OnToolParkingCell( wxCommandEvent& event ) = 0;
 			virtual void OnToolAddAgv( wxCommandEvent& event ) = 0;
 			virtual void OnToolAddRack( wxCommandEvent& event ) = 0;
