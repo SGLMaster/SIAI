@@ -38,6 +38,7 @@ void ReplaceCellCommand::undo(Entities::Stock& entities, DbConnector& connector)
 
 void ReplaceCellCommand::doReplaceCell(Entities::Stock& entities, DbConnector& connector, bool undoing)
 {
+	Entities::assertPositionInsideMap(entities, m_position);
 	Entities::assertCellOccupied(entities, m_position);
 	
     auto originalCell = Entities::getCellByPosition(entities.cells, m_position);
