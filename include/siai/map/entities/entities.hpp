@@ -1,5 +1,7 @@
 #pragma once
 
+#include "map/common.hpp"
+
 #include "database/database.hpp"
 
 #include <memory>
@@ -39,6 +41,8 @@ namespace Entities
     //Generation of map cells
     void generateMapCells(Stock& entities, int numberOfColumns, int numberOfRows);
     void tryToCreateAndAddCell(Stock& entities, int id, const MapPosition& position);
+
+    MapGrid generateMapGrid(Stock& entities, const MapPosition& currentPosition, const MapPosition& destination);
 
     // Loading of entities
     void loadCellsFromQueryRows(Stock& entities, const std::vector<DbRow>& rows);

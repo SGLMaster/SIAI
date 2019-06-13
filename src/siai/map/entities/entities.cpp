@@ -47,6 +47,31 @@ void Entities::tryToCreateAndAddCell(Stock& entities, int id, const MapPosition&
     }
 }
 
+MapGrid Entities::generateMapGrid(Stock& entities, const MapPosition& currentPosition, const MapPosition& destination)
+{
+    MapGrid mapGrid;
+    mapGrid.reserve(entities.cells.size());
+
+    mapGrid.push_back(std::vector<int>());
+
+    int iterColumn = 0;
+    for(const auto& cell : entities.cells)
+    {
+        int cellColumn = cell->getPosition().column;
+
+        if(iterColumn != cellColumn)
+        {
+            mapGrid.push_back(std::vector<int>());
+            iterColumn = cellColumn;
+        }
+
+        int cellDirection = static_cast<int>(cell->getDirection());
+        mapGrid[iterColumn].push_back(cellDirection);            
+    }
+
+    return mapGrid;
+}
+
 void Entities::loadCellsFromQueryRows(Stock& entities, const std::vector<DbRow>& rows)
 {
     for (const DbRow& cellDataRow : rows) 
