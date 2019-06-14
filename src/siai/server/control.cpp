@@ -119,6 +119,15 @@ std::string ServerControl::processCommand(Entities::AgvPtr& agv, const std::stri
         else
             return "RFID ERROR";
     }
+    else if(commandName == "TASK")
+    {
+        bool cmdSuccess = m_mapControl->assignNewTaskToAgv(*m_dbConnector, agv);
+
+        if(cmdSuccess)
+            return "TASK OK";
+        else
+            return "TASK ERROR";
+    }
 
     return "UNK";
 }
