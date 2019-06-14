@@ -115,9 +115,9 @@ std::string ServerControl::processCommand(Entities::AgvPtr& agv, const std::stri
         bool cmdSuccess = m_mapControl->moveAgvToCellWithId(*m_dbConnector, agv, commandValue);
 
         if(cmdSuccess)
-            return "OK";
+            return "RFID OK";
         else
-            return "ERROR";
+            return "RFID ERROR";
     }
 
     return "UNK";

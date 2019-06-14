@@ -127,10 +127,10 @@ void EventWorker::DoRead()
         if(m_agv)
         {
             LogWorker(wxString::Format("Conexion relacionada con AGV#%d", m_agv->getId()));
-            m_outBuffer = "OK";
+            m_outBuffer = "TCP OK";
         }
         else
-            m_outBuffer = "ERROR";
+            m_outBuffer = "TCP ERROR";
     }
     else
     {
