@@ -14,6 +14,8 @@ protected:
     PanelPoint m_origin;
     PanelSize m_size;
 
+    std::unique_ptr<MapTask> currentTask;
+
 public:
     AgvDefault() = delete;
     AgvDefault(int id, const MapPosition& position);
