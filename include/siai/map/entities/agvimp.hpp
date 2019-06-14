@@ -30,6 +30,11 @@ public:
     virtual void updateInDatabase(DbConnector& connector, const std::string& mapName) const override;
     virtual void loadFromDatabase(DbConnector& connector) override;
 
+    virtual void assignTask(const MapTask& newTask) override
+    {
+        currentTask = std::make_unique<MapTask>(newTask);
+    }
+
 protected:
     void calculateDrawingData(int zoom);
     void calculateZoomedSize(int zoom);

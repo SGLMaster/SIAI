@@ -26,4 +26,6 @@ public:
     virtual ~IAgv();
 
     static std::unique_ptr<IAgv> create(std::string type, int id, const MapPosition& position);
+
+    virtual void assignTask(const MapTask& newTask) = 0;
 };
