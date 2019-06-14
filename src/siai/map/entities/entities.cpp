@@ -510,6 +510,20 @@ Entities::AgvPtr Entities::getAgvWithId(Entities::Agvs& agvs, int id)
     return *agvFound;
 }
 
+Entities::RackPtr Entities::getRackWithId(Racks& racks, int id)
+{
+    auto findRackWithId = [&id](const Entities::RackPtr& rack){ return rack->getId() == id; };
+
+    auto rackFound = std::find_if(racks.begin(), racks.end(), findRackWithId);
+
+    if(rackFound == racks.end())
+	{
+		return nullptr;
+	}
+
+    return *rackFound;
+}
+
 Entities::Pointer Entities::getEntityByPosition(Entities::Stock& entities, const MapPosition& position)
 {
 	auto findFirstEntityInPosition = [&position](Entities::Pointer& entity)

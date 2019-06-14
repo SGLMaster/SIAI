@@ -88,6 +88,7 @@ namespace Entities
     // Getting pointers to the entities
     CellPtr getCellWithId(Cells& cells, int id);
     AgvPtr getAgvWithId(Agvs& agvs, int id);
+    RackPtr getRackWithId(Racks& racks, int id);
 
     Pointer getEntityByPosition(Stock& entities, const MapPosition& position);
     CellPtr getCellByPosition(Cells& cells, const MapPosition& position);
