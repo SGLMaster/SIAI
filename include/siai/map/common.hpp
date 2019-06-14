@@ -29,6 +29,7 @@ enum class MapTaskType
 
 struct MapTask
 {
+    int id;
     MapTaskType type;
 
     int rackId;
