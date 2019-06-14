@@ -26,6 +26,8 @@ public:
     virtual void loadFromDatabase(DbConnector& connector) override;
 
 protected:
+    virtual void drawDirectionMarker(Painter& painter);
+
     void calculateZoomedSideLength(int zoom);
     void calculateOrigin();
 

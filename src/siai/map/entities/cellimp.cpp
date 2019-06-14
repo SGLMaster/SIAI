@@ -41,6 +41,44 @@ bool CellDefault::hasPointInside(const PanelPoint& point) const noexcept
             && point.y <= ( m_origin.y + m_sideLength );
 }
 
+void CellDefault::drawDirectionMarker(Painter& painter)
+{
+	bool isVisible = isVisibleOnScreen(painter.getOrigin(), painter.getSize());
+
+	if(isVisible)
+	{
+		switch(m_direction)
+		{
+		case MapDirection::RIGHT:
+		{
+			static auto normalImage = PanelImage::create("resources/map/direction-marker-right.png");
+			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
+			break;
+		}
+		case MapDirection::DOWN:
+		{
+			static auto normalImage = PanelImage::create("resources/map/direction-marker-down.png");
+			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
+			break;
+		}
+		case MapDirection::LEFT:
+		{
+			static auto normalImage = PanelImage::create("resources/map/direction-marker-left.png");
+			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
+			break;
+		}
+		case MapDirection::UP:
+		{
+			static auto normalImage = PanelImage::create("resources/map/direction-marker-up.png");
+			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
+			break;
+		}
+		case MapDirection::INVALID:
+			break;
+		}
+	}
+}
+
 void CellDefault::calculateZoomedSideLength(int zoom)
 {
     m_sideLength = SIAIGlobals::CELLS_DEFAULT_WIDTH_PX*zoom;
@@ -98,6 +136,8 @@ void RegularCell::draw(Painter& painter)
     painter.setBrush(PanelColor::WHITE);
 
     CellDefault::draw(painter);
+
+	drawDirectionMarker(painter);
 }
 
 BlockedCell::BlockedCell(int id, const MapPosition& position) : CellDefault(id, position) {}
@@ -173,6 +213,8 @@ void StorageCell::draw(Painter& painter)
 			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
 		}
 	}
+
+	drawDirectionMarker(painter);
 }
 
 IngressCell::IngressCell(int id, const MapPosition& position) : CellDefault(id, position) {}
@@ -198,4 +240,6 @@ void IngressCell::draw(Painter& painter)
 			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
 		}
 	}
+
+	drawDirectionMarker(painter);
 }
