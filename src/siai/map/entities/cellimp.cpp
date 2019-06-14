@@ -188,6 +188,8 @@ void ParkingCell::draw(Painter& painter)
 			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
 		}
 	}
+
+	drawDirectionMarker(painter);
 }
 
 StorageCell::StorageCell(int id, const MapPosition& position) : CellDefault(id, position) {}
