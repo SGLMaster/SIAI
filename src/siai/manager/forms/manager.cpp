@@ -97,6 +97,13 @@ ManagerFrame::ManagerFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 
 	m_menubar->Append( m_menuDatabase, _("Base de Datos") );
 
+	m_menuView = new wxMenu();
+	wxMenuItem* m_menuItemShowDirections;
+	m_menuItemShowDirections = new wxMenuItem( m_menuView, wxID_ANY, wxString( _("Mostrar direcciones") ) , wxEmptyString, wxITEM_CHECK );
+	m_menuView->Append( m_menuItemShowDirections );
+
+	m_menubar->Append( m_menuView, _("Vista") );
+
 	this->SetMenuBar( m_menubar );
 
 	m_statusBar = this->CreateStatusBar( 3, wxSTB_ELLIPSIZE_END|wxSTB_SIZEGRIP, wxID_ANY );
@@ -130,6 +137,7 @@ ManagerFrame::ManagerFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	m_menuMap->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ManagerFrame::OnSelectionNewMap ), this, m_menuItemNewMap->GetId());
 	m_menuMap->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ManagerFrame::OnSelectionLoadMap ), this, m_menuItemLoadMap->GetId());
 	m_menuDatabase->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ManagerFrame::OnSelectionDbSettings ), this, m_menuItemDbSettings->GetId());
+	m_menuView->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ManagerFrame::OnSelectionShowDirections ), this, m_menuItemShowDirections->GetId());
 	this->Connect( wxID_ANY, wxEVT_TIMER, wxTimerEventHandler( ManagerFrame::OnTimerRefreshMap ) );
 }
 

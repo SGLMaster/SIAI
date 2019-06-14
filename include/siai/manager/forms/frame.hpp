@@ -72,7 +72,8 @@ private:
 
     virtual void OnSelectionNewMap(wxCommandEvent& event) override;
     virtual void OnSelectionLoadMap(wxCommandEvent& event) override;
-    virtual void OnSelectionDbSettings( wxCommandEvent& event ) override;
+    virtual void OnSelectionDbSettings(wxCommandEvent& event) override;
+    virtual void OnSelectionShowDirections(wxCommandEvent& event) override;
 
     virtual void OnToolSelect(wxCommandEvent& event) override;
     virtual void OnToolRegularCell(wxCommandEvent& event) override;

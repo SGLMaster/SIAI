@@ -150,6 +150,13 @@ void ManagerFrame::OnSelectionDbSettings(wxCommandEvent& event)
 	Disable();
 }
 
+void ManagerFrame::OnSelectionShowDirections(wxCommandEvent& event)
+{
+    bool directionMarkersStatus = m_menuView->GetMenuItems()[0]->IsChecked();
+    
+    m_mapControl->enableDirectionMarkers(directionMarkersStatus);
+}
+
 void ManagerFrame::OnToolSelect(wxCommandEvent& event)
 {
     m_currentTool = Tool::SELECT;

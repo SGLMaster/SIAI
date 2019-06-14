@@ -67,6 +67,7 @@ namespace Forms
 			wxMenuBar* m_menubar;
 			wxMenu* m_menuMap;
 			wxMenu* m_menuDatabase;
+			wxMenu* m_menuView;
 			wxStatusBar* m_statusBar;
 			wxTimer m_timerRefreshMap;
 
@@ -96,6 +97,7 @@ namespace Forms
 			virtual void OnSelectionNewMap( wxCommandEvent& event ) = 0;
 			virtual void OnSelectionLoadMap( wxCommandEvent& event ) = 0;
 			virtual void OnSelectionDbSettings( wxCommandEvent& event ) = 0;
+			virtual void OnSelectionShowDirections( wxCommandEvent& event ) = 0;
 			virtual void OnTimerRefreshMap( wxTimerEvent& event ) = 0;
 
 
