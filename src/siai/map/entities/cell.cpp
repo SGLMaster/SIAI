@@ -16,6 +16,8 @@ const std::vector<std::string> ICell::dbColumnTypes
 };
 const std::string ICell::primaryKeyName{"id"};
 
+bool ICell::directionMarkersEnabled{false};
+
 ICell::ICell(int id, const MapPosition& position) : IMapEntity(id, position) {}
 ICell::~ICell(){};
 

@@ -20,9 +20,22 @@ public:
 	static const std::vector<std::string> dbColumnTypes;
 	static const std::string primaryKeyName;
 
+private:
+    static bool directionMarkersEnabled;
+
+public:
     ICell() = delete;
     ICell(int id, const MapPosition& position);
     virtual ~ICell();
 
     static std::unique_ptr<ICell> create(std::string type, int id, const MapPosition& position);
+
+    static void enableDirectionMarkers(bool value)
+    {
+        directionMarkersEnabled = value;
+    }
+    static bool isDirectionMarkersEnabled()
+    {
+        return directionMarkersEnabled;
+    }
 };

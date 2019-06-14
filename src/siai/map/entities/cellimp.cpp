@@ -43,6 +43,9 @@ bool CellDefault::hasPointInside(const PanelPoint& point) const noexcept
 
 void CellDefault::drawDirectionMarker(Painter& painter)
 {
+	if(!ICell::isDirectionMarkersEnabled())
+		return;
+
 	bool isVisible = isVisibleOnScreen(painter.getOrigin(), painter.getSize());
 
 	if(isVisible)
