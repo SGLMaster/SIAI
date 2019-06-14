@@ -68,6 +68,8 @@ public:
 
     virtual bool moveAgvToCellWithId(DbConnector& connector, Entities::AgvPtr& agv, int idCell) override;
 
+    virtual void enableDirectionMarkers(bool value) override;
+
 private:
     void updateDbTableNames();
 

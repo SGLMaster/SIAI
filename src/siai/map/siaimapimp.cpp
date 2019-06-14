@@ -236,6 +236,11 @@ bool SIAIMapImp::moveAgvToCellWithId(DbConnector& connector, Entities::AgvPtr& a
     return true;
 }
 
+void SIAIMapImp::enableDirectionMarkers(bool value)
+{
+    ICell::enableDirectionMarkers(value);
+}
+
 void  SIAIMapImp::loadCellsFromDb(DbConnector& connector)
 {
     SqlQueryData dataToSelectFromCells{m_cellsDbTableName, ICell::dbColumnNames};

@@ -58,6 +58,8 @@ public:
 
     virtual bool moveAgvToCellWithId(DbConnector& connector, Entities::AgvPtr& agv, int idCell) = 0;
 
+    virtual void enableDirectionMarkers(bool value) = 0;
+
     SIAIMap();
     virtual ~SIAIMap();
 };
