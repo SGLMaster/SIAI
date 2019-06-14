@@ -110,6 +110,11 @@ std::string ServerControl::processCommand(Entities::AgvPtr& agv, const std::stri
     if(commandValueStr != "")
         commandValue = static_cast<int>(strtol(commandValueStr.c_str(), NULL, 10));    
 
+    return executeCommand(agv, commandName, commandValue);
+}
+
+std::string ServerControl::executeCommand(Entities::AgvPtr& agv, const std::string& commandName, int commandValue)
+{
     if(commandName == "RFID")
     {
         bool cmdSuccess = m_mapControl->moveAgvToCellWithId(*m_dbConnector, agv, commandValue);

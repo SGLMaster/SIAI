@@ -31,6 +31,7 @@ public:
 
     Entities::AgvPtr processConnection(const std::string& command);
     std::string processCommand(Entities::AgvPtr& agv, const std::string& command);
+    std::string executeCommand(Entities::AgvPtr& agv, const std::string& commandName, int commandValue);
 
 private:
     void tryToConnectDb();
