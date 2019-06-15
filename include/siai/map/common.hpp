@@ -20,21 +20,3 @@ struct MapPosition
 
 using MapGrid = std::vector<std::vector<int>>;
 using MapPath = std::deque<MapPosition>;
-
-enum class MapTaskType
-{
-    INGRESS,
-    EGRESS
-};
-
-struct MapTask
-{
-    int id;
-    MapTaskType type;
-
-    int rackId;
-    MapPosition rackPosition;
-    bool rackLifted;
-
-    MapPosition stationPosition;
-};

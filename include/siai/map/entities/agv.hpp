@@ -2,6 +2,8 @@
 
 #include "map/entities/mapentity.hpp"
 
+#include "map/task.hpp"
+
 #include "util/id.hpp"
 
 #include <memory>
