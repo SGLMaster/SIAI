@@ -17,7 +17,7 @@ include_directories(${WXWIDGETS_HOME}/include ${WXWIDGETS_HOME}/lib/gcc_dll/mswu
 
 link_directories(${WXWIDGETS_HOME}/lib/gcc_dll ${MYSQLPP_HOME}/lib/Debug ${CONNECTOR_C_HOME}/lib)
 
-#file(GLOB ALGORITHMS_SOURCES "src/siai/algorithms/*.cpp")
+file(GLOB ALGORITHMS_SOURCES "src/siai/algorithms/*.cpp")
 file(GLOB DATABASE_SOURCES "src/siai/database/*.cpp")
 file(GLOB_RECURSE MANAGER_SOURCES "src/siai/manager/*.cpp")
 file(GLOB_RECURSE MAP_SOURCES "src/siai/map/*.cpp")
@@ -32,7 +32,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
 
 #Map Library
-add_library(siaimap SHARED ${MAP_SOURCES} ${DATABASE_SOURCES} ${PAINTER_SOURCES} ${UTIL_SOURCES} ${ROOT_SOURCES})
+add_library(siaimap SHARED ${MAP_SOURCES} ${DATABASE_SOURCES} ${PAINTER_SOURCES} ${UTIL_SOURCES} ${ROOT_SOURCES} ${ALGORITHMS_SOURCES})
 
 target_link_libraries(siaimap wxbase30ud wxmsw30ud_core wxbase30ud_net mysqlpp mysql user32)
 target_compile_options(siaimap PUBLIC -DBUILD_DLL)

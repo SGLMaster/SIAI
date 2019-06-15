@@ -20,6 +20,7 @@ public:
     {
         m_currentPath = path;
     }
+    virtual MapDirection getNextDirection(const MapPosition& currentPosition) const noexcept;
 };
 
 class IngressTask : public MapTask
@@ -33,9 +34,9 @@ public:
     IngressTask(int id, int rackId);
     virtual ~IngressTask();
 
-    void setRackId(int rackId)
+    virtual void setRackId(int rackId)
     {
         m_rackId = rackId;
     }
-    void liftRack(const MapPath& newPath);
+    virtual void liftRack(const MapPath& newPath);
 };
