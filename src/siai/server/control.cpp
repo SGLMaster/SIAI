@@ -133,6 +133,34 @@ std::string ServerControl::executeCommand(Entities::AgvPtr& agv, const std::stri
         else
             return "TASK ERROR";
     }
+    else if(commandName == "NEXT-DIR")
+    {
+        std::string response = "NEXT-DIR:";
+
+        MapDirection nextDirection = agv->getNextDirection();
+
+        switch(nextDirection)
+        {
+        case MapDirection::RIGHT:
+            response += "RIGHT";
+            break;
+        case MapDirection::DOWN:
+            response += "DOWN";
+            break;
+        case MapDirection::LEFT:
+            response += "LEFT";
+            break;
+        case MapDirection::UP:
+            response += "UP";
+            break;
+        
+        default:
+            response += "INVALID";
+            break;
+        }
+
+        return response;
+    }
 
     return "UNK";
 }
