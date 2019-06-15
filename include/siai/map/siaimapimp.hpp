@@ -88,6 +88,6 @@ private:
     void createItemsDbTable(DbConnector& connector);
     void createIngressDbTable(DbConnector& connector);
 
-    void tryQueryWithoutResults(DbConnector& connector, const DbQuery& query);
-    void tryQueryAndStore(DbConnector& connector, const DbQuery& query, std::vector<DbRow>& vector);
+    bool tryQueryWithoutResults(DbConnector& connector, const DbQuery& query);
+    bool tryQueryAndStore(DbConnector& connector, const DbQuery& query, std::vector<DbRow>& vector);
 };

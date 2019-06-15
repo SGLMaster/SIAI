@@ -244,7 +244,10 @@ bool SIAIMapImp::assignNewTaskToAgv(DbConnector& connector, Entities::AgvPtr& ag
     SqlSelectQuery selectCellsQuery(dataToSelect);
 
     std::vector<DbRow> cellsRows;
-    tryQueryAndStore(connector, selectCellsQuery, cellsRows);
+    bool querySuccess = tryQueryAndStore(connector, selectCellsQuery, cellsRows);
+
+    if(!querySuccess)
+        return false;
 
     DbRow firstTask = cellsRows[0];
 
@@ -386,7 +389,7 @@ void SIAIMapImp::createIngressDbTable(DbConnector& connector)
 	tryQueryWithoutResults(connector, createTableQuery);
 }
 
-void SIAIMapImp::tryQueryWithoutResults(DbConnector& connector, const DbQuery& createQuery)
+bool SIAIMapImp::tryQueryWithoutResults(DbConnector& connector, const DbQuery& createQuery)
 {
 	try
 	{
@@ -397,10 +400,14 @@ void SIAIMapImp::tryQueryWithoutResults(DbConnector& connector, const DbQuery& c
 		Log::warning(std::string("Error al enviar comando a base de datos: ") + e.what(), m_createdForConsole);
 
 		reset(0, 0);
+
+        return false;
 	}
+
+    return true;
 }
 
-void SIAIMapImp::tryQueryAndStore(DbConnector& connector, const DbQuery& query, std::vector<DbRow>& vector)
+bool SIAIMapImp::tryQueryAndStore(DbConnector& connector, const DbQuery& query, std::vector<DbRow>& vector)
 {
     try
 	{
@@ -411,5 +418,9 @@ void SIAIMapImp::tryQueryAndStore(DbConnector& connector, const DbQuery& query, 
 		Log::warning(std::string("Error al enviar comando a base de datos: ") + e.what(), m_createdForConsole);
 
 		reset(0, 0);
+
+        return false;
 	}
+
+    return true;
 }
