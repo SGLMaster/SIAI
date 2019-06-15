@@ -10,6 +10,8 @@
 
 #include "map/exception.hpp"
 
+#include "algorithms/pathfinder.hpp"
+
 #include "util/reversion.hpp"
 
 #include "database/database.hpp"
@@ -232,6 +234,37 @@ bool SIAIMapImp::moveAgvToCellWithId(DbConnector& connector, Entities::AgvPtr& a
 
     agv->setPosition(cell->getPosition());
     agv->updateInDatabase(connector, m_name);
+
+    return true;
+}
+
+bool SIAIMapImp::assignNewTaskToAgv(DbConnector& connector, Entities::AgvPtr& agv)
+{
+    SqlQueryData dataToSelect{m_ingressDbTableName, AItem::dbColumnNames};
+    SqlSelectQuery selectCellsQuery(dataToSelect);
+
+    std::vector<DbRow> cellsRows;
+    tryQueryAndStore(connector, selectCellsQuery, cellsRows);
+
+    DbRow firstTask = cellsRows[0];
+
+    int taskId = firstTask[0];
+    int taskRackId = firstTask[3];
+
+    IngressTask newTask(taskId, taskRackId);
+
+    auto rack = Entities::getRackWithId(m_entities.racks, taskRackId);
+
+    MapPosition agvPosition = agv->getPosition();
+    MapPosition rackPosition = rack->getPosition();
+
+    MapGrid tmpMapGrid = Entities::generateMapGrid(m_entities, agvPosition, rackPosition);
+    PathFinder tmpPathFinder(m_numberOfColumns, m_numberOfRows);
+    MapPath pathToRack = tmpPathFinder.find(tmpMapGrid, agvPosition, rackPosition);
+
+    newTask.setPath(pathToRack);
+
+    agv->assignTask(newTask);
 
     return true;
 }

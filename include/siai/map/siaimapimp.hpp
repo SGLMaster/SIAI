@@ -67,6 +67,7 @@ public:
     virtual void uploadChanges(DbConnector& connector) override;
 
     virtual bool moveAgvToCellWithId(DbConnector& connector, Entities::AgvPtr& agv, int idCell) override;
+    virtual bool assignNewTaskToAgv(DbConnector& connector, Entities::AgvPtr& agv) override;
 
     virtual void enableDirectionMarkers(bool value) override;
 

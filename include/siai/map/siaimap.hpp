@@ -57,6 +57,7 @@ public:
     virtual void uploadChanges(DbConnector& connector) = 0;
 
     virtual bool moveAgvToCellWithId(DbConnector& connector, Entities::AgvPtr& agv, int idCell) = 0;
+    virtual bool assignNewTaskToAgv(DbConnector& connector, Entities::AgvPtr& agv) = 0;
 
     virtual void enableDirectionMarkers(bool value) = 0;
 
