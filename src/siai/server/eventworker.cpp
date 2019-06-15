@@ -137,6 +137,7 @@ void EventWorker::DoRead()
         m_outBuffer = m_serverControl->processCommand(m_agv, m_inBuffer);
     }
 
+    m_outBuffer += "\n";
     DoWrite();
 };
 
