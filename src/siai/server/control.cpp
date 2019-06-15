@@ -124,6 +124,20 @@ std::string ServerControl::executeCommand(Entities::AgvPtr& agv, const std::stri
         else
             return "RFID ERROR";
     }
+    else if(commandName == "DIR")
+    {
+        // We verify the received number is in the range of the possible directions
+        if(commandValue >= 0 && commandValue <= 3)
+        {
+            MapDirection direction = static_cast<MapDirection>(commandValue);
+            agv->setDirection(direction);
+            agv->updateInDatabase(*m_dbConnector, m_mapControl->getName());
+
+            return "DIR OK";
+        }
+
+        return "DIR ERROR";
+    }
     else if(commandName == "TASK")
     {
         bool cmdSuccess = m_mapControl->assignNewTaskToAgv(*m_dbConnector, agv);
