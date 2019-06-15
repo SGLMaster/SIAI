@@ -32,6 +32,7 @@ public:
 
     virtual void assignTask(const MapTask& newTask) override
     {
+        currentTask.reset();
         currentTask = std::make_unique<MapTask>(newTask);
     }
 
