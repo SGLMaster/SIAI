@@ -14,7 +14,7 @@ protected:
     PanelPoint m_origin;
     PanelSize m_size;
 
-    std::unique_ptr<MapTask> currentTask;
+    std::unique_ptr<MapTask> m_currentTask;
 
 public:
     AgvDefault() = delete;
@@ -32,8 +32,15 @@ public:
 
     virtual void assignTask(const MapTask& newTask) override
     {
-        currentTask.reset();
-        currentTask = std::make_unique<MapTask>(newTask);
+        m_currentTask.reset();
+        m_currentTask = std::make_unique<MapTask>(newTask);
+    }
+    virtual MapDirection getNextDirection() override
+    {
+	    if(m_currentTask)
+		    return m_currentTask->getNextDirection(m_position);
+
+        return MapDirection::INVALID;
     }
 
 protected:
