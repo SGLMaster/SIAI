@@ -17,6 +17,7 @@ PathFinder::~PathFinder(){}
 // A Function to find the shortest path between a given source cell to a destination cell according to 
 // A* Search Algorithm 
 MapPath PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, const MapPosition& destination) 
+                        const noexcept
 {
     MapPath emptyPath;
 
@@ -290,7 +291,7 @@ MapPath PathFinder::find(const MapGrid& mapGrid, const MapPosition& source, cons
 }
 
 // A Function to find the next step in a path previously calculated 
-MapPosition PathFinder::getNextStep(const MapPath& path, const MapPosition& currentPosition) 
+MapPosition PathFinder::getNextStep(const MapPath& path, const MapPosition& currentPosition)
 {
     bool returnNextOne = false;
 

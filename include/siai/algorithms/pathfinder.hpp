@@ -24,9 +24,9 @@ public:
     PathFinder(int numberOfColumns, int numberOfRows);
     ~PathFinder();
 
-    MapPath find(const MapGrid& mapGrid, const MapPosition& source, const MapPosition& destination);
-    MapPosition getNextStep(const MapPath& path, const MapPosition& currentPosition);
-    MapDirection getNextDirection(const MapPosition& currentPosition, const MapPosition& nextPosition);
+    MapPath find(const MapGrid& mapGrid, const MapPosition& source, const MapPosition& destination) const noexcept;
+    static MapPosition getNextStep(const MapPath& path, const MapPosition& currentPosition);
+    static MapDirection getNextDirection(const MapPosition& currentPosition, const MapPosition& nextPosition);
 
 private:
     bool isValid(int column, int row) const noexcept;
