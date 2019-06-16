@@ -383,7 +383,14 @@ void SIAIMapImp::createItemsDbTable(DbConnector& connector)
 void SIAIMapImp::createIngressDbTable(DbConnector& connector)
 {
     // As of this version, the "Ingress" table has the exact same structure as the "Items" table.
-    SqlQueryData dataForTable{m_ingressDbTableName, AItem::dbColumnNames, AItem::dbColumnTypes};
+    // Plus a column for the id of the AGV assigned to carry the task.
+    std::vector<std::string> ingressDbColumnNames = AItem::dbColumnNames;
+    ingressDbColumnNames.push_back(std::string("agvid"));
+
+    std::vector<std::string> ingressDbColumnTypes = AItem::AItem::dbColumnTypes;
+    ingressDbColumnTypes.push_back(std::string("INT NULL DEFAULT NULL"));
+
+    SqlQueryData dataForTable{m_ingressDbTableName, ingressDbColumnNames, ingressDbColumnTypes};
 	SqlCreateTableQuery createTableQuery(dataForTable, AItem::primaryKeyName);
 
 	tryQueryWithoutResults(connector, createTableQuery);
