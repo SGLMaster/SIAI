@@ -339,7 +339,9 @@ bool PathFinder::isValid(int column, int row) const noexcept
 bool PathFinder::isBlocked(const MapGrid& mapGrid, int column, int row) const noexcept
 {
     // Returns true if the cell is blocked else false 
-    if(mapGrid[column][row] == -1) 
+    MapDirection cellDirection = static_cast<MapDirection>(mapGrid[column][row]);
+
+    if(cellDirection == MapDirection::INVALID) 
         return true; 
 
     return false; 
