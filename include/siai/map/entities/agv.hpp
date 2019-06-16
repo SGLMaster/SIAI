@@ -30,5 +30,6 @@ public:
     static std::unique_ptr<IAgv> create(std::string type, int id, const MapPosition& position);
 
     virtual void assignTask(const MapTask& newTask) = 0;
+    virtual void dropTask() noexcept = 0;
     virtual MapDirection getNextDirection() = 0;
 };

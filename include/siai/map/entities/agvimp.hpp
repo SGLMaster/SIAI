@@ -35,6 +35,10 @@ public:
         m_currentTask.reset();
         m_currentTask = std::make_unique<MapTask>(newTask);
     }
+    virtual void dropTask() noexcept override
+    {
+        m_currentTask.reset();
+    }
     virtual MapDirection getNextDirection() override
     {
 	    if(m_currentTask)
