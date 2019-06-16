@@ -274,6 +274,26 @@ bool SIAIMapImp::assignNewTaskToAgv(DbConnector& connector, Entities::AgvPtr& ag
 
     agv->assignTask(newTask);
 
+    // Setting the task as assigned in the DB
+    int agvId = agv->getId();
+
+	std::string tableName = SIAIGlobals::DB_INGRESS_TABLE_PREFIX + m_name;
+
+	SqlQueryData dataToUpdate{tableName, {"agvid"}, {std::to_string(agvId)} };
+	SqlWhereCondition whereCondition( SqlQueryData{tableName, {"id"}, {std::to_string(taskId)} } );
+	SqlUpdateQuery updateQuery(dataToUpdate, whereCondition.generateString());
+
+    try
+    {
+	    connector.executeQueryWithoutResults(updateQuery);
+    }
+    catch(const mysqlpp::BadQuery& e)
+    {
+        // If we couldn't save to Db we drop the task
+        agv->dropTask();
+        return false;
+    }
+
     return true;
 }
 

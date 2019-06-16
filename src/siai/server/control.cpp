@@ -16,6 +16,8 @@
 #include "globals.hpp"
 #include "log.hpp"
 
+#include <mysql++.h>
+
 #include <string>
 
 ServerControl::ServerControl() = default;
@@ -158,7 +160,7 @@ std::string ServerControl::commandDir(Entities::AgvPtr& agv, int directionValue)
         {
             agv->updateInDatabase(*m_dbConnector, m_mapControl->getName());
         }
-        catch (const std::exception &e)
+        catch (const mysqlpp::BadQuery& e)
         {
             Log::error(e.what(), true);
             return "DIR ERROR";
