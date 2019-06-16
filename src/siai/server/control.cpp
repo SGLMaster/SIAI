@@ -131,7 +131,17 @@ std::string ServerControl::executeCommand(Entities::AgvPtr& agv, const std::stri
         {
             MapDirection direction = static_cast<MapDirection>(commandValue);
             agv->setDirection(direction);
-            agv->updateInDatabase(*m_dbConnector, m_mapControl->getName());
+
+            // Trying to save the change in direction
+            try
+            {
+                agv->updateInDatabase(*m_dbConnector, m_mapControl->getName());
+            }
+            catch(const std::exception& e)
+            {
+                Log::error(e.what(), true);
+                return "DIR ERROR";
+            }
 
             return "DIR OK";
         }
