@@ -240,8 +240,10 @@ bool SIAIMapImp::moveAgvToCellWithId(DbConnector& connector, Entities::AgvPtr& a
 
 bool SIAIMapImp::assignNewTaskToAgv(DbConnector& connector, Entities::AgvPtr& agv)
 {
-    SqlQueryData dataToSelect{m_ingressDbTableName, AItem::dbColumnNames};
-    SqlSelectQuery selectCellsQuery(dataToSelect);
+    SqlQueryData dataToSelect{m_ingressDbTableName, {"id", "rackid"}};
+
+    // We select only the first task with an "agvid" of value  "0" which means it is unassigned
+    SqlSelectQuery selectCellsQuery(dataToSelect, std::string("WHERE (`agvid` = '0')  LIMIT 0, 1"));
 
     std::vector<DbRow> cellsRows;
     bool querySuccess = tryQueryAndStore(connector, selectCellsQuery, cellsRows);
@@ -249,10 +251,13 @@ bool SIAIMapImp::assignNewTaskToAgv(DbConnector& connector, Entities::AgvPtr& ag
     if(!querySuccess)
         return false;
 
+    if(cellsRows.empty())
+        return false;
+
     DbRow firstTask = cellsRows[0];
 
     int taskId = firstTask[0];
-    int taskRackId = firstTask[3];
+    int taskRackId = firstTask[1];
 
     IngressTask newTask(taskId, taskRackId);
 
@@ -388,7 +393,7 @@ void SIAIMapImp::createIngressDbTable(DbConnector& connector)
     ingressDbColumnNames.push_back(std::string("agvid"));
 
     std::vector<std::string> ingressDbColumnTypes = AItem::AItem::dbColumnTypes;
-    ingressDbColumnTypes.push_back(std::string("INT NULL DEFAULT NULL"));
+    ingressDbColumnTypes.push_back(std::string("INT NULL DEFAULT 0"));
 
     SqlQueryData dataForTable{m_ingressDbTableName, ingressDbColumnNames, ingressDbColumnTypes};
 	SqlCreateTableQuery createTableQuery(dataForTable, AItem::primaryKeyName);
