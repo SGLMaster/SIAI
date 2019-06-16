@@ -117,76 +117,96 @@ std::string ServerControl::executeCommand(Entities::AgvPtr& agv, const std::stri
 {
     if(commandName == "RFID")
     {
-        bool cmdSuccess = m_mapControl->moveAgvToCellWithId(*m_dbConnector, agv, commandValue);
-
-        if(cmdSuccess)
-            return "RFID OK";
-        else
-            return "RFID ERROR";
+        return commandRfid(agv, commandValue);
     }
     else if(commandName == "DIR")
     {
-        // We verify the received number is in the range of the possible directions
-        if(commandValue >= 0 && commandValue <= 3)
-        {
-            MapDirection direction = static_cast<MapDirection>(commandValue);
-            agv->setDirection(direction);
-
-            // Trying to save the change in direction
-            try
-            {
-                agv->updateInDatabase(*m_dbConnector, m_mapControl->getName());
-            }
-            catch(const std::exception& e)
-            {
-                Log::error(e.what(), true);
-                return "DIR ERROR";
-            }
-
-            return "DIR OK";
-        }
-
-        return "DIR ERROR";
+        return commandDir(agv, commandValue);
     }
     else if(commandName == "TASK")
     {
-        bool cmdSuccess = m_mapControl->assignNewTaskToAgv(*m_dbConnector, agv);
-
-        if(cmdSuccess)
-            return "TASK OK";
-        else
-            return "TASK ERROR";
+        return commandTask(agv);
     }
     else if(commandName == "NEXT-DIR")
     {
-        std::string response = "NEXT-DIR:";
-
-        MapDirection nextDirection = agv->getNextDirection();
-
-        switch(nextDirection)
-        {
-        case MapDirection::RIGHT:
-            response += "RIGHT";
-            break;
-        case MapDirection::DOWN:
-            response += "DOWN";
-            break;
-        case MapDirection::LEFT:
-            response += "LEFT";
-            break;
-        case MapDirection::UP:
-            response += "UP";
-            break;
-        
-        default:
-            response += "INVALID";
-            break;
-        }
-
-        return response;
+        return commandNextDir(agv);
     }
 
     return "UNK";
+}
+
+std::string ServerControl::commandRfid(Entities::AgvPtr& agv, int rfid)
+{
+    bool cmdSuccess = m_mapControl->moveAgvToCellWithId(*m_dbConnector, agv, rfid);
+
+    if (cmdSuccess)
+        return "RFID OK";
+    else
+        return "RFID ERROR";
+}
+
+std::string ServerControl::commandDir(Entities::AgvPtr& agv, int directionValue)
+{
+    // We verify the received number is in the range of the possible directions
+    if (directionValue >= 0 && directionValue <= 3)
+    {
+        MapDirection direction = static_cast<MapDirection>(directionValue);
+        agv->setDirection(direction);
+
+        // Trying to save the change in direction
+        try
+        {
+            agv->updateInDatabase(*m_dbConnector, m_mapControl->getName());
+        }
+        catch (const std::exception &e)
+        {
+            Log::error(e.what(), true);
+            return "DIR ERROR";
+        }
+
+        return "DIR OK";
+    }
+
+    return "DIR ERROR";
+}
+
+std::string ServerControl::commandTask(Entities::AgvPtr& agv)
+{
+    bool cmdSuccess = m_mapControl->assignNewTaskToAgv(*m_dbConnector, agv);
+
+    if (cmdSuccess)
+        return "TASK OK";
+    else
+        return "TASK ERROR";
+}
+
+std::string ServerControl::commandNextDir(Entities::AgvPtr& agv)
+{
+    std::string response = "NEXT-DIR:";
+
+    MapDirection nextDirection = agv->getNextDirection();
+
+    switch (nextDirection)
+    {
+    case MapDirection::RIGHT:
+        response += "RIGHT";
+        break;
+    case MapDirection::DOWN:
+        response += "DOWN";
+        break;
+    case MapDirection::LEFT:
+        response += "LEFT";
+        break;
+    case MapDirection::UP:
+        response += "UP";
+        break;
+
+    default:
+        response += "INVALID";
+        break;
+    }
+
+    return response;
 }
 
 void ServerControl::tryToConnectDb()

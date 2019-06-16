@@ -34,6 +34,11 @@ public:
     std::string executeCommand(Entities::AgvPtr& agv, const std::string& commandName, int commandValue);
 
 private:
+    std::string commandRfid(Entities::AgvPtr& agv, int rfid);
+    std::string commandDir(Entities::AgvPtr& agv, int directionValue);
+    std::string commandTask(Entities::AgvPtr& agv);
+    std::string commandNextDir(Entities::AgvPtr& agv);
+
     void tryToConnectDb();
     void assertDbConnected();
 };
