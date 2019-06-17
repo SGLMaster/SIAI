@@ -25,4 +25,6 @@ public:
     virtual ~IRack();
 
     static std::unique_ptr<IRack> create(std::string type, int id, const MapPosition& position);
+
+    virtual void lift() noexcept = 0;
 };

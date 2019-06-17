@@ -48,9 +48,10 @@ bool RegularRack::hasPointInside(const PanelPoint& point) const noexcept
 void RegularRack::insertToDatabase(DbConnector& connector, const std::string& mapName) const
 {
 	int direction = static_cast<int>(m_direction);
+	int liftedValue = static_cast<int>(m_lifted);
 
 	std::vector<std::string> valuesToInsert{std::to_string(m_id), std::to_string(m_position.column),
-											std::to_string(m_position.row), std::to_string(direction)};
+		std::to_string(m_position.row), std::to_string(direction), std::to_string(liftedValue)};
 
 	std::string tableName = SIAIGlobals::DB_RACKS_TABLE_PREFIX + mapName;
 
@@ -62,9 +63,10 @@ void RegularRack::insertToDatabase(DbConnector& connector, const std::string& ma
 void RegularRack::updateInDatabase(DbConnector& connector, const std::string& mapName) const
 {
 	int direction = static_cast<int>(m_direction);
+	int liftedValue = static_cast<int>(m_lifted);
 
 	std::vector<std::string> valuesToUpdate{std::to_string(m_id), std::to_string(m_position.column),
-		std::to_string(m_position.row), std::to_string(direction)};
+		std::to_string(m_position.row), std::to_string(direction), std::to_string(liftedValue)};
 
 	std::string tableName = SIAIGlobals::DB_RACKS_TABLE_PREFIX + mapName;
 
@@ -114,68 +116,19 @@ void RegularRack::drawNormalImage(Painter& painter)
 {
 	PanelSize rackSize{m_radio, m_radio};
 
-	switch(m_direction)
-	{
-	case MapDirection::RIGHT:
-	{
-		static auto normalImage = PanelImage::create("resources/map/regular-rack.png");
-		painter.drawImage(*normalImage, m_cellOrigin, rackSize);
-		break;
-	}
-	case MapDirection::DOWN:
-	{
-		static auto normalImage = PanelImage::create("resources/map/regular-rack.png");
-		painter.drawImage(*normalImage, m_cellOrigin, rackSize);
-		break;
-	}
-	case MapDirection::LEFT:
-	{
-		static auto normalImage = PanelImage::create("resources/map/regular-rack.png");
-		painter.drawImage(*normalImage, m_cellOrigin, rackSize);
-		break;
-	}
-	case MapDirection::UP:
-	{
-		static auto normalImage = PanelImage::create("resources/map/regular-rack.png");
-		painter.drawImage(*normalImage, m_cellOrigin, rackSize);
-		break;
-	}
-	case MapDirection::INVALID:
-		break;
-	}
+	static auto regularImage = PanelImage::create("resources/map/regular-rack.png");
+	static auto liftedImage = PanelImage::create("resources/map/regular-rack-lifted.png");
+
+	if(m_lifted)
+		painter.drawImage(*liftedImage, m_cellOrigin, rackSize);
+	else
+		painter.drawImage(*regularImage, m_cellOrigin, rackSize);
 }
 
 void RegularRack::drawSelectedImage(Painter& painter)
 {
 	PanelSize rackSize{m_radio, m_radio};
 
-	switch(m_direction)
-	{
-	case MapDirection::RIGHT:
-	{
-		static auto selectedImage = PanelImage::create("resources/map/regular-rack-selected.png");
-		painter.drawImage(*selectedImage, m_cellOrigin, rackSize);
-		break;
-	}
-	case MapDirection::DOWN:
-	{
-		static auto selectedImage = PanelImage::create("resources/map/regular-rack-selected.png");
-		painter.drawImage(*selectedImage, m_cellOrigin, rackSize);
-		break;
-	}
-	case MapDirection::LEFT:
-	{
-		static auto selectedImage = PanelImage::create("resources/map/regular-rack-selected.png");
-		painter.drawImage(*selectedImage, m_cellOrigin, rackSize);
-		break;
-	}
-	case MapDirection::UP:
-	{
-		static auto selectedImage = PanelImage::create("resources/map/regular-rack-selected.png");
-		painter.drawImage(*selectedImage, m_cellOrigin, rackSize);
-		break;
-	}
-	case MapDirection::INVALID:
-		break;
-	}
+	static auto selectedImage = PanelImage::create("resources/map/regular-rack-selected.png");
+	painter.drawImage(*selectedImage, m_cellOrigin, rackSize);
 }

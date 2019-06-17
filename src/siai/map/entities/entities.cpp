@@ -142,11 +142,18 @@ void Entities::loadRacksFromQueryRows(Stock& entities, const std::vector<DbRow>&
         int rackCol = rackDataRow[1];
         int rackRow = rackDataRow[2];
         int rackDirection = rackDataRow[3];
+        int rackLiftedValue = rackDataRow[4];
+
+        bool rackLifted = static_cast<bool>(rackLiftedValue);
 
         MapPosition rackPosition{rackCol, rackRow};
 
         Entities::RackPtr tmpRack = IRack::create("RegularRack", rackId, rackPosition);
         IRack::IdManager.retrieveId(rackId);
+
+        if(rackLifted)
+            tmpRack->lift();
+
         tmpRack->setDirection(static_cast<MapDirection>(rackDirection));
 
         entities.all.push_back(tmpRack);

@@ -14,6 +14,8 @@ private:
     PanelPoint m_center;
     int m_radio;
 
+    bool m_lifted = false;
+
 public:
 	RegularRack() = delete;
 	RegularRack(int id, const MapPosition& position);
@@ -32,6 +34,11 @@ public:
     virtual void insertToDatabase(DbConnector& connector, const std::string& mapName)  const override;
     virtual void updateInDatabase(DbConnector& connector, const std::string& mapName)  const override;
     virtual void loadFromDatabase(DbConnector& connector) override;
+
+    virtual void lift() noexcept override
+    {
+        m_lifted = true;
+    }
 
 private:
     void calculateDrawingData(int zoom);

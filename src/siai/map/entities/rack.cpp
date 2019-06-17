@@ -7,8 +7,15 @@
 
 Util::IdManager IRack::IdManager = Util::IdManager{MIN_ID, MAX_ID};
 
-const std::vector<std::string> IRack::dbColumnNames{ "id", "column", "row", "direction" };
-const std::vector<std::string> IRack::dbColumnTypes{ "INT NOT NULL", "INT NOT NULL", "INT NOT NULL", "INT NOT NULL" };
+const std::vector<std::string> IRack::dbColumnNames{ "id", "column", "row", "direction", "lifted" };
+const std::vector<std::string> IRack::dbColumnTypes
+{ 
+	"INT NOT NULL", 
+	"INT NOT NULL", 
+	"INT NOT NULL", 
+	"INT NOT NULL", 
+	"TINYINT NOT NULL DEFAULT 0"
+};
 const std::string IRack::primaryKeyName{"id"};
 
 IRack::IRack(int id, const MapPosition& position) : IMapEntity(id, position) {}
