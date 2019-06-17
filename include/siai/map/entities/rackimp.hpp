@@ -16,6 +16,10 @@ private:
 
     bool m_lifted = false;
 
+    static std::unique_ptr<PanelImage> m_regularImage;
+    static std::unique_ptr<PanelImage> m_liftedImage;
+    static std::unique_ptr<PanelImage> m_selectedImage;
+
 public:
 	RegularRack() = delete;
 	RegularRack(int id, const MapPosition& position);

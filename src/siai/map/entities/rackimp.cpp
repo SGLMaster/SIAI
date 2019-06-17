@@ -5,7 +5,16 @@
 
 #include "globals.hpp"
 
-RegularRack::RegularRack(int id, const MapPosition& position) : IRack(id, position){}
+std::unique_ptr<PanelImage> RegularRack::m_regularImage = nullptr;
+std::unique_ptr<PanelImage> RegularRack::m_liftedImage = nullptr;
+std::unique_ptr<PanelImage> RegularRack::m_selectedImage = nullptr;
+
+RegularRack::RegularRack(int id, const MapPosition& position) : IRack(id, position)
+{
+	m_regularImage = PanelImage::create("resources/map/regular-rack.png");
+	m_liftedImage = PanelImage::create("resources/map/regular-rack-lifted.png");
+	m_selectedImage = PanelImage::create("resources/map/regular-rack-selected.png");
+}
 RegularRack::~RegularRack() = default;
 
 void RegularRack::draw(Painter& painter)
@@ -116,19 +125,14 @@ void RegularRack::drawNormalImage(Painter& painter)
 {
 	PanelSize rackSize{m_radio, m_radio};
 
-	static auto regularImage = PanelImage::create("resources/map/regular-rack.png");
-	static auto liftedImage = PanelImage::create("resources/map/regular-rack-lifted.png");
-
 	if(m_lifted)
-		painter.drawImage(*liftedImage, m_cellOrigin, rackSize);
+		painter.drawImage(*m_liftedImage, m_cellOrigin, rackSize);
 	else
-		painter.drawImage(*regularImage, m_cellOrigin, rackSize);
+		painter.drawImage(*m_regularImage, m_cellOrigin, rackSize);
 }
 
 void RegularRack::drawSelectedImage(Painter& painter)
 {
 	PanelSize rackSize{m_radio, m_radio};
-
-	static auto selectedImage = PanelImage::create("resources/map/regular-rack-selected.png");
-	painter.drawImage(*selectedImage, m_cellOrigin, rackSize);
+	painter.drawImage(*m_selectedImage, m_cellOrigin, rackSize);
 }
