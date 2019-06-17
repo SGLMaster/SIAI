@@ -46,6 +46,23 @@ bool CellDefault::hasPointInside(const PanelPoint& point) const noexcept
             && point.y <= ( m_origin.y + m_sideLength );
 }
 
+void CellDefault::drawWithImages(Painter& painter, const std::unique_ptr<PanelImage>& normalImg, 
+                            		const std::unique_ptr<PanelImage>& selectedImg)
+{
+	calculateZoomedSideLength(painter.getZoom());
+	calculateOrigin();
+
+	bool isVisible = isVisibleOnScreen(painter.getOrigin(), painter.getSize());
+
+	if(isVisible)
+	{
+		if(!m_selected)
+			painter.drawImage(*normalImg, m_origin, PanelSize{m_sideLength, m_sideLength});
+		else
+			painter.drawImage(*selectedImg, m_origin, PanelSize{m_sideLength, m_sideLength});
+	}
+}
+
 void CellDefault::drawDirectionMarker(Painter& painter) const noexcept
 {
 	if(!ICell::isDirectionMarkersEnabled())
@@ -157,18 +174,7 @@ BlockedCell::~BlockedCell() = default;
 
 void BlockedCell::draw(Painter& painter)
 {
-	calculateZoomedSideLength(painter.getZoom());
-	calculateOrigin();
-
-	bool isVisible = isVisibleOnScreen(painter.getOrigin(), painter.getSize());
-
-	if(isVisible)
-	{
-		if(!m_selected)
-			painter.drawImage(*m_normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-		else
-			painter.drawImage(*m_selectedImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-	}
+	CellDefault::drawWithImages(painter, m_normalImage, m_selectedImage);
 }
 
 std::unique_ptr<PanelImage> ParkingCell::m_normalImage = nullptr;
@@ -183,19 +189,7 @@ ParkingCell::~ParkingCell() = default;
 
 void ParkingCell::draw(Painter& painter)
 {
-	calculateZoomedSideLength(painter.getZoom());
-	calculateOrigin();
-
-	bool isVisible = isVisibleOnScreen(painter.getOrigin(), painter.getSize());
-
-	if(isVisible)
-	{
-		if(!m_selected)
-			painter.drawImage(*m_normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-		else
-			painter.drawImage(*m_selectedImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-	}
-
+	CellDefault::drawWithImages(painter, m_normalImage, m_selectedImage);
 	drawDirectionMarker(painter);
 }
 
@@ -211,19 +205,7 @@ StorageCell::~StorageCell() = default;
 
 void StorageCell::draw(Painter& painter)
 {
-	calculateZoomedSideLength(painter.getZoom());
-	calculateOrigin();
-
-	bool isVisible = isVisibleOnScreen(painter.getOrigin(), painter.getSize());
-
-	if(isVisible)
-	{
-		if(!m_selected)
-			painter.drawImage(*m_normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-		else
-			painter.drawImage(*m_selectedImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-	}
-
+	CellDefault::drawWithImages(painter, m_normalImage, m_selectedImage);
 	drawDirectionMarker(painter);
 }
 
@@ -239,18 +221,6 @@ IngressCell::~IngressCell() = default;
 
 void IngressCell::draw(Painter& painter)
 {
-	calculateZoomedSideLength(painter.getZoom());
-	calculateOrigin();
-
-	bool isVisible = isVisibleOnScreen(painter.getOrigin(), painter.getSize());
-
-	if(isVisible)
-	{
-		if(!m_selected)
-			painter.drawImage(*m_normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-		else
-			painter.drawImage(*m_selectedImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-	}
-
+	CellDefault::drawWithImages(painter, m_normalImage, m_selectedImage);
 	drawDirectionMarker(painter);
 }

@@ -28,6 +28,9 @@ public:
     virtual void loadFromDatabase(DbConnector& connector) override;
 
 protected:
+    virtual void drawWithImages(Painter& painter, const std::unique_ptr<PanelImage>& normalImg, 
+                                const std::unique_ptr<PanelImage>& selectedImg);
+
     virtual void drawDirectionMarker(Painter& painter) const noexcept;
     virtual void doDrawDirectionMarker(Painter& painter) const noexcept;
 
