@@ -80,7 +80,7 @@ IngressFrame::IngressFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	bSizer1->Add( bSizer5, 1, wxEXPAND, 5 );
 
 	m_toolBar = new wxToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL );
-	m_toolUpdateTasks = m_toolBar->AddTool( wxID_ANY, _("Actualizar Tareas..."), wxBitmap( wxT("resources/tools/redo.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, _("Actualizar Tareas..."), _("Actualizar Tareas..."), NULL );
+	m_toolUpdateTasks = m_toolBar->AddTool( wxID_ANY, _("Actualizar Tareas..."), wxBitmap( wxT("resources/tools/sync.bmp"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, _("Actualizar Tareas..."), _("Actualizar Tareas..."), NULL );
 
 	m_toolBar->Realize();
 
