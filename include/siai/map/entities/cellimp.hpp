@@ -11,6 +11,8 @@ protected:
     PanelPoint m_origin;
     int m_sideLength;
 
+    static std::unique_ptr<PanelImage> m_directionMarkerImage;
+
 public:
     CellDefault() = delete;
     CellDefault(int id, const MapPosition& position);
@@ -26,7 +28,8 @@ public:
     virtual void loadFromDatabase(DbConnector& connector) override;
 
 protected:
-    virtual void drawDirectionMarker(Painter& painter);
+    virtual void drawDirectionMarker(Painter& painter) const noexcept;
+    virtual void doDrawDirectionMarker(Painter& painter) const noexcept;
 
     void calculateZoomedSideLength(int zoom);
     void calculateOrigin();

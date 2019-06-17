@@ -5,7 +5,12 @@
 
 #include "globals.hpp"
 
-CellDefault::CellDefault(int id, const MapPosition& position) : ICell(id, position), m_sideLength{0} {}
+std::unique_ptr<PanelImage> CellDefault::m_directionMarkerImage = nullptr;
+
+CellDefault::CellDefault(int id, const MapPosition& position) : ICell(id, position), m_sideLength{0} 
+{
+	m_directionMarkerImage = PanelImage::create("resources/map/direction-marker.png");
+}
 CellDefault::~CellDefault() = default;
 
 void CellDefault::draw(Painter& painter)
@@ -41,7 +46,7 @@ bool CellDefault::hasPointInside(const PanelPoint& point) const noexcept
             && point.y <= ( m_origin.y + m_sideLength );
 }
 
-void CellDefault::drawDirectionMarker(Painter& painter)
+void CellDefault::drawDirectionMarker(Painter& painter) const noexcept
 {
 	if(!ICell::isDirectionMarkersEnabled())
 		return;
@@ -50,36 +55,33 @@ void CellDefault::drawDirectionMarker(Painter& painter)
 
 	if(isVisible)
 	{
-		switch(m_direction)
-		{
-		case MapDirection::RIGHT:
-		{
-			static auto normalImage = PanelImage::create("resources/map/direction-marker-right.png");
-			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-			break;
-		}
-		case MapDirection::DOWN:
-		{
-			static auto normalImage = PanelImage::create("resources/map/direction-marker-down.png");
-			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-			break;
-		}
-		case MapDirection::LEFT:
-		{
-			static auto normalImage = PanelImage::create("resources/map/direction-marker-left.png");
-			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-			break;
-		}
-		case MapDirection::UP:
-		{
-			static auto normalImage = PanelImage::create("resources/map/direction-marker-up.png");
-			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-			break;
-		}
-		case MapDirection::INVALID:
-			break;
-		}
+		doDrawDirectionMarker(painter);
 	}
+}
+
+void CellDefault::doDrawDirectionMarker(Painter& painter) const noexcept
+{
+	double rotation = 0.0;
+
+	switch(m_direction)
+	{
+	case MapDirection::RIGHT:
+		break;
+	case MapDirection::DOWN:
+		rotation = Painter::ROTATION_270;
+		break;
+	case MapDirection::LEFT:
+		rotation = Painter::ROTATION_180;
+		break;
+	case MapDirection::UP:
+		rotation = Painter::ROTATION_90;
+		break;
+	case MapDirection::INVALID:
+		break;
+	}
+
+	painter.drawImageRotatedAroundCenter(*m_directionMarkerImage, m_origin, PanelSize{m_sideLength, m_sideLength}, 
+											rotation);
 }
 
 void CellDefault::calculateZoomedSideLength(int zoom)
