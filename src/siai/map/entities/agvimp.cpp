@@ -101,7 +101,14 @@ void AgvDefault::loadFromDatabase(DbConnector& connector)
 	;
 }
 
-RegularAgv::RegularAgv(int id, const MapPosition& position) : AgvDefault(id, position){}
+std::unique_ptr<PanelImage> RegularAgv::m_regularImage = nullptr;
+std::unique_ptr<PanelImage> RegularAgv::m_selectedImage = nullptr;
+
+RegularAgv::RegularAgv(int id, const MapPosition& position) : AgvDefault(id, position)
+{
+	m_regularImage = PanelImage::create("resources/map/regular-agv.png");
+	m_selectedImage = PanelImage::create("resources/map/regular-agv-selected.png");
+}
 RegularAgv::~RegularAgv() = default;
 
 void RegularAgv::draw(Painter& painter)
@@ -112,79 +119,33 @@ void RegularAgv::draw(Painter& painter)
 
     if(isVisible)
     {
-        if(!m_selected)
-        {
-        	drawNormalImage(painter);
-        }
-        else
-        {
-            drawSelectedImage(painter);
-        }
+        doDrawImage(painter);
     }
 }
 
-void RegularAgv::drawNormalImage(Painter& painter)
+void RegularAgv::doDrawImage(Painter& painter)
 {
-	switch(m_direction)
-	{
-	case MapDirection::RIGHT:
-	{
-		static auto normalImage = PanelImage::create("resources/map/regular-agv-right.png");
-		painter.drawImage(*normalImage, m_origin, m_size);
-		break;
-	}
-	case MapDirection::DOWN:
-	{
-		static auto normalImage = PanelImage::create("resources/map/regular-agv-down.png");
-		painter.drawImage(*normalImage, m_origin, m_size);
-		break;
-	}
-	case MapDirection::LEFT:
-	{
-		static auto normalImage = PanelImage::create("resources/map/regular-agv-left.png");
-		painter.drawImage(*normalImage, m_origin, m_size);
-		break;
-	}
-	case MapDirection::UP:
-	{
-		static auto normalImage = PanelImage::create("resources/map/regular-agv-up.png");
-		painter.drawImage(*normalImage, m_origin, m_size);
-		break;
-	}
-	case MapDirection::INVALID:
-		break;
-	}
-}
+	double rotation = 0.0;
 
-void RegularAgv::drawSelectedImage(Painter& painter)
-{
 	switch(m_direction)
 	{
 	case MapDirection::RIGHT:
-	{
-		static auto selectedImage = PanelImage::create("resources/map/regular-agv-right-selected.png");
-		painter.drawImage(*selectedImage, m_origin, m_size);
 		break;
-	}
 	case MapDirection::DOWN:
-	{
-		static auto selectedImage = PanelImage::create("resources/map/regular-agv-down-selected.png");
-		painter.drawImage(*selectedImage, m_origin, m_size);
+		rotation = Painter::ROTATION_270;
 		break;
-	}
 	case MapDirection::LEFT:
-	{
-		static auto selectedImage = PanelImage::create("resources/map/regular-agv-left-selected.png");
-		painter.drawImage(*selectedImage, m_origin, m_size);
+		rotation = Painter::ROTATION_180;
 		break;
-	}
 	case MapDirection::UP:
-	{
-		static auto selectedImage = PanelImage::create("resources/map/regular-agv-up-selected.png");
-		painter.drawImage(*selectedImage, m_origin, m_size);
+		rotation = Painter::ROTATION_90;
 		break;
-	}
 	case MapDirection::INVALID:
 		break;
 	}
+
+	if(!m_selected)
+		painter.drawImageRotatedAroundCenter(*m_regularImage, m_origin, m_size, rotation);
+	else
+		painter.drawImageRotatedAroundCenter(*m_selectedImage, m_origin, m_size, rotation);
 }

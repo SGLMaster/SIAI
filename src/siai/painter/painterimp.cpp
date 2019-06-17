@@ -81,3 +81,17 @@ void WxPainter::drawImage(PanelImage& panelImage, const PanelPoint& origin, cons
 
     m_dc.DrawBitmap(bitmap, origin.x, origin.y);
 }
+
+void WxPainter::drawImageRotatedAroundCenter(PanelImage& panelImage, const PanelPoint& origin, const PanelSize& size, 
+                                    double angleRads)
+{
+    WxPanelImage& castedPanelImage = dynamic_cast<WxPanelImage&>(panelImage);
+
+    wxImage* image = castedPanelImage.m_image.get();
+
+    wxPoint centerOfRotation(origin.x + size.width/2, origin.y + size.height/2);
+
+    wxBitmap bitmap = wxBitmap(image->Scale(size.width, size.height).Rotate(angleRads, centerOfRotation));
+
+    m_dc.DrawBitmap(bitmap, origin.x, origin.y);
+}

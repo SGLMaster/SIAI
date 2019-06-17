@@ -45,6 +45,10 @@ public:
 class Painter
 {
 public:
+    static constexpr double ROTATION_90 = 3.1416/2;
+    static constexpr double ROTATION_180 = 3.1416;
+    static constexpr double ROTATION_270 = -3.1416/2;
+
     static std::unique_ptr<Painter> createWxPainter(wxDC& dc, const PanelData& data);
 
     Painter();
@@ -60,4 +64,6 @@ public:
     virtual void drawRectangle(const PanelPoint& origin, const PanelSize& size) = 0;
     virtual void drawCircle(const PanelPoint& origin, int radio) = 0;
     virtual void drawImage(PanelImage& panelImage, const PanelPoint& origin, const PanelSize& size) = 0;
+    virtual void drawImageRotatedAroundCenter(PanelImage& panelImage, const PanelPoint& origin, 
+                                                const PanelSize& size, double angleRads) = 0;
 };

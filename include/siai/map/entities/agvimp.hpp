@@ -55,6 +55,10 @@ protected:
 
 class RegularAgv : public AgvDefault
 {
+private:
+    static std::unique_ptr<PanelImage> m_regularImage;
+    static std::unique_ptr<PanelImage> m_selectedImage;
+
 public:
     RegularAgv() = delete;
     RegularAgv(int id, const MapPosition& position);
@@ -68,6 +72,5 @@ public:
     virtual void draw(Painter& painter) override;
 
 private:
-    void drawNormalImage(Painter& painter);
-    void drawSelectedImage(Painter& painter);
+    void doDrawImage(Painter& painter);
 };
