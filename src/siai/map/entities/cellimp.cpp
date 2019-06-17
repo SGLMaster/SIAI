@@ -145,7 +145,14 @@ void RegularCell::draw(Painter& painter)
 	drawDirectionMarker(painter);
 }
 
-BlockedCell::BlockedCell(int id, const MapPosition& position) : CellDefault(id, position) {}
+std::unique_ptr<PanelImage> BlockedCell::m_normalImage = nullptr;
+std::unique_ptr<PanelImage> BlockedCell::m_selectedImage = nullptr;
+
+BlockedCell::BlockedCell(int id, const MapPosition& position) : CellDefault(id, position) 
+{
+	m_normalImage = PanelImage::create("resources/map/blocked-cell.png");
+	m_selectedImage = PanelImage::create("resources/map/blocked-cell-selected.png");
+}
 BlockedCell::~BlockedCell() = default;
 
 void BlockedCell::draw(Painter& painter)
@@ -158,19 +165,20 @@ void BlockedCell::draw(Painter& painter)
 	if(isVisible)
 	{
 		if(!m_selected)
-		{
-			static auto normalImage = PanelImage::create("resources/map/blocked-cell.png");
-			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-		}
+			painter.drawImage(*m_normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
 		else
-		{
-			static auto normalImage = PanelImage::create("resources/map/blocked-cell-selected.png");
-			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-		}
+			painter.drawImage(*m_selectedImage, m_origin, PanelSize{m_sideLength, m_sideLength});
 	}
 }
 
-ParkingCell::ParkingCell(int id, const MapPosition& position) : CellDefault(id, position) {}
+std::unique_ptr<PanelImage> ParkingCell::m_normalImage = nullptr;
+std::unique_ptr<PanelImage> ParkingCell::m_selectedImage = nullptr;
+
+ParkingCell::ParkingCell(int id, const MapPosition& position) : CellDefault(id, position) 
+{
+	m_normalImage = PanelImage::create("resources/map/parking-cell.png");
+	m_selectedImage = PanelImage::create("resources/map/parking-cell-selected.png");
+}
 ParkingCell::~ParkingCell() = default;
 
 void ParkingCell::draw(Painter& painter)
@@ -183,21 +191,22 @@ void ParkingCell::draw(Painter& painter)
 	if(isVisible)
 	{
 		if(!m_selected)
-		{
-			static auto normalImage = PanelImage::create("resources/map/parking-cell.png");
-			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-		}
+			painter.drawImage(*m_normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
 		else
-		{
-			static auto normalImage = PanelImage::create("resources/map/parking-cell-selected.png");
-			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-		}
+			painter.drawImage(*m_selectedImage, m_origin, PanelSize{m_sideLength, m_sideLength});
 	}
 
 	drawDirectionMarker(painter);
 }
 
-StorageCell::StorageCell(int id, const MapPosition& position) : CellDefault(id, position) {}
+std::unique_ptr<PanelImage> StorageCell::m_normalImage = nullptr;
+std::unique_ptr<PanelImage> StorageCell::m_selectedImage = nullptr;
+
+StorageCell::StorageCell(int id, const MapPosition& position) : CellDefault(id, position) 
+{
+	m_normalImage = PanelImage::create("resources/map/storage-cell.png");
+	m_selectedImage = PanelImage::create("resources/map/storage-cell-selected.png");
+}
 StorageCell::~StorageCell() = default;
 
 void StorageCell::draw(Painter& painter)
@@ -210,21 +219,22 @@ void StorageCell::draw(Painter& painter)
 	if(isVisible)
 	{
 		if(!m_selected)
-		{
-			static auto normalImage = PanelImage::create("resources/map/storage-cell.png");
-			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-		}
+			painter.drawImage(*m_normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
 		else
-		{
-			static auto normalImage = PanelImage::create("resources/map/storage-cell-selected.png");
-			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-		}
+			painter.drawImage(*m_selectedImage, m_origin, PanelSize{m_sideLength, m_sideLength});
 	}
 
 	drawDirectionMarker(painter);
 }
 
-IngressCell::IngressCell(int id, const MapPosition& position) : CellDefault(id, position) {}
+std::unique_ptr<PanelImage> IngressCell::m_normalImage = nullptr;
+std::unique_ptr<PanelImage> IngressCell::m_selectedImage = nullptr;
+
+IngressCell::IngressCell(int id, const MapPosition& position) : CellDefault(id, position) 
+{
+	m_normalImage = PanelImage::create("resources/map/ingress-cell.png");
+	m_selectedImage = PanelImage::create("resources/map/ingress-cell-selected.png");
+}
 IngressCell::~IngressCell() = default;
 
 void IngressCell::draw(Painter& painter)
@@ -237,15 +247,9 @@ void IngressCell::draw(Painter& painter)
 	if(isVisible)
 	{
 		if(!m_selected)
-		{
-			static auto normalImage = PanelImage::create("resources/map/ingress-cell.png");
-			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-		}
+			painter.drawImage(*m_normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
 		else
-		{
-			static auto normalImage = PanelImage::create("resources/map/ingress-cell-selected.png");
-			painter.drawImage(*normalImage, m_origin, PanelSize{m_sideLength, m_sideLength});
-		}
+			painter.drawImage(*m_selectedImage, m_origin, PanelSize{m_sideLength, m_sideLength});
 	}
 
 	drawDirectionMarker(painter);

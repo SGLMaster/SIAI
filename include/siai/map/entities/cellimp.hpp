@@ -55,6 +55,10 @@ public:
 
 class BlockedCell : public CellDefault
 {
+private:
+    static std::unique_ptr<PanelImage> m_normalImage;
+    static std::unique_ptr<PanelImage> m_selectedImage;
+
 public:
     BlockedCell() = delete;
     BlockedCell(int id, const MapPosition& position);
@@ -70,6 +74,10 @@ public:
 
 class ParkingCell : public CellDefault
 {
+private:
+    static std::unique_ptr<PanelImage> m_normalImage;
+    static std::unique_ptr<PanelImage> m_selectedImage;
+
 public:
     ParkingCell() = delete;
     ParkingCell(int id, const MapPosition& position);
@@ -85,6 +93,10 @@ public:
 
 class StorageCell : public CellDefault
 {
+private:
+    static std::unique_ptr<PanelImage> m_normalImage;
+    static std::unique_ptr<PanelImage> m_selectedImage;
+
 public:
     StorageCell() = delete;
     StorageCell(int id, const MapPosition& position);
@@ -100,6 +112,10 @@ public:
 
 class IngressCell : public CellDefault
 {
+private:
+    static std::unique_ptr<PanelImage> m_normalImage;
+    static std::unique_ptr<PanelImage> m_selectedImage;
+
 public:
     IngressCell() = delete;
     IngressCell(int id, const MapPosition& position);
