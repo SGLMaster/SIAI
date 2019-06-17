@@ -616,6 +616,9 @@ void ManagerFrame::updateToolbar()
     {
         m_toolBar1->EnableTool(m_toolConnectDb->GetId(), true);
         m_toolBar1->EnableTool(m_toolDisconnectDb->GetId(), false);
+
+        m_toolBar1->EnableTool(m_toolUndo->GetId(), false);
+        m_toolBar1->EnableTool(m_toolRedo->GetId(), false);
     }
 }
 
