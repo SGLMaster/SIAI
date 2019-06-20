@@ -28,7 +28,6 @@ class IngressTask : public MapTask
 {
 private:
     int m_rackId;
-    bool m_rackLifted = false;
 
 public:
     IngressTask() = delete;
@@ -39,5 +38,4 @@ public:
     {
         m_rackId = rackId;
     }
-    virtual void liftRack(const MapPath& newPath);
 };
