@@ -201,6 +201,8 @@ void Entities::updateRacksFromQueryRows(Racks& racks, const std::vector<DbRow>& 
         bool rackLifted = static_cast<bool>(rackLiftedValue);
         if(rackLifted)
             rackFound->lift();
+        else
+            rackFound->drop();
     }
 }
 

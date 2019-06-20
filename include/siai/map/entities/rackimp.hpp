@@ -43,6 +43,10 @@ public:
     {
         m_lifted = true;
     }
+    virtual void drop() noexcept override
+    {
+        m_lifted = false;
+    }
 
 private:
     void calculateDrawingData(int zoom);
