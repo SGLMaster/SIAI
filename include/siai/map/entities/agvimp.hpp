@@ -39,6 +39,10 @@ public:
     {
         m_currentTask.reset();
     }
+    virtual void updateTaskPath(const MapPath& newPath) noexcept override
+    {
+        m_currentTask->setPath(newPath);
+    }
 
     virtual bool isAtDestination() const noexcept
     {
