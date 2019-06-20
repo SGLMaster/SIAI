@@ -6,6 +6,11 @@ MapTask::MapTask(int id) : m_id{id} {}
 
 MapTask::~MapTask() = default;
 
+MapPosition MapTask::getDestination() const noexcept
+{
+    return m_currentPath.back();
+}
+
 MapDirection MapTask::getNextDirection(const MapPosition& currentPosition) const noexcept
 {
     MapPosition nextPosition = PathFinder::getNextStep(m_currentPath, currentPosition);

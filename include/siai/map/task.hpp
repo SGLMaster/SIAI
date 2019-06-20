@@ -20,6 +20,7 @@ public:
     {
         m_currentPath = path;
     }
+    virtual MapPosition getDestination() const noexcept;
     virtual MapDirection getNextDirection(const MapPosition& currentPosition) const noexcept;
 };
 

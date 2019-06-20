@@ -39,7 +39,19 @@ public:
     {
         m_currentTask.reset();
     }
-    virtual MapDirection getNextDirection() override
+
+    virtual bool isAtDestination() const noexcept
+    {
+        if(m_currentTask)
+        {
+            MapPosition destination = m_currentTask->getDestination();
+
+            return (m_position.column == destination.column && m_position.row == destination.row);
+        }
+
+        return false;
+    }
+    virtual MapDirection getNextDirection() const noexcept override
     {
 	    if(m_currentTask)
 		    return m_currentTask->getNextDirection(m_position);
