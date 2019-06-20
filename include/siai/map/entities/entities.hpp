@@ -50,7 +50,8 @@ namespace Entities
     void loadAgvsFromQueryRows(Stock& entities, const std::vector<DbRow>& rows);
     void loadRacksFromQueryRows(Stock& entities, const std::vector<DbRow>& rows);
 
-    void updateAgvsFromQueryRows(Stock& entities, const std::vector<DbRow>& rows);
+    void updateAgvsFromQueryRows(Agvs& agvs, const std::vector<DbRow>& rows);
+    void updateRacksFromQueryRows(Racks& racks, const std::vector<DbRow>& rows);
 
     // Getting info
     int getNumberOfMapColsFromDbRows(const std::vector<DbRow>& rows);

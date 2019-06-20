@@ -133,6 +133,10 @@ std::string ServerControl::executeCommand(Entities::AgvPtr& agv, const std::stri
     {
         return commandNextDir(agv);
     }
+    else if(commandName == "LIFT-RACK")
+    {
+        return commandLiftRack(agv);
+    }
 
     return "UNK";
 }
@@ -186,6 +190,12 @@ std::string ServerControl::commandNextDir(Entities::AgvPtr& agv)
 {
     std::string response = "NEXT-DIR:";
 
+    if(agv->isAtDestination())
+    {
+        response += "LIFT";
+        return response;
+    }
+
     MapDirection nextDirection = agv->getNextDirection();
 
     switch (nextDirection)
@@ -209,6 +219,16 @@ std::string ServerControl::commandNextDir(Entities::AgvPtr& agv)
     }
 
     return response;
+}
+
+std::string ServerControl::commandLiftRack(Entities::AgvPtr& agv)
+{
+    bool liftSuccess = m_mapControl->liftRackInPosition(*m_dbConnector, agv->getPosition());
+
+    if(liftSuccess)
+        return "LIFT-RACK OK";
+    
+    return "LIFT-RACK ERROR";
 }
 
 void ServerControl::tryToConnectDb()

@@ -161,7 +161,7 @@ void Entities::loadRacksFromQueryRows(Stock& entities, const std::vector<DbRow>&
     }
 }
 
-void Entities::updateAgvsFromQueryRows(Stock& entities, const std::vector<DbRow>& rows)
+void Entities::updateAgvsFromQueryRows(Agvs& agvs, const std::vector<DbRow>& rows)
 {
     for (const DbRow& agvDataRow : rows) 
     {
@@ -170,13 +170,37 @@ void Entities::updateAgvsFromQueryRows(Stock& entities, const std::vector<DbRow>
         int agvRow = agvDataRow[2];
         int agvDirectionValue = agvDataRow[3];
 
+        auto agvFound = getAgvWithId(agvs, agvId);
+
         MapDirection agvDirection = static_cast<MapDirection>(agvDirectionValue);
         MapPosition agvPosition{agvCol, agvRow};
-        
-        auto agvFound = getAgvWithId(entities.agvs, agvId);
 
         agvFound->setPosition(agvPosition);
         agvFound->setDirection(agvDirection);
+    }
+}
+
+void Entities::updateRacksFromQueryRows(Racks& racks, const std::vector<DbRow>& rows)
+{
+    for (const DbRow& rackDataRow : rows) 
+    {
+        int rackId = rackDataRow[0];
+        int rackCol = rackDataRow[1];
+        int rackRow = rackDataRow[2];
+        int rackDirectionValue = rackDataRow[3];
+        int rackLiftedValue = rackDataRow[4];
+
+        auto rackFound = getRackWithId(racks, rackId);
+
+        MapDirection rackDirection = static_cast<MapDirection>(rackDirectionValue);
+        MapPosition rackPosition{rackCol, rackRow};
+
+        rackFound->setPosition(rackPosition);
+        rackFound->setDirection(rackDirection);
+
+        bool rackLifted = static_cast<bool>(rackLiftedValue);
+        if(rackLifted)
+            rackFound->lift();
     }
 }
 

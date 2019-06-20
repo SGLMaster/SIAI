@@ -90,6 +90,7 @@ void SIAIMapImp::loadFromDb(DbConnector& connector)
 void SIAIMapImp::updateFromDb(DbConnector& connector)
 {
     updateAgvsFromDb(connector);
+    updateRacksFromDb(connector);
 }
 
 void SIAIMapImp::reset(int numberOfColumns, int numberOfRows)
@@ -297,6 +298,22 @@ bool SIAIMapImp::assignNewTaskToAgv(DbConnector& connector, Entities::AgvPtr& ag
     return true;
 }
 
+bool SIAIMapImp::liftRackInPosition(DbConnector& connector, const MapPosition& position)
+{
+    for(auto& rack : m_entities.racks)
+    {
+        MapPosition currentPosition = rack->getPosition();
+        if(currentPosition.column == position.column && currentPosition.row == position.row)
+        {
+            rack->lift();
+            rack->updateInDatabase(connector, m_name);
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void SIAIMapImp::enableDirectionMarkers(bool value)
 {
     ICell::enableDirectionMarkers(value);
@@ -350,7 +367,19 @@ void SIAIMapImp::updateAgvsFromDb(DbConnector& connector)
     std::vector<DbRow> agvsRows;
     tryQueryAndStore(connector, selectAgvsQuery, agvsRows);
 
-    Entities::updateAgvsFromQueryRows(m_entities, agvsRows);
+    Entities::updateAgvsFromQueryRows(m_entities.agvs, agvsRows);
+}
+
+void SIAIMapImp::updateRacksFromDb(DbConnector& connector)
+{
+    SqlQueryData dataToSelect{m_racksDbTableName, IRack::dbColumnNames};
+
+    SqlSelectQuery selectQuery(dataToSelect);
+
+    std::vector<DbRow> racksRows;
+    tryQueryAndStore(connector, selectQuery, racksRows);
+
+    Entities::updateRacksFromQueryRows(m_entities.racks, racksRows);
 }
 
 void SIAIMapImp::createCellsDbTable(DbConnector& connector)
