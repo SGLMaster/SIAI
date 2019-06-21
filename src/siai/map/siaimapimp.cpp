@@ -240,7 +240,7 @@ bool SIAIMapImp::moveAgvToCellWithId(DbConnector& connector, Entities::AgvPtr& a
     {
         Entities::RackPtr liftedRack = Entities::getRackWithId(m_entities.racks, agv->getLiftedRackId());
         liftedRack->setPosition(cellPosition);
-        
+
         agv->updateInDatabase(connector, m_name);
         liftedRack->updateInDatabase(connector, m_name);
         return true;
@@ -342,6 +342,22 @@ bool SIAIMapImp::liftRackInPosition(DbConnector& connector, const MapPosition& p
         if(currentPosition.column == position.column && currentPosition.row == position.row)
         {
             rack->lift();
+            rack->updateInDatabase(connector, m_name);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool SIAIMapImp::dropRackInPosition(DbConnector& connector, const MapPosition& position)
+{
+    for(auto& rack : m_entities.racks)
+    {
+        MapPosition currentPosition = rack->getPosition();
+        if(currentPosition.column == position.column && currentPosition.row == position.row)
+        {
+            rack->drop();
             rack->updateInDatabase(connector, m_name);
             return true;
         }

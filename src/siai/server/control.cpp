@@ -137,6 +137,10 @@ std::string ServerControl::executeCommand(Entities::AgvPtr& agv, const std::stri
     {
         return commandLiftRack(agv);
     }
+    else if(commandName == "DROP-RACK")
+    {
+        return commandDropRack(agv);
+    }
 
     return "UNK";
 }
@@ -242,6 +246,18 @@ std::string ServerControl::commandLiftRack(Entities::AgvPtr& agv)
     }
     
     return "LIFT-RACK ERROR";
+}
+
+std::string ServerControl::commandDropRack(Entities::AgvPtr& agv)
+{
+    bool dropSuccess = m_mapControl->dropRackInPosition(*m_dbConnector, agv->getPosition());
+
+    if(dropSuccess)
+    {
+        return "DROP-RACK OK";
+    }
+    
+    return "DROP-RACK ERROR";
 }
 
 void ServerControl::tryToConnectDb()

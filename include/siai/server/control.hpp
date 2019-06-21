@@ -39,6 +39,7 @@ private:
     std::string commandTask(Entities::AgvPtr& agv);
     std::string commandNextDir(Entities::AgvPtr& agv);
     std::string commandLiftRack(Entities::AgvPtr& agv);
+    std::string commandDropRack(Entities::AgvPtr& agv);
 
     void tryToConnectDb();
     void assertDbConnected();
