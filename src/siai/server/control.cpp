@@ -224,9 +224,12 @@ std::string ServerControl::commandNextDir(Entities::AgvPtr& agv)
 std::string ServerControl::commandLiftRack(Entities::AgvPtr& agv)
 {
     bool liftSuccess = m_mapControl->liftRackInPosition(*m_dbConnector, agv->getPosition());
+    bool updateTaskSuccess = m_mapControl->updateTaskForAgv(agv);
 
-    if(liftSuccess)
+    if(liftSuccess && updateTaskSuccess)
+    {
         return "LIFT-RACK OK";
+    }
     
     return "LIFT-RACK ERROR";
 }

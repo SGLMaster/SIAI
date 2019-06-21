@@ -298,6 +298,31 @@ bool SIAIMapImp::assignNewTaskToAgv(DbConnector& connector, Entities::AgvPtr& ag
     return true;
 }
 
+bool SIAIMapImp::updateTaskForAgv(Entities::AgvPtr& agv)
+{
+    MapPosition ingressCellPosition{-1, -1};
+    for(const auto& cell : m_entities.cells)
+    {
+        if(cell->getEntityName() == "Ingress")
+        {
+            ingressCellPosition = cell->getPosition();
+            break;
+        }
+    }
+
+    if(ingressCellPosition.column == -1 || ingressCellPosition.row == -1)
+        return false;
+
+    MapPosition agvPosition = agv->getPosition();
+    MapGrid tmpMapGrid = Entities::generateMapGrid(m_entities, agvPosition, ingressCellPosition);
+    PathFinder tmpPathFinder(m_numberOfColumns, m_numberOfRows);
+    MapPath pathToIngressCell = tmpPathFinder.find(tmpMapGrid, agvPosition, ingressCellPosition);
+
+    agv->updateTaskPath(pathToIngressCell);
+
+    return true;
+}
+
 bool SIAIMapImp::liftRackInPosition(DbConnector& connector, const MapPosition& position)
 {
     for(auto& rack : m_entities.racks)

@@ -58,6 +58,7 @@ public:
 
     virtual bool moveAgvToCellWithId(DbConnector& connector, Entities::AgvPtr& agv, int idCell) = 0;
     virtual bool assignNewTaskToAgv(DbConnector& connector, Entities::AgvPtr& agv) = 0;
+    virtual bool updateTaskForAgv(Entities::AgvPtr& agv) = 0;
     virtual bool liftRackInPosition(DbConnector& connector, const MapPosition& rackPosition) = 0;
 
     virtual void enableDirectionMarkers(bool value) = 0;

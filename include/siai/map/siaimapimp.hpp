@@ -68,6 +68,7 @@ public:
 
     virtual bool moveAgvToCellWithId(DbConnector& connector, Entities::AgvPtr& agv, int idCell) override;
     virtual bool assignNewTaskToAgv(DbConnector& connector, Entities::AgvPtr& agv) override;
+    virtual bool updateTaskForAgv(Entities::AgvPtr& agv) override;
     virtual bool liftRackInPosition(DbConnector& connector, const MapPosition& rackPosition) override;
 
     virtual void enableDirectionMarkers(bool value) override;
