@@ -250,10 +250,11 @@ std::string ServerControl::commandLiftRack(Entities::AgvPtr& agv)
 
 std::string ServerControl::commandDropRack(Entities::AgvPtr& agv)
 {
-    bool dropSuccess = m_mapControl->dropRackInPosition(*m_dbConnector, agv->getPosition());
+    bool dropRackSuccess = m_mapControl->dropRackInPosition(*m_dbConnector, agv->getPosition());
 
-    if(dropSuccess)
+    if(dropRackSuccess)
     {
+        agv->dropTask();
         return "DROP-RACK OK";
     }
     
