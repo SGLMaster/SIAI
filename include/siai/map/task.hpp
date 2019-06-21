@@ -38,4 +38,8 @@ public:
     {
         m_rackId = rackId;
     }
+    virtual int getRackId() const noexcept
+    {
+        return m_rackId;
+    }
 };

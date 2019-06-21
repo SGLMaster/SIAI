@@ -14,7 +14,7 @@ protected:
     PanelPoint m_origin;
     PanelSize m_size;
 
-    std::unique_ptr<MapTask> m_currentTask;
+    std::shared_ptr<MapTask> m_currentTask;
 
 public:
     AgvDefault() = delete;
@@ -30,10 +30,10 @@ public:
     virtual void updateInDatabase(DbConnector& connector, const std::string& mapName) const override;
     virtual void loadFromDatabase(DbConnector& connector) override;
 
-    virtual void assignTask(const MapTask& newTask) override
+    virtual void assignTask(std::shared_ptr<MapTask> newTask) override
     {
         m_currentTask.reset();
-        m_currentTask = std::make_unique<MapTask>(newTask);
+        m_currentTask = std::move(newTask);
     }
     virtual void dropTask() noexcept override
     {
@@ -62,6 +62,8 @@ public:
 
         return MapDirection::INVALID;
     }
+    
+    virtual int getLiftedRackId() const noexcept override;
 
 protected:
     void calculateDrawingData(int zoom);

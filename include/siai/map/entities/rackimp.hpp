@@ -48,6 +48,11 @@ public:
         m_lifted = false;
     }
 
+    virtual bool isLifted() const noexcept override
+    {
+        return m_lifted;
+    }
+
 private:
     void calculateDrawingData(int zoom);
     void calculateZoomedRadio(int zoom);

@@ -28,4 +28,6 @@ public:
 
     virtual void lift() noexcept = 0;
     virtual void drop() noexcept = 0;
+
+    virtual bool isLifted() const noexcept = 0;
 };

@@ -192,8 +192,18 @@ std::string ServerControl::commandNextDir(Entities::AgvPtr& agv)
 
     if(agv->isAtDestination())
     {
-        response += "LIFT";
-        return response;
+        bool agvHasLiftedRack = m_mapControl->hasLiftedRack(agv);
+
+        if(agvHasLiftedRack)
+        {
+            response += "WAIT";
+            return response;
+        }
+        else
+        {
+            response += "LIFT";
+            return response;
+        }
     }
 
     MapDirection nextDirection = agv->getNextDirection();

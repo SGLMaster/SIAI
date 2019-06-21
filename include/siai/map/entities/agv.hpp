@@ -29,10 +29,12 @@ public:
 
     static std::unique_ptr<IAgv> create(std::string type, int id, const MapPosition& position);
 
-    virtual void assignTask(const MapTask& newTask) = 0;
+    virtual void assignTask(std::shared_ptr<MapTask> newTask) = 0;
     virtual void dropTask() noexcept = 0;
     virtual void updateTaskPath(const MapPath& newPath) noexcept = 0;
 
     virtual bool isAtDestination() const noexcept = 0;
     virtual MapDirection getNextDirection() const noexcept = 0;
+
+    virtual int getLiftedRackId() const noexcept = 0;
 };

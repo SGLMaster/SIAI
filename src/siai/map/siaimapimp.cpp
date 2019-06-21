@@ -273,7 +273,7 @@ bool SIAIMapImp::assignNewTaskToAgv(DbConnector& connector, Entities::AgvPtr& ag
 
     newTask.setPath(pathToRack);
 
-    agv->assignTask(newTask);
+    agv->assignTask(std::make_shared<IngressTask>(newTask));
 
     // Setting the task as assigned in the DB
     int agvId = agv->getId();
@@ -336,6 +336,22 @@ bool SIAIMapImp::liftRackInPosition(DbConnector& connector, const MapPosition& p
         }
     }
 
+    return false;
+}
+
+bool SIAIMapImp::hasLiftedRack(Entities::AgvPtr& agv)
+{
+    int rackId = agv->getLiftedRackId();
+    if(rackId < IRack::MIN_ID)
+        return false;
+
+    auto rack = Entities::getRackWithId(m_entities.racks, rackId);
+    if(rack)
+    {
+        if(rack->isLifted())
+            return true;
+    }
+    
     return false;
 }
 

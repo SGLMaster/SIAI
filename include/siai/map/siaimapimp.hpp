@@ -70,6 +70,7 @@ public:
     virtual bool assignNewTaskToAgv(DbConnector& connector, Entities::AgvPtr& agv) override;
     virtual bool updateTaskForAgv(Entities::AgvPtr& agv) override;
     virtual bool liftRackInPosition(DbConnector& connector, const MapPosition& rackPosition) override;
+    virtual bool hasLiftedRack(Entities::AgvPtr& agv) override;
 
     virtual void enableDirectionMarkers(bool value) override;
 

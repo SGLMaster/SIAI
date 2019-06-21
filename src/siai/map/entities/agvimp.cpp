@@ -101,6 +101,22 @@ void AgvDefault::loadFromDatabase(DbConnector& connector)
 	;
 }
 
+int AgvDefault::getLiftedRackId() const noexcept
+{
+	if(m_currentTask)
+	{
+		MapTask* taskPtr = m_currentTask.get();
+		IngressTask* ingressPtr = dynamic_cast<IngressTask*>(taskPtr);
+
+		bool isIngressTask = (ingressPtr != nullptr);
+
+		if(isIngressTask)
+			return ingressPtr->getRackId();
+	}
+
+	return -1;
+}
+
 std::unique_ptr<PanelImage> RegularAgv::m_regularImage = nullptr;
 std::unique_ptr<PanelImage> RegularAgv::m_selectedImage = nullptr;
 
