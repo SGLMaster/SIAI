@@ -59,6 +59,7 @@ private:
     void calculateCellOrigin(int zoom);
     void calculateCenter(int zoom);
 
+    void loadImages();
     void drawNormalImage(Painter& painter);
     void drawSelectedImage(Painter& painter);
 };

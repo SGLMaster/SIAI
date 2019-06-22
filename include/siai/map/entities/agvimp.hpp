@@ -87,5 +87,6 @@ public:
     virtual void draw(Painter& painter) override;
 
 private:
+    void loadImages();
     void doDrawImage(Painter& painter);
 };

@@ -9,12 +9,7 @@ std::unique_ptr<PanelImage> RegularRack::m_regularImage = nullptr;
 std::unique_ptr<PanelImage> RegularRack::m_liftedImage = nullptr;
 std::unique_ptr<PanelImage> RegularRack::m_selectedImage = nullptr;
 
-RegularRack::RegularRack(int id, const MapPosition& position) : IRack(id, position)
-{
-	m_regularImage = PanelImage::create("resources/map/regular-rack.png");
-	m_liftedImage = PanelImage::create("resources/map/regular-rack-lifted.png");
-	m_selectedImage = PanelImage::create("resources/map/regular-rack-selected.png");
-}
+RegularRack::RegularRack(int id, const MapPosition& position) : IRack(id, position){}
 RegularRack::~RegularRack() = default;
 
 void RegularRack::draw(Painter& painter)
@@ -25,6 +20,8 @@ void RegularRack::draw(Painter& painter)
 
     if(isVisible)
     {
+		loadImages();
+		
         if(!m_selected)
         {
         	drawNormalImage(painter);
@@ -119,6 +116,17 @@ void RegularRack::calculateCenter(int zoom)
     int centerY = m_position.row*cellWidth + (cellWidth/2);
 
     m_center = PanelPoint{centerX, centerY};
+}
+
+void RegularRack::loadImages()
+{
+	//Load the images if they aren't loaded already
+	if(!m_regularImage || !m_liftedImage || !m_selectedImage)
+	{
+		m_regularImage = PanelImage::create("resources/map/regular-rack.png");
+		m_liftedImage = PanelImage::create("resources/map/regular-rack-lifted.png");
+		m_selectedImage = PanelImage::create("resources/map/regular-rack-selected.png");
+	}
 }
 
 void RegularRack::drawNormalImage(Painter& painter)

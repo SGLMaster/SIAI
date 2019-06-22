@@ -7,10 +7,7 @@
 
 std::unique_ptr<PanelImage> CellDefault::m_directionMarkerImage = nullptr;
 
-CellDefault::CellDefault(int id, const MapPosition& position) : ICell(id, position), m_sideLength{0} 
-{
-	m_directionMarkerImage = PanelImage::create("resources/map/direction-marker.png");
-}
+CellDefault::CellDefault(int id, const MapPosition& position) : ICell(id, position), m_sideLength{0} {}
 CellDefault::~CellDefault() = default;
 
 void CellDefault::draw(Painter& painter)
@@ -22,6 +19,7 @@ void CellDefault::draw(Painter& painter)
 
     if(isVisible)
     {
+		loadImages();
         setDifferentPenIfSelected(painter);
 
         painter.drawRectangle(m_origin, PanelSize{m_sideLength, m_sideLength});
@@ -101,6 +99,15 @@ void CellDefault::doDrawDirectionMarker(Painter& painter) const noexcept
 											rotation);
 }
 
+void CellDefault::loadImages()
+{
+	//Load the images if they aren't loaded already
+	if(!m_directionMarkerImage)
+	{
+		m_directionMarkerImage = PanelImage::create("resources/map/direction-marker.png");
+	}
+}
+
 void CellDefault::calculateZoomedSideLength(int zoom)
 {
     m_sideLength = SIAIGlobals::CELLS_DEFAULT_WIDTH_PX*zoom;
@@ -165,62 +172,90 @@ void RegularCell::draw(Painter& painter)
 std::unique_ptr<PanelImage> BlockedCell::m_normalImage = nullptr;
 std::unique_ptr<PanelImage> BlockedCell::m_selectedImage = nullptr;
 
-BlockedCell::BlockedCell(int id, const MapPosition& position) : CellDefault(id, position) 
-{
-	m_normalImage = PanelImage::create("resources/map/blocked-cell.png");
-	m_selectedImage = PanelImage::create("resources/map/blocked-cell-selected.png");
-}
+BlockedCell::BlockedCell(int id, const MapPosition& position) : CellDefault(id, position) {}
 BlockedCell::~BlockedCell() = default;
 
 void BlockedCell::draw(Painter& painter)
 {
+	loadImages();
 	CellDefault::drawWithImages(painter, m_normalImage, m_selectedImage);
+}
+
+void BlockedCell::loadImages()
+{
+	//Load the images if they aren't loaded already
+	if(!m_normalImage || !m_selectedImage)
+	{
+		m_normalImage = PanelImage::create("resources/map/blocked-cell.png");
+		m_selectedImage = PanelImage::create("resources/map/blocked-cell-selected.png");
+	}
 }
 
 std::unique_ptr<PanelImage> ParkingCell::m_normalImage = nullptr;
 std::unique_ptr<PanelImage> ParkingCell::m_selectedImage = nullptr;
 
-ParkingCell::ParkingCell(int id, const MapPosition& position) : CellDefault(id, position) 
-{
-	m_normalImage = PanelImage::create("resources/map/parking-cell.png");
-	m_selectedImage = PanelImage::create("resources/map/parking-cell-selected.png");
-}
+ParkingCell::ParkingCell(int id, const MapPosition& position) : CellDefault(id, position) {}
 ParkingCell::~ParkingCell() = default;
 
 void ParkingCell::draw(Painter& painter)
 {
+	loadImages();
 	CellDefault::drawWithImages(painter, m_normalImage, m_selectedImage);
 	drawDirectionMarker(painter);
+}
+
+void ParkingCell::loadImages()
+{
+	//Load the images if they aren't loaded already
+	if(!m_normalImage || !m_selectedImage)
+	{
+		m_normalImage = PanelImage::create("resources/map/parking-cell.png");
+		m_selectedImage = PanelImage::create("resources/map/parking-cell-selected.png");
+	}
 }
 
 std::unique_ptr<PanelImage> StorageCell::m_normalImage = nullptr;
 std::unique_ptr<PanelImage> StorageCell::m_selectedImage = nullptr;
 
-StorageCell::StorageCell(int id, const MapPosition& position) : CellDefault(id, position) 
-{
-	m_normalImage = PanelImage::create("resources/map/storage-cell.png");
-	m_selectedImage = PanelImage::create("resources/map/storage-cell-selected.png");
-}
+StorageCell::StorageCell(int id, const MapPosition& position) : CellDefault(id, position) {}
 StorageCell::~StorageCell() = default;
 
 void StorageCell::draw(Painter& painter)
 {
+	loadImages();
 	CellDefault::drawWithImages(painter, m_normalImage, m_selectedImage);
 	drawDirectionMarker(painter);
+}
+
+void StorageCell::loadImages()
+{
+	//Load the images if they aren't loaded already
+	if(!m_normalImage || !m_selectedImage)
+	{
+		m_normalImage = PanelImage::create("resources/map/storage-cell.png");
+		m_selectedImage = PanelImage::create("resources/map/storage-cell-selected.png");
+	}
 }
 
 std::unique_ptr<PanelImage> IngressCell::m_normalImage = nullptr;
 std::unique_ptr<PanelImage> IngressCell::m_selectedImage = nullptr;
 
-IngressCell::IngressCell(int id, const MapPosition& position) : CellDefault(id, position) 
-{
-	m_normalImage = PanelImage::create("resources/map/ingress-cell.png");
-	m_selectedImage = PanelImage::create("resources/map/ingress-cell-selected.png");
-}
+IngressCell::IngressCell(int id, const MapPosition& position) : CellDefault(id, position) {}
 IngressCell::~IngressCell() = default;
 
 void IngressCell::draw(Painter& painter)
 {
+	loadImages();
 	CellDefault::drawWithImages(painter, m_normalImage, m_selectedImage);
 	drawDirectionMarker(painter);
+}
+
+void IngressCell::loadImages()
+{
+	//Load the images if they aren't loaded already
+	if(!m_normalImage || !m_selectedImage)
+	{
+		m_normalImage = PanelImage::create("resources/map/ingress-cell.png");
+		m_selectedImage = PanelImage::create("resources/map/ingress-cell-selected.png");
+	}
 }

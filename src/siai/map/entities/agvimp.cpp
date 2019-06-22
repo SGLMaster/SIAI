@@ -184,11 +184,7 @@ int AgvDefault::getLiftedRackId() const noexcept
 std::unique_ptr<PanelImage> RegularAgv::m_regularImage = nullptr;
 std::unique_ptr<PanelImage> RegularAgv::m_selectedImage = nullptr;
 
-RegularAgv::RegularAgv(int id, const MapPosition& position) : AgvDefault(id, position)
-{
-	m_regularImage = PanelImage::create("resources/map/regular-agv.png");
-	m_selectedImage = PanelImage::create("resources/map/regular-agv-selected.png");
-}
+RegularAgv::RegularAgv(int id, const MapPosition& position) : AgvDefault(id, position) {}
 RegularAgv::~RegularAgv() = default;
 
 void RegularAgv::draw(Painter& painter)
@@ -199,8 +195,19 @@ void RegularAgv::draw(Painter& painter)
 
     if(isVisible)
     {
+		loadImages();
         doDrawImage(painter);
     }
+}
+
+void RegularAgv::loadImages()
+{
+	//Load the images if they aren't loaded already
+	if(!m_regularImage || !m_selectedImage)
+	{
+		m_regularImage = PanelImage::create("resources/map/regular-agv.png");
+		m_selectedImage = PanelImage::create("resources/map/regular-agv-selected.png");
+	}
 }
 
 void RegularAgv::doDrawImage(Painter& painter)

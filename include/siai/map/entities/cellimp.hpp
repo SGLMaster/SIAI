@@ -28,11 +28,12 @@ public:
     virtual void loadFromDatabase(DbConnector& connector) override;
 
 protected:
-    virtual void drawWithImages(Painter& painter, const std::unique_ptr<PanelImage>& normalImg, 
+    void loadImages();
+    void drawWithImages(Painter& painter, const std::unique_ptr<PanelImage>& normalImg, 
                                 const std::unique_ptr<PanelImage>& selectedImg);
 
-    virtual void drawDirectionMarker(Painter& painter) const noexcept;
-    virtual void doDrawDirectionMarker(Painter& painter) const noexcept;
+    void drawDirectionMarker(Painter& painter) const noexcept;
+    void doDrawDirectionMarker(Painter& painter) const noexcept;
 
     void calculateZoomedSideLength(int zoom);
     void calculateOrigin();
@@ -53,7 +54,6 @@ public:
     }
 
     virtual void draw(Painter& painter) override;
-
 };
 
 class BlockedCell : public CellDefault
@@ -73,6 +73,9 @@ public:
     }
 
     virtual void draw(Painter& painter) override;
+
+private:
+    void loadImages();
 };
 
 class ParkingCell : public CellDefault
@@ -92,6 +95,9 @@ public:
     }
 
     virtual void draw(Painter& painter) override;
+
+private:
+    void loadImages();
 };
 
 class StorageCell : public CellDefault
@@ -111,6 +117,9 @@ public:
     }
 
     virtual void draw(Painter& painter) override;
+
+private:
+    void loadImages();
 };
 
 class IngressCell : public CellDefault
@@ -130,4 +139,7 @@ public:
     }
 
     virtual void draw(Painter& painter) override;
+
+private:
+    void loadImages();
 };
