@@ -108,15 +108,11 @@ bool AgvDefault::assignTask(DbConnector& connector, const std::string& mapName, 
 	m_currentTask.reset();
 	m_currentTask = std::move(newTask);
 
-	MapTask* taskPtr = m_currentTask.get();
-	IngressTask* ingressPtr = dynamic_cast<IngressTask*>(taskPtr);
-
-	bool isIngressTask = (ingressPtr != nullptr);
-
-	if(isIngressTask)
+	if(m_currentTask->isIngressTask())
 	{
 		std::string tableName = SIAIGlobals::DB_INGRESS_TABLE_PREFIX + mapName;
 
+		IngressTask* ingressPtr = dynamic_cast<IngressTask*>(m_currentTask.get());
 		int taskId = ingressPtr->getId();
 
 		SqlQueryData dataToUpdate{tableName, {"agvid"}, {std::to_string(m_id)}};
@@ -142,15 +138,14 @@ bool AgvDefault::assignTask(DbConnector& connector, const std::string& mapName, 
 
 bool AgvDefault::dropTask(DbConnector& connector, const std::string& mapName)
 {
-	MapTask* taskPtr = m_currentTask.get();
-	IngressTask* ingressPtr = dynamic_cast<IngressTask*>(taskPtr);
+	if(!m_currentTask)
+		return true;
 
-	bool isIngressTask = (ingressPtr != nullptr);
-
-	if(isIngressTask)
+	if(m_currentTask->isIngressTask())
 	{
 		std::string tableName = SIAIGlobals::DB_INGRESS_TABLE_PREFIX + mapName;
 
+		IngressTask* ingressPtr = dynamic_cast<IngressTask*>(m_currentTask.get());
 		int taskId = ingressPtr->getId();
 
 		SqlQueryData dataToUpdate{tableName, {"agvid"}, {"0"} };	//We set the id to 0 so the task is not assigned
@@ -168,7 +163,6 @@ bool AgvDefault::dropTask(DbConnector& connector, const std::string& mapName)
 
 		// If we were able to drop the task on the db, now we drop it locally
 		m_currentTask.reset();
-		return true;
 	}
 
 	return true;
@@ -178,13 +172,11 @@ int AgvDefault::getLiftedRackId() const noexcept
 {
 	if(m_currentTask)
 	{
-		MapTask* taskPtr = m_currentTask.get();
-		IngressTask* ingressPtr = dynamic_cast<IngressTask*>(taskPtr);
-
-		bool isIngressTask = (ingressPtr != nullptr);
-
-		if(isIngressTask)
+		if(m_currentTask->isIngressTask())
+		{
+			IngressTask* ingressPtr = dynamic_cast<IngressTask*>(m_currentTask.get());
 			return ingressPtr->getRackId();
+		}
 	}
 
 	return -1;

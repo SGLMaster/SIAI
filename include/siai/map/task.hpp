@@ -11,20 +11,18 @@ private:
 
     MapPath m_currentPath;
 
-public:
+protected:
     MapTask() = delete;
     MapTask(int id);
     virtual ~MapTask();
 
-    inline int getId() const noexcept
-    {
-        return m_id;
-    }
+public:
+    inline int getId() const noexcept{ return m_id; }
 
-    virtual void setPath(const MapPath& path)
-    {
-        m_currentPath = path;
-    }
+    void setPath(const MapPath& path){ m_currentPath = path; }
+
+    virtual bool isIngressTask() const noexcept = 0;
+    
     virtual MapPosition getDestination() const noexcept;
     virtual MapDirection getNextDirection(const MapPosition& currentPosition) const noexcept;
 };
@@ -39,12 +37,8 @@ public:
     IngressTask(int id, int rackId);
     virtual ~IngressTask();
 
-    virtual void setRackId(int rackId)
-    {
-        m_rackId = rackId;
-    }
-    virtual int getRackId() const noexcept
-    {
-        return m_rackId;
-    }
+    virtual bool isIngressTask() const noexcept override { return true; }
+
+    virtual void setRackId(int rackId){ m_rackId = rackId; }
+    virtual int getRackId() const noexcept{ return m_rackId; }
 };
