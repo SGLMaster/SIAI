@@ -316,15 +316,13 @@ bool SIAIMapImp::updateTaskForAgv(Entities::AgvPtr& agv)
 
 bool SIAIMapImp::liftRackInPosition(DbConnector& connector, const MapPosition& position)
 {
-    for(auto& rack : m_entities.racks)
+    auto rack = Entities::getRackByPosition(m_entities.racks, position);
+
+    if(rack)
     {
-        MapPosition currentPosition = rack->getPosition();
-        if(currentPosition.column == position.column && currentPosition.row == position.row)
-        {
-            rack->lift();
-            rack->updateInDatabase(connector, m_name);
-            return true;
-        }
+        rack->lift();
+        rack->updateInDatabase(connector, m_name);
+        return true;
     }
 
     return false;
@@ -332,15 +330,13 @@ bool SIAIMapImp::liftRackInPosition(DbConnector& connector, const MapPosition& p
 
 bool SIAIMapImp::dropRackInPosition(DbConnector& connector, const MapPosition& position)
 {
-    for(auto& rack : m_entities.racks)
+    auto rack = Entities::getRackByPosition(m_entities.racks, position);
+
+    if(rack)
     {
-        MapPosition currentPosition = rack->getPosition();
-        if(currentPosition.column == position.column && currentPosition.row == position.row)
-        {
-            rack->drop();
-            rack->updateInDatabase(connector, m_name);
-            return true;
-        }
+        rack->drop();
+        rack->updateInDatabase(connector, m_name);
+        return true;
     }
 
     return false;
