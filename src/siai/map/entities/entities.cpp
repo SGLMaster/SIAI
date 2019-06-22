@@ -593,6 +593,24 @@ Entities::CellPtr Entities::getCellByPosition(Entities::Cells& cells, const MapP
 	return *cellFound;
 }
 
+Entities::RackPtr Entities::getRackByPosition(Entities::Racks& racks, const MapPosition& position)
+{
+    auto findRackInPosition = [&position](Entities::RackPtr& rack)
+                                        {
+	                                        return (rack->getPosition().column == position.column
+	                                                && rack->getPosition().row == position.row);
+	                                    };
+
+	auto rackFound = std::find_if(racks.begin(), racks.end(), findRackInPosition);
+
+	if(rackFound == racks.end())
+	{
+		return nullptr;
+	}
+
+	return *rackFound;
+}
+
 void Entities::assertPositionInsideMap(const Entities::Stock& entities, const MapPosition& position)
 {
 	bool foundAnyEntityInThisPosition = isPositionInsideMap(entities, position);

@@ -93,6 +93,7 @@ namespace Entities
 
     Pointer getEntityByPosition(Stock& entities, const MapPosition& position);
     CellPtr getCellByPosition(Cells& cells, const MapPosition& position);
+    RackPtr getRackByPosition(Racks& racks, const MapPosition& position);
 
     // Asserts
     void assertPositionInsideMap(const Stock& entities, const MapPosition& position);
