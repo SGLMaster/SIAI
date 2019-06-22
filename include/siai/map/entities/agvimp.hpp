@@ -63,6 +63,9 @@ protected:
     void calculateDrawingData(int zoom);
     void calculateZoomedSize(int zoom);
     void calculateOrigin(int zoom);
+
+private:
+    bool updateIngressTaskAssignmentInDb(DbConnector& connector,  const std::string& mapName, int valueToAssign) const;
 };
 
 class RegularAgv : public AgvDefault

@@ -110,26 +110,18 @@ bool AgvDefault::assignTask(DbConnector& connector, const std::string& mapName, 
 
 	if(m_currentTask->isIngressTask())
 	{
-		std::string tableName = SIAIGlobals::DB_INGRESS_TABLE_PREFIX + mapName;
+		bool taskAssigned = updateIngressTaskAssignmentInDb(connector, mapName, m_id);
 
-		IngressTask* ingressPtr = dynamic_cast<IngressTask*>(m_currentTask.get());
-		int taskId = ingressPtr->getId();
-
-		SqlQueryData dataToUpdate{tableName, {"agvid"}, {std::to_string(m_id)}};
-		SqlWhereCondition whereCondition(SqlQueryData{tableName, {"id"}, {std::to_string(taskId)}});
-		SqlUpdateQuery updateQuery(dataToUpdate, whereCondition.generateString());
-
-		try
+		// If we couldn't save to Db we erase the task
+		if(!taskAssigned)
 		{
-			connector.executeQueryWithoutResults(updateQuery);
-		}
-		catch(const mysqlpp::Exception &e)
-		{
-			// If we couldn't save to Db we erase the task
 			m_currentTask.reset();
 			return false;
 		}
-		return true;
+		else
+		{
+			return true;
+		}
 	}
 
 	m_currentTask.reset();
@@ -143,26 +135,37 @@ bool AgvDefault::dropTask(DbConnector& connector, const std::string& mapName)
 
 	if(m_currentTask->isIngressTask())
 	{
-		std::string tableName = SIAIGlobals::DB_INGRESS_TABLE_PREFIX + mapName;
-
-		IngressTask* ingressPtr = dynamic_cast<IngressTask*>(m_currentTask.get());
-		int taskId = ingressPtr->getId();
-
-		SqlQueryData dataToUpdate{tableName, {"agvid"}, {"0"} };	//We set the id to 0 so the task is not assigned
-		SqlWhereCondition whereCondition( SqlQueryData{tableName, {"id"}, {std::to_string(taskId)} } );
-		SqlUpdateQuery updateQuery(dataToUpdate, whereCondition.generateString());
-
-		try
-		{
-			connector.executeQueryWithoutResults(updateQuery);
-		}
-		catch(const mysqlpp::BadQuery& e)
-		{
-			return false;
-		}
-
+		//We update with a value of 0 which means "unassigned"
+		bool taskDropped = updateIngressTaskAssignmentInDb(connector, mapName, 0);
+	
 		// If we were able to drop the task on the db, now we drop it locally
-		m_currentTask.reset();
+		if(taskDropped)
+			m_currentTask.reset();
+		else
+			return false;
+	}
+
+	return true;
+}
+
+bool AgvDefault::updateIngressTaskAssignmentInDb(DbConnector& connector, const std::string& mapName, 
+												int valueToAssign) const
+{
+	std::string tableName = SIAIGlobals::DB_INGRESS_TABLE_PREFIX + mapName;
+
+	int taskId = m_currentTask->getId();
+
+	SqlQueryData dataToUpdate{ tableName, {"agvid"}, { std::to_string(valueToAssign) } };
+	SqlWhereCondition whereCondition(SqlQueryData{tableName, {"id"}, {std::to_string(taskId)}});
+	SqlUpdateQuery updateQuery(dataToUpdate, whereCondition.generateString());
+
+	try
+	{
+		connector.executeQueryWithoutResults(updateQuery);
+	}
+	catch (const mysqlpp::Exception &e)
+	{
+		return false;
 	}
 
 	return true;
@@ -172,11 +175,7 @@ int AgvDefault::getLiftedRackId() const noexcept
 {
 	if(m_currentTask)
 	{
-		if(m_currentTask->isIngressTask())
-		{
-			IngressTask* ingressPtr = dynamic_cast<IngressTask*>(m_currentTask.get());
-			return ingressPtr->getRackId();
-		}
+		return m_currentTask->getRackId();
 	}
 
 	return -1;

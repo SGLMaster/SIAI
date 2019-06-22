@@ -25,6 +25,9 @@ public:
     
     virtual MapPosition getDestination() const noexcept;
     virtual MapDirection getNextDirection(const MapPosition& currentPosition) const noexcept;
+
+    virtual void setRackId(int rackId) noexcept = 0;
+    virtual int getRackId() const noexcept = 0;
 };
 
 class IngressTask : public MapTask
@@ -39,6 +42,6 @@ public:
 
     virtual bool isIngressTask() const noexcept override { return true; }
 
-    virtual void setRackId(int rackId){ m_rackId = rackId; }
-    virtual int getRackId() const noexcept{ return m_rackId; }
+    virtual void setRackId(int rackId) noexcept override{ m_rackId = rackId; }
+    virtual int getRackId() const noexcept override{ return m_rackId; }
 };
