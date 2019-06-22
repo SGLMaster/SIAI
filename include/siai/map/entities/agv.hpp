@@ -29,8 +29,8 @@ public:
 
     static std::unique_ptr<IAgv> create(std::string type, int id, const MapPosition& position);
 
-    virtual void assignTask(std::shared_ptr<MapTask> newTask) = 0;
-    virtual void dropTask() noexcept = 0;
+    virtual bool assignTask(DbConnector& connector, const std::string& mapName, std::shared_ptr<MapTask> newTask) = 0;
+    virtual bool dropTask(DbConnector& connector, const std::string& mapName) = 0;
     virtual void updateTaskPath(const MapPath& newPath) noexcept = 0;
 
     virtual bool isAtDestination() const noexcept = 0;

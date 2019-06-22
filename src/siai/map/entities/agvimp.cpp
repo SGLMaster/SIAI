@@ -5,6 +5,8 @@
 
 #include "globals.hpp"
 
+#include <mysql++.h>
+
 AgvDefault::AgvDefault(int id, const MapPosition& position) : IAgv(id, position) {}
 AgvDefault::~AgvDefault() = default;
 
@@ -99,6 +101,77 @@ void AgvDefault::updateInDatabase(DbConnector& connector, const std::string& map
 void AgvDefault::loadFromDatabase(DbConnector& connector)
 {
 	;
+}
+
+bool AgvDefault::assignTask(DbConnector& connector, const std::string& mapName, std::shared_ptr<MapTask> newTask)
+{
+	m_currentTask.reset();
+	m_currentTask = std::move(newTask);
+
+	MapTask* taskPtr = m_currentTask.get();
+	IngressTask* ingressPtr = dynamic_cast<IngressTask*>(taskPtr);
+
+	bool isIngressTask = (ingressPtr != nullptr);
+
+	if(isIngressTask)
+	{
+		std::string tableName = SIAIGlobals::DB_INGRESS_TABLE_PREFIX + mapName;
+
+		int taskId = ingressPtr->getId();
+
+		SqlQueryData dataToUpdate{tableName, {"agvid"}, {std::to_string(m_id)}};
+		SqlWhereCondition whereCondition(SqlQueryData{tableName, {"id"}, {std::to_string(taskId)}});
+		SqlUpdateQuery updateQuery(dataToUpdate, whereCondition.generateString());
+
+		try
+		{
+			connector.executeQueryWithoutResults(updateQuery);
+		}
+		catch(const mysqlpp::Exception &e)
+		{
+			// If we couldn't save to Db we erase the task
+			m_currentTask.reset();
+			return false;
+		}
+		return true;
+	}
+
+	m_currentTask.reset();
+    return true;
+}
+
+bool AgvDefault::dropTask(DbConnector& connector, const std::string& mapName)
+{
+	MapTask* taskPtr = m_currentTask.get();
+	IngressTask* ingressPtr = dynamic_cast<IngressTask*>(taskPtr);
+
+	bool isIngressTask = (ingressPtr != nullptr);
+
+	if(isIngressTask)
+	{
+		std::string tableName = SIAIGlobals::DB_INGRESS_TABLE_PREFIX + mapName;
+
+		int taskId = ingressPtr->getId();
+
+		SqlQueryData dataToUpdate{tableName, {"agvid"}, {"0"} };	//We set the id to 0 so the task is not assigned
+		SqlWhereCondition whereCondition( SqlQueryData{tableName, {"id"}, {std::to_string(taskId)} } );
+		SqlUpdateQuery updateQuery(dataToUpdate, whereCondition.generateString());
+
+		try
+		{
+			connector.executeQueryWithoutResults(updateQuery);
+		}
+		catch(const mysqlpp::BadQuery& e)
+		{
+			return false;
+		}
+
+		// If we were able to drop the task on the db, now we drop it locally
+		m_currentTask.reset();
+		return true;
+	}
+
+	return true;
 }
 
 int AgvDefault::getLiftedRackId() const noexcept

@@ -254,7 +254,6 @@ std::string ServerControl::commandDropRack(Entities::AgvPtr& agv)
 
     if(dropRackSuccess)
     {
-        agv->dropTask();
         return "DROP-RACK OK";
     }
     

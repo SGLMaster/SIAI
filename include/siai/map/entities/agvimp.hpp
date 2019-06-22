@@ -30,15 +30,9 @@ public:
     virtual void updateInDatabase(DbConnector& connector, const std::string& mapName) const override;
     virtual void loadFromDatabase(DbConnector& connector) override;
 
-    virtual void assignTask(std::shared_ptr<MapTask> newTask) override
-    {
-        m_currentTask.reset();
-        m_currentTask = std::move(newTask);
-    }
-    virtual void dropTask() noexcept override
-    {
-        m_currentTask.reset();
-    }
+    virtual bool assignTask(DbConnector& connector, const std::string& mapName, 
+                            std::shared_ptr<MapTask> newTask) override;
+    virtual bool dropTask(DbConnector& connector, const std::string& mapName) override;
     virtual void updateTaskPath(const MapPath& newPath) noexcept override
     {
         m_currentTask->setPath(newPath);

@@ -16,6 +16,11 @@ public:
     MapTask(int id);
     virtual ~MapTask();
 
+    inline int getId() const noexcept
+    {
+        return m_id;
+    }
+
     virtual void setPath(const MapPath& path)
     {
         m_currentPath = path;
