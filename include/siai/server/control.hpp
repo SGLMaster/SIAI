@@ -37,6 +37,7 @@ private:
     std::string commandRfid(Entities::AgvPtr& agv, int rfid);
     std::string commandDir(Entities::AgvPtr& agv, int directionValue);
     std::string commandTask(Entities::AgvPtr& agv);
+    std::string commandDropTask(Entities::AgvPtr& agv);
     std::string commandNextDir(Entities::AgvPtr& agv);
     std::string commandLiftRack(Entities::AgvPtr& agv);
     std::string commandDropRack(Entities::AgvPtr& agv);

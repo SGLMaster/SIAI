@@ -129,6 +129,10 @@ std::string ServerControl::executeCommand(Entities::AgvPtr& agv, const std::stri
     {
         return commandTask(agv);
     }
+    else if(commandName == "DROP-TASK")
+    {
+        return commandDropTask(agv);
+    }
     else if(commandName == "NEXT-DIR")
     {
         return commandNextDir(agv);
@@ -184,10 +188,20 @@ std::string ServerControl::commandTask(Entities::AgvPtr& agv)
 {
     bool cmdSuccess = m_mapControl->assignNewTaskToAgv(*m_dbConnector, agv);
 
-    if (cmdSuccess)
+    if(cmdSuccess)
         return "TASK OK";
     else
         return "TASK ERROR";
+}
+
+std::string ServerControl::commandDropTask(Entities::AgvPtr& agv)
+{
+    bool cmdSuccess = agv->dropTask(*m_dbConnector, m_mapControl->getName());
+
+    if(cmdSuccess)
+        return "DROP-TASK OK";
+    else
+        return "DROP-TASK ERROR";
 }
 
 std::string ServerControl::commandNextDir(Entities::AgvPtr& agv)
