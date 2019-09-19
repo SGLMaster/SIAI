@@ -206,7 +206,7 @@ std::string ServerControl::commandDropTask(Entities::AgvPtr& agv)
 
 std::string ServerControl::commandNextDir(Entities::AgvPtr& agv)
 {
-    std::string response = "sig-dir" + CMD_VAL_SEPARATOR;
+    std::string response = "sig-dir=";
 
     if(agv->isAtDestination())
     {
