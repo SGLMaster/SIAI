@@ -107,6 +107,9 @@ void ManagerFrame::OnLeftClickMapPanel(wxMouseEvent& event)
 		return;
 	}
 
+    if(!m_mapControl)
+        return;
+
     callCurrentToolAction();
 
     updateFrameTitle();
@@ -476,7 +479,7 @@ void ManagerFrame::actionToolSelect(PanelPoint& mousePosition)
     {
         m_mapControl->diselectAll();
     }
-
+    
     m_mapControl->selectEntity(mousePosition);
 }
 
