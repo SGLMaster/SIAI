@@ -177,6 +177,7 @@ TurnEntityCommand::~TurnEntityCommand() = default;
 
 void TurnEntityCommand::execute(Entities::Stock& entities, DbConnector& connector)
 {
+	Entities::assertPositionInsideMap(entities, m_position);
 	auto entityToTurn = Entities::getEntityByPosition(entities, m_position);
 
 	if(m_directionToTurn == "right")
