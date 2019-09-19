@@ -82,7 +82,7 @@ Entities::AgvPtr ServerControl::processConnection(const std::string& command)
     if(args.size() > 1)
         entityIdStr = String::trim(args[1]);
 
-    if(entityType == "AGV")
+    if(entityType == "agv")
     {
         if(entityIdStr != "")
             entityId = static_cast<int>(strtol(entityIdStr.c_str(), NULL, 10));
@@ -117,36 +117,36 @@ std::string ServerControl::processCommand(Entities::AgvPtr& agv, const std::stri
 
 std::string ServerControl::executeCommand(Entities::AgvPtr& agv, const std::string& commandName, int commandValue)
 {
-    if(commandName == "RFID")
+    if(commandName == "rfid")
     {
         return commandRfid(agv, commandValue);
     }
-    else if(commandName == "DIR")
+    else if(commandName == "dir")
     {
         return commandDir(agv, commandValue);
     }
-    else if(commandName == "TASK")
+    else if(commandName == "tarea")
     {
         return commandTask(agv);
     }
-    else if(commandName == "DROP-TASK")
+    else if(commandName == "borrar-tarea")
     {
         return commandDropTask(agv);
     }
-    else if(commandName == "NEXT-DIR")
+    else if(commandName == "sig-dir")
     {
         return commandNextDir(agv);
     }
-    else if(commandName == "LIFT-RACK")
+    else if(commandName == "elevar")
     {
         return commandLiftRack(agv);
     }
-    else if(commandName == "DROP-RACK")
+    else if(commandName == "bajar")
     {
         return commandDropRack(agv);
     }
 
-    return "UNK";
+    return "desconocido";
 }
 
 std::string ServerControl::commandRfid(Entities::AgvPtr& agv, int rfid)
@@ -154,9 +154,9 @@ std::string ServerControl::commandRfid(Entities::AgvPtr& agv, int rfid)
     bool cmdSuccess = m_mapControl->moveAgvToCellWithId(*m_dbConnector, agv, rfid);
 
     if (cmdSuccess)
-        return "RFID OK";
+        return "rfid OK";
     else
-        return "RFID ERROR";
+        return "rfid ERROR";
 }
 
 std::string ServerControl::commandDir(Entities::AgvPtr& agv, int directionValue)
@@ -175,13 +175,13 @@ std::string ServerControl::commandDir(Entities::AgvPtr& agv, int directionValue)
         catch (const mysqlpp::BadQuery& e)
         {
             Log::error(e.what(), true);
-            return "DIR ERROR";
+            return "dir ERROR";
         }
 
-        return "DIR OK";
+        return "dir OK";
     }
 
-    return "DIR ERROR";
+    return "dir ERROR";
 }
 
 std::string ServerControl::commandTask(Entities::AgvPtr& agv)
@@ -189,9 +189,9 @@ std::string ServerControl::commandTask(Entities::AgvPtr& agv)
     bool cmdSuccess = m_mapControl->assignNewTaskToAgv(*m_dbConnector, agv);
 
     if(cmdSuccess)
-        return "TASK OK";
+        return "tarea OK";
     else
-        return "TASK ERROR";
+        return "tarea ERROR";
 }
 
 std::string ServerControl::commandDropTask(Entities::AgvPtr& agv)
@@ -199,14 +199,14 @@ std::string ServerControl::commandDropTask(Entities::AgvPtr& agv)
     bool cmdSuccess = agv->dropTask(*m_dbConnector, m_mapControl->getName());
 
     if(cmdSuccess)
-        return "DROP-TASK OK";
+        return "borrar-tarea OK";
     else
-        return "DROP-TASK ERROR";
+        return "borrar-tarea ERROR";
 }
 
 std::string ServerControl::commandNextDir(Entities::AgvPtr& agv)
 {
-    std::string response = "NEXT-DIR:";
+    std::string response = "sig-dir" + CMD_VAL_SEPARATOR;
 
     if(agv->isAtDestination())
     {
@@ -214,12 +214,12 @@ std::string ServerControl::commandNextDir(Entities::AgvPtr& agv)
 
         if(agvHasLiftedRack)
         {
-            response += "WAIT";
+            response += "p";
             return response;
         }
         else
         {
-            response += "LIFT";
+            response += "l";
             return response;
         }
     }
@@ -229,20 +229,20 @@ std::string ServerControl::commandNextDir(Entities::AgvPtr& agv)
     switch (nextDirection)
     {
     case MapDirection::RIGHT:
-        response += "RIGHT";
+        response += "e";
         break;
     case MapDirection::DOWN:
-        response += "DOWN";
+        response += "s";
         break;
     case MapDirection::LEFT:
-        response += "LEFT";
+        response += "o";
         break;
     case MapDirection::UP:
-        response += "UP";
+        response += "n";
         break;
 
     default:
-        response += "INVALID";
+        response += "i";
         break;
     }
 
@@ -256,10 +256,10 @@ std::string ServerControl::commandLiftRack(Entities::AgvPtr& agv)
 
     if(liftSuccess && updateTaskSuccess)
     {
-        return "LIFT-RACK OK";
+        return "elevar OK";
     }
     
-    return "LIFT-RACK ERROR";
+    return "elevar ERROR";
 }
 
 std::string ServerControl::commandDropRack(Entities::AgvPtr& agv)
@@ -268,10 +268,10 @@ std::string ServerControl::commandDropRack(Entities::AgvPtr& agv)
 
     if(dropRackSuccess)
     {
-        return "DROP-RACK OK";
+        return "bajar OK";
     }
     
-    return "DROP-RACK ERROR";
+    return "bajar ERROR";
 }
 
 void ServerControl::tryToConnectDb()
