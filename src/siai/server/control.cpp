@@ -137,7 +137,7 @@ std::string ServerControl::executeCommand(Entities::AgvPtr& agv, const std::stri
     {
         return commandNextDir(agv);
     }
-    else if(commandName == "elevar")
+    else if(commandName == "levantar")
     {
         return commandLiftRack(agv);
     }
@@ -256,10 +256,10 @@ std::string ServerControl::commandLiftRack(Entities::AgvPtr& agv)
 
     if(liftSuccess && updateTaskSuccess)
     {
-        return "elevar OK";
+        return "levantar OK";
     }
     
-    return "elevar ERROR";
+    return "levantar ERROR";
 }
 
 std::string ServerControl::commandDropRack(Entities::AgvPtr& agv)
