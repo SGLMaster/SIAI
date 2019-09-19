@@ -15,7 +15,7 @@ using MapPtr = std::unique_ptr<SIAIMap>;
 class ServerControl
 {
 private:
-    static constexpr char CMD_VAL_SEPARATOR = ':';
+    static constexpr char CMD_VAL_SEPARATOR = '=';
 
     MapPtr m_mapControl;
 
