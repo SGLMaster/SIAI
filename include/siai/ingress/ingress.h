@@ -51,12 +51,14 @@ namespace Forms
 			wxToolBar* m_toolBar;
 			wxToolBarToolBase* m_toolUpdateTasks;
 			wxCheckListBox* m_checkListTasks;
+			wxButton* m_buttonDone;
 			wxMenuBar* m_menubar1;
 			wxMenu* m_menuConnection;
 
 			// Virtual event handlers, overide them in your derived class
 			virtual void OnClickAddTask( wxCommandEvent& event ) = 0;
 			virtual void OnToolUpdateTasks( wxCommandEvent& event ) = 0;
+			virtual void OnClickDone( wxCommandEvent& event ) = 0;
 			virtual void OnSelectionConnect( wxCommandEvent& event ) = 0;
 			virtual void OnSelectionDisconnect( wxCommandEvent& event ) = 0;
 

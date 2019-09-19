@@ -91,7 +91,10 @@ IngressFrame::IngressFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	m_checkListTasks->SetMinSize( wxSize( -1,400 ) );
 	m_checkListTasks->SetMaxSize( wxSize( -1,400 ) );
 
-	bSizer1->Add( m_checkListTasks, 0, wxALL|wxEXPAND, 5 );
+	bSizer1->Add( m_checkListTasks, 10, wxALL|wxEXPAND, 5 );
+
+	m_buttonDone = new wxButton( this, wxID_ANY, _("Listo"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer1->Add( m_buttonDone, 0, wxALL, 5 );
 
 
 	this->SetSizer( bSizer1 );
@@ -117,6 +120,7 @@ IngressFrame::IngressFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	// Connect Events
 	m_buttonAddTask->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IngressFrame::OnClickAddTask ), NULL, this );
 	this->Connect( m_toolUpdateTasks->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( IngressFrame::OnToolUpdateTasks ) );
+	m_buttonDone->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IngressFrame::OnClickDone ), NULL, this );
 	m_menuConnection->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( IngressFrame::OnSelectionConnect ), this, m_menuItemConnect->GetId());
 	m_menuConnection->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( IngressFrame::OnSelectionDisconnect ), this, m_menuItemDisconnect->GetId());
 }
@@ -126,5 +130,6 @@ IngressFrame::~IngressFrame()
 	// Disconnect Events
 	m_buttonAddTask->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IngressFrame::OnClickAddTask ), NULL, this );
 	this->Disconnect( m_toolUpdateTasks->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( IngressFrame::OnToolUpdateTasks ) );
+	m_buttonDone->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IngressFrame::OnClickDone ), NULL, this );
 
 }

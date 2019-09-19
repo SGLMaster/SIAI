@@ -38,6 +38,7 @@ private:
     virtual void OnSelectionDisconnect(wxCommandEvent& event) override;
 
     virtual void OnClickAddTask(wxCommandEvent& event) override;
+    virtual void OnClickDone(wxCommandEvent& event) override;
 
     virtual void OnToolUpdateTasks(wxCommandEvent& event) override;
 
