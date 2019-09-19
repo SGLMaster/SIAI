@@ -1,5 +1,7 @@
 # SIAI
-Sistema Integrado de Almacenamiento Inteligente (Intelligent Warehousing Integrated System)
+### Sistema Integrado de Almacenamiento Inteligente (Intelligent Warehousing Integrated System)
+
+![Alt text](siai-logo.jpg?raw=true "SIAI")
 
 SIAI is the software component developed to run a capstone project for an Intelligent Warehousing Integrated System prototype.
 The warehousing system consists in a bunch of little AGV's (Automated Guided Vehicles) that transport the racks inside a warehouse.
